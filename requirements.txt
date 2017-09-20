@@ -1,0 +1,13 @@
+Django==1.8
+mysqlclient
+django-registration
+django-ckeditor
+django-db-logger
+Pillow
+vk
+facebook-sdk
+tweepy
+google-api-python-client
+lxml
+selenium
+beautifulsoup4

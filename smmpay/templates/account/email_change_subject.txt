@@ -1,0 +1,4 @@
+{% load i18n %}
+{% autoescape off %}
+    {% blocktrans %}Account email change on site{% endblocktrans %} {{ site_name }}
+{% endautoescape %}

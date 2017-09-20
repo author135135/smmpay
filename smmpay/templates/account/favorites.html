@@ -1,0 +1,124 @@
+{% extends 'account/account_base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %} | {% trans 'Favorites' %}{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
+        </li>
+        <li>
+            <a href="#">{% trans 'Favorites' %}</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+
+    <div class="inner__content user-favorites_content">
+        <div class="nav-user-search">
+            <div class="global-title_box">
+                <h1>{% trans 'Favorites' %}</h1>
+            </div>
+            <div class="sort-content">
+                {% include 'account/parts/search_form.html' %}
+            </div>
+        </div>
+        <div class="items">
+            {% include 'account/parts/favorite_list.html' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'smmpay/components/jcf/js/jcf.js' %}"></script>
+    <script src="{% static 'smmpay/components/jcf/js/jcf.select.js' %}"></script>
+    <script src="{% static 'smmpay/components/jcf/js/jcf.scrollable.js' %}"></script>
+    <script src="{% static 'smmpay/components/URI.min.js' %}"></script>
+{% endblock %}
+
+
+{% block account_content %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="clearfix row">
+                <form id="search-form" action="{% url 'account:favorites' %}" class="form-inline" method="get">
+                    <input type="hidden" name="page" value="{{ page_obj.number }}">
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search" name="query" value="{{ query }}">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-5 col-sm-offset-3">
+                        <div class="form-group pull-right">
+                            <label for="order">Sorting</label>
+                            <select id="order" name="order" class="form-control" onchange="form.submit();">
+                                <option value=""></option>
+                                <option value="advert__price_desc" {% if order == 'advert__price_desc' %}selected{% endif %}>Highest advert price</option>
+                                <option value="advert__price_asc" {% if order == 'advert__price_asc' %}selected{% endif %}>Lowest advert price</option>
+                                <option value="advert__created_desc" {% if order == 'advert__created_desc' %}selected{% endif %}>Newer advert first</option>
+                                <option value="advert__created_asc" {% if order == 'advert__created_asc' %}selected{% endif %}>Older advert first</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <hr class="row">
+            <h4>Favorites</h4>
+        </div>
+    </div>
+
+    {% for favorite in favorites %}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12 clearfix">
+                        <div class="pull-left">
+                            <span style="color: #0000ff;">{{ favorite.advert.title }}</span><br>
+                            <span class="help-text">{{ favorite.advert.advert_social_account.link }}</span>
+                        </div>
+                        <div class="pull-right">
+                            <h4>{{ favorite.advert.price }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"></div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-2">Subscribers <strong>{{ favorite.advert.advert_social_account.subscribers }}</strong></div>
+                    <div class="col-sm-2">Category <strong>{{ favorite.advert.category.title }}</strong></div>
+                    <div class="col-sm-3 col-sm-offset-3">
+                        <a href="{% url 'account:favorite_delete' favorite.pk  %}">
+                            <span class="glyphicon glyphicon-star"></span> Remove from fav.
+                        </a>
+                    </div>
+                    <div class="col-sm-2">
+                        <a href="{{ favorite.advert.get_absolute_url }}" class="btn btn-default">Read more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <ul class="pager">
+        {% if page_obj.has_previous %}
+            <li><a href="{% url 'account:favorites' %}?page={{ page_obj.previous_page_number }}&query={{ query }}&order={{ order }}">Previous</a></li>
+        {% else %}
+            <li class="disabled"><a href="#">Previous</a></li>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <li><a href="{% url 'account:favorites' %}?page={{ page_obj.next_page_number }}&query={{ query }}&order={{ order }}">Next</a></li>
+        {% else %}
+            <li class="disabled"><a href="#">Next</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}

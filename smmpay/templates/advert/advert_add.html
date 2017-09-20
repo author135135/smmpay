@@ -1,0 +1,107 @@
+{% extends 'base/base_html.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %} | {% trans 'Add advert' %}{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
+        </li>
+        <li>
+            <a href="#">{% trans 'Create advert' %}</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <div class="inner__content create-abs-content">
+        <div class="global-title_box">
+            <strong>{% trans 'Advert creation' %}</strong>
+        </div>
+        <div class="form-create-abs">
+            <form id="advert-add-form" action="" method="post" data-validation-url="{% url 'advert:advert_social_account_info' %}">
+                {% csrf_token %}
+                {% for hidden_field in form.hidden_fields %}
+                    {{ hidden_field }}
+                {% endfor %}
+                {% for hidden_field in sub_form.hidden_fields %}
+                    {{ hidden_field }}
+                {% endfor %}
+                <div class="bg-title">{% trans 'Required' %}</div>
+                <div class="item">
+                    <div class="text-required">{{ sub_form.link.help_text }}</div>
+                    {{ sub_form.link }}
+                    {% for error in sub_form.link.errors %}
+                        <div class="error_input">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <ul class="product-table_info hidden"></ul>
+                <div class="item hidden-field {% if not sub_form.subscribers.errors %}hidden{% endif %}">
+                    <div class="log__title">{{ sub_form.subscribers.label }}</div>
+                    {{ sub_form.subscribers }}
+                    {% for error in sub_form.subscribers.errors %}
+                        <div class="error_input">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="item hidden-field {% if not form.title.errors %}hidden{% endif %}">
+                    <div class="log__title">{{ form.title.label }}</div>
+                    {{ form.title }}
+                    {% for error in form.title.errors %}
+                        <div class="error_input">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="item">
+                    <div class="log__title">{{ sub_form.category.label }}</div>
+                    {{ sub_form.category }}
+                    {% for error in sub_form.category.errors %}
+                        <div class="error_input">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="item">
+                    <div class="log__title">{{ sub_form.region.label }}</div>
+                    {{ sub_form.region }}
+                    {% for error in sub_form.region.errors %}
+                        <div class="error_input">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="item item-price">
+                    <div class="log__title">{{ form.price.label }}</div>
+                    {{ form.price }}
+                    {% for error in form.price.errors %}
+                        <div class="error_input">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="bg-title addition-title">{% trans 'Additional' %}<i class="opener"></i></div>
+                <div class="item addition-box">
+                    <div class="text-required">{{ form.description.help_text }}</div>
+                    {{ form.description }}
+                    {% for error in form.description.errors %}
+                        <div class="error_input">{{ error }}</div>
+                    {% endfor %}
+
+                    <div class="text-required">
+                        {% blocktrans %}
+                            Verification! Confirm that you are the owner of the page by placing
+                            this passphrase in status if this is a Vkontakte community,
+                            for Odnoklassniki and Facebook in the description, and for Instagram in
+                            the "About Me" field.'
+                        {% endblocktrans %}
+                    </div>
+                    <div class="text-trust">{{ advert_confirmation_code }}</div>
+                </div>
+                <div class="log__btn">
+                    <button class="log__enter button" type="submit">{% trans 'Publish advert' %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'smmpay/components/jcf/js/jcf.js' %}"></script>
+    <script src="{% static 'smmpay/components/jcf/js/jcf.select.js' %}"></script>
+    <script src="{% static 'smmpay/components/jcf/js/jcf.scrollable.js' %}"></script>
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+{% endblock %}

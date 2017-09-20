@@ -1,0 +1,38 @@
+{% extends 'account/account_base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %} | {% trans 'Account delete' %}{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
+        </li>
+        <li>
+            <a href="#">{% trans 'Account delete confirmation' %}</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+
+    <div class="inner__content user-setting_content">
+        <div class="item-setting">
+            <div class="global-title_box">
+                <strong>{% trans 'Account delete confirmation' %}</strong>
+            </div>
+            <div class="wrap-setting_input">
+                <form action="{% url 'account:account_delete' %}" method="post">
+                    {% csrf_token %}
+                    Are you sure you want to delete your account?
+                    <br>
+                    <div class="log__btn">
+                        <button class="log__enter button" type="submit">{% trans 'Confirm' %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

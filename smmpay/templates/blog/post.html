@@ -1,0 +1,70 @@
+{% extends 'base/base_html.html' %}
+{% load i18n %}
+
+{% block head %}
+    <meta property="og:title" content="{{ post.title }}" />
+    <meta property="og:description" content="{{ post.content|striptags|truncatewords:'20' }}" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    {% if post.image %}
+        <meta property="og:image" content="{{ site_url }}{{ post.image.url }}" />
+    {% endif %}
+{% endblock %}
+
+{% block title %} | {{ post.title }}{% endblock %}
+
+{% block content %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
+        </li>
+        <li>
+            <a href="{% url 'blog:index' %}">{% trans 'Blog' %}</a>
+        </li>
+        <li>
+            <a href="#">{{ post.title }}</a>
+        </li>
+    </ul>
+    <div class="inner__content content-one-blog other-page_content">
+        <div class="global-title_box">
+            <h1>{{ post.title }}</h1>
+            <time class="time">{{ post.created|date:'d E Y' }}</time>
+        </div>
+        {% if post.image %}
+            <div class="img-box">
+                <img src="{{ post.image.url }}">
+            </div>
+        {% endif %}
+        <div class="text-wrap">{{ post.content|safe }}</div>
+        <div class="nav-one-blog">
+            <div class="social-shares">
+                <span>{% trans 'Share in social networks' %}:</span>
+                <div class="pluso" data-background="transparent" data-options="small,round,line,horizontal,nocounter,theme=04" data-services="facebook,vkontakte">
+                    <div class="pluso-010011000110-04">
+                        <span class="pluso-wrap" style="background:transparent">
+                            <a href="#" title="Facebook" class="pluso-facebook"></a>
+                            <a href="#" title="ВКонтакте" class="pluso-vkontakte"></a>
+                            <a href="http://pluso.ru/" class="pluso-more"></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+                <a class="thumb__read-more" href="{% url 'blog:index' %}">{% trans 'Go to news list' %}</a>
+            </div>
+        </div>
+
+    {% include 'advert/parts/sidebar.html' %}
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        (function() {
+          if (window.pluso)if (typeof window.pluso.start == "function") return;
+          if (window.ifpluso==undefined) { window.ifpluso = 1;
+            var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+            s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
+            s.src = ('https:' == window.location.protocol ? 'https' : 'http')  + '://share.pluso.ru/pluso-like.js';
+            var h=d[g]('body')[0];
+            h.appendChild(s);
+        }})();
+    </script>
+{% endblock %}

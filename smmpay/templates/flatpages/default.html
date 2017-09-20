@@ -1,0 +1,41 @@
+{% extends 'base/base_html.html' %}
+{% load i18n %}
+
+{% block title %} | {{ flatpage.title }}{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
+        </li>
+        <li>
+            <a href="#">{{ flatpage.title }}</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <div class="inner__content other-page_content">
+        <div class="global-title_box">
+            <h1>{{ flatpage.title }}</h1>
+        </div>
+        <div class="content">
+            {{ flatpage.content }}
+        </div>
+        <div class="nav-ads">
+            <a href="{% url 'advert:index' %}" class="btn-search-ads">{% trans 'Start ad search' %}</a>
+            <a href="{% url 'advert:advert_add' %}" class="add-advertisement">
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="357px" height="357px" viewBox="0 0 357 357" style="enable-background:new 0 0 357 357;" xml:space="preserve">
+                    <g>
+                        <g id="add">
+                            <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z"></path>
+                        </g>
+                    </g>
+                </svg>
+                {% trans 'Add advert' %}
+            </a>
+        </div>
+    </div>
+
+    {% include 'advert/parts/sidebar.html' %}
+{% endblock %}

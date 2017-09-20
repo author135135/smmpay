@@ -1,0 +1,47 @@
+{% extends 'account/account_base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %} | {% trans 'Discussions' %}{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
+        </li>
+        <li>
+            <a href="#">{% trans 'Discussions' %}</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+
+    <div class="inner__content user-mail_content">
+        <div class="nav-user-search">
+            <div class="global-title_box">
+                <h1>{% trans 'Discussions' %}</h1>
+            </div>
+            <div class="sort-content">
+                {% include 'account/parts/search_form.html' %}
+            </div>
+        </div>
+        <div class="wrap-mail_list">
+            <div class="head">
+                <span class="th-name">{% trans 'Advert' %}</span>
+                <span class="th-last-mail">{% trans 'Last message' %}</span>
+            </div>
+            <div class="items">
+                {% include 'account/parts/discussion_list.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'smmpay/components/jcf/js/jcf.js' %}"></script>
+    <script src="{% static 'smmpay/components/jcf/js/jcf.select.js' %}"></script>
+    <script src="{% static 'smmpay/components/jcf/js/jcf.scrollable.js' %}"></script>
+    <script src="{% static 'smmpay/components/URI.min.js' %}"></script>
+{% endblock %}

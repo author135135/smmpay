@@ -1,0 +1,54 @@
+{% extends 'account/account_base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %} | {% trans 'My adverts' %}{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
+        </li>
+        <li>
+            <a href="#">{% trans 'My account' %}</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+
+    <div class="inner__content user-ads_content">
+        <div class="nav-user-search">
+            <div class="global-title_box">
+                <h1>{% trans 'My adverts' %}</h1>
+            </div>
+            <div class="sort-content">
+                {% include 'account/parts/search_form.html' %}
+            </div>
+        </div>
+        <div class="ads-items">
+            <div class="items">
+                {% include 'account/parts/advert_list.html' %}
+            </div>
+        </div>
+        <a href="{% url 'advert:advert_add' %}?next={% url 'account:index' %}" class="add-advertisement">
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            width="357px" height="357px" viewBox="0 0 357 357" style="enable-background:new 0 0 357 357;" xml:space="preserve">
+                <g>
+                    <g id="add">
+                        <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z"/>
+                    </g>
+                </g>
+            </svg>
+            {% trans 'Add advert' %}
+        </a>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'smmpay/components/jcf/js/jcf.js' %}"></script>
+    <script src="{% static 'smmpay/components/jcf/js/jcf.select.js' %}"></script>
+    <script src="{% static 'smmpay/components/jcf/js/jcf.scrollable.js' %}"></script>
+    <script src="{% static 'smmpay/components/URI.min.js' %}"></script>
+{% endblock %}

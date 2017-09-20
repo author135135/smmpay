@@ -99,3 +99,11 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Other
+.idea/
+.smmpay/
+media/
+/static/
+/smmpay/settings/settings_prod.py
+/smmpay/settings/settings_dev.py
