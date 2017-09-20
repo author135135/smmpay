@@ -1,0 +1,114 @@
+{% load i18n %}
+
+{% if adverts %}
+    {% for advert in adverts %}
+        <div class="thumb adt">
+            {% if advert.social_account.logo %}
+                <div class="thumb__image">
+                    <a class="thumb__avatar" href="{{ advert.get_absolute_url }}">
+                        <img src="{{ advert.social_account.logo.url }}" width="42" height="42">
+                    </a>
+                </div>
+            {% endif %}
+            <div class="thumb__container">
+                <div class="thumb__head">
+                    <div class="thumb__info">
+                        <a class="thumb__title" href="{{ advert.get_absolute_url }}">{{ advert.title }}</a>
+                        <a class="thumb__subtitle" href="{{ advert.social_account.link }}">{{ advert.social_account.link|truncatechars:"30" }}</a>
+                    </div>
+                    <div class="thumb_publication">
+                        <span>{% trans 'Publication' %}:</span>
+                        <time class="time">{{ advert.created|date:'d E Y' }}</time>
+                    </div>
+                    <div class="thumb_view">
+                        <span>{% trans 'Views' %}:</span>
+                        <i>{{ advert.views }}</i>
+                    </div>
+                    <div class="thumb__price">{{ advert.price }} $</div>
+                </div>
+                <div class="thumb__footer">
+                    <nav class="thumb__buttons">
+                        <a href="{{ advert.get_absolute_url }}" class="thumb__external-link">
+                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 283.922 283.922" style="enable-background:new 0 0 283.922 283.922;" xml:space="preserve">
+                                <g>
+                                    <path d="M266.422,0h-97.625c-9.65,0-17.5,7.851-17.5,17.5c0,9.649,7.85,17.5,17.5,17.5h55.377l-92.375,92.374
+                                    c-3.307,3.305-5.127,7.699-5.127,12.375c0,4.676,1.819,9.069,5.125,12.371c3.306,3.309,7.699,5.13,12.375,5.13
+                                    c4.674,0,9.069-1.82,12.376-5.127l92.374-92.375v55.377c0,9.649,7.851,17.5,17.5,17.5c9.649,0,17.5-7.851,17.5-17.5V17.5
+                                    C283.922,7.851,276.071,0,266.422,0z" />
+                                    <path d="M201.137,253.922H30V82.785h128.711l30-30H15c-8.284,0-15,6.716-15,15v201.137c0,8.284,6.716,15,15,15h201.137
+                                    c8.284,0,15-6.716,15-15V95.211l-30,30V253.922z" />
+                                </g>
+                            </svg>
+                            {% trans 'View advert' %}
+                        </a>
+                        <a href="{% url 'advert:advert_edit' advert.pk %}" class="thumb__pain">
+                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="511.995px" height="511.995px" viewBox="0 0 511.995 511.995" style="enable-background:new 0 0 511.995 511.995;" xml:space="preserve">
+                                <g>
+                                    <path d="M497.941,14.057c18.75,18.75,18.719,49.141,0,67.891l-22.625,22.625L407.41,36.682l22.625-22.625
+                                    C448.784-4.677,479.191-4.693,497.941,14.057z M158.534,285.588l-22.609,90.5l90.5-22.625l226.266-226.266l-67.906-67.891
+                                    L158.534,285.588z M384.003,241.15v206.844h-320v-320h206.859l63.983-64H0.003v448h448v-334.86L384.003,241.15z" />
+                                </g>
+                            </svg>
+                            {% trans 'Edit' %}
+                        </a>
+                        <a href="{% if advert.enabled_by_author %}{% url 'account:advert_deactivate' advert.pk %}{% else %}{% url 'account:advert_activate' advert.pk %}{% endif %}" class="thumb__delete">
+                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="475.085px" height="475.085px" viewBox="0 0 475.085 475.085" style="enable-background:new 0 0 475.085 475.085;" xml:space="preserve">
+                                <g>
+                                    <g>
+                                        <path d="M237.545,255.816c9.899,0,18.468-3.609,25.696-10.848c7.23-7.229,10.854-15.799,10.854-25.694V36.547
+                                        c0-9.9-3.62-18.464-10.854-25.693C256.014,3.617,247.444,0,237.545,0c-9.9,0-18.464,3.621-25.697,10.854
+                                        c-7.233,7.229-10.85,15.797-10.85,25.693v182.728c0,9.895,3.617,18.464,10.85,25.694
+                                        C219.081,252.207,227.648,255.816,237.545,255.816z" />
+                                        <path d="M433.836,157.887c-15.325-30.642-36.878-56.339-64.666-77.084c-7.994-6.09-17.035-8.47-27.123-7.139
+                                        c-10.089,1.333-18.083,6.091-23.983,14.273c-6.091,7.993-8.418,16.986-6.994,26.979c1.423,9.998,6.139,18.037,14.133,24.128
+                                        c18.645,14.084,33.072,31.312,43.25,51.678c10.184,20.364,15.27,42.065,15.27,65.091c0,19.801-3.854,38.688-11.561,56.678
+                                        c-7.706,17.987-18.13,33.544-31.265,46.679c-13.135,13.131-28.688,23.551-46.678,31.261c-17.987,7.71-36.878,11.57-56.673,11.57
+                                        c-19.792,0-38.684-3.86-56.671-11.57c-17.989-7.71-33.547-18.13-46.682-31.261c-13.129-13.135-23.551-28.691-31.261-46.679
+                                        c-7.708-17.99-11.563-36.877-11.563-56.678c0-23.026,5.092-44.724,15.274-65.091c10.183-20.364,24.601-37.591,43.253-51.678
+                                        c7.994-6.095,12.703-14.133,14.133-24.128c1.427-9.989-0.903-18.986-6.995-26.979c-5.901-8.182-13.844-12.941-23.839-14.273
+                                        c-9.994-1.332-19.085,1.049-27.268,7.139c-27.792,20.745-49.344,46.442-64.669,77.084c-15.324,30.646-22.983,63.288-22.983,97.927
+                                        c0,29.697,5.806,58.054,17.415,85.082c11.613,27.028,27.218,50.34,46.826,69.948c19.602,19.603,42.919,35.215,69.949,46.815
+                                        c27.028,11.615,55.388,17.426,85.08,17.426c29.693,0,58.052-5.811,85.081-17.426c27.031-11.604,50.347-27.213,69.952-46.815
+                                        c19.602-19.602,35.207-42.92,46.818-69.948s17.412-55.392,17.412-85.082C456.809,221.174,449.16,188.532,433.836,157.887z" />
+                                    </g>
+                                </g>
+                            </svg>
+                            {% if advert.enabled_by_author %}
+                                {% trans 'Deactivate' %}
+                            {% else %}
+                                {% trans 'Activate' %}
+                            {% endif %}
+                        </a>
+                    </nav>
+                    <nav class="nav-advertise">
+                        <a href="{% url 'account:discussions' %}?query={{ advert.title }}" class="btn-massage">
+                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 483.3 483.3" style="enable-background:new 0 0 483.3 483.3;" xml:space="preserve">
+                                <g>
+                                    <g>
+                                        <path d="M424.3,57.75H59.1c-32.6,0-59.1,26.5-59.1,59.1v249.6c0,32.6,26.5,59.1,59.1,59.1h365.1c32.6,0,59.1-26.5,59.1-59.1
+                                        v-249.5C483.4,84.35,456.9,57.75,424.3,57.75z M456.4,366.45c0,17.7-14.4,32.1-32.1,32.1H59.1c-17.7,0-32.1-14.4-32.1-32.1v-249.5
+                                        c0-17.7,14.4-32.1,32.1-32.1h365.1c17.7,0,32.1,14.4,32.1,32.1v249.5H456.4z" />
+                                        <path d="M304.8,238.55l118.2-106c5.5-5,6-13.5,1-19.1c-5-5.5-13.5-6-19.1-1l-163,146.3l-31.8-28.4c-0.1-0.1-0.2-0.2-0.2-0.3
+                                        c-0.7-0.7-1.4-1.3-2.2-1.9L78.3,112.35c-5.6-5-14.1-4.5-19.1,1.1c-5,5.6-4.5,14.1,1.1,19.1l119.6,106.9L60.8,350.95
+                                        c-5.4,5.1-5.7,13.6-0.6,19.1c2.7,2.8,6.3,4.3,9.9,4.3c3.3,0,6.6-1.2,9.2-3.6l120.9-113.1l32.8,29.3c2.6,2.3,5.8,3.4,9,3.4
+                                        c3.2,0,6.5-1.2,9-3.5l33.7-30.2l120.2,114.2c2.6,2.5,6,3.7,9.3,3.7c3.6,0,7.1-1.4,9.8-4.2c5.1-5.4,4.9-14-0.5-19.1L304.8,238.55z" />
+                                    </g>
+                                </g>
+                            </svg>
+                            <i class="number">{{ advert.new_messages_count }}</i>
+                        </a>
+                        {% comment %}
+                        <a href="#" class="thumb__read-more advertise-btn">Рекламировать</a>
+                        {% endcomment %}
+                    </nav>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% include 'base/pagination.html' %}
+{% else %}
+    <div>
+        {% trans 'There is nothing to show' %}
+    </div>
+{% endif %}

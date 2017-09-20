@@ -107,3 +107,4 @@ media/
 /static/
 /smmpay/settings/settings_prod.py
 /smmpay/settings/settings_dev.py
+!smmpay/templates/*/parts/

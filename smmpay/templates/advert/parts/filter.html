@@ -1,0 +1,143 @@
+{% load i18n %}
+
+<div class="filter">
+    <div class="filter__open">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 13 16" style="enable-background:new 0 0 13 16;" xml:space="preserve">
+            <path class="st0" d="M0,2h13v2L8,9v7l-3-2V9L0,4V2z"></path>
+            <path class="st0" d="M0,0h13v1H0V0z"></path>
+        </svg>
+    </div>
+    <div class="filter__container">
+        <form id="filter-form">
+            <div class="filter__form-search">
+                <div class="filter__row">
+                    <label class="filter__label filter__label--search">
+                        <span class="filter__title">{{ filter_form.search_query.label }}</span>
+                        {{ filter_form.search_query }}
+                        <svg class="search-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                            <g>
+                                <path d="M495,466.2L377.2,348.4c29.2-35.6,46.8-81.2,46.8-130.9C424,103.5,331.5,11,217.5,11C103.4,11,11,103.5,11,217.5S103.4,424,217.5,424c49.7,0,95.2-17.5,130.8-46.7L466.1,495c8,8,20.9,8,28.9,0C503,487.1,503,474.1,495,466.2z M217.5,382.9C126.2,382.9,52,308.7,52,217.5S126.2,52,217.5,52C308.7,52,383,126.3,383,217.5S308.7,382.9,217.5,382.9z"></path>
+                            </g>
+                        </svg>
+                    </label>
+                </div>
+            </div>
+            <div class="filter__form-filter">
+                <div class="filter__row">
+                    <label class="filter__label">
+                        <span class="filter__title">{{ filter_form.region.label }}</span>
+                        {{ filter_form.region }}
+                    </label>
+                    <label class="filter__label">
+                        <span class="filter__title">{{ filter_form.category.label }}</span>
+                        {{ filter_form.category }}
+                    </label>
+                    <div class="filter__close">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 357 357" style="enable-background:new 0 0 357 357;" xml:space="preserve">
+                            <g>
+                                <g>
+                                    <polygon points="357,35.7 321.3,0 178.5,142.8 35.7,0 0,35.7 142.8,178.5 0,321.3 35.7,357 178.5,214.2 321.3,357 357,321.3214.2,178.5"></polygon>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <div class="filter__row">
+                    <label class="filter__label">
+                        <span class="filter__title">{% trans 'Price' %},</span>
+                        <div class="filter__block">
+                            <div class="filter__range">{{ filter_form.price_min.label }}</div>
+                            {{ filter_form.price_min }}
+                        </div>
+                        <div class="filter__block">
+                            <div class="filter__range">{{ filter_form.price_max.label }}</div>
+                            {{ filter_form.price_max }}
+                        </div>
+                    </label>
+                    <label class="filter__label filter__label--align">
+                        <span class="filter__title">{% trans 'Subscribers' %},</span>
+                        <div class="filter__block">
+                            <div class="filter__range">{{ filter_form.subscribers_min.label }}</div>
+                            {{ filter_form.subscribers_min }}
+                        </div>
+                        <div class="filter__block">
+                            <div class="filter__range">{{ filter_form.subscribers_max.label }}</div>
+                            {{ filter_form.subscribers_max }}
+                        </div>
+                    </label>
+                    <button type="button" class="filter__reset button">Очистить фильтр</button>
+                    <button type="submit" class="filter__submit button">Применить фильтр</button>
+                </div>
+            </div>
+            <div class="filter__form-social">
+                <div class="radio">
+            <label class="radio__label">
+            <input class="radio__input" type="radio" name="social_network" value="1" checked="checked">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 112.2 112.2" style="enable-background:new 0 0 112.2 112.2;" xml:space="preserve">
+            <g>
+            <circle fill="#3B5998" cx="56.1" cy="56.1" r="56.1"></circle>
+            <path fill="#fff" d="M70.2,58.3h-10V95H45V58.3h-7.2V45.4H45v-8.3c0-6,2.8-15.3,15.3-15.3l11.2,0v12.5h-8.2c-1.3,0-3.2,0.7-3.2,3.5v7.6h11.3L70.2,58.3z"></path>
+            </g>
+            </svg>
+            <div class="radio__line radio__line--fb"></div>
+            </label>
+            <label class="radio__label">
+            <input class="radio__input" type="radio" name="social">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 112.2 112.2" style="enable-background:new 0 0 112.2 112.2;" xml:space="preserve">
+            <g>
+            <circle fill="#55ACEE" class="st0" cx="56.1" cy="56.1" r="56.1"></circle>
+            <g>
+            <path fill="#F1F2F2" d="M90.5,40.3c-2.4,1.1-5,1.8-7.7,2.1c2.8-1.7,4.9-4.3,5.9-7.4c-2.6,1.5-5.5,2.7-8.5,3.3c-2.4-2.6-5.9-4.2-9.8-4.2c-7.4,0-13.4,6-13.4,13.4c0,1.1,0.1,2.1,0.3,3.1c-11.1-0.6-21-5.9-27.6-14c-1.2,2-1.8,4.3-1.8,6.7c0,4.7,2.4,8.8,6,11.2c-2.2-0.1-4.3-0.7-6.1-1.7c0,0.1,0,0.1,0,0.2c0,6.5,4.6,11.9,10.8,13.1c-1.1,0.3-2.3,0.5-3.5,0.5c-0.9,0-1.7-0.1-2.5-0.2c1.7,5.3,6.7,9.2,12.5,9.3c-4.6,3.6-10.4,5.7-16.7,5.7c-1.1,0-2.1-0.1-3.2-0.2c5.9,3.8,13,6,20.6,6c24.7,0,38.2-20.4,38.2-38.2c0-0.6,0-1.2,0-1.7C86.4,45.4,88.7,43,90.5,40.3L90.5,40.3z"></path>
+            </g>
+            </g>
+            </svg>
+            <div class="radio__line radio__line--tw"></div>
+            </label>
+            <label class="radio__label">
+            <input class="radio__input" type="radio" name="social">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 112.2 112.2" style="enable-background:new 0 0 112.2 112.2;" xml:space="preserve">
+            <g>
+            <g>
+            <circle id="XMLID_11_" fill="#4D76A1" cx="56.1" cy="56.1" r="56.1"></circle>
+            </g>
+            <path fill="#fff" d="M54,80.7h4.4c0,0,1.3-0.1,2-0.9c0.6-0.7,0.6-1.9,0.6-1.9s-0.1-5.9,2.7-6.8c2.7-0.9,6.2,5.7,9.9,8.2
+
+            c2.8,1.9,4.9,1.5,4.9,1.5l9.8-0.1c0,0,5.1-0.3,2.7-4.4c-0.2-0.3-1.4-3-7.3-8.5c-6.2-5.7-5.3-4.8,2.1-14.7c4.5-6,6.3-9.7,5.8-11.3
+
+            c-0.5-1.5-3.9-1.1-3.9-1.1l-11.1,0.1c0,0-0.8-0.1-1.4,0.3c-0.6,0.4-1,1.2-1,1.2S72.4,47,70,50.9c-4.9,8.4-6.9,8.8-7.7,8.3
+
+            c-1.9-1.2-1.4-4.9-1.4-7.5c0-8.1,1.2-11.5-2.4-12.4c-1.2-0.3-2.1-0.5-5.2-0.5c-4,0-7.3,0-9.2,0.9c-1.3,0.6-2.2,2-1.6,2.1
+
+            c0.7,0.1,2.4,0.4,3.3,1.6c1.1,1.5,1.1,5,1.1,5s0.7,9.6-1.5,10.7c-1.5,0.8-3.5-0.8-7.9-8.4c-2.3-3.9-4-8.2-4-8.2s-0.3-0.8-0.9-1.2
+
+            c-0.7-0.5-1.7-0.7-1.7-0.7l-10.5,0.1c0,0-1.6,0-2.2,0.7c-0.5,0.6,0,1.9,0,1.9s8.2,19.3,17.6,29C44.3,81.3,54,80.7,54,80.7L54,80.7z
+
+            "></path>
+            </g>
+            </svg>
+            <div class="radio__line radio__line--vk"></div>
+            </label>
+            <label class="radio__label">
+            <input class="radio__input" type="radio" name="social">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 89.8 89.8" style="enable-background:new 0 0 89.8 89.8;" xml:space="preserve">
+            <g>
+            <path fill="#6A453B" d="M58.3,23.9H31.5c-4.3,0-7.7,3.5-7.7,7.7v26.8c0,4.3,3.5,7.7,7.7,7.7h26.8c4.3,0,7.7-3.5,7.7-7.7V31.6
+
+            C66,27.4,62.5,23.9,58.3,23.9z M44.9,58.9C37.2,58.9,31,52.7,31,45c0-7.7,6.2-13.9,13.9-13.9c7.7,0,13.9,6.2,13.9,13.9
+
+            C58.8,52.7,52.5,58.9,44.9,58.9z M59.2,34c-1.8,0-3.3-1.5-3.3-3.3s1.5-3.3,3.3-3.3c1.8,0,3.3,1.5,3.3,3.3C62.5,32.5,61,34,59.2,34z
+
+            "></path>
+            <path fill="#6A453B" d="M44.9,37c-4.4,0-8,3.6-8,8c0,4.4,3.6,8,8,8c4.4,0,8-3.6,8-8C52.9,40.6,49.3,37,44.9,37z"></path>
+            <path fill="#6A453B" d="M44.9,0C20.1,0,0,20.1,0,44.9s20.1,44.9,44.9,44.9s44.9-20.1,44.9-44.9S69.7,0,44.9,0z M71.9,58.4
+
+            c0,7.5-6.1,13.6-13.6,13.6H31.5c-7.5,0-13.6-6.1-13.6-13.6V31.6C17.9,24.1,24,18,31.5,18h26.8c7.5,0,13.6,6.1,13.6,13.6V58.4z"></path>
+            </g>
+            </svg>
+            <div class="radio__line radio__line--in"></div>
+            </label>
+            </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+{% load i18n %}
+
+{% if posts %}
+    {% for post in posts %}
+        <div class="item-blog">
+            <a href="{{ post.get_absolute_url }}" class="global-title_box">
+                <strong>{{ post.title }}</strong>
+            </a>
+            {% if post.image %}
+                <a href="{{ post.get_absolute_url }}" class="img">
+                    <img src="{{ post.image.url }}" alt="blog">
+                </a>
+            {% endif %}
+            <div class="text-wrap">{{ post.content|striptags|truncatewords:'57' }}</div>
+            <div class="nav-blog">
+                <time class="time">{{ post.created|date:'d E Y' }}</time>
+                <a class="thumb__read-more" href="{{ post.get_absolute_url }}">{% trans 'Read more' %}</a>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% include 'base/pagination.html' %}
+{% else %}
+    <div>{% trans 'There is nothing to show' %}</div>
+{% endif %}
