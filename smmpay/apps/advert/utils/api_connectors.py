@@ -14,11 +14,6 @@ from django.conf import settings
 
 logger = logging.getLogger('db')
 
-if settings.DEBUG:
-    import os
-
-    os.environ['https_proxy'] = 'https://104.236.27.71:3128'
-
 
 class SocialNetworkConnector(object):
     """
