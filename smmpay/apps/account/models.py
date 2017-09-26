@@ -77,7 +77,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Profile(models.Model):
     user = models.OneToOneField(to=User, related_name='profile', on_delete=models.CASCADE)
-    profile_picture = models.ImageField(upload_to=RenameFile('account/profiles'), blank=True, null=True)
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',

@@ -165,8 +165,7 @@ class DiscussionsView(LoginRequiredMixin, SearchMixin, ListView):
 
     def get_queryset(self):
         qs = super(DiscussionsView, self).get_queryset()
-        qs &= self.model.objects.get_extra_queryset(select_items=['new_messages_count']).filter(
-            users=self.request.user).prefetch_related('discussion_users', 'advert__social_account')
+        qs &= self.model.objects.get_extra_queryset(select_items=['new_messages_count']).filter(users=self.request.user)
 
         return qs
 

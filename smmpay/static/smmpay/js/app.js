@@ -470,6 +470,51 @@
             });
         }
 
+        // Account setting page
+        if ($('.sidebar-user_cabinet').length) {
+            jcf.replaceAll();
+        }
+
+        // Account search form handlers
+        if ($('#account-search-form').length) {
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    }
+                }
+            });
+
+            jcf.setOptions('Select', {
+                wrapNative: false,
+                flipDropToFit: false,
+                maxVisibleItems: 5
+            });
+
+            jcf.replaceAll();
+
+            $('#account-search-form').submit(function(e) {
+                e.preventDefault();
+
+                var form = $(this),
+                    url = new URI(window.location.href);
+
+                url.query('');
+
+                $.each(form.serializeArray(), function(index, item) {
+                    if (item.value) {
+                        url.addQuery(item.name, item.value);
+                    }
+                });
+
+                load_data(url, {}, $('.items'));
+            });
+
+            $('#account-search-form select[name="order"]').change(function(e) {
+                $('#account-search-form').submit();
+            });
+        }
+
         // Account adverts page handlers
         if ($('.user-ads_content').length) {
             $(document).on('click', '.pagination__link', function(e) {
@@ -539,6 +584,14 @@
             });
 
             function add_views(chat) {
+                $.ajaxSetup({
+                    beforeSend: function(xhr, settings) {
+                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                        }
+                    }
+                });
+
                 var chat_height = chat.height(),
                     chat_top = chat.scrollTop(),
                     chat_bottom = chat_top + chat_height,
@@ -567,7 +620,7 @@
                                 $.each(messages, function() {
                                     $(this).removeClass('new-message').removeClass('checking');
                                 });
-                                
+
                                 var messages_count = parseInt(new_messages_counter.text());
                                 new_messages_counter.text(messages_count - messages_ids.length);
                             }, 5000);
@@ -585,51 +638,6 @@
                 var url = new URI($(this).attr('href'));
 
                 load_data(url, {}, $('.items'));
-            });
-        }
-
-        // Account setting page
-        if ($('.sidebar-user_cabinet').length) {
-            jcf.replaceAll();
-        }
-
-        // Account search form handlers
-        if ($('#account-search-form').length) {
-            $.ajaxSetup({
-                beforeSend: function(xhr, settings) {
-                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                    }
-                }
-            });
-
-            jcf.setOptions('Select', {
-                wrapNative: false,
-                flipDropToFit: false,
-                maxVisibleItems: 5
-            });
-
-            jcf.replaceAll();
-
-            $('#account-search-form').submit(function(e) {
-                e.preventDefault();
-
-                var form = $(this),
-                    url = new URI(window.location.href);
-
-                url.query('');
-
-                $.each(form.serializeArray(), function(index, item) {
-                    if (item.value) {
-                        url.addQuery(item.name, item.value);
-                    }
-                });
-
-                load_data(url, {}, $('.items'));
-            });
-
-            $('#account-search-form select[name="order"]').change(function(e) {
-                $('#account-search-form').submit();
             });
         }
 

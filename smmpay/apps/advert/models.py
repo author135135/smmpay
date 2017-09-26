@@ -42,12 +42,12 @@ class ExtraQuerysetManager(models.Manager):
 
 class DiscussionManager(ExtraQuerysetManager):
     def get_queryset(self):
-        return super(DiscussionManager, self).get_queryset().select_related('advert')
+        return super(DiscussionManager, self).get_queryset().select_related('advert', 'advert__social_account')
 
 
 class MessageManager(ExtraQuerysetManager):
     def get_queryset(self):
-        return super(MessageManager, self).get_queryset().select_related('sender__user')
+        return super(MessageManager, self).get_queryset().select_related('sender__user__profile')
 
 
 class AdvertManager(ExtraQuerysetManager):

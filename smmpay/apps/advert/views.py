@@ -313,6 +313,9 @@ class AdvertEditView(UpdateView):
         return getattr(advert_forms, sub_form_class)(self.request.POST or None,
                                                      instance=self.get_sub_object())
 
+    def get_queryset(self):
+        return super(AdvertEditView, self).get_queryset().filter(author=self.request.user)
+
     def get_sub_object(self):
         advert_type = self.model.get_default_advert_type()
 
