@@ -212,6 +212,17 @@ class Advert(models.Model):
 
         return None
 
+    def add_view(self, request):
+        ip = request.META['REMOTE_ADDR']
+
+        views_statistic_obj, created = self.views_statistic.get_or_create(ip=ip)
+
+        if created:
+            self.views += 1
+            self.save()
+
+        return created
+
 
 class AdvertSocialAccount(models.Model):
     SOCIAL_NETWORKS_URLS = {
@@ -269,6 +280,15 @@ class AdvertSocialAccount(models.Model):
             if url_info.netloc in urls:
                 return network
         return None
+
+
+class AdvertViewsStatistic(models.Model):
+    advert = models.ForeignKey(Advert, related_name='views_statistic', on_delete=models.CASCADE)
+    ip = models.GenericIPAddressField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'advert_advert_views_statistic'
 
 
 class SocialAccountConfirmationQueue(models.Model):

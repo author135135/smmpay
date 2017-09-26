@@ -11,6 +11,8 @@ urlpatterns = [
         name='delete_from_favorites'),
     url(r'^advert/(?P<pk>[0-9]+)/send-message/$', views.AdvertSendMessageView.as_view(),
         name='send_message'),
+    url(r'^advert/(?P<pk>[0-9]+)/add-view/$', views.AdvertAddViewView.as_view(),
+        name='add_view'),
     url(r'^advert/add/$', views.AdvertAddView.as_view(), name='advert_add'),
     url(r'^advert/add/social-account/info/$', views.AdvertSocialAccountInfoView.as_view(),
         name='advert_social_account_info'),

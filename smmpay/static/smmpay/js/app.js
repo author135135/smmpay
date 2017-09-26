@@ -430,7 +430,7 @@
         }
 
         // Advert view page handlers
-        if ($('#advert-message-form').length) {
+        if ($('.inner-product').length) {
             $.ajaxSetup({
                 beforeSend: function(xhr, settings) {
                     if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -438,6 +438,18 @@
                     }
                 }
             });
+
+            var views_counter = $('.thumb__view a');
+
+            setTimeout(function() {
+                $.get(views_counter.data('views-url'), {}, function(response) {
+                    if (response['success']) {
+                        var current_views = parseInt($('i', views_counter).text().match(/(\d+)/)) + 1;
+
+                        $('i', views_counter).text('(' + current_views + ')');
+                    }
+                }, 'json');
+            }, 5000);
 
             $('#advert-message-form').submit(function(e) {
                e.preventDefault();

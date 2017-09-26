@@ -199,6 +199,22 @@ class AdvertSendMessageView(View):
         return JsonResponse(response_data)
 
 
+class AdvertAddViewView(View):
+    def get(self, *args, **kwargs):
+        response_data = {
+            'success': False
+        }
+
+        try:
+            advert = Advert.enabled_objects.get(pk=kwargs['pk'])
+
+            response_data['success'] = advert.add_view(self.request)
+        except Advert.DoesNotExist:
+            pass
+
+        return JsonResponse(response_data)
+
+
 class AdvertAddView(LoginRequiredMixin, CreateView):
     template_name = 'advert/advert_add.html'
     form_class = advert_forms.AdvertForm
