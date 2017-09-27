@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models import FieldDoesNotExist
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.contrib.flatpages.models import FlatPage
+from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -54,7 +54,7 @@ class AdvertManager(ExtraQuerysetManager):
     def get_queryset(self):
         qs = super(AdvertManager, self).get_queryset()
         qs = qs.select_related('social_account', 'social_account__category', 'social_account__region',
-                               'social_account__social_network')
+                               'social_account__social_network', 'author__profile')
 
         return qs
 
@@ -358,6 +358,43 @@ class Discussion(models.Model):
 
     def __str__(self):
         return self.advert.title
+
+    @classmethod
+    def create_discussion(cls, advert, users=None):
+        discussion = cls(advert=advert)
+
+        if isinstance(users, (list, tuple)):
+            discussion.add_users(users)
+
+        return discussion
+
+    def add_user(self, user):
+        return self.discussion_users.create(user=user)
+
+    def add_users(self, users):
+        discussion_users = []
+
+        user_model = get_user_model()
+
+        for user in users:
+            discussion_user = user
+
+            if isinstance(user, user_model):
+                discussion_user = DiscussionUser(discussion=self, user=user)
+
+            discussion_users.append(discussion_user)
+
+        return self.discussion_users.bulk_create(discussion_users)
+
+    def add_message(self, user, message):
+        sender = user
+
+        user_model = get_user_model()
+
+        if isinstance(user, user_model):
+            sender = self.discussion_users.get(user=user)
+
+        return self.discussion_messages.create(sender=sender, message=message)
 
 
 class DiscussionUser(models.Model):

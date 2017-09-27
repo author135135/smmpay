@@ -204,9 +204,7 @@ class DiscussionView(LoginRequiredMixin, FormView):
 
         discussion = self.get_object()
 
-        discussion_user = DiscussionUser.objects.get(discussion=discussion, user=self.request.user)
-
-        discussion.discussion_messages.create(sender=discussion_user, message=form.cleaned_data['message'])
+        discussion.add_message(self.request.user, form.cleaned_data['message'])
 
         return response
 

@@ -158,9 +158,6 @@ class AdvertDeleteFromFavoritesView(LoginRequiredMixin, View):
 
 
 class AdvertSendMessageView(View):
-    def get(self, *args, **kwargs):
-        return HttpResponseNotAllowed(['post'])
-
     def post(self, *args, **kwargs):
         response_data = {
             'success': False
@@ -173,22 +170,14 @@ class AdvertSendMessageView(View):
                 try:
                     discussion = Discussion.objects.get(advert=advert, users=self.request.user)
                 except Discussion.DoesNotExist:
-                    discussion = Discussion(advert=advert)
-                    discussion.save()
+                    discussion_users = [self.request.user, advert.author]
 
-                    discussion.discussion_users.bulk_create([
-                        DiscussionUser(discussion=discussion, user=self.request.user),
-                        DiscussionUser(discussion=discussion, user=advert.author),
-                    ])
-
-                discussion_user = DiscussionUser.objects.get(discussion=discussion, user=self.request.user)
+                    discussion = Discussion.create_discussion(advert, discussion_users)
 
                 form = advert_forms.DiscussionMessageForm(self.request.POST)
 
                 if form.is_valid():
-                    message = form.cleaned_data['message']
-
-                    discussion.discussion_messages.create(sender=discussion_user, message=message)
+                    discussion.add_message(self.request.user, form.cleaned_data['message'])
 
                     response_data['success'] = True
                 else:
