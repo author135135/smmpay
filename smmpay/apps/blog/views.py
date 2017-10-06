@@ -2,7 +2,6 @@ from django.http import JsonResponse
 from django.views.generic import ListView, DetailView
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import get_template
-from django.template import RequestContext
 from .models import Post
 
 
@@ -17,11 +16,10 @@ class IndexView(ListView):
 
         if request.is_ajax():
             template = get_template(self.ajax_template_name)
-            context = RequestContext(self.request, result.context_data)
 
             return JsonResponse({
                 'success': True,
-                'data': template.render(context)
+                'data': template.render(result.context_data, request)
             })
 
         return result

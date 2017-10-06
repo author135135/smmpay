@@ -105,6 +105,9 @@ class PasswordChangeForm(AuthPasswordChangeForm):
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'log__input'
 
+            if 'autofocus' in self.fields[field].widget.attrs:
+                del self.fields[field].widget.attrs['autofocus']
+
     def save(self, *args, **kwargs):
         super(PasswordChangeForm, self).save(True)
 
@@ -188,9 +191,9 @@ class EmailChangeForm(forms.Form):
 
 
 class SearchForm(forms.Form):
-    query = forms.CharField(widget=forms.TextInput(attrs={'class': 'filter__search',
-                                                          'placeholder': _("For example 'sport'")}))
-    order = forms.ChoiceField(widget=forms.Select(attrs={'class': 'filter__select'}))
+    query = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'filter__search',
+                                                                          'placeholder': _("For example 'sport'")}))
+    order = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'filter__select'}))
 
     def __init__(self, order_choices, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)

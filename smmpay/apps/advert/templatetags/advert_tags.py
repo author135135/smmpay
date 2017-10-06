@@ -1,7 +1,9 @@
 from django import template
 from django.utils.http import urlencode
+from django.utils.html import mark_safe
 from django.template.loader import get_template
-from ..models import Menu
+
+from smmpay.apps.advert.models import Menu
 
 register = template.Library()
 
@@ -25,11 +27,12 @@ def menu(context, position=None, *args, **kwargs):
             except template.TemplateDoesNotExist:
                 menu_template = get_template(template_name='advert/tags/default_menu.html')
 
-            context.update({'menu': menu})
+            output += menu_template.render({
+                'menu': menu,
+                'request': context['request']
+            })
 
-            output += menu_template.render(context)
-
-    return output
+    return mark_safe(output)
 
 
 @register.simple_tag

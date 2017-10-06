@@ -482,11 +482,6 @@
             });
         }
 
-        // Account setting page
-        if ($('.sidebar-user_cabinet').length) {
-            jcf.replaceAll();
-        }
-
         // Account search form handlers
         if ($('#account-search-form').length) {
             $.ajaxSetup({

@@ -7,7 +7,6 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.core.paginator import Paginator
 from django.template.loader import get_template
-from django.template import RequestContext
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
@@ -106,11 +105,10 @@ class IndexView(LoginRequiredMixin, SearchMixin, ListView):
 
         if request.is_ajax():
             template = get_template(self.ajax_template_name)
-            context = RequestContext(self.request, result.context_data)
 
             return JsonResponse({
                 'success': True,
-                'data': template.render(context)
+                'data': template.render(result.context_data, request)
             })
 
         return result
@@ -154,11 +152,10 @@ class DiscussionsView(LoginRequiredMixin, SearchMixin, ListView):
 
         if request.is_ajax():
             template = get_template(self.ajax_template_name)
-            context = RequestContext(self.request, result.context_data)
 
             return JsonResponse({
                 'success': True,
-                'data': template.render(context)
+                'data': template.render(result.context_data, request)
             })
 
         return result
@@ -193,7 +190,7 @@ class DiscussionView(LoginRequiredMixin, FormView):
 
             return JsonResponse({
                 'success': True,
-                'data': template.render(response.context_data, self.request),
+                'data': template.render(response.context_data, request),
                 'has_next_page': response.context_data['has_next_page']
             })
 
@@ -263,9 +260,10 @@ class DiscussionAddViewsView(View):
 
                 discussion_user = discussion.discussion_users.get(user=self.request.user)
 
-                messages = discussion.discussion_messages.filter(pk__in=messages_ids).exclude(sender=discussion_user)
+                discussion_messages = discussion.discussion_messages.filter(pk__in=messages_ids).exclude(
+                    sender=discussion_user)
 
-                for message in messages:
+                for message in discussion_messages:
                     message.mark_as_viewed(discussion_user)
 
                 response_data['success'] = True
@@ -297,11 +295,10 @@ class FavoritesView(LoginRequiredMixin, SearchMixin, ListView):
 
         if request.is_ajax():
             template = get_template(self.ajax_template_name)
-            context = RequestContext(self.request, result.context_data)
 
             return JsonResponse({
                 'success': True,
-                'data': template.render(context)
+                'data': template.render(result.context_data, request)
             })
 
         return result

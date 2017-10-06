@@ -13,14 +13,17 @@ from .models import Advert, AdvertSocialAccount, SocialNetwork, Region, Category
 
 
 class FilterForm(forms.Form):
-    search_query = forms.CharField(label=_('Search'), widget=forms.TextInput(
+    search_query = forms.CharField(required=False, label=_('Search'), widget=forms.TextInput(
         attrs={'class': 'filter__search', 'placeholder': _("For example 'sport'")}))
-    region = forms.ChoiceField(label=_('Region'))
-    category = forms.ChoiceField(label=_('Category'))
-    price_min = forms.CharField(label=_('From'), widget=forms.TextInput(attrs={'class': 'filter__value'}))
-    price_max = forms.CharField(label=_('To'), widget=forms.TextInput(attrs={'class': 'filter__value'}))
-    subscribers_min = forms.CharField(label=_('From'), widget=forms.TextInput(attrs={'class': 'filter__value'}))
-    subscribers_max = forms.CharField(label=_('To'), widget=forms.TextInput(attrs={'class': 'filter__value'}))
+    region = forms.ChoiceField(required=False, label=_('Region'))
+    category = forms.ChoiceField(required=False, label=_('Category'))
+    price_min = forms.CharField(required=False, label=_('From'),
+                                widget=forms.TextInput(attrs={'class': 'filter__value'}))
+    price_max = forms.CharField(required=False, label=_('To'), widget=forms.TextInput(attrs={'class': 'filter__value'}))
+    subscribers_min = forms.CharField(required=False, label=_('From'),
+                                      widget=forms.TextInput(attrs={'class': 'filter__value'}))
+    subscribers_max = forms.CharField(required=False, label=_('To'),
+                                      widget=forms.TextInput(attrs={'class': 'filter__value'}))
 
     def __init__(self, *args, **kwargs):
         super(FilterForm, self).__init__(*args, **kwargs)

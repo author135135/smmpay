@@ -206,11 +206,9 @@ class Advert(models.Model):
     @classmethod
     def get_default_advert_type(cls):
         try:
-            return cls._meta.get_field_by_name('advert_type')[0].default
+            return cls._meta.get_field('advert_type').get_default()
         except FieldDoesNotExist:
-            pass
-
-        return None
+            return None
 
     def add_view(self, request):
         ip = request.META['REMOTE_ADDR']
@@ -338,6 +336,7 @@ class FavoriteAdvert(models.Model):
 
     class Meta:
         db_table = 'advert_favorite_advert'
+        ordering = ('-id',)
         verbose_name = _('favorite')
         verbose_name_plural = _('favorites')
         unique_together = ('advert', 'user')
@@ -361,7 +360,7 @@ class Discussion(models.Model):
 
     @classmethod
     def create_discussion(cls, advert, users=None):
-        discussion = cls(advert=advert)
+        discussion = cls.objects.create(advert=advert)
 
         if isinstance(users, (list, tuple)):
             discussion.add_users(users)

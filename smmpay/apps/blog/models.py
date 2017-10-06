@@ -30,6 +30,7 @@ class Post(models.Model):
 
     class Meta:
         db_table = 'blog_post'
+        ordering = ('-id',)
 
     def __str__(self):
         return self.title
