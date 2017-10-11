@@ -1,6 +1,6 @@
 (function ($) {
     $(document).ready(function(e) {
-       var process_in_progress = 0;
+        var process_in_progress = 0;
 
         // Filter form handlers
         if ($('#filter-form').length) {
@@ -546,11 +546,36 @@
 
         // Account discussion page handlers
         if ($('.user-dialog_content').length) {
+            jcf.replaceAll();
+
             var chat = $('.scroll-chat'),
                 discussion_page = 2,
                 last_page = false;
 
-            chat.animate({scrollTop: chat.height()}, 0, 'swing', function() {
+            var ws_scheme = window.location.protocol === 'https' ? 'wss' : 'ws';
+            var ws_path = ws_scheme + '://' + window.location.host + window.location.pathname;
+
+            var socket = new WebSocket(ws_path);
+
+            socket.onmessage = function(message) {
+                var data = JSON.parse(message.data);
+
+                if (data['sender'] !== chat.data('sender-id')) {
+                    chat.append(data['data']);
+                    chat.animate({scrollTop: ($('.item', chat).length * $('.item', chat).outerHeight())}, 0, 'swing');
+
+                    var new_messages_counter = $('.nav-advertise .number'),
+                        messages_count = parseInt(new_messages_counter.text());
+
+                    new_messages_counter.text(messages_count + 1);
+                }
+            };
+
+            socket.onopen = function() {
+                console.log('OPEN');
+            };
+
+            chat.animate({scrollTop: ($('.item', chat).length * $('.item', chat).outerHeight())}, 0, 'swing', function() {
                 if (chat.attr('data-has-next-page') !== 'False') {
                     chat.bind('scroll', function (e) {
                         if (!last_page && $(this).scrollTop() <= 0) {
@@ -579,15 +604,26 @@
             });
 
             $('#discussion-message-form').submit(function(e) {
+                e.preventDefault();
+
                 var message_form = $(this);
 
-               $('.error', message_form).removeClass('error');
+                $('.error', message_form).removeClass('error');
 
-               if (!$.trim($('textarea[name="message"]', message_form).val())) {
-                   $('textarea[name="message"]', message_form).addClass('error');
+                if (!$.trim($('textarea[name="message"]', message_form).val())) {
+                    $('textarea[name="message"]', message_form).addClass('error');
 
-                   e.preventDefault();
-               }
+                    return false;
+                }
+
+                $.post(chat.data('messages-url'), message_form.serialize(), function(response) {
+                    if (response['success']) {
+                        chat.append(response['data']);
+                        chat.animate({scrollTop: ($('.item', chat).length * $('.item', chat).outerHeight())}, 0, 'swing');
+
+                        message_form.trigger('reset');
+                    }
+                }, 'json');
             });
 
             function add_views(chat) {

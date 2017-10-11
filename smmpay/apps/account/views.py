@@ -1,3 +1,5 @@
+import json
+
 from django.http import Http404, JsonResponse, HttpResponseNotAllowed
 from django.views.generic import TemplateView, RedirectView, ListView, DeleteView, FormView, DetailView, View
 from django.shortcuts import redirect
@@ -6,11 +8,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.core.paginator import Paginator
-from django.template.loader import get_template
+from django.template.loader import render_to_string
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 from registration.backends.hmac import views
+from channels import Group
 from smmpay.apps.advert.models import Discussion, DiscussionUser, Advert, FavoriteAdvert
 
 from .forms import RegistrationForm, ProfileForm, PasswordChangeForm, EmailChangeForm, DiscussionMessageForm, SearchForm
@@ -101,17 +104,15 @@ class IndexView(LoginRequiredMixin, SearchMixin, ListView):
     )
 
     def get(self, request, *args, **kwargs):
-        result = super(IndexView, self).get(request, *args, **kwargs)
+        response = super(IndexView, self).get(request, *args, **kwargs)
 
         if request.is_ajax():
-            template = get_template(self.ajax_template_name)
-
             return JsonResponse({
                 'success': True,
-                'data': template.render(result.context_data, request)
+                'data': render_to_string(self.ajax_template_name, response.context_data, request)
             })
 
-        return result
+        return response
 
     def get_queryset(self):
         qs = super(IndexView, self).get_queryset().select_related('social_account')
@@ -148,17 +149,15 @@ class DiscussionsView(LoginRequiredMixin, SearchMixin, ListView):
     )
 
     def get(self, request, *args, **kwargs):
-        result = super(DiscussionsView, self).get(request, *args, **kwargs)
+        response = super(DiscussionsView, self).get(request, *args, **kwargs)
 
         if request.is_ajax():
-            template = get_template(self.ajax_template_name)
-
             return JsonResponse({
                 'success': True,
-                'data': template.render(result.context_data, request)
+                'data': render_to_string(self.ajax_template_name, response.context_data, request)
             })
 
-        return result
+        return response
 
     def get_queryset(self):
         qs = super(DiscussionsView, self).get_queryset()
@@ -176,44 +175,31 @@ class DiscussionsView(LoginRequiredMixin, SearchMixin, ListView):
         return context
 
 
-class DiscussionView(LoginRequiredMixin, FormView):
+class DiscussionView(LoginRequiredMixin, DetailView):
     template_name = 'account/discussion.html'
+    context_object_name = 'discussion'
     ajax_template_name = 'account/parts/discussion_message_list.html'
-    form_class = DiscussionMessageForm
     paginate_by = 4
 
     def get(self, request, *args, **kwargs):
         response = super(DiscussionView, self).get(request, *args, **kwargs)
 
         if request.is_ajax():
-            template = get_template(self.ajax_template_name)
-
             return JsonResponse({
                 'success': True,
-                'data': template.render(response.context_data, request),
+                'data': render_to_string(self.ajax_template_name, response.context_data, request),
                 'has_next_page': response.context_data['has_next_page']
             })
-
-        return response
-
-    def form_valid(self, form):
-        response = super(DiscussionView, self).form_valid(form)
-
-        discussion = self.get_object()
-
-        discussion.add_message(self.request.user, form.cleaned_data['message'])
 
         return response
 
     def get_context_data(self, **kwargs):
         context = super(DiscussionView, self).get_context_data(**kwargs)
 
-        discussion = self.get_object()
+        discussion_user = DiscussionUser.objects.get(discussion=self.object, user=self.request.user)
 
-        discussion_user = DiscussionUser.objects.get(discussion=discussion, user=self.request.user)
-
-        messages_qs = discussion.discussion_messages.get_extra_queryset(select_items=['is_viewed'],
-                                                                        select_params=[discussion_user.pk])
+        messages_qs = self.object.discussion_messages.get_extra_queryset(select_items=['is_viewed'],
+                                                                         select_params=[discussion_user.pk])
         messages_qs = messages_qs.select_related('sender__user__profile').reverse()
 
         page = int(self.request.GET.get('page', 1))
@@ -224,14 +210,11 @@ class DiscussionView(LoginRequiredMixin, FormView):
 
         page_obj = paginator.page(self.request.GET.get('page', 1))
 
-        context['discussion'] = discussion
         context['discussion_messages'] = reversed(page_obj.object_list)
         context['has_next_page'] = page_obj.has_next()
+        context['form'] = DiscussionMessageForm
 
         return context
-
-    def get_success_url(self):
-        return reverse('account:discussion', kwargs=self.kwargs)
 
     def get_object(self):
         try:
@@ -243,7 +226,55 @@ class DiscussionView(LoginRequiredMixin, FormView):
         return discussion
 
 
-class DiscussionAddViewsView(View):
+class DiscussionMessageAddView(FormView):
+    message_sender_template_name = 'account/parts/discussion_message_sender.html'
+    message_recipient_template_name = 'account/parts/discussion_message_recipient.html'
+    form_class = DiscussionMessageForm
+
+    def get(self, *args, **kwargs):
+        return HttpResponseNotAllowed(['post'])
+
+    def form_valid(self, form):
+        response = {
+            'success': False
+        }
+
+        if self.request.user.is_authenticated():
+            try:
+                discussion = Discussion.objects.get(pk=self.kwargs['pk'], users=self.request.user)
+                discussion_message = discussion.add_message(self.request.user, form.cleaned_data['message'])
+
+                context_data = {
+                    'discussion_message': discussion_message
+                }
+
+                response['success'] = True
+                response['data'] = render_to_string(self.message_sender_template_name, context_data, self.request)
+
+                group_keyword = 'discussion-{}'.format(self.kwargs['pk'])
+                group = Group(group_keyword)
+
+                group.send({
+                    'text': json.dumps({
+                        'sender': self.request.user.pk,
+                        'data': render_to_string(self.message_recipient_template_name, context_data, self.request)
+                    })
+                })
+            except Discussion.DoesNotExist:
+                pass
+
+        return JsonResponse(response)
+
+    def form_invalid(self, form):
+        response = {
+            'success': False,
+            'errors': form.errors
+        }
+
+        return JsonResponse(response)
+
+
+class DiscussionMessageViewAddView(View):
     def get(self, *args, **kwargs):
         return HttpResponseNotAllowed(['post'])
 
@@ -291,17 +322,15 @@ class FavoritesView(LoginRequiredMixin, SearchMixin, ListView):
     )
 
     def get(self, request, *args, **kwargs):
-        result = super(FavoritesView, self).get(request, *args, **kwargs)
+        response = super(FavoritesView, self).get(request, *args, **kwargs)
 
         if request.is_ajax():
-            template = get_template(self.ajax_template_name)
-
             return JsonResponse({
                 'success': True,
-                'data': template.render(result.context_data, request)
+                'data': render_to_string(self.ajax_template_name, response.context_data, request)
             })
 
-        return result
+        return response
 
     def get_queryset(self):
         return super(FavoritesView, self).get_queryset().filter(user=self.request.user)

@@ -136,7 +136,11 @@
             </div>
         </div>
         <div class="chat-window">
-            <div class="scroll-chat jcf-scrollable" data-has-next-page="{{ has_next_page }}" data-views-url="{% url 'account:discussion_add_view' discussion.pk %}">
+            <div class="scroll-chat jcf-scrollable"
+                 data-sender-id="{{ user.pk }}"
+                 data-has-next-page="{{ has_next_page }}"
+                 data-views-url="{% url 'account:discussion_add_view' discussion.pk %}"
+                 data-messages-url="{% url 'account:discussion_add_message' discussion.pk %}">
                 {% include 'account/parts/discussion_message_list.html' %}
             </div>
             <form id="discussion-message-form" action="" method="post">

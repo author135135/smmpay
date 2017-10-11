@@ -11,3 +11,5 @@ google-api-python-client
 lxml
 selenium
 beautifulsoup4
+channels
+asgi_redis
