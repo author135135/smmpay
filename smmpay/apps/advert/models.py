@@ -232,7 +232,7 @@ class AdvertSocialAccount(models.Model):
     }
 
     advert = models.OneToOneField(Advert, related_name='social_account', on_delete=models.CASCADE)
-    logo = models.ImageField(upload_to=RenameFile('ad/social_accounts/%Y/%m/%d'), blank=True, null=True)
+    logo = models.ImageField(upload_to=RenameFile('offer/social_accounts/%Y/%m/%d'), blank=True, null=True)
     link = models.URLField()
     subscribers = models.IntegerField()
     social_network = models.ForeignKey(SocialNetwork, on_delete=None)
