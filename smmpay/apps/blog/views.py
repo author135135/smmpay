@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.views.generic import ListView, DetailView
 from django.contrib.sites.shortcuts import get_current_site
-from django.template.loader import get_template
+from django.template.loader import render_to_string
 from .models import Post
 
 
@@ -12,17 +12,15 @@ class IndexView(ListView):
     paginate_by = 4
 
     def get(self, request, *args, **kwargs):
-        result = super(IndexView, self).get(request, *args, **kwargs)
+        response = super(IndexView, self).get(request, *args, **kwargs)
 
         if request.is_ajax():
-            template = get_template(self.ajax_template_name)
-
             return JsonResponse({
                 'success': True,
-                'data': template.render(result.context_data, request)
+                'data': render_to_string(self.ajax_template_name, response.context_data, request),
             })
 
-        return result
+        return response
 
     def get_queryset(self):
         return Post.published_objects.all()

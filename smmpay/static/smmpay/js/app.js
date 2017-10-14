@@ -552,7 +552,7 @@
                 discussion_page = 2,
                 last_page = false;
 
-            var ws_scheme = window.location.protocol === 'https' ? 'wss' : 'ws';
+            var ws_scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
             var ws_path = ws_scheme + '://' + window.location.host + window.location.pathname;
 
             var socket = new WebSocket(ws_path);

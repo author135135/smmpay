@@ -9,7 +9,7 @@ from django.contrib.auth.views import get_user_model
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.utils.translation import get_language_from_request
-from django.template.loader import get_template
+from django.template.loader import render_to_string
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
@@ -76,17 +76,15 @@ class IndexView(AdvertFilterMixin, ListView):
     paginate_by = 10
 
     def get(self, request, *args, **kwargs):
-        result = super(IndexView, self).get(request, *args, **kwargs)
+        response = super(IndexView, self).get(request, *args, **kwargs)
 
         if request.is_ajax():
-            template = get_template(self.ajax_template_name)
-
             return JsonResponse({
                 'success': True,
-                'data': template.render(result.context_data, request)
+                'data': render_to_string(self.ajax_template_name, response.context_data, request),
             })
 
-        return result
+        return response
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
