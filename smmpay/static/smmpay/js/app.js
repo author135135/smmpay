@@ -38,7 +38,11 @@
 
                 $.each($('#filter-form').serializeArray(), function(index, item) {
                     if (url.hasQuery(item.name)) {
-                        url.query('');
+                        url.search(function(data) {
+                            if (data['social_network']) {
+                                return {social_network: data['social_network']};
+                            }
+                        });
 
                         load_data(url, {});
 
@@ -56,7 +60,11 @@
 
                 var url = new URI(window.location.href);
 
-                url.query('');
+                url.search(function(data) {
+                    if (data['social_network']) {
+                        return {social_network: data['social_network']};
+                    }
+                });
 
                 $.each($('#filter-form').serializeArray(), function(index, item) {
                     if (item.value) {
@@ -84,6 +92,17 @@
                     }
                 }
             });
+
+            $('.filter__form-social a').click(function(e) {
+                e.preventDefault();
+
+                var url = new URI($(this).attr('href'));
+
+                load_data(url);
+
+                $('.filter__form-social .active').removeClass('active');
+                $(this).parent().addClass('active');
+            })
         }
 
         // Advert add form handlers
@@ -682,6 +701,11 @@
 
                 load_data(url, {}, $('.items'));
             });
+        }
+
+        // Account settings page handlers
+        if ($('.sidebar-user_cabinet').length) {
+            jcf.replaceAll();
         }
 
         // Blog handlers

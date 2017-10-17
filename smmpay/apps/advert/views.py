@@ -14,7 +14,8 @@ from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 from . import forms as advert_forms
-from .models import Advert, AdvertSocialAccount, Phrase, SocialNetwork, FavoriteAdvert, Discussion, DiscussionMessage, DiscussionUser
+from .models import Advert, AdvertSocialAccount, Phrase, SocialNetwork, FavoriteAdvert, Discussion, DiscussionMessage, \
+    DiscussionUser
 
 
 class LoginRequiredMixin(object):
@@ -90,6 +91,16 @@ class IndexView(AdvertFilterMixin, ListView):
         context = super(IndexView, self).get_context_data(**kwargs)
 
         context['filter_form'] = advert_forms.FilterForm(self.request.GET or None)
+        context['social_networks'] = SocialNetwork.objects.all()
+
+        selected_social_network = self.request.GET.get('social_network', None)
+
+        if selected_social_network is None or not selected_social_network:
+            selected_social_network = SocialNetwork.objects.values('pk').first().get('pk')
+        else:
+            selected_social_network = int(selected_social_network)
+
+        context['selected_social_network'] = selected_social_network
 
         return context
 

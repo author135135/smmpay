@@ -141,7 +141,6 @@
     font-size: 15px;
     transition: box-shadow .2s ease-in-out;
     border-radius: 25px;
-    margin-bottom: 25px;
     height: 46px;
     padding: 10px 0;
     text-align: center; }
@@ -161,7 +160,7 @@
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
-    margin: 0 -25px;
+    margin: 25px -25px 0;
     cursor: pointer;
     border-top: 1px solid #e6ebf8;
     height: 80px; }

@@ -16,5 +16,5 @@ urlpatterns = [
     url(r'^offer/add/$', views.AdvertAddView.as_view(), name='advert_add'),
     url(r'^offer/add/social-account/info/$', views.AdvertSocialAccountInfoView.as_view(),
         name='advert_social_account_info'),
-    url(r'^user/(?P<pk>[0-9]+)/adverts/$', views.UserAdvertsView.as_view(), name='user_adverts'),
+    url(r'^user/(?P<pk>[0-9]+)/offer/$', views.UserAdvertsView.as_view(), name='user_adverts'),
 ]

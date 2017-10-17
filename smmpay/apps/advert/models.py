@@ -132,6 +132,7 @@ class SocialNetwork(models.Model):
 
     class Meta:
         db_table = 'advert_social_network'
+        ordering = ('pk',)
         verbose_name = _('social network')
         verbose_name_plural = _('social networks')
         unique_together = ('code', 'url')
