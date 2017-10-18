@@ -54,7 +54,7 @@ class SetPasswordForm(AuthSetPasswordForm):
         super(SetPasswordForm, self).__init__(*args, **kwargs)
 
         for field in self.fields:
-            self.fields[field].widget.attrs['class'] = 'form-control'
+            self.fields[field].widget.attrs['class'] = 'log__input'
 
 
 class RegistrationForm(registration_forms.RegistrationForm):

@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.flatpages',
     'django_db_logger',
     'ckeditor',
+    'ckeditor_uploader',
     'smmpay.apps.account',
     'smmpay.apps.advert',
     'smmpay.apps.blog',

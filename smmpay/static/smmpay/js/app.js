@@ -294,10 +294,10 @@
 
                 link_check_progress = 1;
 
-                $.get(advert_add_form.data('validation-url'), {account_link: link}, function(response) {
+                $.get(advert_edit_form.data('validation-url'), {account_link: link}, function(response) {
                     if (response['success']) {
                         $.each(response['fields'], function(field, value) {
-                            var form_field = $('input[name="' + field + '"]', advert_add_form);
+                            var form_field = $('input[name="' + field + '"]', advert_edit_form);
 
                             if (value) {
                                 $(form_field).val(value);
@@ -313,34 +313,34 @@
                 var error = 0,
                     link_pat = /http(s)?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
-                $('.error_input', advert_add_form).remove();
+                $('.error_input', advert_edit_form).remove();
 
-                if (!$('input[name="link"]', advert_add_form).val()) {
+                if (!$('input[name="link"]', advert_edit_form).val()) {
                     error = 1;
 
-                    $('input[name="link"]', advert_add_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
-                } else if (!link_pat.test($('input[name="link"]', advert_add_form).val())) {
+                    $('input[name="link"]', advert_edit_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
+                } else if (!link_pat.test($('input[name="link"]', advert_edit_form).val())) {
                     error = 1;
 
-                    $('input[name="link"]', advert_add_form).after('<div class="error_input">' + gettext('You have inserted an incorrect value for the link to the page, group or account that you are selling *') + '</div>');
+                    $('input[name="link"]', advert_edit_form).after('<div class="error_input">' + gettext('You have inserted an incorrect value for the link to the page, group or account that you are selling *') + '</div>');
                 }
 
-                if (!$('select[name="category"]', advert_add_form).val()) {
+                if (!$('select[name="category"]', advert_edit_form).val()) {
                     error = 1;
 
-                    $('select[name="category"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    $('select[name="category"]', advert_edit_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
-                if (!$('select[name="region"]', advert_add_form).val()) {
+                if (!$('select[name="region"]', advert_edit_form).val()) {
                     error = 1;
 
-                    $('select[name="region"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    $('select[name="region"]', advert_edit_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
-                if (!$('input[name="price"]', advert_add_form).val()) {
+                if (!$('input[name="price"]', advert_edit_form).val()) {
                     error = 1;
 
-                    $('input[name="price"]', advert_add_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    $('input[name="price"]', advert_edit_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
                 if (error) {
@@ -471,33 +471,30 @@
             }, 5000);
 
             $('#advert-message-form').submit(function(e) {
-               e.preventDefault();
+                e.preventDefault();
 
-               var message_form = $(this);
+                var message_form = $(this);
 
-               $('.error', message_form).removeClass('error');
+                $('.error', message_form).removeClass('error');
 
-               if (!$.trim($('textarea[name="message"]', message_form).val())) {
-                   $('textarea[name="message"]', message_form).addClass('error');
+                if (!$.trim($('textarea[name="message"]', message_form).val())) {
+                    $('textarea[name="message"]', message_form).addClass('error');
 
-                   return false;
-               }
+                    return false;
+                }
 
-               $.post(message_form.attr('action'), message_form.serialize(), function(response) {
-                   if(response['success']) {
-                       message_form.trigger('reset');
+                $.post(message_form.attr('action'), message_form.serialize(), function(response) {
+                    if(response['success']) {
+                        message_form.trigger('reset');
 
-                       $('textarea[name="message"]', message_form).after('<div class="message">' + gettext('Your message was successfully sent') + '</div>');
-
-                       setTimeout(function() {
-                           $('.message', message_form).remove();
-                       }, 5000);
-                   } else if (response['errors']) {
-                       $.each(response['errors'], function (k, v) {
+                        $('#model-user_message').fadeOut(200);
+                        $('#think-model').fadeIn(200);
+                    } else if (response['errors']) {
+                        $.each(response['errors'], function (k, v) {
                             $('[name="' + k + '"]', message_form).addClass('error');
                         });
-                   }
-               }, 'json');
+                    }
+                }, 'json');
             });
         }
 
@@ -730,6 +727,7 @@
         });
 
         $('.btn-write').on('click', function(e) {
+            e.preventDefault()
             $('#model-user_message').fadeIn(200);
         });
 
