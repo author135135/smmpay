@@ -39,6 +39,9 @@
                 <li class="{% if request.path == settings_url %}active{% endif %}">
                     <a href="{{ settings_url }}">{% trans 'Settings' %}</a>
                 </li>
+                <li>
+                    <a href="{% url 'account:logout' %}">{% trans 'Logout' %}</a>
+                </li>
             </ul>
         </nav>
     </aside>

@@ -17,8 +17,11 @@
 
 {% block content %}
     <div class="inner__content create-abs-content">
+        <div class="preloader-content">
+            <span class="ajax-loader"></span>
+        </div>
         <div class="global-title_box">
-            <strong>{% trans 'Advert creation' %}</strong>
+            <strong>{% trans 'Advert edit' %}</strong>
         </div>
         <div class="form-create-abs">
             <form id="advert-edit-form" action="" method="post" data-validation-url="{% url 'advert:advert_social_account_info' %}">

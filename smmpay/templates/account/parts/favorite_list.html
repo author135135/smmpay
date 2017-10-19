@@ -58,11 +58,11 @@
                         </div>
                         <div class="thumb__block">
                             <div class="thumb__name">{% trans 'Category' %}</div>
-                            <div class="thumb__value">{{ favorite.advert.social_account.category.title }}</div>
+                            <div class="thumb__value" title="{{ favorite.advert.social_account.category.title }}">{{ favorite.advert.social_account.category.title|truncatechars:"7" }}</div>
                         </div>
                         <div class="thumb__block">
                             <div class="thumb__name">{% trans 'Region' %}</div>
-                            <div class="thumb__value">{{ favorite.advert.social_account.region.title }}</div>
+                            <div class="thumb__value" title="{{ favorite.advert.social_account.region.title }}">{{ favorite.advert.social_account.region.title|truncatechars:"7" }}</div>
                         </div>
                     </div>
                     <div class="thumb__buttons">

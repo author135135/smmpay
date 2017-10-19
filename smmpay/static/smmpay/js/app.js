@@ -167,6 +167,8 @@
 
                 link_check_progress = 1;
 
+                preloader_show();
+
                 $.get(advert_add_form.data('validation-url'), {account_link: link}, function(response) {
                     if (response['success']) {
                         $.each(response['fields'], function(field, value) {
@@ -198,6 +200,8 @@
                     }
 
                     link_check_progress = 0;
+
+                    preloader_hide();
                 }, 'json');
             });
 
@@ -294,6 +298,8 @@
 
                 link_check_progress = 1;
 
+                preloader_show();
+
                 $.get(advert_edit_form.data('validation-url'), {account_link: link}, function(response) {
                     if (response['success']) {
                         $.each(response['fields'], function(field, value) {
@@ -306,6 +312,8 @@
                     }
 
                     link_check_progress = 0;
+
+                    preloader_hide();
                 }, 'json');
             });
 

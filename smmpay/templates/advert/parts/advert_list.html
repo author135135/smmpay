@@ -5,7 +5,7 @@
         <div class="thumb">
             {% if advert.social_account.logo %}
                 <div class="thumb__image">
-                    <a class="thumb__avatar" href="{{ advert.social_account.link }}">
+                    <a class="thumb__avatar" href="{{ advert.get_absolute_url }}">
                         <img src="{{ advert.social_account.logo.url }}" width="42" height="42">
                     </a>
                 </div>
@@ -53,11 +53,11 @@
                         </div>
                         <div class="thumb__block">
                             <div class="thumb__name">{% trans 'Category' %}</div>
-                            <div class="thumb__value">{{ advert.social_account.category.title }}</div>
+                            <div class="thumb__value" title="{{ advert.social_account.category.title }}">{{ advert.social_account.category.title|truncatechars:"7" }}</div>
                         </div>
                         <div class="thumb__block">
                             <div class="thumb__name">{% trans 'Region' %}</div>
-                            <div class="thumb__value">{{ advert.social_account.region.title }}</div>
+                            <div class="thumb__value" title="{{ advert.social_account.region.title }}">{{ advert.social_account.region.title|truncatechars:"7" }}</div>
                         </div>
                     </div>
                     <div class="thumb__buttons">
