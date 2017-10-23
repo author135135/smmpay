@@ -14,8 +14,7 @@ from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 from . import forms as advert_forms
-from .models import Advert, AdvertSocialAccount, Phrase, SocialNetwork, FavoriteAdvert, Discussion, DiscussionMessage, \
-    DiscussionUser
+from .models import Advert, AdvertSocialAccount, Phrase, SocialNetwork, FavoriteAdvert, Discussion
 
 
 class LoginRequiredMixin(object):
@@ -260,9 +259,9 @@ class AdvertAddView(LoginRequiredMixin, CreateView):
         advert_type = self.model.get_default_advert_type()
         advert_type = ''.join(map(lambda item: item.capitalize(), advert_type.split('_')))
 
-        sub_form_class = 'Advert{}AddForm'.format(advert_type)
+        sub_form_class = 'Advert{}Form'.format(advert_type)
 
-        return getattr(advert_forms, sub_form_class)(self.request.POST or None)
+        return getattr(advert_forms, sub_form_class)(self.request.POST or None, self.request.FILES or None)
 
 
 class AdvertSocialAccountInfoView(View):
@@ -283,7 +282,7 @@ class AdvertSocialAccountInfoView(View):
             response_data['fields'] = {
                 'title': account_info.get('title', None),
                 'subscribers': account_info.get('subscribers', None),
-                'logo': account_info.get('logo', None)
+                'external_logo': account_info.get('logo', None)
             }
         except Exception as e:
             logger = logging.getLogger('db')
@@ -327,7 +326,7 @@ class AdvertEditView(UpdateView):
         advert_type = self.model.get_default_advert_type()
         advert_type = ''.join(map(lambda item: item.capitalize(), advert_type.split('_')))
 
-        sub_form_class = 'Advert{}EditForm'.format(advert_type)
+        sub_form_class = 'Advert{}Form'.format(advert_type)
 
         return getattr(advert_forms, sub_form_class)(self.request.POST or None,
                                                      instance=self.get_sub_object())

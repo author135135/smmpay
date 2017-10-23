@@ -151,7 +151,7 @@
                 info_table.addClass('hidden');
 
                 $('.hidden-field input', advert_add_form).val('');
-                $('input[name="logo"]', advert_add_form).val('');
+                $('input[name="external_logo"]', advert_add_form).val('');
 
                 $('.hidden-field', advert_add_form).addClass('hidden');
 
@@ -182,6 +182,10 @@
                         });
 
                         var info_table_html = '';
+
+                        if (response['fields']['external_logo']) {
+                            info_table_html += '<li><span class="th">' + gettext('logo') + '</span><span class="td"><a class="thumb__avatar"><img src="' + response['fields']['external_logo'] + '"></a></span></li>';
+                        }
 
                         if (response['fields']['title']) {
                             info_table_html += '<li><span class="th">' + gettext('title') + '</span><span class="td">' + response['fields']['title'] + '</span></li>';
@@ -276,7 +280,8 @@
             $('input[name="link"]', advert_edit_form).on('focusout', function(e) {
                 var field = $(this),
                     wrapper = field.parent(),
-                    link_pat = /http(s)?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+                    link_pat = /http(s)?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
+                    info_table = $('.product-table_info');
 
                 if (link == $.trim(field.val()) || link_check_progress) {
                     return false;
@@ -285,6 +290,11 @@
                 link = $.trim($(this).val());
 
                 $('.error_input', wrapper).remove();
+
+                $('.hidden-field input', advert_edit_form).val('');
+                $('input[name="external_logo"]', advert_edit_form).val('');
+
+                info_table.empty();
 
                 if (!link) {
                     wrapper.append('<div class="error_input">' + gettext('This field is required') + '</div>');
@@ -309,6 +319,10 @@
                                 $(form_field).val(value);
                             }
                         });
+
+                        if (response['fields']['external_logo']) {
+                            info_table.append('<li><a class="thumb__avatar"><img src="' + response['fields']['external_logo'] + '"></a></li>');
+                        }
                     }
 
                     link_check_progress = 0;

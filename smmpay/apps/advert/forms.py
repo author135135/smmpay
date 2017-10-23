@@ -58,12 +58,15 @@ class AdvertForm(forms.ModelForm):
             self.fields[field].widget.attrs['class'] = 'log__input'
 
 
-class AdvertSocialAccountAddForm(forms.ModelForm):
-    logo = forms.CharField(required=False, widget=forms.HiddenInput())
+class AdvertSocialAccountForm(forms.ModelForm):
+    external_logo = forms.CharField(required=False, widget=forms.HiddenInput())
 
     class Meta:
         model = AdvertSocialAccount
-        fields = ('link', 'subscribers', 'category', 'region')
+        fields = ('link', 'subscribers', 'category', 'region', 'logo')
+        widgets = {
+            'logo': forms.FileInput()
+        }
         help_texts = {
             'link': _('Paste a link to the page, group or account that you are selling *')
         }
@@ -75,7 +78,7 @@ class AdvertSocialAccountAddForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(AdvertSocialAccountAddForm, self).__init__(*args, **kwargs)
+        super(AdvertSocialAccountForm, self).__init__(*args, **kwargs)
 
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'log__input'
@@ -90,17 +93,17 @@ class AdvertSocialAccountAddForm(forms.ModelForm):
         return link
 
     def save(self, commit=True):
-        social_account = super(AdvertSocialAccountAddForm, self).save(commit=False)
+        social_account = super(AdvertSocialAccountForm, self).save(commit=False)
 
         social_network = AdvertSocialAccount.get_social_network(link=social_account.link)
 
         social_account.social_network = SocialNetwork.objects.get(code=social_network)
 
-        logo_url = self.cleaned_data['logo']
+        external_logo_url = self.cleaned_data['external_logo']
 
-        if logo_url:
+        if not self.cleaned_data['logo'] and external_logo_url:
             try:
-                response = requests.get(logo_url)
+                response = requests.get(external_logo_url)
             except requests.HTTPError as e:
                 logging.exception(e)
 
@@ -109,16 +112,11 @@ class AdvertSocialAccountAddForm(forms.ModelForm):
                 tmp_file.write(response.content)
                 tmp_file.flush()
 
-                social_account.logo.save(os.path.basename(logo_url), File(tmp_file), False)
+                social_account.logo.save(os.path.basename(external_logo_url), File(tmp_file), False)
 
         if commit:
             social_account.save()
         return social_account
-
-
-class AdvertSocialAccountEditForm(AdvertSocialAccountAddForm):
-    class Meta(AdvertSocialAccountAddForm.Meta):
-        fields = ('link', 'subscribers', 'category', 'region')
 
 
 class AdvertFlatpageForm(FlatpageForm):

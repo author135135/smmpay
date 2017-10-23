@@ -24,7 +24,7 @@
             <strong>{% trans 'Advert edit' %}</strong>
         </div>
         <div class="form-create-abs">
-            <form id="advert-edit-form" action="" method="post" data-validation-url="{% url 'advert:advert_social_account_info' %}">
+            <form id="advert-edit-form" enctype="multipart/form-data" action="" method="post" data-validation-url="{% url 'advert:advert_social_account_info' %}">
                 {% csrf_token %}
                 {% for hidden_field in form.hidden_fields %}
                     {{ hidden_field }}
@@ -37,6 +37,26 @@
                     <div class="text-required">{{ sub_form.link.help_text }}</div>
                     {{ sub_form.link }}
                     {% for error in sub_form.link.errors %}
+                        <div class="error_input">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="item hidden-field">
+                    <div class="log__title">{{ sub_form.logo.label }}</div>
+                    <ul class="product-table_info">
+                        {% if sub_form.external_logo.value or advert.social_account.logo %}
+                            <li>
+                                <a class="thumb__avatar">
+                                    {% if sub_form.external_logo.value %}
+                                        <img src="{{ sub_form.external_logo.value }}">
+                                    {% else %}
+                                        <img src="{{ advert.social_account.logo.url }}">
+                                    {% endif %}
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    {{ sub_form.logo }}
+                    {% for error in sub_form.logo.errors %}
                         <div class="error_input">{{ error }}</div>
                     {% endfor %}
                 </div>
