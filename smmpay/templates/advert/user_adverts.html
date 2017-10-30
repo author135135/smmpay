@@ -41,7 +41,9 @@
                 <time class="time">{{ user_obj.date_joined|date:"d.m.Y" }}</time>
             </div>
         </div>
-        {% include 'advert/parts/advert_list.html' %}
+        <div class="items">
+            {% include 'advert/parts/advert_list.html' %}
+        </div>
     </div>
     {% include 'advert/parts/sidebar.html' %}
 {% endblock %}

@@ -75,9 +75,9 @@
                     {% endfor %}
                 </div>
                 <div class="item">
-                    <div class="log__title">{{ sub_form.category.label }}</div>
-                    {{ sub_form.category }}
-                    {% for error in sub_form.category.errors %}
+                    <div class="log__title">{{ form.category.label }}</div>
+                    {{ form.category }}
+                    {% for error in form.category.errors %}
                         <div class="error_input">{{ error }}</div>
                     {% endfor %}
                 </div>

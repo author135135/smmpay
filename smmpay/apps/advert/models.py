@@ -1,4 +1,7 @@
+import random
+
 from urllib.parse import urlparse
+
 from django.db import models
 from django.db.models import FieldDoesNotExist
 from django.conf import settings
@@ -10,8 +13,6 @@ from django.utils.translation import ugettext_lazy as _
 from . import query as advert_query
 from .utils import api_connectors, parsers
 from .helpers import RenameFile
-
-import random
 
 
 User = settings.AUTH_USER_MODEL
@@ -53,7 +54,7 @@ class MessageManager(ExtraQuerysetManager):
 class AdvertManager(ExtraQuerysetManager):
     def get_queryset(self):
         qs = super(AdvertManager, self).get_queryset()
-        qs = qs.select_related('social_account', 'social_account__category', 'social_account__region',
+        qs = qs.select_related('social_account', 'category', 'social_account__region',
                                'social_account__social_network', 'author__profile')
 
         return qs
@@ -66,9 +67,8 @@ class EnabledAdvertManager(AdvertManager):
 
 class FavoriteAdvertManager(models.Manager):
     def get_queryset(self):
-        return super(FavoriteAdvertManager, self).get_queryset().select_related('advert', 'user',
+        return super(FavoriteAdvertManager, self).get_queryset().select_related('advert', 'advert__category', 'user',
                                                                                 'advert__social_account',
-                                                                                'advert__social_account__category',
                                                                                 'advert__social_account__region')
 
 
@@ -127,22 +127,36 @@ class Category(models.Model):
 
 class SocialNetwork(models.Model):
     title = models.CharField(max_length=255)
-    code = models.CharField(max_length=25)
-    url = models.URLField()
+    code = models.CharField(max_length=25, unique=True)
+    urls = models.TextField()
+    order = models.SmallIntegerField(default=0)
 
     class Meta:
         db_table = 'advert_social_network'
-        ordering = ('pk',)
+        ordering = ('order', 'pk')
         verbose_name = _('social network')
         verbose_name_plural = _('social networks')
-        unique_together = ('code', 'url')
 
     def __str__(self):
         return self.title
 
+    @classmethod
+    def get_social_network(cls, link):
+        """
+        Identify network by link
+        """
+        url_info = urlparse(link)
+
+        try:
+            social_network = cls.objects.get(urls__icontains=url_info.netloc)
+        except cls.DoesNotExist:
+            social_network = None
+
+        return social_network
+
 
 class Phrase(models.Model):
-    lang = models.CharField(max_length=2)
+    language = models.CharField(max_length=2)
     phrase = models.TextField()
 
     class Meta:
@@ -152,20 +166,20 @@ class Phrase(models.Model):
         return self.phrase
 
     def get_info(self):
-        return '[{}]: {}...'.format(self.lang.upper(), self.phrase[:50])
+        return '[{}]: {}...'.format(self.language.upper(), self.phrase[:50])
 
     @classmethod
-    def get_rand_phrase(cls, lang=None):
-        if lang is not None:
-            records_count = cls.objects.filter(lang=lang).count()
+    def get_rand_phrase(cls, language=None):
+        if language is not None:
+            records_count = cls.objects.filter(language=language).count()
         else:
             records_count = cls.objects.count()
 
         if records_count > 0:
             index = random.randint(0, records_count - 1)
 
-            if lang is not None:
-                return cls.objects.filter(lang=lang)[index]
+            if language is not None:
+                return cls.objects.filter(language=language)[index]
             else:
                 return cls.objects.all()[index]
         return None
@@ -180,7 +194,8 @@ class Advert(models.Model):
 
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    advert_type = models.TextField(max_length=25, choices=ADVERT_TYPES, default=ADVERT_TYPE_SOCIAL_ACCOUNT)
+    advert_type = models.CharField(max_length=25, choices=ADVERT_TYPES, default=ADVERT_TYPE_SOCIAL_ACCOUNT)
+    category = models.ForeignKey(Category, null=True, related_name='adverts', on_delete=models.SET_NULL)
     author = models.ForeignKey(User, related_name='adverts', on_delete=models.CASCADE)
     price = models.IntegerField()
     views = models.IntegerField(default=0)
@@ -224,21 +239,12 @@ class Advert(models.Model):
 
 
 class AdvertSocialAccount(models.Model):
-    SOCIAL_NETWORKS_URLS = {
-        'vk': ['www.vk.com', 'vk.com', 'm.vk.com'],
-        'facebook': ['www.facebook.com', 'facebook.com'],
-        'instagram': ['www.instagram.com', 'instagram.com'],
-        'twitter': ['www.twitter.com', 'twitter.com', 'm.twitter.com', 'mobile.twitter.com'],
-        'youtube': ['www.youtube.com', 'youtube.com']
-    }
-
     advert = models.OneToOneField(Advert, related_name='social_account', on_delete=models.CASCADE)
     logo = models.ImageField(upload_to=RenameFile('offer/social_accounts/%Y/%m/%d'), blank=True, null=True)
     link = models.URLField()
     subscribers = models.IntegerField()
-    social_network = models.ForeignKey(SocialNetwork, on_delete=None)
-    category = models.ForeignKey(Category, on_delete=None)
-    region = models.ForeignKey(Region, on_delete=None)
+    social_network = models.ForeignKey(SocialNetwork, null=True, related_name='social_accounts', on_delete=models.SET_NULL)
+    region = models.ForeignKey(Region, null=True, related_name='social_accounts', on_delete=models.SET_NULL)
     confirmed = models.BooleanField(default=False)
     confirmation_code = models.TextField()
 
@@ -254,7 +260,10 @@ class AdvertSocialAccount(models.Model):
         Return instance of API connector class or raise Exception if worker doesn't exists
         """
         if social_network is None:
-            social_network = cls.get_social_network(kwargs.get('account_link', None))
+            social_network_obj = SocialNetwork.get_social_network(kwargs.get('account_link', None))
+
+            if social_network_obj is not None:
+                social_network = social_network_obj.code
 
         return api_connectors.get_api_connector(social_network, **kwargs)
 
@@ -264,21 +273,12 @@ class AdvertSocialAccount(models.Model):
         Return instance of parser class or raise Exception if worker doesn't exists
         """
         if social_network is None:
-            social_network = cls.get_social_network(kwargs.get('account_link', None))
+            social_network_obj = SocialNetwork.get_social_network(kwargs.get('account_link', None))
+
+            if social_network_obj is not None:
+                social_network = social_network_obj.code
 
         return parsers.get_parser(social_network, **kwargs)
-
-    @classmethod
-    def get_social_network(cls, link):
-        """
-        Identify network by link
-        """
-        url_info = urlparse(link)
-
-        for network, urls in cls.SOCIAL_NETWORKS_URLS.items():
-            if url_info.netloc in urls:
-                return network
-        return None
 
 
 class AdvertViewsStatistic(models.Model):
@@ -452,4 +452,4 @@ class DiscussionMessageView(models.Model):
         verbose_name_plural = _('views')
 
     def __str__(self):
-        return self.message
+        return self.message.message

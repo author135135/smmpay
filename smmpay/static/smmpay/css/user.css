@@ -995,7 +995,7 @@
         font-weight: 600; }
     .user-dialog_content .one-dialog_info .thumb__buttons {
       font-weight: 600;
-      width: 61%;
+      width: 65%;
       -webkit-justify-content: flex-start;
       -ms-flex-pack: start;
       justify-content: flex-start; }

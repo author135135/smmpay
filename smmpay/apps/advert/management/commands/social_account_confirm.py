@@ -53,10 +53,8 @@ class Command(BaseCommand):
             link = queue_item.social_account.link
             code = queue_item.social_account.confirmation_code
 
-            social_network = AdvertSocialAccount.get_social_network(link)
-
             try:
-                parser = AdvertSocialAccount.get_parser(social_network)
+                parser = AdvertSocialAccount.get_parser(queue_item.social_account.social_network.code)
                 confirmed = parser.get_account_confirmation(url=link, code=code)
             except Exception as e:
                 logger.exception(e)

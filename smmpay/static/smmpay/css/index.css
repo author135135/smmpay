@@ -322,7 +322,7 @@ img {
   height: 46px;
   border-radius: 23px;
   padding: 0 32px;
-  font-size: 15px;
+  font-size: 14px;
   color: #fff;
   font-weight: 500;
   display: -webkit-flex;
@@ -720,7 +720,7 @@ body > .jcf-select-drop {
   top: -2px; }
 
 .filter__reset {
-  font-size: 16px;
+  font-size: 14px;
   color: #434f6a;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1069,6 +1069,7 @@ body > .jcf-select-drop {
   align-items: center; }
 
 .content-other_text {
+  width: 100%;
   padding: 25px;
   line-height: 1.3;
   text-align: center;
@@ -1081,6 +1082,9 @@ body > .jcf-select-drop {
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center; }
@@ -1089,6 +1093,14 @@ body > .jcf-select-drop {
     -webkit-flex: 0 0 100%;
     -ms-flex: 0 0 100%;
     flex: 0 0 100%; }
+
+.content-other_text .button {
+  display: table;
+  -webkit-flex: 0 0 100%;
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+  line-height: 46px;
+  margin: 15px auto; }
 
 .header__section {
   display: -webkit-flex;
@@ -1601,9 +1613,9 @@ body > .jcf-select-drop {
       background: url(../images/twitter.svg) no-repeat; }
     .filter__form-social li a.twitter:after {
       background: #55ACEE; }
-    .filter__form-social li a.vkontakte .icon {
+    .filter__form-social li a.vk .icon {
       background: url(../images/vkontakte.svg) no-repeat; }
-    .filter__form-social li a.vkontakte:after {
+    .filter__form-social li a.vk:after {
       background: #4D76A1; }
     .filter__form-social li a.instagram .icon {
       background: url(../images/instagram.svg) no-repeat; }
@@ -3378,7 +3390,7 @@ body > .jcf-select-drop {
         font-weight: 600; }
     .user-dialog_content .one-dialog_info .thumb__buttons {
       font-weight: 600;
-      width: 61%;
+      width: 65%;
       -webkit-justify-content: flex-start;
       -ms-flex-pack: start;
       justify-content: flex-start; }
@@ -3538,15 +3550,7 @@ body > .jcf-select-drop {
   margin-bottom: 70px;
   background: #fff;
   border-radius: 5px;
-  box-shadow: 0px 1px 3px 0px rgba(43, 54, 79, 0.08);
-  position: relative; }
-
-.create-abs-content > .preloader-content {
-  position: absolute;
-  left: 0;
-  z-index: 9999999;
-  top: 60px;
-  right: 0%; }
+  box-shadow: 0px 1px 3px 0px rgba(43, 54, 79, 0.08); }
 
 .form-create-abs {
   max-width: 470px;

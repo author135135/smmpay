@@ -1,33 +1,63 @@
 from django.contrib import admin
-from django.utils.translation import ugettext_lazy as _
 from django.contrib.flatpages.models import FlatPage
 from django.contrib.flatpages.admin import FlatPageAdmin
-from .models import Menu, MenuItem, Discussion, Advert, AdvertSocialAccount, Category, Region, SocialNetwork, Phrase
+from django.utils.text import Truncator
+from django.utils.translation import ugettext_lazy as _
+
+from .models import (Menu, MenuItem, Discussion, DiscussionUser, DiscussionMessage, Advert, AdvertSocialAccount,
+                     Category, Region, SocialNetwork, Phrase)
 from .forms import AdvertFlatpageForm
 
 
 class MenuItemInline(admin.StackedInline):
     model = MenuItem
+    extra = 1
 
 
 class MenuAdmin(admin.ModelAdmin):
-    list_display = ('title', 'position', 'pages_count')
+    list_display = ('title', 'position', '_links_count')
+    list_per_page = 20
     inlines = (MenuItemInline,)
 
-    def pages_count(self, obj):
+    def _links_count(self, obj):
         return obj.menu_items.count()
 
 
-class MenuItemAdmin(admin.ModelAdmin):
-    list_display = ('title', 'menu', 'url')
+class DiscussionUserInline(admin.StackedInline):
+    model = DiscussionUser
+    readonly_fields = ('user',)
+    can_delete = False
+
+    def has_add_permission(self, request):
+        return False
+
+
+class DiscussionMessageInline(admin.StackedInline):
+    model = DiscussionMessage
+    readonly_fields = ('sender', 'message', 'created')
+    can_delete = False
+
+    def has_add_permission(self, request):
+        return False
 
 
 class DiscussionAdmin(admin.ModelAdmin):
-    list_display = ('__str__', '_get_users', 'created')
+    list_display = ('advert', '_get_users', '_messages_count', 'created')
+    list_per_page = 20
+    search_fields = ('advert__title',)
+    inlines = (DiscussionUserInline, DiscussionMessageInline)
+    readonly_fields = ('advert', 'created')
+
+    def has_add_permission(self, request):
+        return False
 
     def _get_users(self, obj):
-        return ', '.join([str(user) for user in obj.users.all()])
+        return ', '.join([str(user) for user in obj.discussion_users.all()])
     _get_users.short_description = _('users')
+
+    def _messages_count(self, obj):
+        return obj.discussion_messages.count()
+    _messages_count.short_description = _('messages')
 
 
 class AdvertSocialAccountInline(admin.StackedInline):
@@ -35,23 +65,52 @@ class AdvertSocialAccountInline(admin.StackedInline):
 
 
 class AdvertAdmin(admin.ModelAdmin):
+    list_display = ('title', 'advert_type', 'category', 'author', 'price', 'enabled_by_author', 'enabled_by_admin')
+    list_per_page = 20
+    search_fields = ('title', 'description')
+    list_filter = ('advert_type', 'category', 'enabled_by_author', 'enabled_by_admin')
     inlines = (AdvertSocialAccountInline,)
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('title', '_adverts_count')
+    list_per_page = 20
+    search_fields = ('title',)
+
+    def _adverts_count(self, obj):
+        return obj.adverts.count()
+    _adverts_count.short_description = _('adverts count')
 
 
 class RegionAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('title', '_adverts_count')
+    list_per_page = 20
+    search_fields = ('title',)
+
+    def _adverts_count(self, obj):
+        return obj.social_accounts.count()
+    _adverts_count.short_description = _('social accounts count')
 
 
 class SocialNetworkAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('title', 'code', 'order', '_adverts_count')
+    list_per_page = 20
+    search_fields = ('title',)
+
+    def _adverts_count(self, obj):
+        return obj.social_accounts.count()
+    _adverts_count.short_description = _('social accounts count')
 
 
 class PhraseAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('_get_phrase', 'language')
+    list_per_page = 20
+    search_fields = ('phrase',)
+    list_filter = ('language',)
+
+    def _get_phrase(self, obj):
+        return Truncator(obj.phrase).words(10)
+    _get_phrase.short_description = _('phrase')
 
 
 class AdvertFlatPageAdmin(FlatPageAdmin):
@@ -59,7 +118,6 @@ class AdvertFlatPageAdmin(FlatPageAdmin):
 
 
 admin.site.register(Menu, MenuAdmin)
-admin.site.register(MenuItem, MenuItemAdmin)
 admin.site.register(Discussion, DiscussionAdmin)
 admin.site.register(Advert, AdvertAdmin)
 admin.site.register(Category, CategoryAdmin)

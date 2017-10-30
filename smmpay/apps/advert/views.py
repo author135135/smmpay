@@ -9,6 +9,7 @@ from django.contrib.auth.views import get_user_model
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.utils.translation import get_language_from_request
+from django.utils.crypto import get_random_string
 from django.template.loader import render_to_string
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
@@ -70,7 +71,8 @@ class AdvertFilterMixin(object):
 
 class IndexView(AdvertFilterMixin, ListView):
     template_name = 'advert/index.html'
-    ajax_template_name = 'advert/parts/advert_list.html'
+    ajax_items_template_name = 'advert/parts/advert_list.html'
+    ajax_sidebar_template_name = 'advert/parts/sidebar.html'
     context_object_name = 'adverts'
     model = Advert
     paginate_by = 10
@@ -81,7 +83,8 @@ class IndexView(AdvertFilterMixin, ListView):
         if request.is_ajax():
             return JsonResponse({
                 'success': True,
-                'data': render_to_string(self.ajax_template_name, response.context_data, request),
+                'data': render_to_string(self.ajax_items_template_name, response.context_data, request),
+                'sidebar': render_to_string(self.ajax_sidebar_template_name, response.context_data, request),
             })
 
         return response
@@ -95,11 +98,16 @@ class IndexView(AdvertFilterMixin, ListView):
         selected_social_network = self.request.GET.get('social_network', None)
 
         if selected_social_network is None or not selected_social_network:
-            selected_social_network = SocialNetwork.objects.values('pk').first().get('pk')
+            social_network_obj = SocialNetwork.objects.values('pk').first()
+
+            if social_network_obj is not None:
+                selected_social_network = social_network_obj.get('pk')
         else:
             selected_social_network = int(selected_social_network)
 
         context['selected_social_network'] = selected_social_network
+        context['recommended_adverts'] = Advert.enabled_objects.filter(
+            social_account__social_network=selected_social_network).order_by('-views')
 
         return context
 
@@ -222,7 +230,12 @@ class AdvertAddView(LoginRequiredMixin, CreateView):
 
         context['sub_form'] = self.get_sub_form()
 
-        confirmation_code = Phrase.get_rand_phrase(get_language_from_request(self.request)).phrase
+        phrase_obj = Phrase.get_rand_phrase(get_language_from_request(self.request))
+
+        if phrase_obj is not None:
+            confirmation_code = phrase_obj.phrase
+        else:
+            confirmation_code = get_random_string(length=32)
 
         self.request.session['advert_confirmation_code'] = confirmation_code
 
@@ -350,6 +363,10 @@ class UserAdvertsView(IndexView):
 
         context['user_obj'] = user_model.objects.get(pk=self.kwargs['pk'])
         context['user_adverts_count'] = Advert.enabled_objects.filter(author=self.kwargs['pk']).count()
+
+        recommended_adverts_qs = context['recommended_adverts']
+
+        context['recommended_adverts'] = recommended_adverts_qs.filter(author=self.kwargs['pk'])
 
         return context
 

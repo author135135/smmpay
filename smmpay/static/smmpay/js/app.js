@@ -44,7 +44,7 @@
                             }
                         });
 
-                        load_data(url, {});
+                        load_data(url, {}, $('.items'));
 
                         return false;
                     }
@@ -72,7 +72,7 @@
                     }
                 });
 
-                load_data(url, {});
+                load_data(url, {}, $('.items'));
             });
 
             $(document).on('click', '.pagination__link', function(e) {
@@ -80,7 +80,7 @@
 
                 var url = new URI($(this).attr('href'));
 
-                load_data(url);
+                load_data(url, {}, $('.items'));
             });
 
             $('.filter__value').keydown(function (e) {
@@ -98,7 +98,7 @@
 
                 var url = new URI($(this).attr('href'));
 
-                load_data(url);
+                load_data(url, {}, $('.items'));
 
                 $('.filter__form-social .active').removeClass('active');
                 $(this).parent().addClass('active');
@@ -767,7 +767,11 @@
 
             $.get(url, data, function(response) {
                 if (response['success']) {
-                    content.empty().append(response['data']);
+                    $(content).empty().append(response['data']);
+
+                    if (response['sidebar']) {
+                        $('.sidebar').replaceWith(response['sidebar']);
+                    }
 
                     $('html, body').animate({scrollTop: 0});
                 }

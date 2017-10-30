@@ -42,7 +42,7 @@ class FilterForm(forms.Form):
 class AdvertForm(forms.ModelForm):
     class Meta:
         model = Advert
-        fields = ('title', 'description', 'price', 'advert_type')
+        fields = ('title', 'description', 'price', 'advert_type', 'category')
         widgets = {
             'advert_type': forms.HiddenInput(),
             'description': forms.Textarea(attrs={'placeholder': _('Group for sell...')})
@@ -63,7 +63,7 @@ class AdvertSocialAccountForm(forms.ModelForm):
 
     class Meta:
         model = AdvertSocialAccount
-        fields = ('link', 'subscribers', 'category', 'region', 'logo')
+        fields = ('link', 'subscribers', 'region', 'logo')
         widgets = {
             'logo': forms.FileInput()
         }
@@ -85,7 +85,7 @@ class AdvertSocialAccountForm(forms.ModelForm):
 
     def clean_link(self):
         link = self.cleaned_data['link']
-        social_network = AdvertSocialAccount.get_social_network(link)
+        social_network = SocialNetwork.get_social_network(link)
 
         if social_network is None:
             raise forms.ValidationError(_('Unsupported social network'), code='invalid')
@@ -95,9 +95,9 @@ class AdvertSocialAccountForm(forms.ModelForm):
     def save(self, commit=True):
         social_account = super(AdvertSocialAccountForm, self).save(commit=False)
 
-        social_network = AdvertSocialAccount.get_social_network(link=social_account.link)
+        social_network = SocialNetwork.get_social_network(link=social_account.link)
 
-        social_account.social_network = SocialNetwork.objects.get(code=social_network)
+        social_account.social_network = social_network
 
         external_logo_url = self.cleaned_data['external_logo']
 
