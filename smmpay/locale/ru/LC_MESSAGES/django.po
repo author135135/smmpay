@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-01 13:28+0200\n"
+"POT-Creation-Date: 2017-11-01 14:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -495,6 +495,14 @@ msgstr "содержимое"
 #: smmpay/apps/blog/models.py:23
 msgid "main image"
 msgstr "основное изображение"
+
+#: smmpay/apps/blog/models.py:34
+msgid "post"
+msgstr "запись"
+
+#: smmpay/apps/blog/models.py:35
+msgid "posts"
+msgstr "записи"
 
 #: smmpay/templates/account/account_base.html:23
 #: smmpay/templates/advert/user_adverts.html:32

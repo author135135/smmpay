@@ -346,7 +346,7 @@ class FavoriteAdvert(models.Model):
 
     class Meta:
         db_table = 'advert_favorite_advert'
-        ordering = ('-id',)
+        ordering = ('-pk',)
         verbose_name = _('favorite')
         verbose_name_plural = _('favorites')
         unique_together = ('advert', 'user')
