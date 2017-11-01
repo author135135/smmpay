@@ -73,8 +73,8 @@ class FavoriteAdvertManager(models.Manager):
 
 
 class Menu(models.Model):
-    title = models.CharField(max_length=64)
-    position = models.CharField(max_length=32, choices=settings.ADVERT_MENU_POSITIONS)
+    title = models.CharField(_('title'), max_length=64)
+    position = models.CharField(_('menu position'), max_length=32, choices=settings.ADVERT_MENU_POSITIONS)
 
     class Meta:
         db_table = 'advert_menu'
@@ -86,9 +86,9 @@ class Menu(models.Model):
 
 
 class MenuItem(models.Model):
-    title = models.CharField(max_length=64)
-    url = models.CharField(max_length=255)
-    menu = models.ForeignKey(Menu, related_name='menu_items')
+    title = models.CharField(_('title'), max_length=64)
+    url = models.CharField(_('URL'), max_length=255)
+    menu = models.ForeignKey(verbose_name=_('menu'), to=Menu, related_name='menu_items')
 
     class Meta:
         db_table = 'advert_menu_item'
@@ -100,7 +100,7 @@ class MenuItem(models.Model):
 
 
 class Region(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(_('title'), max_length=255)
 
     class Meta:
         db_table = 'advert_region'
@@ -113,7 +113,7 @@ class Region(models.Model):
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(_('title'), max_length=255)
 
     class Meta:
         db_table = 'advert_category'
@@ -126,10 +126,10 @@ class Category(models.Model):
 
 
 class SocialNetwork(models.Model):
-    title = models.CharField(max_length=255)
-    code = models.CharField(max_length=25, unique=True)
-    urls = models.TextField()
-    order = models.SmallIntegerField(default=0)
+    title = models.CharField(_('title'), max_length=255)
+    code = models.CharField(_('network code'), max_length=25, unique=True)
+    urls = models.TextField(_('URLs'))
+    order = models.SmallIntegerField(_('order'), default=0)
 
     class Meta:
         db_table = 'advert_social_network'
@@ -156,11 +156,14 @@ class SocialNetwork(models.Model):
 
 
 class Phrase(models.Model):
-    language = models.CharField(max_length=2)
-    phrase = models.TextField()
+    language = models.CharField(_('language'), max_length=2)
+    phrase = models.TextField(_('phrase'))
 
     class Meta:
         db_table = 'advert_phrase'
+        ordering = ('pk',)
+        verbose_name = _('phrase')
+        verbose_name_plural = _('phrases')
 
     def __str__(self):
         return self.phrase
@@ -192,17 +195,19 @@ class Advert(models.Model):
         (ADVERT_TYPE_SOCIAL_ACCOUNT, _('Social account')),
     )
 
-    title = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-    advert_type = models.CharField(max_length=25, choices=ADVERT_TYPES, default=ADVERT_TYPE_SOCIAL_ACCOUNT)
-    category = models.ForeignKey(Category, null=True, related_name='adverts', on_delete=models.SET_NULL)
-    author = models.ForeignKey(User, related_name='adverts', on_delete=models.CASCADE)
-    price = models.IntegerField()
-    views = models.IntegerField(default=0)
-    enabled_by_author = models.BooleanField(default=True)
-    enabled_by_admin = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    title = models.CharField(_('title'), max_length=255)
+    description = models.TextField(_('description'), blank=True)
+    advert_type = models.CharField(_('type of advert'), max_length=25, choices=ADVERT_TYPES,
+                                   default=ADVERT_TYPE_SOCIAL_ACCOUNT)
+    category = models.ForeignKey(verbose_name=_('category'), to=Category, null=True, related_name='adverts',
+                                 on_delete=models.SET_NULL)
+    author = models.ForeignKey(verbose_name=_('author'), to=User, related_name='adverts', on_delete=models.CASCADE)
+    price = models.IntegerField(_('price'))
+    views = models.IntegerField(_('count of views'), default=0, editable=False)
+    enabled_by_author = models.BooleanField(_('enabled by author'), default=True)
+    enabled_by_admin = models.BooleanField(_('enabled by admin'), default=False)
+    created = models.DateTimeField(_('created'), auto_now_add=True)
+    updated = models.DateTimeField(_('updated'), auto_now=True)
 
     objects = AdvertManager()
     enabled_objects = EnabledAdvertManager()
@@ -239,14 +244,17 @@ class Advert(models.Model):
 
 
 class AdvertSocialAccount(models.Model):
-    advert = models.OneToOneField(Advert, related_name='social_account', on_delete=models.CASCADE)
-    logo = models.ImageField(upload_to=RenameFile('offer/social_accounts/%Y/%m/%d'), blank=True, null=True)
-    link = models.URLField()
-    subscribers = models.IntegerField()
-    social_network = models.ForeignKey(SocialNetwork, null=True, related_name='social_accounts', on_delete=models.SET_NULL)
-    region = models.ForeignKey(Region, null=True, related_name='social_accounts', on_delete=models.SET_NULL)
-    confirmed = models.BooleanField(default=False)
-    confirmation_code = models.TextField()
+    advert = models.OneToOneField(verbose_name=_('advert'), to=Advert, related_name='social_account',
+                                  on_delete=models.CASCADE)
+    logo = models.ImageField(_('logo'), upload_to=RenameFile('offer/social_accounts/%Y/%m/%d'), blank=True, null=True)
+    link = models.URLField(_('account link'))
+    subscribers = models.IntegerField(_('subscribers'))
+    social_network = models.ForeignKey(verbose_name=_('social network'), to=SocialNetwork, null=True,
+                                       related_name='social_accounts', on_delete=models.SET_NULL)
+    region = models.ForeignKey(verbose_name=_('region'), to=Region, null=True, related_name='social_accounts',
+                               on_delete=models.SET_NULL)
+    confirmed = models.BooleanField(_('confirmed by author'), default=False)
+    confirmation_code = models.TextField(_('confirmation code'))
 
     class Meta:
         db_table = 'advert_advert_social_account'
@@ -282,7 +290,7 @@ class AdvertSocialAccount(models.Model):
 
 
 class AdvertViewsStatistic(models.Model):
-    advert = models.ForeignKey(Advert, related_name='views_statistic', on_delete=models.CASCADE)
+    advert = models.ForeignKey(to=Advert, related_name='views_statistic', on_delete=models.CASCADE)
     ip = models.GenericIPAddressField()
     date = models.DateTimeField(auto_now_add=True)
 
@@ -305,10 +313,11 @@ class SocialAccountConfirmationQueue(models.Model):
         (QUEUE_STATUS_ERROR, _('Error'))
     )
 
-    social_account = models.ForeignKey(AdvertSocialAccount, on_delete=models.CASCADE)
-    status = models.CharField(max_length=10, choices=QUEUE_STATUSES, default='new')
-    attempts = models.SmallIntegerField(default=0)
-    last_start = models.DateTimeField(blank=True, null=True)
+    social_account = models.ForeignKey(verbose_name=_('social account'), to=AdvertSocialAccount,
+                                       on_delete=models.CASCADE)
+    status = models.CharField(_('status'), max_length=10, choices=QUEUE_STATUSES, default='new')
+    attempts = models.SmallIntegerField(_('attempts count'), default=0)
+    last_start = models.DateTimeField(_('last start'), blank=True, null=True)
 
     class Meta:
         db_table = 'advert_advert_social_account_confirmation'
@@ -329,8 +338,8 @@ class SocialAccountConfirmationQueue(models.Model):
 
 
 class FavoriteAdvert(models.Model):
-    advert = models.ForeignKey(Advert, related_name='favorite_adverts', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, related_name='favorite_adverts', on_delete=models.CASCADE)
+    advert = models.ForeignKey(to=Advert, related_name='favorite_adverts', on_delete=models.CASCADE)
+    user = models.ForeignKey(to=User, related_name='favorite_adverts', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
     objects = FavoriteAdvertManager()
@@ -344,9 +353,10 @@ class FavoriteAdvert(models.Model):
 
 
 class Discussion(models.Model):
-    advert = models.ForeignKey(Advert, related_name='discussions', on_delete=models.CASCADE)
-    users = models.ManyToManyField(User, through='DiscussionUser')
-    created = models.DateTimeField(auto_now_add=True)
+    advert = models.ForeignKey(verbose_name=_('advert'), to=Advert, related_name='discussions',
+                               on_delete=models.CASCADE)
+    users = models.ManyToManyField(verbose_name=_('users'), to=User, through='DiscussionUser')
+    created = models.DateTimeField(_('created'), auto_now_add=True)
 
     objects = DiscussionManager()
 
@@ -398,8 +408,9 @@ class Discussion(models.Model):
 
 
 class DiscussionUser(models.Model):
-    discussion = models.ForeignKey(Discussion, related_name='discussion_users', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, related_name='discussion_users', on_delete=models.CASCADE)
+    discussion = models.ForeignKey(verbose_name=_('discussion'), to=Discussion, related_name='discussion_users',
+                                   on_delete=models.CASCADE)
+    user = models.ForeignKey(verbose_name=_('user'), to=User, related_name='discussion_users', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'advert_discussion_user'
@@ -411,10 +422,11 @@ class DiscussionUser(models.Model):
 
 
 class DiscussionMessage(models.Model):
-    discussion = models.ForeignKey(Discussion, related_name='discussion_messages', on_delete=models.CASCADE)
-    sender = models.ForeignKey(DiscussionUser, on_delete=models.CASCADE)
-    message = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
+    discussion = models.ForeignKey(verbose_name=_('discussion'), to=Discussion, related_name='discussion_messages',
+                                   on_delete=models.CASCADE)
+    sender = models.ForeignKey(verbose_name=_('message sender'), to=DiscussionUser, on_delete=models.CASCADE)
+    message = models.TextField(_('message'))
+    created = models.DateTimeField(_('created'), auto_now_add=True)
 
     objects = MessageManager()
 
@@ -441,8 +453,8 @@ class DiscussionMessage(models.Model):
 
 
 class DiscussionMessageView(models.Model):
-    message = models.ForeignKey(DiscussionMessage, related_name='views', on_delete=models.CASCADE)
-    user = models.ForeignKey(DiscussionUser, on_delete=models.CASCADE)
+    message = models.ForeignKey(to=DiscussionMessage, related_name='views', on_delete=models.CASCADE)
+    user = models.ForeignKey(to=DiscussionUser, on_delete=models.CASCADE)
     viewed = models.BooleanField(default=True)
     view_date = models.DateTimeField(auto_now_add=True)
 

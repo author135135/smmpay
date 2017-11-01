@@ -17,13 +17,13 @@ class Post(models.Model):
         (PUBLISHED, _('published'))
     )
 
-    title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True)
-    content = models.TextField()
-    image = models.ImageField(blank=True, upload_to='blog/posts/%Y/%m/%d')
-    status = models.SmallIntegerField(choices=STATUSES, default=DRAFT, db_index=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    title = models.CharField(_('title'), max_length=255)
+    url = models.SlugField(_('URL'), max_length=255, unique=True)
+    content = models.TextField(_('content'))
+    image = models.ImageField(_('main image'), blank=True, upload_to='blog/posts/%Y/%m/%d')
+    status = models.SmallIntegerField(_('status'), choices=STATUSES, default=DRAFT, db_index=True)
+    created = models.DateTimeField(_('created'), auto_now_add=True)
+    updated = models.DateTimeField(_('updated'), auto_now=True)
 
     objects = models.Manager()
     published_objects = PublishedPostManager()
@@ -36,4 +36,4 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('blog:post', kwargs={'slug': self.slug})
+        return reverse('blog:post', kwargs={'slug': self.url})

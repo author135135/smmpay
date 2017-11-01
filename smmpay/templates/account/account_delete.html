@@ -1,5 +1,4 @@
 {% extends 'account/account_base.html' %}
-{% load static %}
 {% load i18n %}
 
 {% block title %} | {% trans 'Account delete' %}{% endblock %}
@@ -23,10 +22,10 @@
             <div class="global-title_box">
                 <strong>{% trans 'Account delete confirmation' %}</strong>
             </div>
-            <div class="wrap-setting_input">
+            <div class="wrap-setting_input content-other_text">
                 <form action="{% url 'account:account_delete' %}" method="post">
                     {% csrf_token %}
-                    Are you sure you want to delete your account?
+                    {% trans 'Are you sure you want to delete your account?' %}
                     <br>
                     <div class="log__btn">
                         <button class="log__enter button" type="submit">{% trans 'Confirm' %}</button>

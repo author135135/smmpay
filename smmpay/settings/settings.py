@@ -130,6 +130,7 @@ MEDIA_URL = '/media/'
 
 
 # Logging
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -157,6 +158,7 @@ LOGGING = {
 
 
 # CKEditor
+
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 
 CKEDITOR_CONFIGS = {

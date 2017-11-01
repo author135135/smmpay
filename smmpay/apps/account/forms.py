@@ -17,7 +17,6 @@ from django.utils.translation import ugettext_lazy as _
 from registration import forms as registration_forms
 
 from .tokens import email_change_token_generator
-from .models import EmailChangeToken
 
 
 User = get_user_model()
@@ -58,7 +57,7 @@ class SetPasswordForm(AuthSetPasswordForm):
 
 
 class RegistrationForm(registration_forms.RegistrationForm):
-    first_name = forms.CharField(required=True)
+    first_name = forms.CharField(label=_('First name'), required=True)
 
     class Meta(registration_forms.RegistrationForm.Meta):
         model = User
@@ -191,9 +190,9 @@ class EmailChangeForm(forms.Form):
 
 
 class SearchForm(forms.Form):
-    query = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'filter__search',
-                                                                          'placeholder': _("For example 'sport'")}))
-    order = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'filter__select'}))
+    query = forms.CharField(label=_('Query'), required=False, widget=forms.TextInput(
+        attrs={'class': 'filter__search', 'placeholder': _("For example 'sport'")}))
+    order = forms.ChoiceField(label=_('Order'), required=False, widget=forms.Select(attrs={'class': 'filter__select'}))
 
     def __init__(self, order_choices, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)
@@ -202,7 +201,7 @@ class SearchForm(forms.Form):
 
 
 class DiscussionMessageForm(forms.Form):
-    message = forms.CharField(widget=forms.Textarea(attrs={'placeholder': _('Your message')}))
+    message = forms.CharField(label=_('Message'), widget=forms.Textarea(attrs={'placeholder': _('Your message')}))
 
     def clean_message(self):
         message = self.cleaned_data['message']

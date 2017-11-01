@@ -5,7 +5,7 @@ from django.utils.text import Truncator
 from django.utils.translation import ugettext_lazy as _
 
 from .models import (Menu, MenuItem, Discussion, DiscussionUser, DiscussionMessage, Advert, AdvertSocialAccount,
-                     Category, Region, SocialNetwork, Phrase)
+                     Category, Region, SocialNetwork, Phrase, SocialAccountConfirmationQueue)
 from .forms import AdvertFlatpageForm
 
 
@@ -113,6 +113,14 @@ class PhraseAdmin(admin.ModelAdmin):
     _get_phrase.short_description = _('phrase')
 
 
+class SocialAccountConfirmationQueueAdmin(admin.ModelAdmin):
+    list_display = ('_get_advert', 'status', 'attempts', 'last_start')
+
+    def _get_advert(self, obj):
+        return obj.social_account.advert
+    _get_advert.short_description = _('advert')
+
+
 class AdvertFlatPageAdmin(FlatPageAdmin):
     form = AdvertFlatpageForm
 
@@ -124,6 +132,7 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Region, RegionAdmin)
 admin.site.register(SocialNetwork, SocialNetworkAdmin)
 admin.site.register(Phrase, PhraseAdmin)
+admin.site.register(SocialAccountConfirmationQueue, SocialAccountConfirmationQueueAdmin)
 
 admin.site.unregister(FlatPage)
 admin.site.register(FlatPage, AdvertFlatPageAdmin)

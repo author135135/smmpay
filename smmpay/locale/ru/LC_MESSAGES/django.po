@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 15:36+0300\n"
+"POT-Creation-Date: 2017-11-01 13:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,210 +19,611 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: smmpay/apps/account/forms.py:45
+#: smmpay/apps/account/apps.py:8 smmpay/templates/account/settings.html:107
+msgid "Account"
+msgstr "Аккаунт"
+
+#: smmpay/apps/account/forms.py:46
 msgid "E-mail address does not exists"
-msgstr ""
+msgstr "Адрес электронной почты не существует"
 
-#: smmpay/apps/account/forms.py:103
-msgid "email"
-msgstr ""
+#: smmpay/apps/account/forms.py:60 smmpay/apps/account/forms.py:74
+msgid "First name"
+msgstr "Имя"
 
-#: smmpay/apps/account/forms.py:104
-msgid "password"
-msgstr ""
+#: smmpay/apps/account/forms.py:76 smmpay/apps/account/models.py:81
+msgid "Phone number must be entered in the format: +999999999"
+msgstr "Номер телефона должен быть введен в формате: +999999999"
 
-#: smmpay/apps/account/forms.py:123
-msgid "E-mail address already in use"
-msgstr ""
+#: smmpay/apps/account/forms.py:77
+msgid "Phone number"
+msgstr "Номер телефона"
+
+#: smmpay/apps/account/forms.py:79
+msgid "Show profile information"
+msgstr "Показать информацию о профиле"
+
+#: smmpay/apps/account/forms.py:128
+msgid "New email"
+msgstr "Новый адрес электронной почты"
 
 #: smmpay/apps/account/forms.py:129
+msgid "Password"
+msgstr "Пароль"
+
+#: smmpay/apps/account/forms.py:144
+msgid "E-mail address already in use"
+msgstr "Адрес электронной почты уже используется"
+
+#: smmpay/apps/account/forms.py:152
 msgid "Your password entered incorrect"
+msgstr "Введен неверный пароль"
+
+#: smmpay/apps/account/forms.py:193
+msgid "Query"
 msgstr ""
 
-#: smmpay/apps/account/forms.py:174 smmpay/apps/advert/models.py:321
-msgid "message"
-msgstr ""
+#: smmpay/apps/account/forms.py:194 smmpay/apps/advert/forms.py:17
+msgid "For example 'sport'"
+msgstr "К примеру 'спорт'"
 
-#: smmpay/apps/account/forms.py:185
+#: smmpay/apps/account/forms.py:195
+msgid "Order"
+msgstr "Сортировка"
+
+#: smmpay/apps/account/forms.py:204 smmpay/apps/advert/forms.py:130
+msgid "Message"
+msgstr "Сообщение"
+
+#: smmpay/apps/account/forms.py:204 smmpay/apps/advert/forms.py:130
+msgid "Your message"
+msgstr "Ваше сообщение"
+
+#: smmpay/apps/account/forms.py:211 smmpay/apps/advert/forms.py:137
 msgid "Please enter a message"
-msgstr ""
+msgstr "Введите сообщение"
 
-#: smmpay/apps/account/models.py:53
+#: smmpay/apps/account/models.py:39
+msgid "email"
+msgstr "адрес электронной почты"
+
+#: smmpay/apps/account/models.py:40
+msgid "admin status"
+msgstr "администратор"
+
+#: smmpay/apps/account/models.py:41
+msgid "active status"
+msgstr "активировано"
+
+#: smmpay/apps/account/models.py:42
+msgid "is profile public"
+msgstr "публичный профиль"
+
+#: smmpay/apps/account/models.py:43
+msgid "date joined"
+msgstr "дата присоединения"
+
+#: smmpay/apps/account/models.py:52 smmpay/apps/account/models.py:77
+#: smmpay/apps/advert/models.py:413
 msgid "user"
-msgstr ""
+msgstr "пользователь"
 
-#: smmpay/apps/account/models.py:54 smmpay/apps/advert/admin.py:30
+#: smmpay/apps/account/models.py:53 smmpay/apps/advert/admin.py:56
+#: smmpay/apps/advert/models.py:358
 msgid "users"
-msgstr ""
+msgstr "пользователи"
+
+#: smmpay/apps/account/models.py:78
+msgid "first name"
+msgstr "имя"
 
 #: smmpay/apps/account/models.py:79
-msgid "first name"
-msgstr ""
-
-#: smmpay/apps/account/models.py:80
 msgid "last name"
-msgstr ""
+msgstr "фамилия"
 
-#: smmpay/apps/account/models.py:83
+#: smmpay/apps/account/models.py:82
 msgid "phone number"
-msgstr ""
+msgstr "номер телефона"
+
+#: smmpay/apps/account/models.py:86
+msgid "user profile"
+msgstr "профиль пользователя"
 
 #: smmpay/apps/account/models.py:87
-msgid "user profile"
-msgstr ""
-
-#: smmpay/apps/account/models.py:88
 msgid "user profiles"
-msgstr ""
+msgstr "профили пользователей"
 
-#: smmpay/apps/account/views.py:329
-msgid "your message"
-msgstr ""
+#: smmpay/apps/account/views.py:100 smmpay/apps/account/views.py:145
+#: smmpay/apps/account/views.py:318
+msgid "Newer first"
+msgstr "Самые новые"
 
-#: smmpay/apps/advert/forms.py:10
+#: smmpay/apps/account/views.py:101 smmpay/apps/account/views.py:146
+#: smmpay/apps/account/views.py:319
+msgid "Older first"
+msgstr "Самые старые"
+
+#: smmpay/apps/account/views.py:102 smmpay/apps/account/views.py:147
+#: smmpay/apps/account/views.py:320
+msgid "Highest price"
+msgstr "Самые дорогие"
+
+#: smmpay/apps/account/views.py:103 smmpay/apps/account/views.py:148
+#: smmpay/apps/account/views.py:321
+msgid "Lowest price"
+msgstr "Самые дешевые"
+
+#: smmpay/apps/account/views.py:369
+msgid "Profile data updated"
+msgstr "Данные профиля обновлены"
+
+#: smmpay/apps/account/views.py:370
+msgid "Your password has been successfully changed"
+msgstr "Ваш пароль был успешно изменен"
+
+#: smmpay/apps/account/views.py:371
+msgid "Mail with instructions was sent on your current email address"
+msgstr ""
+"Письмо с инструкциями была отправлена ​​на ваш текущий адрес электронной почты"
+
+#: smmpay/apps/advert/admin.py:60 smmpay/apps/advert/models.py:436
+msgid "messages"
+msgstr "сообщения"
+
+#: smmpay/apps/advert/admin.py:82
+msgid "adverts count"
+msgstr "количество объявлений"
+
+#: smmpay/apps/advert/admin.py:92 smmpay/apps/advert/admin.py:102
+msgid "social accounts count"
+msgstr "количество аккаунтов"
+
+#: smmpay/apps/advert/admin.py:113 smmpay/apps/advert/models.py:160
+#: smmpay/apps/advert/models.py:165
+msgid "phrase"
+msgstr "фраза"
+
+#: smmpay/apps/advert/admin.py:121 smmpay/apps/advert/models.py:218
+#: smmpay/apps/advert/models.py:247 smmpay/apps/advert/models.py:356
+msgid "advert"
+msgstr "объявление"
+
+#: smmpay/apps/advert/apps.py:8 smmpay/templates/account/discussions.html:32
+msgid "Advert"
+msgstr "Объявление"
+
+#: smmpay/apps/advert/forms.py:16
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
-#: smmpay/apps/advert/forms.py:11
-msgid "For example 'sport'"
-msgstr ""
-
-#: smmpay/apps/advert/forms.py:12
+#: smmpay/apps/advert/forms.py:18
+#: smmpay/templates/account/parts/favorite_list.html:65
+#: smmpay/templates/advert/advert.html:71
+#: smmpay/templates/advert/parts/advert_list.html:60
 msgid "Region"
-msgstr ""
+msgstr "Регион"
 
-#: smmpay/apps/advert/forms.py:13
-#: smmpay/templates/advert/parts/advert_list.html:53
+#: smmpay/apps/advert/forms.py:19
+#: smmpay/templates/account/parts/favorite_list.html:61
+#: smmpay/templates/advert/advert.html:67
+#: smmpay/templates/advert/parts/advert_list.html:56
 msgid "Category"
-msgstr ""
+msgstr "Категория"
 
-#: smmpay/apps/advert/forms.py:14 smmpay/apps/advert/forms.py:16
+#: smmpay/apps/advert/forms.py:20 smmpay/apps/advert/forms.py:23
 msgid "From"
-msgstr ""
+msgstr "От"
 
-#: smmpay/apps/advert/forms.py:15 smmpay/apps/advert/forms.py:17
+#: smmpay/apps/advert/forms.py:22 smmpay/apps/advert/forms.py:25
 msgid "To"
-msgstr ""
+msgstr "До"
 
-#: smmpay/apps/advert/forms.py:23 smmpay/apps/advert/forms.py:28
+#: smmpay/apps/advert/forms.py:32 smmpay/apps/advert/forms.py:37
 msgid "Any"
-msgstr ""
+msgstr "Любой"
 
-#: smmpay/apps/advert/forms.py:67
+#: smmpay/apps/advert/forms.py:48
+msgid "Group for sell..."
+msgstr "Группа для продажи"
+
+#: smmpay/apps/advert/forms.py:51
+msgid ""
+"Description, use useful information to attract users (1-1000 characters)"
+msgstr ""
+"Описание, используйте полезную информацию для привлечения пользователей "
+"(1-1000 символов)"
+
+#: smmpay/apps/advert/forms.py:71
+msgid "Paste a link to the page, group or account that you are selling *"
+msgstr ""
+"Вставьте ссылку на страницу, группу или учетную запись, которую вы продаете *"
+
+#: smmpay/apps/advert/forms.py:75
+msgid ""
+"You have inserted an incorrect value for the link to the page, group or "
+"account that you are selling *"
+msgstr ""
+"Вы вставили неверное значение для ссылки на страницу, группу или учетную "
+"запись, которую вы продаете *"
+
+#: smmpay/apps/advert/forms.py:91
 msgid "Unsupported social network"
-msgstr ""
+msgstr "Неподдерживаемая социальная сеть"
 
-#: smmpay/apps/advert/models.py:75 smmpay/apps/advert/models.py:76
+#: smmpay/apps/advert/models.py:76 smmpay/apps/advert/models.py:89
+#: smmpay/apps/advert/models.py:103 smmpay/apps/advert/models.py:116
+#: smmpay/apps/advert/models.py:129 smmpay/apps/advert/models.py:198
+#: smmpay/apps/blog/models.py:20
+msgid "title"
+msgstr "название"
+
+#: smmpay/apps/advert/models.py:77
+msgid "menu position"
+msgstr "позиция меню"
+
+#: smmpay/apps/advert/models.py:81 smmpay/apps/advert/models.py:82
+#: smmpay/apps/advert/models.py:91
 msgid "menu"
-msgstr ""
+msgstr "меню"
 
-#: smmpay/apps/advert/models.py:89
+#: smmpay/apps/advert/models.py:90 smmpay/apps/blog/models.py:21
+msgid "URL"
+msgstr "URL адрес"
+
+#: smmpay/apps/advert/models.py:95
 msgid "menu item"
-msgstr ""
+msgstr "пункт меню"
 
-#: smmpay/apps/advert/models.py:90
+#: smmpay/apps/advert/models.py:96
 msgid "menu items"
-msgstr ""
+msgstr "пункты меню"
 
-#: smmpay/apps/advert/models.py:102
+#: smmpay/apps/advert/models.py:108 smmpay/apps/advert/models.py:254
 msgid "region"
-msgstr ""
+msgstr "регион"
 
-#: smmpay/apps/advert/models.py:103
+#: smmpay/apps/advert/models.py:109
 msgid "regions"
-msgstr ""
+msgstr "регионы"
 
-#: smmpay/apps/advert/models.py:115
+#: smmpay/apps/advert/models.py:121 smmpay/apps/advert/models.py:202
 msgid "category"
-msgstr ""
+msgstr "категория"
 
-#: smmpay/apps/advert/models.py:116
+#: smmpay/apps/advert/models.py:122
 msgid "categories"
-msgstr ""
-
-#: smmpay/apps/advert/models.py:129
-msgid "social network"
-msgstr ""
+msgstr "категории"
 
 #: smmpay/apps/advert/models.py:130
+msgid "network code"
+msgstr "код социальной сети"
+
+#: smmpay/apps/advert/models.py:131
+msgid "URLs"
+msgstr "URL адреса"
+
+#: smmpay/apps/advert/models.py:132
+msgid "order"
+msgstr "порядок"
+
+#: smmpay/apps/advert/models.py:137 smmpay/apps/advert/models.py:252
+msgid "social network"
+msgstr "социальная сеть"
+
+#: smmpay/apps/advert/models.py:138
 msgid "social networks"
-msgstr ""
+msgstr "социальные сети"
 
-#: smmpay/apps/advert/models.py:171
+#: smmpay/apps/advert/models.py:159
+msgid "language"
+msgstr "язык"
+
+#: smmpay/apps/advert/models.py:166
+msgid "phrases"
+msgstr "фразы"
+
+#: smmpay/apps/advert/models.py:195
 msgid "Social account"
-msgstr ""
+msgstr "аккаунт социальной сети"
 
-#: smmpay/apps/advert/models.py:190
-msgid "advert"
-msgstr ""
+#: smmpay/apps/advert/models.py:199
+msgid "description"
+msgstr "описание"
 
-#: smmpay/apps/advert/models.py:191
+#: smmpay/apps/advert/models.py:200
+msgid "type of advert"
+msgstr "тип объявления"
+
+#: smmpay/apps/advert/models.py:204
+msgid "author"
+msgstr "автор"
+
+#: smmpay/apps/advert/models.py:205
+msgid "price"
+msgstr "цена"
+
+#: smmpay/apps/advert/models.py:206
+msgid "count of views"
+msgstr "количество просмотров"
+
+#: smmpay/apps/advert/models.py:207
+msgid "enabled by author"
+msgstr "включено автором"
+
+#: smmpay/apps/advert/models.py:208
+msgid "enabled by admin"
+msgstr "включено администратором"
+
+#: smmpay/apps/advert/models.py:209 smmpay/apps/advert/models.py:359
+#: smmpay/apps/advert/models.py:429 smmpay/apps/blog/models.py:25
+msgid "created"
+msgstr "создано"
+
+#: smmpay/apps/advert/models.py:210 smmpay/apps/blog/models.py:26
+msgid "updated"
+msgstr "обновлено"
+
+#: smmpay/apps/advert/models.py:219
 msgid "adverts"
-msgstr ""
+msgstr "объявления"
 
-#: smmpay/apps/advert/models.py:276
-msgid "favorite"
-msgstr ""
+#: smmpay/apps/advert/models.py:249
+msgid "logo"
+msgstr "логотип"
 
-#: smmpay/apps/advert/models.py:277
-msgid "favorites"
-msgstr ""
+#: smmpay/apps/advert/models.py:250
+msgid "account link"
+msgstr "ссылка на аккаунт"
 
-#: smmpay/apps/advert/models.py:290
-msgid "discussion"
-msgstr ""
+#: smmpay/apps/advert/models.py:251
+#: smmpay/templates/advert/parts/sidebar.html:17
+msgid "subscribers"
+msgstr "подписчики"
 
-#: smmpay/apps/advert/models.py:291
-msgid "discussions"
-msgstr ""
+#: smmpay/apps/advert/models.py:256
+msgid "confirmed by author"
+msgstr "подтверждено автором"
 
-#: smmpay/apps/advert/models.py:304
-msgid "discussion user"
-msgstr ""
+#: smmpay/apps/advert/models.py:257
+msgid "confirmation code"
+msgstr "код подтверждения"
 
-#: smmpay/apps/advert/models.py:305
-msgid "discussion users"
-msgstr ""
+#: smmpay/apps/advert/models.py:310
+msgid "New"
+msgstr "Новый"
 
-#: smmpay/apps/advert/models.py:322
-msgid "messages"
-msgstr ""
+#: smmpay/apps/advert/models.py:311
+msgid "Success"
+msgstr "Успех"
 
-#: smmpay/apps/advert/models.py:349
-msgid "view"
-msgstr ""
+#: smmpay/apps/advert/models.py:312
+msgid "In progress"
+msgstr "В ходе выполнения"
+
+#: smmpay/apps/advert/models.py:313
+msgid "Error"
+msgstr "Ошибка"
+
+#: smmpay/apps/advert/models.py:316
+msgid "social account"
+msgstr "аккаунт социальной сети"
+
+#: smmpay/apps/advert/models.py:318 smmpay/apps/blog/models.py:24
+msgid "status"
+msgstr "статус"
+
+#: smmpay/apps/advert/models.py:319
+msgid "attempts count"
+msgstr "количество попыток"
+
+#: smmpay/apps/advert/models.py:320
+msgid "last start"
+msgstr "последний запуск"
+
+#: smmpay/apps/advert/models.py:326
+msgid "Social account({}) {}"
+msgstr "Аккаунт социальной сети({}) {}"
 
 #: smmpay/apps/advert/models.py:350
+msgid "favorite"
+msgstr "избранное"
+
+#: smmpay/apps/advert/models.py:351
+msgid "favorites"
+msgstr "избранное"
+
+#: smmpay/apps/advert/models.py:365 smmpay/apps/advert/models.py:411
+#: smmpay/apps/advert/models.py:425
+msgid "discussion"
+msgstr "обсуждение"
+
+#: smmpay/apps/advert/models.py:366
+msgid "discussions"
+msgstr "обсуждения"
+
+#: smmpay/apps/advert/models.py:417
+msgid "discussion user"
+msgstr "участник обсуждения"
+
+#: smmpay/apps/advert/models.py:418
+msgid "discussion users"
+msgstr "участники обсуждения"
+
+#: smmpay/apps/advert/models.py:427
+msgid "message sender"
+msgstr "отправитель сообщения"
+
+#: smmpay/apps/advert/models.py:428 smmpay/apps/advert/models.py:435
+msgid "message"
+msgstr "сообщение"
+
+#: smmpay/apps/advert/models.py:463
+msgid "view"
+msgstr "просмотр"
+
+#: smmpay/apps/advert/models.py:464
 msgid "views"
-msgstr ""
+msgstr "просмотры"
 
-#: smmpay/apps/advert_queue/models.py:17
-msgid "New"
+#: smmpay/apps/advert/views.py:263
+msgid ""
+"Advert successfully added. It will be published on site after moderation."
 msgstr ""
+"Объявление успешно добавлено. Оно будет опубликован на сайте после модерации."
 
-#: smmpay/apps/advert_queue/models.py:18
-msgid "Success"
-msgstr ""
+#: smmpay/apps/advert/views.py:331
+msgid "Advert successfully edited"
+msgstr "Объявление успешно отредактировано"
 
-#: smmpay/apps/advert_queue/models.py:19
-msgid "In progress"
-msgstr ""
-
-#: smmpay/apps/advert_queue/models.py:20
-msgid "Error"
-msgstr ""
-
-#: smmpay/apps/advert_queue/models.py:32
-msgid "Advert({}) {}"
-msgstr ""
+#: smmpay/apps/blog/apps.py:8 smmpay/templates/blog/index.html:5
+#: smmpay/templates/blog/index.html:13 smmpay/templates/blog/post.html:21
+msgid "Blog"
+msgstr "Блог"
 
 #: smmpay/apps/blog/models.py:16
 msgid "draft"
-msgstr ""
+msgstr "черновик"
 
 #: smmpay/apps/blog/models.py:17
 msgid "published"
-msgstr ""
+msgstr "опубликовано"
+
+#: smmpay/apps/blog/models.py:22
+msgid "content"
+msgstr "содержимое"
+
+#: smmpay/apps/blog/models.py:23
+msgid "main image"
+msgstr "основное изображение"
+
+#: smmpay/templates/account/account_base.html:23
+#: smmpay/templates/advert/user_adverts.html:32
+msgid "Adverts creator"
+msgstr "Создатель объявлений"
+
+#: smmpay/templates/account/account_base.html:29
+#: smmpay/templates/account/discussion.html:5
+#: smmpay/templates/account/index.html:5 smmpay/templates/account/index.html:24
+msgid "My adverts"
+msgstr "Мои объявления"
+
+#: smmpay/templates/account/account_base.html:33
+msgid "Messages"
+msgstr "Сообщения"
+
+#: smmpay/templates/account/account_base.html:37
+#: smmpay/templates/account/favorites.html:5
+#: smmpay/templates/account/favorites.html:13
+#: smmpay/templates/account/favorites.html:24
+msgid "Favorites"
+msgstr "Избранное"
+
+#: smmpay/templates/account/account_base.html:41
+#: smmpay/templates/account/settings.html:5
+#: smmpay/templates/account/settings.html:13
+msgid "Settings"
+msgstr "Настройки"
+
+#: smmpay/templates/account/account_base.html:44
+msgid "Log out"
+msgstr "Выход"
+
+#: smmpay/templates/account/account_delete.html:4
+#: smmpay/templates/account/settings.html:110
+msgid "Account delete"
+msgstr "Удалить аккаунт"
+
+#: smmpay/templates/account/account_delete.html:9
+#: smmpay/templates/account/discussion.html:10
+#: smmpay/templates/account/discussions.html:10
+#: smmpay/templates/account/favorites.html:10
+#: smmpay/templates/account/index.html:10
+#: smmpay/templates/account/settings.html:10
+#: smmpay/templates/advert/advert.html:10
+#: smmpay/templates/advert/advert_add.html:10
+#: smmpay/templates/advert/advert_edit.html:10
+#: smmpay/templates/blog/index.html:10 smmpay/templates/blog/post.html:18
+#: smmpay/templates/flatpages/default.html:9
+msgid "Homepage"
+msgstr "Главная"
+
+#: smmpay/templates/account/account_delete.html:12
+#: smmpay/templates/account/account_delete.html:23
+msgid "Account delete confirmation"
+msgstr "Подтверждение удаления аккаунта"
+
+#: smmpay/templates/account/account_delete.html:28
+msgid "Are you sure you want to delete your account?"
+msgstr "Вы действительно хотите удалить свою учетную запись?"
+
+#: smmpay/templates/account/account_delete.html:31
+msgid "Confirm"
+msgstr "Подтвердить"
+
+#: smmpay/templates/account/discussion.html:13
+#: smmpay/templates/account/index.html:13
+msgid "My account"
+msgstr "Мой аккаунт"
+
+#: smmpay/templates/account/discussion.html:23
+msgid "Discussion"
+msgstr "Обсуждение"
+
+#: smmpay/templates/account/discussion.html:31
+msgid "Return to discussions list"
+msgstr "Вернуться к списку обсуждений"
+
+#: smmpay/templates/account/discussion.html:49
+#: smmpay/templates/account/parts/advert_list.html:20
+msgid "Publication"
+msgstr "Опубликовано"
+
+#: smmpay/templates/account/discussion.html:53
+#: smmpay/templates/account/parts/advert_list.html:24
+#: smmpay/templates/advert/advert.html:141
+msgid "Views"
+msgstr "Просмотров"
+
+#: smmpay/templates/account/discussion.html:71
+#: smmpay/templates/account/parts/advert_list.html:42
+msgid "View advert"
+msgstr "Посмотреть"
+
+#: smmpay/templates/account/discussion.html:82
+#: smmpay/templates/account/parts/advert_list.html:52
+#: smmpay/templates/advert/advert.html:126
+msgid "Edit"
+msgstr "Редактировать"
+
+#: smmpay/templates/account/discussion.html:108
+#: smmpay/templates/account/parts/advert_list.html:78
+msgid "Deactivate"
+msgstr "Деактивировать"
+
+#: smmpay/templates/account/discussion.html:135
+#: smmpay/templates/account/parts/advert_list.html:105
+msgid "Activate"
+msgstr "Активировать"
+
+#: smmpay/templates/account/discussion.html:163
+#: smmpay/templates/account/parts/advert_list.html:133
+msgid "Deactivated by admin"
+msgstr "Деактивировано администратором"
+
+#: smmpay/templates/account/discussion.html:206
+#: smmpay/templates/advert/advert.html:243
+msgid "Send"
+msgstr "Отправить"
+
+#: smmpay/templates/account/discussions.html:5
+#: smmpay/templates/account/discussions.html:13
+#: smmpay/templates/account/discussions.html:24
+msgid "Discussions"
+msgstr "Обсуждения"
+
+#: smmpay/templates/account/discussions.html:33
+msgid "Last message"
+msgstr "Последнее сообщение"
 
 #: smmpay/templates/account/email_change_email.html:2
 #, python-format
@@ -230,165 +631,243 @@ msgid ""
 "You're receiving this email because you requested a email change for your "
 "user account at %(site_name)s."
 msgstr ""
+"Вы получаете это электронное письмо, потому что вы запросили изменение "
+"адреса электронной почты для своегоаккаунта на сайте %(site_name)s."
 
 #: smmpay/templates/account/email_change_email.html:4
 msgid "Please go to the following page for get your email change done:"
 msgstr ""
+"Перейдите на следующую страницу, чтобы изменить вашу электронную почту:"
 
 #: smmpay/templates/account/email_change_email.html:8
-#: smmpay/templates/registration/account_password_reset_email.html:10
+#: smmpay/templates/registration/password_reset_email.html:10
 msgid "Thanks for using our site!"
-msgstr ""
+msgstr "Благодарим за использование нашего сайта!"
 
 #: smmpay/templates/account/email_change_email.html:10
-#: smmpay/templates/registration/account_password_reset_email.html:12
+#: smmpay/templates/registration/password_reset_email.html:12
 #, python-format
 msgid "The %(site_name)s team"
-msgstr ""
+msgstr "Команда %(site_name)s"
 
 #: smmpay/templates/account/email_change_subject.txt:3
 msgid "Account email change on site"
-msgstr ""
+msgstr "Изменение адреса электронной почты на сайте"
 
-#: smmpay/templates/advert/parts/advert_list.html:49
-#: smmpay/templates/advert/parts/filter.html:58
-#: smmpay/templates/advert/social_account/account_info.html:10
-msgid "Subscribers"
-msgstr ""
-
-#: smmpay/templates/advert/parts/advert_list.html:66
-msgid "Fr. favorites"
-msgstr ""
-
-#: smmpay/templates/advert/parts/advert_list.html:76
-msgid "To favorites"
-msgstr ""
-
-#: smmpay/templates/advert/parts/advert_list.html:79
-#: smmpay/templates/blog/posts.html:30
-msgid "Read more"
-msgstr ""
-
-#: smmpay/templates/advert/parts/advert_list.html:89
-#: smmpay/templates/blog/posts.html:37
-msgid "There is nothing to show"
-msgstr ""
-
-#: smmpay/templates/advert/parts/filter.html:47
-msgid "Price"
-msgstr ""
-
-#: smmpay/templates/advert/social_account/account_info.html:5
-msgid "Title"
-msgstr ""
-
-#: smmpay/templates/base_html.html:61
-#: smmpay/templates/flatpages/default.html:32
+#: smmpay/templates/account/index.html:44
+#: smmpay/templates/base/base_html.html:60
+#: smmpay/templates/flatpages/default.html:35
 msgid "Add advert"
-msgstr ""
+msgstr "Добавить объявление"
 
-#: smmpay/templates/base_html.html:92
+#: smmpay/templates/account/parts/advert_list.html:167
+#: smmpay/templates/account/parts/discussion_list.html:74
+#: smmpay/templates/account/parts/favorite_list.html:89
+#: smmpay/templates/advert/parts/advert_list.html:98
+#: smmpay/templates/blog/parts/post_list.html:25
+msgid "There is nothing to show"
+msgstr "Нечего показывать"
+
+#: smmpay/templates/account/parts/discussion_list.html:45
+msgid "No messages"
+msgstr "Нет сообщений"
+
+#: smmpay/templates/account/parts/discussion_message_recipient.html:26
+#: smmpay/templates/account/parts/discussion_message_sender.html:26
+#: smmpay/templates/advert/advert.html:187
+#: smmpay/templates/advert/advert.html:233
+msgid "Advert creator"
+msgstr "Автор объявления"
+
+#: smmpay/templates/account/parts/favorite_list.html:57
+#: smmpay/templates/advert/advert.html:63
+#: smmpay/templates/advert/parts/advert_list.html:52
+#: smmpay/templates/advert/parts/filter.html:59
+msgid "Subscribers"
+msgstr "Подписчиков"
+
+#: smmpay/templates/account/parts/favorite_list.html:77
+#: smmpay/templates/advert/advert.html:104
+#: smmpay/templates/advert/parts/advert_list.html:74
+msgid "Fr. favorites"
+msgstr "Из избранного"
+
+#: smmpay/templates/account/parts/favorite_list.html:79
+#: smmpay/templates/advert/parts/advert_list.html:88
+#: smmpay/templates/blog/parts/post_list.html:17
+msgid "Read more"
+msgstr "Читать далее"
+
+#: smmpay/templates/account/settings.html:24
+msgid "User info"
+msgstr "Информация пользователя"
+
+#: smmpay/templates/account/settings.html:50
+#: smmpay/templates/account/settings.html:75
+#: smmpay/templates/account/settings.html:100
+msgid "Save"
+msgstr "Сохранить"
+
+#: smmpay/templates/account/settings.html:57
+msgid "Password change"
+msgstr "Изменение пароля"
+
+#: smmpay/templates/account/settings.html:82
+msgid "Email change"
+msgstr "Изменение электронной почты"
+
+#: smmpay/templates/advert/advert.html:75
+msgid "Date of publication"
+msgstr "Дата публикации"
+
+#: smmpay/templates/advert/advert.html:79
+msgid "Verification"
+msgstr "Верификация"
+
+#: smmpay/templates/advert/advert.html:82
+msgid "The author confirmed"
+msgstr "Автор подтвердил"
+
+#: smmpay/templates/advert/advert.html:84
+msgid "The author did not confirm"
+msgstr "Автор не подтвердил"
+
+#: smmpay/templates/advert/advert.html:89
+msgid "Description"
+msgstr "Описание"
+
+#: smmpay/templates/advert/advert.html:114
+#: smmpay/templates/advert/parts/advert_list.html:84
+msgid "To favorites"
+msgstr "В избранное"
+
+#: smmpay/templates/advert/advert.html:150
+msgid "Previous advert"
+msgstr "Предыдущее объявление"
+
+#: smmpay/templates/advert/advert.html:155
+msgid "Next advert"
+msgstr "Следующее объявление"
+
+#: smmpay/templates/advert/advert.html:165
+msgid "Return to advert search"
+msgstr "Вернуться к поиску"
+
+#: smmpay/templates/advert/advert.html:190
+msgid "Contact the author"
+msgstr "Написать автору"
+
+#: smmpay/templates/advert/advert.html:208
+msgid "Other adverts from author"
+msgstr "Другие объявления автора"
+
+#: smmpay/templates/advert/advert.html:214
+msgid "New message"
+msgstr "Новое сообщение"
+
+#: smmpay/templates/advert/advert.html:237
+msgid "Message for the user, do not use spam or false information."
+msgstr "Сообщение для пользователя, не используйте спам или ложную информацию."
+
+#: smmpay/templates/advert/advert.html:253
+msgid "Your message was successfully sent"
+msgstr "Ваше сообщение было успешно отправлено"
+
+#: smmpay/templates/advert/advert_add.html:5
+#: smmpay/templates/advert/advert_add.html:13
+#: smmpay/templates/advert/advert_add.html:24
+msgid "Advert creation"
+msgstr "Создание объявления"
+
+#: smmpay/templates/advert/advert_add.html:35
+#: smmpay/templates/advert/advert_edit.html:35
+msgid "Required"
+msgstr "Обязательно"
+
+#: smmpay/templates/advert/advert_add.html:86
+#: smmpay/templates/advert/advert_edit.html:98
+msgid "Additional"
+msgstr "Дополнительно"
+
+#: smmpay/templates/advert/advert_add.html:95
+#: smmpay/templates/advert/advert_edit.html:107
+msgid ""
+"Verification! Confirm that you are the owner of the page by placing this "
+"passphrase in\n"
+"                            status if this is a Vkontakte community, for "
+"Twitter, Youtube and Facebook\n"
+"                            in the description, and for Instagram in the "
+"\"About Me\" field."
+msgstr ""
+"Проверка! Подтвердите, что вы являетесь владельцем страницы, поставив эту "
+"кодовую фразу встатус, если это сообщество Vkontakte, для Twitter, Youtube и "
+"Facebookв описании и для Instagram в поле \"Обо мне\"."
+
+#: smmpay/templates/advert/advert_add.html:102
+msgid "Publish advert"
+msgstr "Опубликовать объявление"
+
+#: smmpay/templates/advert/advert_edit.html:5
+#: smmpay/templates/advert/advert_edit.html:13
+#: smmpay/templates/advert/advert_edit.html:24
+msgid "Editing an advert"
+msgstr "Редактирование объявления"
+
+#: smmpay/templates/advert/advert_edit.html:114
+msgid "Edit advert"
+msgstr "Редактировать объявление"
+
+#: smmpay/templates/advert/parts/filter.html:48
+msgid "Price"
+msgstr "Цена"
+
+#: smmpay/templates/advert/parts/sidebar.html:5
+msgid "Recommended"
+msgstr "Рекомендуемые"
+
+#: smmpay/templates/advert/user_adverts.html:36
+msgid "Count of adverts"
+msgstr "Количество объявлений"
+
+#: smmpay/templates/advert/user_adverts.html:40
+msgid "On the site with"
+msgstr "На сайте с"
+
+#: smmpay/templates/base/base_html.html:90
 msgid "Understand"
-msgstr ""
+msgstr "Понятно"
 
-#: smmpay/templates/base_html.html:105
+#: smmpay/templates/base/base_html.html:104
 msgid ""
 "SMMPay is a convenient platform for buying and selling public groups and "
 "accounts in social networks"
 msgstr ""
+"SmmPay - это удобная площадка для купили и продажи пабликов и аккаунтов "
+"социальных сетей"
 
-#: smmpay/templates/base_html.html:130
+#: smmpay/templates/base/base_html.html:129
 msgid "TM is used on the basis of the license of the copyright holder SMMPay"
-msgstr ""
-
-#: smmpay/templates/blog/post.html:18 smmpay/templates/blog/posts.html:9
-#: smmpay/templates/flatpages/default.html:9
-msgid "Homepage"
-msgstr ""
-
-#: smmpay/templates/blog/post.html:21 smmpay/templates/blog/posts.html:4
-#: smmpay/templates/blog/posts.html.py:12
-msgid "Blog"
-msgstr ""
+msgstr "ТМ используется на основании лицензии правообладателя SmmPay"
 
 #: smmpay/templates/blog/post.html:40
 msgid "Share in social networks"
-msgstr ""
+msgstr "Поделиться в социальных сетях"
 
 #: smmpay/templates/blog/post.html:51
 msgid "Go to news list"
-msgstr ""
+msgstr "Вернуться к списку новостей"
 
-#: smmpay/templates/flatpages/default.html:23
+#: smmpay/templates/flatpages/default.html:26
 msgid "Start ad search"
-msgstr ""
-
-#: smmpay/templates/registration/account_password_reset_complete.html:6
-msgid "Your password has been set.  You may go ahead and log in now."
-msgstr ""
-
-#: smmpay/templates/registration/account_password_reset_complete.html:8
-msgid "Log in"
-msgstr ""
-
-#: smmpay/templates/registration/account_password_reset_confirm.html:8
-msgid ""
-"Please enter your new password twice so we can verify you typed it in "
-"correctly."
-msgstr ""
-
-#: smmpay/templates/registration/account_password_reset_confirm.html:12
-msgid "New password:"
-msgstr ""
-
-#: smmpay/templates/registration/account_password_reset_confirm.html:14
-msgid "Confirm password:"
-msgstr ""
-
-#: smmpay/templates/registration/account_password_reset_confirm.html:15
-msgid "Change my password"
-msgstr ""
-
-#: smmpay/templates/registration/account_password_reset_confirm.html:20
-msgid ""
-"The password reset link was invalid, possibly because it has already been "
-"used.  Please request a new password reset."
-msgstr ""
-
-#: smmpay/templates/registration/account_password_reset_done.html:6
-msgid ""
-"We've emailed you instructions for setting your password, if an account "
-"exists with the email you entered. You should receive them shortly."
-msgstr ""
-
-#: smmpay/templates/registration/account_password_reset_done.html:8
-msgid ""
-"If you don't receive an email, please make sure you've entered the address "
-"you registered with, and check your spam folder."
-msgstr ""
-
-#: smmpay/templates/registration/account_password_reset_email.html:2
-#, python-format
-msgid ""
-"You're receiving this email because you requested a password reset for your "
-"user account at %(site_name)s."
-msgstr ""
-
-#: smmpay/templates/registration/account_password_reset_email.html:4
-msgid "Please go to the following page and choose a new password:"
-msgstr ""
-
-#: smmpay/templates/registration/account_password_reset_email.html:8
-msgid "Your username, in case you've forgotten:"
-msgstr ""
+msgstr "Начать поиск объявлений"
 
 #: smmpay/templates/registration/activate.html:6
 msgid "Activation complete"
-msgstr ""
+msgstr "Активация завершена"
 
 #: smmpay/templates/registration/activate.html:7
 msgid "You have activated you account. Please log in by your credentials."
-msgstr ""
+msgstr "Вы активировали свою учетную запись. Войдите в свой аккаунт."
 
 #: smmpay/templates/registration/activation_email.txt:1
 #, python-format
@@ -400,6 +879,12 @@ msgid ""
 "click here below:\n"
 "    "
 msgstr ""
+"\n"
+"    Уважаемый %(user)s,\n"
+"\n"
+"    Для завершения регистрации и активации Вашего пользователя пожалуйста "
+"перейдите по ссылке ниже:\n"
+"    "
 
 #: smmpay/templates/registration/activation_email.txt:9
 #, python-format
@@ -409,41 +894,117 @@ msgid ""
 "registration process needs to be repeated.\n"
 "    "
 msgstr ""
+"\n"
+"    Внимание! У вас есть только %(expiration_days)s дней для активации иначе "
+"регистрацию нужно будет повторить.\n"
+"    "
 
 #: smmpay/templates/registration/activation_email_subject.txt:3
 msgid "Registration on site"
-msgstr ""
+msgstr "Регистрация на сайте"
 
 #: smmpay/templates/registration/login.html:5
 #: smmpay/templates/registration/login.html:10
 #: smmpay/templates/registration/registration.html:10
 msgid "Login"
-msgstr ""
+msgstr "Логин"
 
 #: smmpay/templates/registration/login.html:11
 #: smmpay/templates/registration/registration.html:5
 #: smmpay/templates/registration/registration.html:11
 msgid "Registration"
-msgstr ""
+msgstr "Регистрация"
 
 #: smmpay/templates/registration/login.html:34
 msgid "Forgot a password?"
-msgstr ""
+msgstr "Забыли пароль?"
 
 #: smmpay/templates/registration/login.html:35
-msgid "Submit"
+#: smmpay/templates/registration/password_reset_complete.html:7
+msgid "Log in"
+msgstr "Вход"
+
+#: smmpay/templates/registration/password_reset_complete.html:6
+msgid "Your password has been set. You may go ahead and log in now."
+msgstr "Ваш пароль установлен. Вы можете войти в систему сейчас."
+
+#: smmpay/templates/registration/password_reset_confirm.html:8
+msgid ""
+"Please enter the password twice so that we can verify the accuracy of the "
+"written."
 msgstr ""
+"Пожалуйста, введите пароль дважды, чтобы мы могли проверить точность "
+"написанного."
+
+#: smmpay/templates/registration/password_reset_confirm.html:22
+msgid "Change my password"
+msgstr "Изменить мой пароль"
+
+#: smmpay/templates/registration/password_reset_confirm.html:28
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used. Please request a new password reset."
+msgstr ""
+"Ссылка на сброс пароля была недействительной, возможно, потому, что она уже "
+"использовалась. Пожалуйста, запросите новый сброс пароля."
+
+#: smmpay/templates/registration/password_reset_done.html:6
+msgid ""
+"We've emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
+msgstr ""
+"Мы отправили Вам по электронной почте инструкции по настройке пароля, если "
+"учетная запись существует с указанным вами адресом электронной почты. Вы "
+"должны получить их в ближайшее время."
+
+#: smmpay/templates/registration/password_reset_done.html:7
+msgid ""
+"If you don't receive an email, please make sure you've entered the address "
+"you registered with, and check your spam folder."
+msgstr ""
+"Если Вы не получили электронное письмо, убедитесь, что Вы указали адрес "
+"который Вы зарегистрировали, и проверьте спам"
+
+#: smmpay/templates/registration/password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+"Вы получили это письмо, потому что Вы запросили сброс пароля для своего "
+"аккаунта на сайте %(site_name)s."
+
+#: smmpay/templates/registration/password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr "Перейдите на следующую страницу и выберите новый пароль:"
+
+#: smmpay/templates/registration/password_reset_email.html:8
+msgid "Your username, in case you've forgotten:"
+msgstr "Ваше имя пользователя, если вы забыли:"
+
+#: smmpay/templates/registration/password_reset_form.html:4
+msgid "Password reset"
+msgstr "Сброс пароля"
+
+#: smmpay/templates/registration/password_reset_form.html:29
+msgid "Reset"
+msgstr "Сброс"
 
 #: smmpay/templates/registration/registration.html:34
-msgid "Sign in"
-msgstr ""
+msgid "Sign up"
+msgstr "Зарегистрироваться"
 
 #: smmpay/templates/registration/registration_complete.html:6
 msgid "Registration complete"
-msgstr ""
+msgstr "Регистрация завершена"
 
 #: smmpay/templates/registration/registration_complete.html:7
 msgid ""
 "Thank you for registering on our site! To your email has been sent an "
 "activation email."
 msgstr ""
+"Благодарим за регистрацию на нашем сайте! Вам было отправлено письмо для "
+"активации Вашего аккаунта."
+
+#~ msgid "Create advert"
+#~ msgstr "Создать объявление"

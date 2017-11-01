@@ -58,7 +58,7 @@ class WebClient(object):
             self.browser.quit()
 
 
-class SocialNetworkParser:
+class SocialNetworkParser(object):
     """
     Abstract interface for social network parsers
     """
@@ -124,7 +124,7 @@ class TwitterSocialNetworkParser(object):
 
 
 class YoutubeSocialNetworkParser(object):
-    ACCOUNT_CONFIRMATION_SELECTOR = 'div.about-description'
+    ACCOUNT_CONFIRMATION_SELECTOR = '#description'
 
     def get_account_confirmation(self, url, code):
         client = WebClient()

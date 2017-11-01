@@ -2,7 +2,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %} | {% trans 'Add advert' %}{% endblock %}
+{% block title %} | {% trans 'Advert creation' %}{% endblock %}
 
 {% block breadcrumbs %}
     <ul class="breadcrumb">
@@ -10,7 +10,7 @@
             <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
         </li>
         <li>
-            <a href="#">{% trans 'Create advert' %}</a>
+            <a href="#">{% trans 'Advert creation' %}</a>
         </li>
     </ul>
 {% endblock %}
@@ -92,12 +92,9 @@
                     {% endfor %}
 
                     <div class="text-required">
-                        {% blocktrans %}
-                            Verification! Confirm that you are the owner of the page by placing
-                            this passphrase in status if this is a Vkontakte community,
-                            for Odnoklassniki and Facebook in the description, and for Instagram in
-                            the "About Me" field.'
-                        {% endblocktrans %}
+                        {% blocktrans %}Verification! Confirm that you are the owner of the page by placing this passphrase in
+                            status if this is a Vkontakte community, for Twitter, Youtube and Facebook
+                            in the description, and for Instagram in the "About Me" field.{% endblocktrans %}
                     </div>
                     <div class="text-trust">{{ advert_confirmation_code }}</div>
                 </div>

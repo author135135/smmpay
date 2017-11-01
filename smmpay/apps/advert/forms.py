@@ -13,16 +13,16 @@ from .models import Advert, AdvertSocialAccount, SocialNetwork, Region, Category
 
 
 class FilterForm(forms.Form):
-    search_query = forms.CharField(required=False, label=_('Search'), widget=forms.TextInput(
+    search_query = forms.CharField(label=_('Search'), required=False, widget=forms.TextInput(
         attrs={'class': 'filter__search', 'placeholder': _("For example 'sport'")}))
-    region = forms.ChoiceField(required=False, label=_('Region'))
-    category = forms.ChoiceField(required=False, label=_('Category'))
-    price_min = forms.CharField(required=False, label=_('From'),
+    region = forms.ChoiceField(label=_('Region'), required=False)
+    category = forms.ChoiceField(label=_('Category'), required=False)
+    price_min = forms.CharField(label=_('From'), required=False,
                                 widget=forms.TextInput(attrs={'class': 'filter__value'}))
-    price_max = forms.CharField(required=False, label=_('To'), widget=forms.TextInput(attrs={'class': 'filter__value'}))
-    subscribers_min = forms.CharField(required=False, label=_('From'),
+    price_max = forms.CharField(label=_('To'), required=False, widget=forms.TextInput(attrs={'class': 'filter__value'}))
+    subscribers_min = forms.CharField(label=_('From'), required=False,
                                       widget=forms.TextInput(attrs={'class': 'filter__value'}))
-    subscribers_max = forms.CharField(required=False, label=_('To'),
+    subscribers_max = forms.CharField(label=_('To'), required=False,
                                       widget=forms.TextInput(attrs={'class': 'filter__value'}))
 
     def __init__(self, *args, **kwargs):
@@ -127,7 +127,7 @@ class AdvertFlatpageForm(FlatpageForm):
 
 
 class DiscussionMessageForm(forms.Form):
-    message = forms.CharField(widget=forms.Textarea(attrs={'placeholder': _('Your message')}))
+    message = forms.CharField(label=_('Message'), widget=forms.Textarea(attrs={'placeholder': _('Your message')}))
 
     def clean_message(self):
         message = self.cleaned_data['message']

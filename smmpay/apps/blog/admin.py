@@ -6,9 +6,9 @@ from .forms import PostForm
 class PostAdmin(admin.ModelAdmin):
     form = PostForm
     fieldsets = (
-        (None, {'fields': ('title', 'slug', 'content', 'image', 'status')}),
+        (None, {'fields': ('title', 'url', 'content', 'image', 'status')}),
     )
-    prepopulated_fields = {'slug': ('title',)}
+    prepopulated_fields = {'url': ('title',)}
     list_display = ('title', 'status', 'created')
     list_filter = ('status',)
     search_fields = ('title',)

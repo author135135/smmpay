@@ -10,8 +10,6 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permis
 from django.utils.crypto import salted_hmac, get_random_string
 from django.utils.translation import ugettext_lazy as _
 
-from smmpay.apps.advert.helpers import RenameFile
-
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, *args, **kwargs):
@@ -38,11 +36,11 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True)
-    is_admin = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-    is_profile_public = models.BooleanField(default=True)
-    date_joined = models.DateTimeField(default=timezone.now)
+    email = models.EmailField(_('email'), unique=True)
+    is_admin = models.BooleanField(_('admin status'), default=False)
+    is_active = models.BooleanField(_('active status'), default=True)
+    is_profile_public = models.BooleanField(_('is profile public'), default=True)
+    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -76,7 +74,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(to=User, related_name='profile', on_delete=models.CASCADE)
+    user = models.OneToOneField(verbose_name=_('user'), to=User, related_name='profile', on_delete=models.CASCADE)
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
