@@ -29,6 +29,8 @@ class IndexView(ListView):
 class PostView(DetailView):
     template_name = 'blog/post.html'
     context_object_name = 'post'
+    slug_field = 'url'
+    slug_url_kwarg = 'url'
 
     def get_queryset(self):
         return Post.published_objects.all()
