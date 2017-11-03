@@ -358,7 +358,7 @@ body {
   height: 100%;
   overflow-x: hidden;
   font-size: 14px;
-  background: #f1f4fa;
+  background: #f7f7f7;
   margin: 0; }
   body.hidden {
     overflow: hidden; }
@@ -584,7 +584,7 @@ body > .jcf-select-drop {
     width: 50%; } }
 
 .filter__form-social {
-  padding-left: 0;
+  padding-left: 14px;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -1048,10 +1048,10 @@ body > .jcf-select-drop {
 
 .header {
   width: 100%;
-  background: #2b364f; }
+  background: #262f45; }
 
 .header__container {
-  height: 90px;
+  height: 80px;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -1565,7 +1565,7 @@ body > .jcf-select-drop {
   display: block;
   width: 35px;
   height: 53px;
-  margin-right: 30px;
+  margin-right: 26px;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -1600,10 +1600,10 @@ body > .jcf-select-drop {
     .filter__form-social li a:after {
       content: "";
       transition: height .2s ease-in-out;
-      width: 100%;
+      width: 61px;
       height: 0;
       bottom: 0;
-      left: 0;
+      left: -13px;
       position: absolute; }
     .filter__form-social li a.facebook .icon {
       background: url(../images/facebook.svg) no-repeat; }
@@ -1807,7 +1807,6 @@ body > .jcf-select-drop {
 
 .thumb {
   width: 100%;
-  height: 183px;
   margin-bottom: 30px;
   border-radius: 5px;
   background: #fff;
@@ -1983,7 +1982,8 @@ body > .jcf-select-drop {
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   height: 1px;
-  background: #e6ebf8; }
+  background: #000000;
+  opacity: 0.06; }
 
 .thumb__data {
   display: -webkit-flex;
