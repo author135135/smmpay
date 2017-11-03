@@ -14,7 +14,7 @@
                 <div class="thumb__head">
                     <div class="thumb__info">
                         <a class="thumb__title" href="{{ advert.get_absolute_url }}">{{ advert.title }}</a>
-                        <a class="thumb__subtitle" href="{{ advert.social_account.link }}">{{ advert.social_account.link }}</a>
+                        <a class="thumb__subtitle" href="{{ advert.social_account.link }}" target="_blank">{{ advert.social_account.link }}</a>
                     </div>
                     <div class="thumb__price">{{ advert.price }} $</div>
                 </div>
@@ -61,28 +61,26 @@
                         </div>
                     </div>
                     <div class="thumb__buttons">
-                        {% if user.is_authenticated %}
-                            {% if advert.in_favorite %}
-                                <a href="{% url 'advert:delete_from_favorites' advert.pk %}?next={{ request.path }}" class="thumb__favorite active">
-                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 19.5 19.5" style="enable-background:new 0 0 19.5 19.5;" xml:space="preserve">
-                                        <g>
-                                            <path d="M10.2,0.8l2.5,5.9L19,7.2c0.4,0,0.6,0.6,0.3,0.9l-4.8,4.2l1.4,6.2c0.1,0.4-0.4,0.8-0.7,0.5l-5.5-3.3L4.3,19
-                                            c-0.4,0.2-0.8-0.1-0.7-0.5L5,12.2L0.2,8C-0.2,7.8,0,7.2,0.5,7.2l6.3-0.5l2.5-5.9C9.5,0.3,10,0.3,10.2,0.8z"></path>
-                                        </g>
-                                    </svg>
-                                    {% trans 'Fr. favorites' %}
-                                </a>
-                            {% else %}
-                                <a href="{% url 'advert:add_to_favorites' advert.pk %}?next={{ request.path }}" class="thumb__favorite">
-                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 19.5 19.5" style="enable-background:new 0 0 19.5 19.5;" xml:space="preserve">
-                                        <g>
-                                            <path d="M10.2,0.8l2.5,5.9L19,7.2c0.4,0,0.6,0.6,0.3,0.9l-4.8,4.2l1.4,6.2c0.1,0.4-0.4,0.8-0.7,0.5l-5.5-3.3L4.3,19
-                                            c-0.4,0.2-0.8-0.1-0.7-0.5L5,12.2L0.2,8C-0.2,7.8,0,7.2,0.5,7.2l6.3-0.5l2.5-5.9C9.5,0.3,10,0.3,10.2,0.8z"></path>
-                                        </g>
-                                    </svg>
-                                    {% trans 'To favorites' %}
-                                </a>
-                            {% endif %}
+                        {% if advert.in_favorite %}
+                            <a href="{% url 'advert:delete_from_favorites' advert.pk %}?next={{ request.path }}" class="thumb__favorite active">
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 19.5 19.5" style="enable-background:new 0 0 19.5 19.5;" xml:space="preserve">
+                                    <g>
+                                        <path d="M10.2,0.8l2.5,5.9L19,7.2c0.4,0,0.6,0.6,0.3,0.9l-4.8,4.2l1.4,6.2c0.1,0.4-0.4,0.8-0.7,0.5l-5.5-3.3L4.3,19
+                                        c-0.4,0.2-0.8-0.1-0.7-0.5L5,12.2L0.2,8C-0.2,7.8,0,7.2,0.5,7.2l6.3-0.5l2.5-5.9C9.5,0.3,10,0.3,10.2,0.8z"></path>
+                                    </g>
+                                </svg>
+                                {% trans 'Fr. favorites' %}
+                            </a>
+                        {% else %}
+                            <a href="{% url 'advert:add_to_favorites' advert.pk %}?next={{ request.path }}" class="thumb__favorite">
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 19.5 19.5" style="enable-background:new 0 0 19.5 19.5;" xml:space="preserve">
+                                    <g>
+                                        <path d="M10.2,0.8l2.5,5.9L19,7.2c0.4,0,0.6,0.6,0.3,0.9l-4.8,4.2l1.4,6.2c0.1,0.4-0.4,0.8-0.7,0.5l-5.5-3.3L4.3,19
+                                        c-0.4,0.2-0.8-0.1-0.7-0.5L5,12.2L0.2,8C-0.2,7.8,0,7.2,0.5,7.2l6.3-0.5l2.5-5.9C9.5,0.3,10,0.3,10.2,0.8z"></path>
+                                    </g>
+                                </svg>
+                                {% trans 'To favorites' %}
+                            </a>
                         {% endif %}
                         <a class="thumb__read-more" href="{{ advert.get_absolute_url }}">{% trans 'Read more' %}</a>
                     </div>

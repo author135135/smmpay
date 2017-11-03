@@ -65,10 +65,10 @@ class AdvertSocialAccountInline(admin.StackedInline):
 
 
 class AdvertAdmin(admin.ModelAdmin):
-    list_display = ('title', 'advert_type', 'category', 'author', 'price', 'enabled_by_author', 'enabled_by_admin')
+    list_display = ('title', 'advert_type', 'category', 'author', 'price', 'enabled_by_author', 'status')
     list_per_page = 20
     search_fields = ('title', 'description')
-    list_filter = ('advert_type', 'category', 'enabled_by_author', 'enabled_by_admin')
+    list_filter = ('advert_type', 'category', 'enabled_by_author', 'status')
     inlines = (AdvertSocialAccountInline,)
 
 

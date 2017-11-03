@@ -14,7 +14,7 @@
                 <div class="thumb__head">
                     <div class="thumb__info">
                         <a class="thumb__title" href="{{ favorite.advert.get_absolute_url }}">{{ favorite.advert.title|truncatechars:"30" }}</a>
-                        <a class="thumb__subtitle" href="{{ favorite.advert.social_account.link }}">{{ favorite.advert.social_account.link }}</a>
+                        <a class="thumb__subtitle" href="{{ favorite.advert.social_account.link }}" target="_blank">{{ favorite.advert.social_account.link }}</a>
                     </div>
                     <div class="thumb__price">{{ favorite.advert.price }} $</div>
                 </div>

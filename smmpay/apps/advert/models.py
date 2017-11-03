@@ -60,9 +60,12 @@ class AdvertManager(ExtraQuerysetManager):
         return qs
 
 
-class EnabledAdvertManager(AdvertManager):
+class PublishedAdvertManager(AdvertManager):
     def get_queryset(self):
-        return super(EnabledAdvertManager, self).get_queryset().filter(enabled_by_author=True, enabled_by_admin=True)
+        qs = super(PublishedAdvertManager, self).get_queryset().filter(enabled_by_author=True,
+                                                                       status=Advert.ADVERT_STATUS_PUBLISHED)
+
+        return qs
 
 
 class FavoriteAdvertManager(models.Manager):
@@ -195,6 +198,16 @@ class Advert(models.Model):
         (ADVERT_TYPE_SOCIAL_ACCOUNT, _('Social account')),
     )
 
+    ADVERT_STATUS_PUBLISHED = 'published'
+    ADVERT_STATUS_MODERATION = 'moderation'
+    ADVERT_STATUS_VIOLATION = 'violation'
+
+    ADVERT_STATUSES = (
+        (ADVERT_STATUS_PUBLISHED, _('Published')),
+        (ADVERT_STATUS_MODERATION, _('Moderation')),
+        (ADVERT_STATUS_VIOLATION, _('Violation')),
+    )
+
     title = models.CharField(_('title'), max_length=255)
     description = models.TextField(_('description'), blank=True)
     advert_type = models.CharField(_('type of advert'), max_length=25, choices=ADVERT_TYPES,
@@ -205,12 +218,12 @@ class Advert(models.Model):
     price = models.IntegerField(_('price'))
     views = models.IntegerField(_('count of views'), default=0, editable=False)
     enabled_by_author = models.BooleanField(_('enabled by author'), default=True)
-    enabled_by_admin = models.BooleanField(_('enabled by admin'), default=False)
+    status = models.CharField(_('status'), max_length=25, choices=ADVERT_STATUSES, default=ADVERT_STATUS_MODERATION)
     created = models.DateTimeField(_('created'), auto_now_add=True)
     updated = models.DateTimeField(_('updated'), auto_now=True)
 
     objects = AdvertManager()
-    enabled_objects = EnabledAdvertManager()
+    published_objects = PublishedAdvertManager()
 
     class Meta:
         db_table = 'advert_advert'
@@ -241,6 +254,9 @@ class Advert(models.Model):
             self.save()
 
         return created
+
+    def is_published(self):
+        return self.status == self.ADVERT_STATUS_PUBLISHED
 
 
 class AdvertSocialAccount(models.Model):

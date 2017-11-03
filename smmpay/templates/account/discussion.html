@@ -43,7 +43,7 @@
                 <div class="thumb__head">
                     <div class="thumb__info">
                         <a class="thumb__title" href="{{ discussion.advert.get_absolute_url }}">{{ discussion.advert.title|truncatechars:"30" }}</a>
-                        <a class="thumb__subtitle" href="{{ discussion.advert.social_account.link }}">{{ discussion.advert.social_account.link|truncatechars:"30" }}</a>
+                        <a class="thumb__subtitle" href="{{ discussion.advert.social_account.link }}" target="_blank">{{ discussion.advert.social_account.link|truncatechars:"30" }}</a>
                     </div>
                     <div class="thumb_publication">
                         <span>{% trans 'Publication' %}:</span>

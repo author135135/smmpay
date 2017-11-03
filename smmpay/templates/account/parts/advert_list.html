@@ -14,7 +14,7 @@
                 <div class="thumb__head">
                     <div class="thumb__info">
                         <a class="thumb__title" href="{{ advert.get_absolute_url }}">{{ advert.title }}</a>
-                        <a class="thumb__subtitle" href="{{ advert.social_account.link }}">{{ advert.social_account.link|truncatechars:"30" }}</a>
+                        <a class="thumb__subtitle" href="{{ advert.social_account.link }}" target="_blank">{{ advert.social_account.link|truncatechars:"30" }}</a>
                     </div>
                     <div class="thumb_publication">
                         <span>{% trans 'Publication' %}:</span>
@@ -51,7 +51,7 @@
                             </svg>
                             {% trans 'Edit' %}
                         </a>
-                        {% if advert.enabled_by_admin %}
+                        {% if advert.is_published %}
                             {% if advert.enabled_by_author %}
                                 <a href="{% url 'account:advert_deactivate' advert.pk %}" class="thumb__delete active-adt_btn">
                                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="475.085px" height="475.085px" viewBox="0 0 475.085 475.085" style="enable-background:new 0 0 475.085 475.085;" xml:space="preserve">
@@ -130,7 +130,7 @@
                                         </g>
                                     </g>
                                 </svg>
-                                {% trans 'Deactivated by admin' %}
+                                {{ advert.get_status_display|capfirst }}
                             </a>
                         {% endif %}
                     </nav>

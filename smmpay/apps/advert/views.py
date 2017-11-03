@@ -106,15 +106,15 @@ class IndexView(AdvertFilterMixin, ListView):
             selected_social_network = int(selected_social_network)
 
         context['selected_social_network'] = selected_social_network
-        context['recommended_adverts'] = Advert.enabled_objects.filter(
+        context['recommended_adverts'] = Advert.published_objects.filter(
             social_account__social_network=selected_social_network).order_by('-views')
 
         return context
 
     def get_queryset(self):
         qs = super(IndexView, self).get_queryset()
-        qs &= Advert.enabled_objects.get_extra_queryset(select_items=['in_favorite'],
-                                                        select_params=[self.request.user.pk])
+        qs &= Advert.published_objects.get_extra_queryset(select_items=['in_favorite'],
+                                                          select_params=[self.request.user.pk])
 
         return qs
 
@@ -127,8 +127,8 @@ class AdvertView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(AdvertView, self).get_context_data(**kwargs)
 
-        context['prev_advert'] = self.model.enabled_objects.filter(pk__lt=self.object.pk).first()
-        context['next_advert'] = self.model.enabled_objects.filter(pk__gt=self.object.pk).order_by('pk').first()
+        context['prev_advert'] = self.model.published_objects.filter(pk__lt=self.object.pk).first()
+        context['next_advert'] = self.model.published_objects.filter(pk__gt=self.object.pk).order_by('pk').first()
 
         context['message_form'] = advert_forms.DiscussionMessageForm()
 
@@ -136,8 +136,8 @@ class AdvertView(DetailView):
 
     def get_queryset(self):
         qs = super(AdvertView, self).get_queryset()
-        qs &= Advert.enabled_objects.get_extra_queryset(select_items=['in_favorite'],
-                                                        select_params=[self.request.user.pk])
+        qs &= Advert.published_objects.get_extra_queryset(select_items=['in_favorite'],
+                                                          select_params=[self.request.user.pk])
 
         return qs
 
@@ -147,7 +147,7 @@ class AdvertAddToFavoritesView(LoginRequiredMixin, View):
         advert_id = kwargs['pk']
 
         try:
-            advert = Advert.enabled_objects.get(pk=advert_id)
+            advert = Advert.published_objects.get(pk=advert_id)
 
             try:
                 FavoriteAdvert.objects.get(advert=advert, user=request.user)
@@ -181,7 +181,7 @@ class AdvertSendMessageView(View):
 
         if self.request.user.is_authenticated():
             try:
-                advert = Advert.enabled_objects.get(pk=kwargs['pk'])
+                advert = Advert.published_objects.get(pk=kwargs['pk'])
 
                 try:
                     discussion = Discussion.objects.get(advert=advert, users=self.request.user)
@@ -211,7 +211,7 @@ class AdvertAddViewView(View):
         }
 
         try:
-            advert = Advert.enabled_objects.get(pk=kwargs['pk'])
+            advert = Advert.published_objects.get(pk=kwargs['pk'])
 
             response_data['success'] = advert.add_view(self.request)
         except Advert.DoesNotExist:
@@ -341,7 +341,7 @@ class AdvertEditView(UpdateView):
 
         sub_form_class = 'Advert{}Form'.format(advert_type)
 
-        return getattr(advert_forms, sub_form_class)(self.request.POST or None,
+        return getattr(advert_forms, sub_form_class)(self.request.POST or None, self.request.FILES or None,
                                                      instance=self.get_sub_object())
 
     def get_queryset(self):
@@ -362,7 +362,7 @@ class UserAdvertsView(IndexView):
         user_model = get_user_model()
 
         context['user_obj'] = user_model.objects.get(pk=self.kwargs['pk'])
-        context['user_adverts_count'] = Advert.enabled_objects.filter(author=self.kwargs['pk']).count()
+        context['user_adverts_count'] = Advert.published_objects.filter(author=self.kwargs['pk']).count()
 
         recommended_adverts_qs = context['recommended_adverts']
 

@@ -2,6 +2,10 @@
     $(document).ready(function(e) {
         var process_in_progress = 0;
 
+        $.ajaxSetup({
+            cache: false
+        });
+
         // Filter form handlers
         if ($('#filter-form').length) {
             $('.header__filter').on('click', function (e) {
@@ -177,6 +181,10 @@
                             if (value) {
                                 $(form_field).val(value);
                             } else {
+                                if (field === 'external_logo') {
+                                    form_field = $('input[name="logo"]', advert_add_form);
+                                }
+
                                 $(form_field).parent().removeClass('hidden');
                             }
                         });

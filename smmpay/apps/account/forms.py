@@ -190,7 +190,7 @@ class EmailChangeForm(forms.Form):
 
 
 class SearchForm(forms.Form):
-    query = forms.CharField(label=_('Query'), required=False, widget=forms.TextInput(
+    query = forms.CharField(label=_('Search query'), required=False, widget=forms.TextInput(
         attrs={'class': 'filter__search', 'placeholder': _("For example 'sport'")}))
     order = forms.ChoiceField(label=_('Order'), required=False, widget=forms.Select(attrs={'class': 'filter__select'}))
 
