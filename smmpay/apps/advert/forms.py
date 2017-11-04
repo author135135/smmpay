@@ -101,7 +101,7 @@ class AdvertSocialAccountForm(forms.ModelForm):
 
         external_logo_url = self.cleaned_data['external_logo']
 
-        if not self.cleaned_data['logo'] and external_logo_url:
+        if external_logo_url:
             try:
                 response = requests.get(external_logo_url)
             except requests.HTTPError as e:
