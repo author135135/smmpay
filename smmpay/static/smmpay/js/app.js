@@ -109,6 +109,38 @@
             })
         }
 
+        // Add/delete favorites handlers
+        if ($('.thumb__favorite').length) {
+            $(document).on('click', '.thumb__favorite', function(e) {
+                e.preventDefault();
+
+                $.ajaxSetup({
+                    beforeSend: function(xhr, settings) {
+                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                        }
+                    }
+                });
+
+                var link = $(this);
+
+                if (is_user_authenticated()) {
+                    $.post(link.data('favorite-url'), {'advert_id': link.data('item-id')}, function(response) {
+                        if (response['success']) {
+                            link.toggleClass('active ');
+                            if (response['in_favorite']) {
+                                $('span', link).text(gettext('Delete from favorites'));
+                            } else {
+                                $('span', link).text(gettext('Add to favorites'));
+                            }
+                        }
+                    }, 'json');
+                } else {
+                    modal(gettext('You must be logged to perform this operation'));
+                }
+            })
+        }
+
         // Advert add form handlers
         if ($('#advert-add-form').length) {
             var advert_add_form = $('#advert-add-form');
@@ -518,7 +550,8 @@
                         message_form.trigger('reset');
 
                         $('#model-user_message').fadeOut(200);
-                        $('#think-model').fadeIn(200);
+
+                        modal(gettext('Your message was successfully sent'));
                     } else if (response['errors']) {
                         $.each(response['errors'], function (k, v) {
                             $('[name="' + k + '"]', message_form).addClass('error');
@@ -565,6 +598,35 @@
 
             $('#account-search-form select[name="order"]').change(function(e) {
                 $('#account-search-form').submit();
+            });
+        }
+
+        // Advert activate/deactivate handlers
+        if ($('.thumb__delete').length) {
+            $(document).on('click', '.thumb__delete', function(e) {
+                e.preventDefault();
+
+                $.ajaxSetup({
+                    beforeSend: function(xhr, settings) {
+                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                        }
+                    }
+                });
+
+                var link = $(this);
+
+                $.post(link.data('change-status-url'), {'advert_id': link.data('item-id')}, function(response) {
+                    if (response['success']) {
+                        link.toggleClass('deactivate-adt_btn activate-adt_btn');
+
+                        if (response['status']) {
+                            $('span', link).text(gettext('Deactivate'));
+                        } else {
+                            $('span', link).text(gettext('Activate'));
+                        }
+                    }
+                }, 'json');
             });
         }
 
@@ -728,6 +790,22 @@
 
                 load_data(url, {}, $('.items'));
             });
+
+            $(document).on('click', '.thumb__favorite', function(e) {
+                e.preventDefault();
+
+                var link = $(this);
+
+                $.post(link.data('favorite-url'), {'favorite_id': link.data('item-id')}, function(response) {
+                    if (response['success']) {
+                        var url = new URI(window.location.href);
+
+                        url.query('');
+
+                        load_data(url, {}, $('.items'));
+                    }
+                }, 'json');
+            });
         }
 
         // Account settings page handlers
@@ -757,8 +835,13 @@
         });
 
         $('.btn-write').on('click', function(e) {
-            e.preventDefault()
-            $('#model-user_message').fadeIn(200);
+            e.preventDefault();
+
+            if (is_user_authenticated()) {
+                $('#model-user_message').fadeIn(200);
+            } else {
+                modal(gettext('You must be logged to perform this operation'));
+            }
         });
 
         $('.hint-info_box .close-btn').on('click' , function() {
@@ -798,6 +881,17 @@
             $('.preloader-content').hide();
 
             process_in_progress = 0;
+        }
+
+        function is_user_authenticated() {
+            return $('body').data('user-authenticated');
+        }
+
+        function modal(message) {
+            var modal = $('#think-model');
+
+            $('.message', modal).empty().text(message);
+            modal.fadeIn(200);
         }
 
         function getCookie(name) {

@@ -1,9 +1,8 @@
 import logging
 
-from django.http import JsonResponse, Http404
-from django.shortcuts import redirect
+from django.http import JsonResponse
 from django.views.generic import CreateView, UpdateView, View, ListView, DetailView
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import get_user_model
 from django.contrib import messages
@@ -142,44 +141,48 @@ class AdvertView(DetailView):
         return qs
 
 
-class AdvertAddToFavoritesView(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        advert_id = kwargs['pk']
-
-        try:
-            advert = Advert.published_objects.get(pk=advert_id)
-
-            try:
-                FavoriteAdvert.objects.get(advert=advert, user=request.user)
-            except FavoriteAdvert.DoesNotExist:
-                favorite = FavoriteAdvert(advert=advert, user=request.user)
-                favorite.save()
-        except Advert.DoesNotExist:
-            raise Http404()
-
-        return redirect(request.GET.get('next', '/'))
-
-
-class AdvertDeleteFromFavoritesView(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        advert_id = kwargs['pk']
-
-        try:
-            favorite = FavoriteAdvert.objects.get(advert=advert_id, user=request.user)
-            favorite.delete()
-        except FavoriteAdvert.DoesNotExist:
-            pass
-
-        return redirect(request.GET.get('next', '/'))
-
-
-class AdvertSendMessageView(View):
-    def post(self, *args, **kwargs):
+class FavoriteAdvertView(View):
+    def post(self, request, *args, **kwargs):
         response_data = {
             'success': False
         }
 
-        if self.request.user.is_authenticated():
+        if request.user.is_authenticated():
+            in_favorite = None
+            advert_id = request.POST.get('advert_id', None)
+
+            if advert_id is not None:
+                try:
+                    advert = Advert.published_objects.get(pk=advert_id)
+
+                    try:
+                        favorite = FavoriteAdvert.objects.get(advert=advert, user=request.user)
+                        favorite.delete()
+
+                        in_favorite = False
+                    except FavoriteAdvert.DoesNotExist:
+                        favorite = FavoriteAdvert(advert=advert, user=request.user)
+                        favorite.save()
+
+                        in_favorite = True
+
+                    response_data = {
+                        'success': True,
+                        'in_favorite': in_favorite
+                    }
+                except Advert.DoesNotExist:
+                    pass
+
+        return JsonResponse(response_data)
+
+
+class AdvertSendMessageView(View):
+    def post(self, request, *args, **kwargs):
+        response_data = {
+            'success': False
+        }
+
+        if request.user.is_authenticated():
             try:
                 advert = Advert.published_objects.get(pk=kwargs['pk'])
 

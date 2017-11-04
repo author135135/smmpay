@@ -16,7 +16,7 @@
         <link href="{% static 'smmpay/components/jcf/css/jcf.css' %}" rel="stylesheet">
         <link href="{% static 'smmpay/css/index.css' %}" rel="stylesheet">
     </head>
-    <body class="home">
+    <body class="home" data-user-authenticated="{{ user.is_authenticated|yesno:"true,false" }}">
         <div class="wrapper">
             <header class="header">
                 <div class="header__container">
@@ -92,6 +92,12 @@
                 {% endif %}
                 <div class="inner">
                     {% block content %}{% endblock %}
+                    <div class="model-window" id="think-model">
+                        <div class="popup popup-think">
+                            <div class="close-btn"></div>
+                            <div class="message"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -131,6 +137,7 @@
             </div>
         </div>
         <script src="{% static 'smmpay/components/jquery/jquery.min.js' %}"></script>
+        <script src="{% url 'javascript-catalog' %}"></script>
         {% block script %}{% endblock %}
         <script src="{% static 'smmpay/js/app.js' %}"></script>
   </body>

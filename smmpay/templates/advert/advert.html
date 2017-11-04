@@ -91,27 +91,23 @@
                         </tbody>
                     </table>
                     <nav class="thumb__buttons">
-                        {% if advert.in_favorite %}
-                            <a href="{% url 'advert:delete_from_favorites' advert.pk %}?next={{ advert.get_absolute_url }}" class="thumb__favorite active">
-                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 19.5 19.5" style="enable-background:new 0 0 19.5 19.5;" xml:space="preserve">
-                                    <g>
-                                        <path d="M10.2,0.8l2.5,5.9L19,7.2c0.4,0,0.6,0.6,0.3,0.9l-4.8,4.2l1.4,6.2c0.1,0.4-0.4,0.8-0.7,0.5l-5.5-3.3L4.3,19
-                                        c-0.4,0.2-0.8-0.1-0.7-0.5L5,12.2L0.2,8C-0.2,7.8,0,7.2,0.5,7.2l6.3-0.5l2.5-5.9C9.5,0.3,10,0.3,10.2,0.8z"></path>
-                                    </g>
-                                </svg>
-                                {% trans 'Fr. favorites' %}
-                            </a>
-                        {% else %}
-                            <a href="{% url 'advert:add_to_favorites' advert.pk %}?next={{ advert.get_absolute_url }}" class="thumb__favorite">
-                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 19.5 19.5" style="enable-background:new 0 0 19.5 19.5;" xml:space="preserve">
-                                    <g>
-                                        <path d="M10.2,0.8l2.5,5.9L19,7.2c0.4,0,0.6,0.6,0.3,0.9l-4.8,4.2l1.4,6.2c0.1,0.4-0.4,0.8-0.7,0.5l-5.5-3.3L4.3,19
-                                        c-0.4,0.2-0.8-0.1-0.7-0.5L5,12.2L0.2,8C-0.2,7.8,0,7.2,0.5,7.2l6.3-0.5l2.5-5.9C9.5,0.3,10,0.3,10.2,0.8z"></path>
-                                    </g>
-                                </svg>
-                                {% trans 'To favorites' %}
-                            </a>
-                        {% endif %}
+                        <a href="#" class="thumb__favorite {% if advert.in_favorite %}active{% endif %}"
+                           data-item-id="{{ advert.pk }}"
+                           data-favorite-url="{% url 'advert:favorite_advert' %}">
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 19.5 19.5" style="enable-background:new 0 0 19.5 19.5;" xml:space="preserve">
+                                <g>
+                                    <path d="M10.2,0.8l2.5,5.9L19,7.2c0.4,0,0.6,0.6,0.3,0.9l-4.8,4.2l1.4,6.2c0.1,0.4-0.4,0.8-0.7,0.5l-5.5-3.3L4.3,19
+                                    c-0.4,0.2-0.8-0.1-0.7-0.5L5,12.2L0.2,8C-0.2,7.8,0,7.2,0.5,7.2l6.3-0.5l2.5-5.9C9.5,0.3,10,0.3,10.2,0.8z"></path>
+                                </g>
+                            </svg>
+                            <span>
+                                {% if advert.in_favorite %}
+                                    {% trans 'Delete from favorites' %}
+                                {% else %}
+                                    {% trans 'Add to favorites' %}
+                                {% endif %}
+                            </span>
+                        </a>
                         {% if user.is_authenticated %}
                             {% if user.pk == advert.author.pk %}
                                 <a href="{% url 'advert:advert_edit' advert.pk %}" class="thumb__pain">
@@ -185,9 +181,7 @@
                 <strong class="name-user">{{ advert.author.get_short_name }}</strong>
                 <span>{% trans 'Advert creator' %}</span>
             </div>
-            {% if user.is_authenticated and user != advert.author %}
-                <a href="#" class="btn-write">{% trans 'Contact the author' %}</a>
-            {% endif %}
+            <a href="#" class="btn-write">{% trans 'Contact the author' %}</a>
             {% comment %}
             <span class="buy-button button">Купить</span>
             {% endcomment %}
@@ -245,15 +239,5 @@
                 </div>
             </div>
         </div>
-        <div class="model-window" id="think-model">
-            <div class="popup popup-think">
-                <div class="close-btn"></div>
-                {% trans 'Your message was successfully sent' %}
-            </div>
-        </div>
     </div>
-{% endblock %}
-
-{% block script %}
-    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
 {% endblock %}

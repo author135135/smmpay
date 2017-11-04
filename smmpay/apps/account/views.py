@@ -27,26 +27,6 @@ class LoginRequiredMixin(object):
         return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
-class AdvertChangeStatusMixin(object):
-    model = Advert
-    advert_status = True
-
-    def get_object(self, queryset=None):
-        try:
-            return self.model.objects.get(pk=self.kwargs['pk'], author=self.request.user,
-                                          enabled_by_author=not self.advert_status)
-        except self.model.DoesNotExist:
-            raise Http404
-
-    def get(self, request, *args, **kwargs):
-        advert = self.get_object()
-
-        advert.enabled_by_author = self.advert_status
-        advert.save()
-
-        return redirect(self.request.GET.get('next', reverse('account:index')))
-
-
 class SearchMixin(object):
     def get_queryset(self):
         qs = super(SearchMixin, self).get_queryset()
@@ -275,9 +255,6 @@ class DiscussionMessageAddView(FormView):
 
 
 class DiscussionMessageViewAddView(View):
-    def get(self, *args, **kwargs):
-        return HttpResponseNotAllowed(['post'])
-
     def post(self, *args, **kwargs):
         response_data = {
             'success': False
@@ -345,15 +322,25 @@ class FavoritesView(LoginRequiredMixin, SearchMixin, ListView):
         return context
 
 
-class FavoriteDeleteView(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        try:
-            favorite = FavoriteAdvert.objects.get(pk=kwargs['pk'])
-            favorite.delete()
-        except FavoriteAdvert.DoesNotExist:
-            raise Http404
+class FavoriteDeleteView(View):
+    def post(self, request, *args, **kwargs):
+        response_data = {
+            'success': False
+        }
 
-        return redirect(request.GET.get('next', reverse('account:favorites')))
+        if request.user.is_authenticated():
+            favorite_id = request.POST.get('favorite_id', None)
+
+            if favorite_id is not None:
+                try:
+                    favorite = FavoriteAdvert.objects.get(pk=favorite_id, user=request.user)
+                    favorite.delete()
+
+                    response_data['success'] = True
+                except FavoriteAdvert.DoesNotExist:
+                    pass
+
+        return JsonResponse(response_data)
 
 
 class SettingsView(LoginRequiredMixin, TemplateView):
@@ -500,9 +487,26 @@ class AccountDeleteView(LoginRequiredMixin, DeleteView):
         return self.request.user
 
 
-class AdvertDeactivateView(LoginRequiredMixin, AdvertChangeStatusMixin, DetailView):
-    advert_status = False
+class AdvertChangeStatusView(View):
+    def post(self, request, *args, **kwargs):
+        response_data = {
+            'success': False
+        }
 
+        if request.user.is_authenticated():
+            advert_id = request.POST.get('advert_id', None)
 
-class AdvertActivateView(LoginRequiredMixin, AdvertChangeStatusMixin, DetailView):
-    advert_status = True
+            if advert_id is not None:
+                try:
+                    advert = Advert.objects.get(pk=advert_id, author=request.user)
+                    advert.enabled_by_author = int(not advert.enabled_by_author)
+                    advert.save()
+
+                    response_data = {
+                        'success': True,
+                        'status': advert.enabled_by_author
+                    }
+                except Advert.DoesNotExist:
+                    pass
+
+        return JsonResponse(response_data)
