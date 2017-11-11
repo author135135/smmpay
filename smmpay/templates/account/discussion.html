@@ -188,3 +188,8 @@
         </div>
     </div>
 {% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script src="{% static 'smmpay/components/reconnecting-websocket.min.js' %}"></script>
+{% endblock %}

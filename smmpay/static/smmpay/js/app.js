@@ -663,7 +663,7 @@
             var ws_scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
             var ws_path = ws_scheme + '://' + window.location.host + window.location.pathname;
 
-            var socket = new WebSocket(ws_path);
+            var socket = new ReconnectingWebSocket(ws_path, null, {maxReconnectAttempts: 5, timeoutInterval: 5000});
 
             socket.onmessage = function(message) {
                 var data = JSON.parse(message.data);
