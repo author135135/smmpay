@@ -847,15 +847,15 @@ msgstr "Понятно"
 
 #: smmpay/templates/base/base_html.html:110
 msgid ""
-"SMMPay is a convenient platform for buying and selling public groups and "
+"QoopiQoopi is a convenient platform for buying and selling public groups and "
 "accounts in social networks"
 msgstr ""
-"SmmPay - это удобная площадка для купили и продажи пабликов и аккаунтов "
+"QoopiQoopi - это удобная площадка для купили и продажи пабликов и аккаунтов "
 "социальных сетей"
 
 #: smmpay/templates/base/base_html.html:135
-msgid "TM is used on the basis of the license of the copyright holder SMMPay"
-msgstr "ТМ используется на основании лицензии правообладателя SmmPay"
+msgid "TM is used on the basis of the license of the copyright holder QoopiQoopi"
+msgstr "ТМ используется на основании лицензии правообладателя QoopiQoopi"
 
 #: smmpay/templates/blog/post.html:40
 msgid "Share in social networks"

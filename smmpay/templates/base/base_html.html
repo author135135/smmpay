@@ -12,6 +12,7 @@
         <meta name="viewport" content="width=1200">
         {% block head %}{% endblock %}
         <title>SMMPay{% block title %}{% endblock %}</title>
+        <link href="{% static 'smmpay/favicon.ico' %}" rel="shortcut icon" type="image/x-icon" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;amp;subset=cyrillic,cyrillic-ext" rel="stylesheet">
         <link href="{% static 'smmpay/components/jcf/css/jcf.css' %}" rel="stylesheet">
         <link href="{% static 'smmpay/css/index.css' %}" rel="stylesheet">
@@ -21,7 +22,7 @@
             <header class="header">
                 <div class="header__container">
                     <a class="logo" href="{% url 'advert:index' %}">
-                        <img src="{% static 'smmpay/data/logo.png' %}" width="103" height="42">
+                        <img src="{% static 'smmpay/data/logo.png' %}">
                     </a>
                     <div class="header__section">
 
@@ -107,7 +108,7 @@
                     <a class="logo" href="{% url 'advert:index' %}">
                         <img src="{% static 'smmpay/data/logo.png' %}" width="103" height="42">
                     </a>
-                    <div class="footer__info">{% trans 'SMMPay is a convenient platform for buying and selling public groups and accounts in social networks' %}</div>
+                    <div class="footer__info">{% trans 'QoopiQoopi is a convenient platform for buying and selling public groups and accounts in social networks' %}</div>
                 </div>
 
                 {% menu 'bottom_menu' %}
@@ -132,7 +133,7 @@
                             </svg>
                         </a>
                     </div>
-                    <div class="footer__copyright">{% trans 'TM is used on the basis of the license of the copyright holder SMMPay' %}</div>
+                    <div class="footer__copyright">{% trans 'TM is used on the basis of the license of the copyright holder QoopiQoopi' %}</div>
                 </div>
             </div>
         </div>
