@@ -708,7 +708,7 @@ msgstr "В избранном"
 #: smmpay/templates/advert/parts/advert_list.html:82
 #: smmpay/templates/blog/parts/post_list.html:17
 msgid "Read more"
-msgstr "Читать далее"
+msgstr "Подробнее"
 
 #: smmpay/templates/account/settings.html:24
 msgid "User info"

@@ -27,7 +27,7 @@ class AdvertFilterMixin(object):
     filters = {
         'search_query': ['title__icontains', 'description__icontains'],
         'region': ['social_account__region'],
-        'category': ['social_account__category'],
+        'category': ['category'],
         'price_min': ['price__gte'],
         'price_max': ['price__lte'],
         'subscribers_min': ['social_account__subscribers__gte'],

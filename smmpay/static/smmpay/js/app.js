@@ -30,6 +30,8 @@
             jcf.replaceAll();
 
             $('.filter__reset').on('click', function () {
+                var need_reload = false;
+
                 $('#filter-form input').val('');
 
                 $('#filter-form select').each(function(k, v) {
@@ -41,18 +43,15 @@
                 var url = new URI(window.location.href);
 
                 $.each($('#filter-form').serializeArray(), function(index, item) {
-                    if (url.hasQuery(item.name)) {
-                        url.search(function(data) {
-                            if (data['social_network']) {
-                                return {social_network: data['social_network']};
-                            }
-                        });
-
-                        load_data(url, {}, $('.items'));
-
-                        return false;
+                    if (url.hasSearch(item.name)) {
+                        url.removeQuery(item.name);
+                        need_reload = true;
                     }
                 });
+
+                if (need_reload) {
+                    load_data(url, {}, $('.items'));
+                }
             });
 
             $('#filter-form').on('submit', function (e) {
@@ -99,6 +98,10 @@
 
             $('.filter__form-social a').click(function(e) {
                 e.preventDefault();
+
+                if (process_in_progress) {
+                    return false;
+                }
 
                 var url = new URI($(this).attr('href'));
 
