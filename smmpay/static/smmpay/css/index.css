@@ -862,7 +862,7 @@ body > .jcf-select-drop {
   width: 100%;
   margin-top: -170px;
   height: 170px;
-  background: #2b364f; }
+  background: #212738; }
 
 .footer__nav {
   display: -webkit-flex;
@@ -971,7 +971,7 @@ body > .jcf-select-drop {
     text-align: center; } }
 
 .footer__bottom {
-  background: #252f45; }
+  background: #1e2431; }
 
 .footer__copyright {
   color: #68789c; }
@@ -1047,7 +1047,7 @@ body > .jcf-select-drop {
 
 .header {
   width: 100%;
-  background: #262f45; }
+  background: #212738; }
 
 .header__container {
   height: 80px;
@@ -1713,7 +1713,6 @@ body > .jcf-select-drop {
   border-bottom: 1px solid #f1f4fa; }
 
 .sidebar__list {
-  margin-bottom: 30px;
   padding: 25px; }
 
 .sidebar__item {
@@ -1781,7 +1780,7 @@ body > .jcf-select-drop {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #2b364f;
+  background: #212838;
   margin-right: 10px;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1836,13 +1835,12 @@ body > .jcf-select-drop {
     padding: 15px; } }
 
 .thumb__image {
-  width: 42px;
-  -webkit-flex: 0 0 42px;
-  -ms-flex: 0 0 42px;
-  flex: 0 0 42px;
+  width: 48px;
+  -webkit-flex: 0 0 48px;
+  -ms-flex: 0 0 48px;
+  flex: 0 0 48px;
   margin-right: 15px;
-  position: relative;
-  top: 4px; }
+  position: relative; }
 
 @media only screen and (max-width: 340px) {
   .thumb__image {
@@ -1850,8 +1848,8 @@ body > .jcf-select-drop {
 
 .thumb__avatar {
   display: block;
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   overflow: hidden; }
   .thumb__avatar img {
@@ -1893,7 +1891,7 @@ body > .jcf-select-drop {
   font-size: 18px;
   color: #151924;
   font-weight: 600;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   position: relative;
   top: 4px; }
 
@@ -2133,13 +2131,13 @@ body > .jcf-select-drop {
   letter-spacing: -0.025em;
   font-weight: 600;
   cursor: pointer;
-  border: 1px solid #c7cedf;
+  border: 1px solid #dedede;
   border-radius: 20px;
   margin-left: 25px;
   transition: box-shadow .2s ease-in-out, border-color .2s ease-in-out; }
   .thumb__read-more:hover {
-    border-color: transparent;
-    box-shadow: 0px 7px 24px 0px rgba(49, 62, 90, 0.19); }
+    border-color: #d8dde8d9;
+    background: #f7f7f7; }
 
 @media only screen and (max-width: 480px) {
   .thumb__read-more {
@@ -3747,7 +3745,8 @@ body > .jcf-select-drop {
       color: #888a8e;
       font-size: 13px; }
   .item-blog .img {
-    display: block; }
+    display: block;
+    padding: 25px 25px 0; }
   .item-blog .text-wrap {
     padding: 20px 25px 25px;
     font-size: 14px; }
@@ -3827,3 +3826,12 @@ body > .jcf-select-drop {
   top: 4px; }
 
 /*# sourceMappingURL=index.css.map */
+
+.load-avatar-img {
+   border-color: transparent;
+   padding: 0; }
+
+.load-avatar-img:focus {
+   border-color: transparent;
+   padding: 0;
+   box-shadow: none; }
