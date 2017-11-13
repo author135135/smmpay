@@ -81,7 +81,9 @@ class AdvertSocialAccountForm(forms.ModelForm):
         super(AdvertSocialAccountForm, self).__init__(*args, **kwargs)
 
         for field in self.fields:
-            self.fields[field].widget.attrs['class'] = 'log__input'
+            class_name = 'load-avatar-img' if field == 'logo' else 'log__input'
+
+            self.fields[field].widget.attrs['class'] = class_name
 
     def clean_link(self):
         link = self.cleaned_data['link']

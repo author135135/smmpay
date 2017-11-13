@@ -6,7 +6,7 @@
             {% if favorite.advert.social_account.logo %}
                 <div class="thumb__image">
                     <a class="thumb__avatar" href="{{ favorite.advert.get_absolute_url }}">
-                        <img src="{{ favorite.advert.social_account.logo.url }}" width="42" height="42">
+                        <img src="{{ favorite.advert.social_account.logo.url }}">
                     </a>
                 </div>
             {% endif %}
@@ -75,7 +75,7 @@
                                     c-0.4,0.2-0.8-0.1-0.7-0.5L5,12.2L0.2,8C-0.2,7.8,0,7.2,0.5,7.2l6.3-0.5l2.5-5.9C9.5,0.3,10,0.3,10.2,0.8z"></path>
                                 </g>
                             </svg>
-                            {% trans 'Delete from favorites' %}
+                            <span>{% trans 'Delete from favorites' %}</span>
                         </a>
                         <a class="thumb__read-more" href="{{ favorite.advert.get_absolute_url }}">{% trans 'Read more' %}</a>
                     </div>
