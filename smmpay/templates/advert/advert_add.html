@@ -48,17 +48,17 @@
                         <div class="error_input">{{ error }}</div>
                     {% endfor %}
                 </div>
-                <div class="item hidden-field {% if not sub_form.subscribers.errors %}hidden{% endif %}">
-                    <div class="log__title">{{ sub_form.subscribers.label }}</div>
-                    {{ sub_form.subscribers }}
-                    {% for error in sub_form.subscribers.errors %}
-                        <div class="error_input">{{ error }}</div>
-                    {% endfor %}
-                </div>
                 <div class="item hidden-field {% if not form.title.errors %}hidden{% endif %}">
                     <div class="log__title">{{ form.title.label }}</div>
                     {{ form.title }}
                     {% for error in form.title.errors %}
+                        <div class="error_input">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="item hidden-field {% if not sub_form.subscribers.errors %}hidden{% endif %}">
+                    <div class="log__title">{{ sub_form.subscribers.label }}</div>
+                    {{ sub_form.subscribers }}
+                    {% for error in sub_form.subscribers.errors %}
                         <div class="error_input">{{ error }}</div>
                     {% endfor %}
                 </div>

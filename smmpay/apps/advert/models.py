@@ -1,6 +1,7 @@
 import random
 
 from urllib.parse import urlparse
+from datetime import timedelta
 
 from django.db import models
 from django.db.models import FieldDoesNotExist
@@ -247,13 +248,15 @@ class Advert(models.Model):
     def add_view(self, request):
         ip = request.META['REMOTE_ADDR']
 
-        views_statistic_obj, created = self.views_statistic.get_or_create(ip=ip)
+        if not self.views_statistic.filter(ip=ip, date__gte=timezone.now() - timedelta(days=1)).exists():
+            self.views_statistic.create(ip=ip)
 
-        if created:
             self.views += 1
             self.save()
 
-        return created
+            return True
+
+        return False
 
     def is_published(self):
         return self.status == self.ADVERT_STATUS_PUBLISHED
