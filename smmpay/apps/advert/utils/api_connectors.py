@@ -29,7 +29,7 @@ class VkSocialNetworkConnector(SocialNetworkConnector):
     """
     def __init__(self, *args, **kwargs):
         self.account_link = parse.urlparse(kwargs.get('account_link', None))
-        # @TODO Check why vk.AuthSession not works
+        # @TODO Keep eyes on it, seems vk changed their workflow
         """session = vk.AuthSession(app_id=settings.SOCIAL_NETWORK_VK_APP_ID,
                                  user_login=settings.SOCIAL_NETWORK_VK_LOGIN,
                                  user_password=settings.SOCIAL_NETWORK_VK_PASSWORD)"""

@@ -4,8 +4,6 @@ from django.contrib import admin
 from django.conf import settings
 from django.views.i18n import javascript_catalog
 
-import debug_toolbar
-
 urlpatterns = [
     url(r'^jsi18n/$', javascript_catalog, name='javascript-catalog'),
     url(r'^blog/', include('smmpay.apps.blog.urls', namespace='blog')),
@@ -16,10 +14,15 @@ urlpatterns = [
 ]
 
 
-# Remove all above on production
-urlpatterns += [
-    url(r'^__debug__/', include(debug_toolbar.urls)),
-]
+if settings.DEBUG:
+    try:
+        import debug_toolbar
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+        urlpatterns += [
+            url(r'^__debug__/', include(debug_toolbar.urls)),
+        ]
+
+        urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+        urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    except ImportError:
+        pass
