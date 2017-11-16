@@ -181,7 +181,9 @@
                 <strong class="name-user">{{ advert.author.get_short_name }}</strong>
                 <span>{% trans 'Advert creator' %}</span>
             </div>
-            <a href="#" class="btn-write">{% trans 'Contact the author' %}</a>
+            {% if advert.author != user %}
+                <a href="#" class="btn-write">{% trans 'Contact the author' %}</a>
+            {% endif %}
             {% comment %}
             <span class="buy-button button">Купить</span>
             {% endcomment %}

@@ -40,8 +40,35 @@
                         <div class="error_input">{{ error }}</div>
                     {% endfor %}
                 </div>
-                <ul class="product-table_info hidden"></ul>
-                <div class="item hidden-field {% if request.method == 'GET' and not sub_form.external_logo.value %}hidden{% endif %}">
+                {% if form.title or sub_form.subscribers or sub_form.external_logo %}
+                    <ul class="product-table_info">
+                        {% if sub_form.external_logo.value %}
+                            <li>
+                                <span class="th">{% trans 'logo' %}</span>
+                                <span class="td">
+                                    <a class="thumb__avatar">
+                                        <img src="{{ sub_form.external_logo.value }}">
+                                    </a>
+                                </span>
+                            </li>
+                        {% endif %}
+                        {% if form.title.value %}
+                            <li>
+                                <span class="th">{% trans 'title' %}</span>
+                                <span class="td">{{ form.title.value }}</span>
+                            </li>
+                        {% endif %}
+                        {% if sub_form.subscribers.value %}
+                            <li>
+                                <span class="th">{% trans 'subscribers' %}</span>
+                                <span class="td">{{ sub_form.subscribers.value }}</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% else %}
+                    <ul class="product-table_info hidden"></ul>
+                {% endif %}
+                <div class="item hidden-field {% if request.method == 'GET' or sub_form.external_logo.value %}hidden{% endif %}">
                     <div class="log__title">{{ sub_form.logo.label }}</div>
                     {{ sub_form.logo }}
                     {% for error in sub_form.logo.errors %}

@@ -40,6 +40,8 @@ class FilterForm(forms.Form):
 
 
 class AdvertForm(forms.ModelForm):
+    price = forms.IntegerField(label=_('Price'), min_value=0)
+
     class Meta:
         model = Advert
         fields = ('title', 'description', 'price', 'advert_type', 'category')

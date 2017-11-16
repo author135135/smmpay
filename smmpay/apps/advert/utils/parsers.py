@@ -26,6 +26,7 @@ class WebClient(object):
         chrome_options = webdriver.ChromeOptions()
 
         chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--headless")
 
         self.browser = webdriver.Chrome(driver_path, chrome_options=chrome_options)
 

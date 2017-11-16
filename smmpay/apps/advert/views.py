@@ -131,12 +131,18 @@ class AdvertView(DetailView):
 
         context['message_form'] = advert_forms.DiscussionMessageForm()
 
+        if self.object.author == self.request.user and self.object.status != Advert.ADVERT_STATUS_PUBLISHED:
+            messages.add_message(self.request, messages.INFO, _('Advert on moderation. '
+                                                                'It will be published on site after this.'))
+
         return context
 
     def get_queryset(self):
         qs = super(AdvertView, self).get_queryset()
-        qs &= Advert.published_objects.get_extra_queryset(select_items=['in_favorite'],
-                                                          select_params=[self.request.user.pk])
+        qs &= Advert.objects.get_extra_queryset(select_items=['in_favorite'], select_params=[self.request.user.pk])
+
+        qs = qs.filter(Q(enabled_by_author=True, status=Advert.ADVERT_STATUS_PUBLISHED) |
+                       Q(author=self.request.user.pk))
 
         return qs
 
@@ -186,21 +192,22 @@ class AdvertSendMessageView(View):
             try:
                 advert = Advert.published_objects.get(pk=kwargs['pk'])
 
-                try:
-                    discussion = Discussion.objects.get(advert=advert, users=self.request.user)
-                except Discussion.DoesNotExist:
-                    discussion_users = [self.request.user, advert.author]
+                if advert.author != request.user:
+                    try:
+                        discussion = Discussion.objects.get(advert=advert, users=self.request.user)
+                    except Discussion.DoesNotExist:
+                        discussion_users = [self.request.user, advert.author]
 
-                    discussion = Discussion.create_discussion(advert, discussion_users)
+                        discussion = Discussion.create_discussion(advert, discussion_users)
 
-                form = advert_forms.DiscussionMessageForm(self.request.POST)
+                    form = advert_forms.DiscussionMessageForm(self.request.POST)
 
-                if form.is_valid():
-                    discussion.add_message(self.request.user, form.cleaned_data['message'])
+                    if form.is_valid():
+                        discussion.add_message(self.request.user, form.cleaned_data['message'])
 
-                    response_data['success'] = True
-                else:
-                    response_data['errors'] = form.errors
+                        response_data['success'] = True
+                    else:
+                        response_data['errors'] = form.errors
             except Advert.DoesNotExist:
                 pass
 

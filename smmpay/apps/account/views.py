@@ -434,6 +434,14 @@ class RegistrationView(views.RegistrationView):
     template_name = 'registration/registration.html'
     form_class = RegistrationForm
 
+    def dispatch(self, *args, **kwargs):
+        dispatch = super(RegistrationView, self).dispatch(*args, **kwargs)
+
+        if self.request.user.is_authenticated():
+            return redirect(reverse('advert:index'))
+
+        return dispatch
+
     def get_success_url(self, user):
         return reverse('account:registration_complete')
 
@@ -441,7 +449,7 @@ class RegistrationView(views.RegistrationView):
         new_user = super(RegistrationView, self).register(form)
 
         # Set Profile model fields if presented in form
-        profile_fields = Profile._meta.get_fields()
+        profile_fields = [model_field.name for model_field in Profile._meta.get_fields()]
 
         for field in form.cleaned_data:
             if field in profile_fields:
