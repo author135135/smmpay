@@ -246,7 +246,7 @@ class Advert(models.Model):
             return None
 
     def add_view(self, request):
-        ip = request.META['REMOTE_ADDR']
+        ip = request.META.get('HTTP_X_REAL_IP', request.META['REMOTE_ADDR'])
 
         if not self.views_statistic.filter(ip=ip, date__gte=timezone.now() - timedelta(days=1)).exists():
             self.views_statistic.create(ip=ip)
