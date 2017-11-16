@@ -19,7 +19,7 @@ urlpatterns = [
          'set_password_form': SetPasswordForm},
         name='password_reset_confirm'),
     url(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
-    url(r'^registration/$', views.RegistrationView.as_view(), name='registration'),
+    url(r'^register/$', views.RegistrationView.as_view(), name='registration'),
     url(r'^activate/(?P<activation_key>[-:\w]+)/$', views.ActivationView.as_view(), name='account_activate'),
     url(r'^login/$', auth_views.login, {'authentication_form': AuthenticationForm,
                                         'redirect_authenticated_user': True}, name='login'),
