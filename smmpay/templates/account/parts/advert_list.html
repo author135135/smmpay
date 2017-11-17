@@ -128,7 +128,9 @@
                                     </g>
                                 </g>
                             </svg>
-                            <i class="number">{{ advert.new_messages_count }}</i>
+                            {% if advert.new_messages_count > 0 %}
+                                <i class="number">{{ advert.new_messages_count }}</i>
+                            {% endif %}
                         </a>
                         {% comment %}
                         <a href="#" class="thumb__read-more advertise-btn">Рекламировать</a>

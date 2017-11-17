@@ -70,7 +70,7 @@ class AdvertSocialAccountForm(forms.ModelForm):
             'logo': forms.FileInput()
         }
         help_texts = {
-            'link': _('Paste a link to the page, group or account that you are selling *')
+            'link': _('Paste a link to the page, group or account that you are selling')
         }
         error_messages = {
             'link': {

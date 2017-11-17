@@ -61,7 +61,9 @@
                                     </g>
                                 </g>
                             </svg>
-                            <i class="number">{{ discussion.new_messages_count }}</i>
+                            {% if discussion.new_messages_count > 0 %}
+                                <i class="number">{{ discussion.new_messages_count }}</i>
+                            {% endif %}
                         </span>
                     </div>
                 </a>

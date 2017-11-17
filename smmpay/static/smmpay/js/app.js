@@ -49,6 +49,21 @@
                     }
                 });
 
+                $('.filter__form-social a').each(function() {
+                    var link_url = new URI($(this).attr('href')),
+                        link_url_query = link_url.query(true);
+
+                    for (var key in link_url_query) {
+                        if (key !== 'social_network') {
+                            delete link_url_query[key];
+                        }
+                    }
+
+                    link_url.query(link_url_query);
+
+                    $(this).attr('href', link_url);
+                });
+
                 if (need_reload) {
                     load_data(url, {}, $('.items'));
                 }
@@ -61,18 +76,28 @@
                     return false;
                 }
 
-                var url = new URI(window.location.href);
-
-                url.search(function(data) {
-                    if (data['social_network']) {
-                        return {social_network: data['social_network']};
-                    }
-                });
+                var url = new URI(window.location.href),
+                    url_query = url.query(true);
 
                 $.each($('#filter-form').serializeArray(), function(index, item) {
                     if (item.value) {
-                        url.addQuery(item.name, item.value);
+                        url_query[item.name] = item.value;
+                    } else {
+                        delete url_query[item.name];
                     }
+                });
+
+                url.query(url_query);
+
+                $('.filter__form-social a').each(function() {
+                    var link_url = new URI($(this).attr('href')),
+                        link_url_query = link_url.query(true);
+
+                    url_query['social_network'] = link_url_query['social_network'];
+
+                    link_url.query(url_query);
+
+                    $(this).attr('href', link_url);
                 });
 
                 load_data(url, {}, $('.items'));

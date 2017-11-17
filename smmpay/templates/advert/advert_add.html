@@ -40,7 +40,7 @@
                         <div class="error_input">{{ error }}</div>
                     {% endfor %}
                 </div>
-                {% if form.title or sub_form.subscribers or sub_form.external_logo %}
+                {% if form.title.value or sub_form.subscribers.value or sub_form.external_logo.value %}
                     <ul class="product-table_info">
                         {% if sub_form.external_logo.value %}
                             <li>
@@ -110,7 +110,7 @@
                         <div class="error_input">{{ error }}</div>
                     {% endfor %}
                 </div>
-                <div class="bg-title addition-title">{% trans 'Additional' %}<i class="opener"></i></div>
+                <div class="bg-title addition-title active">{% trans 'Additional' %}<i class="opener"></i></div>
                 <div class="item addition-box">
                     <div class="text-required">{{ form.description.help_text }}</div>
                     {{ form.description }}

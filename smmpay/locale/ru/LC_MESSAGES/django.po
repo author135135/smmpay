@@ -238,9 +238,9 @@ msgstr ""
 "(1-1000 символов)"
 
 #: smmpay/apps/advert/forms.py:73
-msgid "Paste a link to the page, group or account that you are selling *"
+msgid "Paste a link to the page, group or account that you are selling"
 msgstr ""
-"Вставьте ссылку на страницу, группу или учетную запись, которую вы продаете *"
+"Вставьте ссылку на страницу, группу или учетную запись, которую вы продаете"
 
 #: smmpay/apps/advert/forms.py:77
 msgid ""
