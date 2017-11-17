@@ -42,6 +42,8 @@
 
                 var url = new URI(window.location.href);
 
+                url.removeQuery('page');
+
                 $.each($('#filter-form').serializeArray(), function(index, item) {
                     if (url.hasSearch(item.name)) {
                         url.removeQuery(item.name);
@@ -52,6 +54,8 @@
                 $('.filter__form-social a').each(function() {
                     var link_url = new URI($(this).attr('href')),
                         link_url_query = link_url.query(true);
+
+                    delete link_url_query['page'];
 
                     for (var key in link_url_query) {
                         if (key !== 'social_network') {
@@ -78,6 +82,8 @@
 
                 var url = new URI(window.location.href),
                     url_query = url.query(true);
+
+                delete url_query['page'];
 
                 $.each($('#filter-form').serializeArray(), function(index, item) {
                     if (item.value) {
