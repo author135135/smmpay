@@ -36,12 +36,16 @@ class Command(BaseCommand):
             Q(status=SocialAccountConfirmationQueue.QUEUE_STATUS_NEW) |
             Q(status=SocialAccountConfirmationQueue.QUEUE_STATUS_ERROR,
               attempts__lt=SocialAccountConfirmationQueue.QUEUE_MAX_ATTEMPTS,
-              last_start__lte=timezone.now() - timedelta(days=1))).values('pk')[:50]
+              last_start__lte=timezone.now() - timedelta(days=1)) |
+            Q(status=SocialAccountConfirmationQueue.QUEUE_STATUS_ERROR,
+              attempts__lt=SocialAccountConfirmationQueue.QUEUE_MAX_ATTEMPTS,
+              last_start=None)).values('pk')[:50]
 
         social_accounts_ids = [advert_id['pk'] for advert_id in social_accounts_ids]
 
         SocialAccountConfirmationQueue.objects.filter(pk__in=social_accounts_ids).update(
-            status=SocialAccountConfirmationQueue.QUEUE_STATUS_PROGRESS)
+            status=SocialAccountConfirmationQueue.QUEUE_STATUS_PROGRESS,
+            last_start=timezone.now())
 
         queue_items = SocialAccountConfirmationQueue.objects.filter(pk__in=social_accounts_ids).select_related(
             'social_account')

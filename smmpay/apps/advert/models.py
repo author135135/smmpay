@@ -351,7 +351,6 @@ class SocialAccountConfirmationQueue(models.Model):
 
     def new_attempt(self):
         self.attempts += 1
-        self.last_start = timezone.now()
 
         self.save()
 
