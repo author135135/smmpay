@@ -122,15 +122,18 @@
   .sidebar-user .btn-write {
     margin: 25px 0 10px;
     text-align: center;
-    background: #f1f4fa;
-    color: #434f6a;
+    color: #000000;
     display: block;
-    font-size: 15px;
+    font-size: 12px;
     border-radius: 25px;
     height: 46px;
     padding: 10px 0;
     transition: box-shadow .2s ease-in-out;
-    line-height: 26px; }
+    line-height: 24px;
+    background: #ffffff;
+    border: 2px solid #5d42e7;
+    font-weight: 700;
+    text-transform: uppercase; }
     .sidebar-user .btn-write:hover {
       box-shadow: 0 8px 25px 0 rgba(241, 244, 250, 0.5); }
   .sidebar-user .buy-button {
