@@ -34,7 +34,7 @@
                 {% endfor %}
                 <div class="bg-title">{% trans 'Required' %}</div>
                 <div class="item">
-                    <div class="text-required">{{ sub_form.link.help_text }}</div>
+                    <div class="text-required">{{ sub_form.link.help_text }}*</div>
                     {{ sub_form.link }}
                     {% for error in sub_form.link.errors %}
                         <div class="error_input">{{ error }}</div>
@@ -69,42 +69,42 @@
                     <ul class="product-table_info hidden"></ul>
                 {% endif %}
                 <div class="item hidden-field {% if request.method == 'GET' or sub_form.external_logo.value %}hidden{% endif %}">
-                    <div class="log__title">{{ sub_form.logo.label }}</div>
+                    <div class="log__title">{{ sub_form.logo.label }}*</div>
                     {{ sub_form.logo }}
                     {% for error in sub_form.logo.errors %}
                         <div class="error_input">{{ error }}</div>
                     {% endfor %}
                 </div>
                 <div class="item hidden-field {% if not form.title.errors %}hidden{% endif %}">
-                    <div class="log__title">{{ form.title.label }}</div>
+                    <div class="log__title">{{ form.title.label }}*</div>
                     {{ form.title }}
                     {% for error in form.title.errors %}
                         <div class="error_input">{{ error }}</div>
                     {% endfor %}
                 </div>
                 <div class="item hidden-field {% if not sub_form.subscribers.errors %}hidden{% endif %}">
-                    <div class="log__title">{{ sub_form.subscribers.label }}</div>
+                    <div class="log__title">{{ sub_form.subscribers.label }}*</div>
                     {{ sub_form.subscribers }}
                     {% for error in sub_form.subscribers.errors %}
                         <div class="error_input">{{ error }}</div>
                     {% endfor %}
                 </div>
                 <div class="item">
-                    <div class="log__title">{{ form.category.label }}</div>
+                    <div class="log__title">{{ form.category.label }}*</div>
                     {{ form.category }}
                     {% for error in form.category.errors %}
                         <div class="error_input">{{ error }}</div>
                     {% endfor %}
                 </div>
                 <div class="item">
-                    <div class="log__title">{{ sub_form.region.label }}</div>
+                    <div class="log__title">{{ sub_form.region.label }}*</div>
                     {{ sub_form.region }}
                     {% for error in sub_form.region.errors %}
                         <div class="error_input">{{ error }}</div>
                     {% endfor %}
                 </div>
                 <div class="item item-price">
-                    <div class="log__title">{{ form.price.label }}</div>
+                    <div class="log__title">{{ form.price.label }}*</div>
                     {{ form.price }}
                     {% for error in form.price.errors %}
                         <div class="error_input">{{ error }}</div>

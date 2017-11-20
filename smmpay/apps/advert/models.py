@@ -216,8 +216,8 @@ class Advert(models.Model):
     category = models.ForeignKey(verbose_name=_('category'), to=Category, null=True, related_name='adverts',
                                  on_delete=models.SET_NULL)
     author = models.ForeignKey(verbose_name=_('author'), to=User, related_name='adverts', on_delete=models.CASCADE)
-    price = models.IntegerField(_('price'))
-    views = models.IntegerField(_('count of views'), default=0, editable=False)
+    price = models.PositiveIntegerField(_('price'))
+    views = models.PositiveIntegerField(_('count of views'), default=0, editable=False)
     enabled_by_author = models.BooleanField(_('enabled by author'), default=True)
     status = models.CharField(_('status'), max_length=25, choices=ADVERT_STATUSES, default=ADVERT_STATUS_MODERATION)
     created = models.DateTimeField(_('created'), auto_now_add=True)
@@ -265,9 +265,9 @@ class Advert(models.Model):
 class AdvertSocialAccount(models.Model):
     advert = models.OneToOneField(verbose_name=_('advert'), to=Advert, related_name='social_account',
                                   on_delete=models.CASCADE)
-    logo = models.ImageField(_('logo'), upload_to=RenameFile('offer/social_accounts/%Y/%m/%d'), blank=True, null=True)
+    logo = models.ImageField(_('logo'), upload_to=RenameFile('offer/social_accounts/%Y/%m/%d'))
     link = models.URLField(_('account link'))
-    subscribers = models.IntegerField(_('subscribers'))
+    subscribers = models.PositiveIntegerField(_('subscribers'))
     social_network = models.ForeignKey(verbose_name=_('social network'), to=SocialNetwork, null=True,
                                        related_name='social_accounts', on_delete=models.SET_NULL)
     region = models.ForeignKey(verbose_name=_('region'), to=Region, null=True, related_name='social_accounts',

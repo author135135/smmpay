@@ -40,8 +40,6 @@ class FilterForm(forms.Form):
 
 
 class AdvertForm(forms.ModelForm):
-    price = forms.IntegerField(label=_('Price'), min_value=0)
-
     class Meta:
         model = Advert
         fields = ('title', 'description', 'price', 'advert_type', 'category')
@@ -61,14 +59,12 @@ class AdvertForm(forms.ModelForm):
 
 
 class AdvertSocialAccountForm(forms.ModelForm):
+    logo = forms.ImageField(required=False, widget=forms.FileInput())
     external_logo = forms.CharField(required=False, widget=forms.HiddenInput())
 
     class Meta:
         model = AdvertSocialAccount
         fields = ('link', 'subscribers', 'region', 'logo')
-        widgets = {
-            'logo': forms.FileInput()
-        }
         help_texts = {
             'link': _('Paste a link to the page, group or account that you are selling')
         }
@@ -95,6 +91,15 @@ class AdvertSocialAccountForm(forms.ModelForm):
             raise forms.ValidationError(_('Unsupported social network'), code='invalid')
 
         return link
+
+    def clean(self):
+        cleaned_data = super(AdvertSocialAccountForm, self).clean()
+
+        external_logo_url = cleaned_data.get('external_logo')
+        logo = cleaned_data.get('logo')
+
+        if not any([external_logo_url, logo]) and not self.has_error('logo'):
+            self.add_error('logo', forms.ValidationError(_('This field is required.'), code='required'))
 
     def save(self, commit=True):
         social_account = super(AdvertSocialAccountForm, self).save(commit=False)

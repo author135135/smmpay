@@ -68,6 +68,59 @@ class AdvertFilterMixin(object):
         return qs
 
 
+class AdvertSubFormMixin(object):
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.sub_object = self.get_sub_object()
+
+        return super(AdvertSubFormMixin, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.sub_object = self.get_sub_object()
+
+        form = self.get_form()
+        sub_form = self.get_sub_form()
+
+        if form.is_valid() and sub_form.is_valid():
+            return self.form_valid(form, sub_form)
+        else:
+            return self.form_invalid(form, sub_form)
+
+    def get_context_data(self, **kwargs):
+        if 'sub_form' not in kwargs:
+            kwargs['sub_form'] = self.get_sub_form()
+
+        return super(AdvertSubFormMixin, self).get_context_data(**kwargs)
+
+    def form_valid(self, form, sub_form):
+        self.object = form.save()
+        self.sub_object = sub_form.save()
+
+        return super(AdvertSubFormMixin, self).form_valid(form)
+
+    def form_invalid(self, form, sub_form):
+        return self.render_to_response(self.get_context_data(form=form, sub_form=sub_form))
+
+    def get_sub_form(self):
+        advert_type = self.model.get_default_advert_type()
+        advert_type = ''.join(map(lambda item: item.capitalize(), advert_type.split('_')))
+
+        sub_form_class = 'Advert{}Form'.format(advert_type)
+
+        return getattr(advert_forms, sub_form_class)(self.request.POST or None, self.request.FILES or None,
+                                                     instance=self.get_sub_object())
+
+    def get_sub_object(self):
+        sub_object = None
+
+        if isinstance(self.object, Advert):
+            advert_type = self.model.get_default_advert_type()
+            sub_object = getattr(self.object, advert_type)
+
+        return sub_object
+
+
 class IndexView(AdvertFilterMixin, ListView):
     template_name = 'advert/index.html'
     ajax_items_template_name = 'advert/parts/advert_list.html'
@@ -230,15 +283,13 @@ class AdvertAddViewView(View):
         return JsonResponse(response_data)
 
 
-class AdvertAddView(LoginRequiredMixin, CreateView):
+class AdvertAddView(LoginRequiredMixin, AdvertSubFormMixin, CreateView):
     template_name = 'advert/advert_add.html'
     form_class = advert_forms.AdvertForm
     model = Advert
 
     def get_context_data(self, **kwargs):
         context = super(AdvertAddView, self).get_context_data(**kwargs)
-
-        context['sub_form'] = self.get_sub_form()
 
         phrase_obj = Phrase.get_rand_phrase(get_language_from_request(self.request))
 
@@ -253,12 +304,7 @@ class AdvertAddView(LoginRequiredMixin, CreateView):
 
         return context
 
-    def form_valid(self, form):
-        sub_form = self.get_sub_form()
-
-        if not sub_form.is_valid():
-            return super(AdvertAddView, self).form_invalid(form)
-
+    def form_valid(self, form, sub_form):
         advert = form.save(False)
         advert.author = self.request.user
 
@@ -273,18 +319,15 @@ class AdvertAddView(LoginRequiredMixin, CreateView):
         messages.add_message(self.request, messages.SUCCESS, _('Advert successfully added. '
                                                                'It will be published on site after moderation.'))
 
-        return super(AdvertAddView, self).form_valid(form)
+        del self.request.session['advert_confirmation_code']
+
+        return super(AdvertAddView, self).form_valid(form, sub_form)
 
     def get_success_url(self):
         return self.request.GET.get('next', reverse_lazy('advert:index'))
 
-    def get_sub_form(self):
-        advert_type = self.model.get_default_advert_type()
-        advert_type = ''.join(map(lambda item: item.capitalize(), advert_type.split('_')))
-
-        sub_form_class = 'Advert{}Form'.format(advert_type)
-
-        return getattr(advert_forms, sub_form_class)(self.request.POST or None, self.request.FILES or None)
+    def get_object(self, queryset=None):
+        return None
 
 
 class AdvertSocialAccountInfoView(View):
@@ -316,51 +359,22 @@ class AdvertSocialAccountInfoView(View):
         return JsonResponse(response_data)
 
 
-class AdvertEditView(UpdateView):
+class AdvertEditView(LoginRequiredMixin, AdvertSubFormMixin, UpdateView):
     template_name = 'advert/advert_edit.html'
     form_class = advert_forms.AdvertForm
     model = Advert
     context_object_name = 'advert'
 
-    def get_context_data(self, **kwargs):
-        context = super(AdvertEditView, self).get_context_data(**kwargs)
-
-        context['sub_form'] = self.get_sub_form()
-
-        return context
-
-    def form_valid(self, form):
-        sub_form = self.get_sub_form()
-
-        if not sub_form.is_valid():
-            return super(AdvertEditView, self).form_invalid(form)
-
-        form.save()
-        sub_form.save()
-
+    def form_valid(self, form, sub_form):
         messages.add_message(self.request, messages.SUCCESS, _('Advert successfully edited'))
 
-        return super(AdvertEditView, self).form_valid(form)
+        return super(AdvertEditView, self).form_valid(form, sub_form)
 
     def get_success_url(self):
         return self.object.get_absolute_url()
 
-    def get_sub_form(self):
-        advert_type = self.model.get_default_advert_type()
-        advert_type = ''.join(map(lambda item: item.capitalize(), advert_type.split('_')))
-
-        sub_form_class = 'Advert{}Form'.format(advert_type)
-
-        return getattr(advert_forms, sub_form_class)(self.request.POST or None, self.request.FILES or None,
-                                                     instance=self.get_sub_object())
-
     def get_queryset(self):
         return super(AdvertEditView, self).get_queryset().filter(author=self.request.user)
-
-    def get_sub_object(self):
-        advert_type = self.model.get_default_advert_type()
-
-        return getattr(self.object, advert_type)
 
 
 class UserAdvertsView(IndexView):
