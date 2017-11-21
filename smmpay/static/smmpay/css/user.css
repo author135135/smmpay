@@ -117,7 +117,7 @@
             content: "";
             height: 100%;
             width: 5px;
-            background: #7d8aa5; }
+            background: #5d42e7; }
 
 .nav-user-search {
   background: #fff;
@@ -180,7 +180,8 @@
   margin-bottom: 0;
   border-radius: 0;
   padding: 25px;
-  position: relative; }
+  position: relative;
+  border: 0; }
   .ads-items .thumb.adt:after {
     content: "";
     left: 25px;
