@@ -89,7 +89,11 @@
                                 </a>
                             </div>
                         {% endif %}
-                        <a class="button" href="{% url 'advert:advert_add' %}">{% trans 'Add advert' %}</a>
+
+                        {% url 'advert:advert_add' as advert_add_url %}
+                        {% if request.path != advert_add_url %}
+                            <a class="button" href="{% url 'advert:advert_add' %}">{% trans 'Add advert' %}</a>
+                        {% endif %}
                     </div>
                 </div>
             </header>

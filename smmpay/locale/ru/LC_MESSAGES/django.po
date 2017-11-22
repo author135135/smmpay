@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-21 13:53+0200\n"
+"POT-Creation-Date: 2017-11-22 14:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,35 +133,35 @@ msgstr "профиль пользователя"
 msgid "user profiles"
 msgstr "профили пользователей"
 
-#: smmpay/apps/account/views.py:80 smmpay/apps/account/views.py:125
-#: smmpay/apps/account/views.py:295
+#: smmpay/apps/account/views.py:80 smmpay/apps/account/views.py:130
+#: smmpay/apps/account/views.py:300
 msgid "Newer first"
 msgstr "Самые новые"
 
-#: smmpay/apps/account/views.py:81 smmpay/apps/account/views.py:126
-#: smmpay/apps/account/views.py:296
+#: smmpay/apps/account/views.py:81 smmpay/apps/account/views.py:131
+#: smmpay/apps/account/views.py:301
 msgid "Older first"
 msgstr "Самые старые"
 
-#: smmpay/apps/account/views.py:82 smmpay/apps/account/views.py:127
-#: smmpay/apps/account/views.py:297
+#: smmpay/apps/account/views.py:82 smmpay/apps/account/views.py:132
+#: smmpay/apps/account/views.py:302
 msgid "Highest price"
 msgstr "Самые дорогие"
 
-#: smmpay/apps/account/views.py:83 smmpay/apps/account/views.py:128
-#: smmpay/apps/account/views.py:298
+#: smmpay/apps/account/views.py:83 smmpay/apps/account/views.py:133
+#: smmpay/apps/account/views.py:303
 msgid "Lowest price"
 msgstr "Самые дешевые"
 
-#: smmpay/apps/account/views.py:356
+#: smmpay/apps/account/views.py:361
 msgid "Profile data updated"
 msgstr "Данные профиля обновлены"
 
-#: smmpay/apps/account/views.py:357
+#: smmpay/apps/account/views.py:362
 msgid "Your password has been successfully changed"
 msgstr "Ваш пароль был успешно изменен"
 
-#: smmpay/apps/account/views.py:358
+#: smmpay/apps/account/views.py:363
 msgid "Mail with instructions was sent on your current email address"
 msgstr ""
 "Письмо с инструкциями была отправлена ​​на ваш текущий адрес электронной почты"
@@ -478,12 +478,12 @@ msgstr "просмотр"
 msgid "views"
 msgstr "просмотры"
 
-#: smmpay/apps/advert/views.py:188
+#: smmpay/apps/advert/views.py:182
 msgid "Advert on moderation. It will be published on site after this."
 msgstr ""
 "Объявление на модерации. Оно будет опубликовано на сайте после проверки."
 
-#: smmpay/apps/advert/views.py:319
+#: smmpay/apps/advert/views.py:313
 msgid ""
 "Advert has been successfully added. It will be published on the site after "
 "the moderation. Usually it takes from 20 to 50 minutes."
@@ -491,7 +491,7 @@ msgstr ""
 "Объявление успешно добавлено. Оно будет опубликован на сайте после "
 "модерации. Обычно это занимает от 20 до 50 минут."
 
-#: smmpay/apps/advert/views.py:370
+#: smmpay/apps/advert/views.py:364
 msgid "Advert successfully edited"
 msgstr "Объявление успешно отредактировано"
 
@@ -525,7 +525,7 @@ msgid "posts"
 msgstr "записи"
 
 #: smmpay/templates/account/account_base.html:23
-#: smmpay/templates/advert/user_adverts.html:32
+#: smmpay/templates/advert/user_adverts.html:33
 msgid "Adverts creator"
 msgstr "Создатель объявлений"
 
@@ -571,7 +571,7 @@ msgstr "Удалить аккаунт"
 #: smmpay/templates/advert/advert_add.html:10
 #: smmpay/templates/advert/advert_edit.html:10
 #: smmpay/templates/blog/index.html:10 smmpay/templates/blog/post.html:18
-#: smmpay/templates/flatpages/default.html:9
+#: smmpay/templates/flatpages/default.html:10
 msgid "Homepage"
 msgstr "Главная"
 
@@ -624,12 +624,12 @@ msgid "Edit"
 msgstr "Редактировать"
 
 #: smmpay/templates/account/discussion.html:111
-#: smmpay/templates/account/parts/advert_list.html:81
+#: smmpay/templates/account/parts/advert_list.html:63
 msgid "Deactivate"
 msgstr "Деактивировать"
 
 #: smmpay/templates/account/discussion.html:113
-#: smmpay/templates/account/parts/advert_list.html:83
+#: smmpay/templates/account/parts/advert_list.html:72
 msgid "Activate"
 msgstr "Активировать"
 
@@ -678,12 +678,20 @@ msgid "Account email change on site"
 msgstr "Изменение адреса электронной почты на сайте"
 
 #: smmpay/templates/account/index.html:44
-#: smmpay/templates/base/base_html.html:92
-#: smmpay/templates/flatpages/default.html:35
+#: smmpay/templates/base/base_html.html:95
+#: smmpay/templates/flatpages/default.html:36
 msgid "Add advert"
 msgstr "Добавить объявление"
 
-#: smmpay/templates/account/parts/advert_list.html:148
+#: smmpay/templates/account/parts/advert_list.html:59
+msgid "Active"
+msgstr "Активно"
+
+#: smmpay/templates/account/parts/advert_list.html:68
+msgid "Disabled"
+msgstr "Отключено"
+
+#: smmpay/templates/account/parts/advert_list.html:120
 #: smmpay/templates/account/parts/discussion_list.html:76
 #: smmpay/templates/account/parts/favorite_list.html:91
 #: smmpay/templates/advert/parts/advert_list.html:92
@@ -803,12 +811,19 @@ msgstr "Создание объявления"
 msgid "Required"
 msgstr "Обязательно"
 
-#: smmpay/templates/advert/advert_add.html:113
+#: smmpay/templates/advert/advert_add.html:109
+msgid ""
+"For convenience, enter the equivalent amount in US dollars at the current "
+"exchange rate"
+msgstr ""
+"Для удобства, введите сумму, эквивалентную в долларах США по текущему курсу"
+
+#: smmpay/templates/advert/advert_add.html:114
 #: smmpay/templates/advert/advert_edit.html:98
 msgid "Additional"
 msgstr "Дополнительно"
 
-#: smmpay/templates/advert/advert_add.html:122
+#: smmpay/templates/advert/advert_add.html:123
 #: smmpay/templates/advert/advert_edit.html:107
 msgid ""
 "Verification! Confirm that you are the owner of the page by placing this "
@@ -822,7 +837,7 @@ msgstr ""
 "кодовую фразу встатус, если это сообщество Vkontakte, для Twitter, Youtube и "
 "Facebook в описании и для Instagram в поле \"Обо мне\"."
 
-#: smmpay/templates/advert/advert_add.html:129
+#: smmpay/templates/advert/advert_add.html:130
 msgid "Publish advert"
 msgstr "Опубликовать объявление"
 
@@ -844,19 +859,19 @@ msgstr "Цена"
 msgid "Recommended"
 msgstr "Рекомендуемые"
 
-#: smmpay/templates/advert/user_adverts.html:36
+#: smmpay/templates/advert/user_adverts.html:37
 msgid "Count of adverts"
 msgstr "Количество объявлений"
 
-#: smmpay/templates/advert/user_adverts.html:40
+#: smmpay/templates/advert/user_adverts.html:41
 msgid "On the site with"
 msgstr "На сайте с"
 
-#: smmpay/templates/base/base_html.html:122
+#: smmpay/templates/base/base_html.html:126
 msgid "Understand"
 msgstr "Понятно"
 
-#: smmpay/templates/base/base_html.html:142
+#: smmpay/templates/base/base_html.html:146
 msgid ""
 "QoopiQoopi is a convenient platform for buying and selling public groups and "
 "accounts in social networks"
@@ -864,7 +879,7 @@ msgstr ""
 "QoopiQoopi - это удобная площадка для купили и продажи пабликов и аккаунтов "
 "социальных сетей"
 
-#: smmpay/templates/base/base_html.html:167
+#: smmpay/templates/base/base_html.html:171
 msgid ""
 "TM is used on the basis of the license of the copyright holder QoopiQoopi"
 msgstr "ТМ используется на основании лицензии правообладателя QoopiQoopi"
@@ -877,7 +892,7 @@ msgstr "Поделиться в социальных сетях"
 msgid "Go to news list"
 msgstr "Вернуться к списку новостей"
 
-#: smmpay/templates/flatpages/default.html:26
+#: smmpay/templates/flatpages/default.html:27
 msgid "Start ad search"
 msgstr "Начать поиск объявлений"
 
