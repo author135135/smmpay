@@ -894,10 +894,6 @@
                 if (response['success']) {
                     $(content).empty().append(response['data']);
 
-                    if (response['sidebar']) {
-                        $('.sidebar').replaceWith(response['sidebar']);
-                    }
-
                     $('html, body').animate({scrollTop: 0});
                 }
 

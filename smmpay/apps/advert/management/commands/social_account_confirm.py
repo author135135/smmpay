@@ -79,7 +79,7 @@ class Command(BaseCommand):
         SocialAccountConfirmationQueue.objects.filter(
             Q(status=SocialAccountConfirmationQueue.QUEUE_STATUS_SUCCESS) |
             Q(status=SocialAccountConfirmationQueue.QUEUE_STATUS_ERROR,
-              attempts=SocialAccountConfirmationQueue.QUEUE_MAX_ATTEMPTS) |
+              attempts__gte=SocialAccountConfirmationQueue.QUEUE_MAX_ATTEMPTS) |
             Q(social_account__confirmed=True)).delete()
 
         logger.info('Social account confirmation end.')

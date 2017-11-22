@@ -2,7 +2,7 @@ import logging
 
 from django.http import JsonResponse
 from django.views.generic import CreateView, UpdateView, View, ListView, DetailView
-from django.core.urlresolvers import reverse_lazy, reverse
+from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import get_user_model
 from django.contrib import messages
@@ -124,7 +124,6 @@ class AdvertSubFormMixin(object):
 class IndexView(AdvertFilterMixin, ListView):
     template_name = 'advert/index.html'
     ajax_items_template_name = 'advert/parts/advert_list.html'
-    ajax_sidebar_template_name = 'advert/parts/sidebar.html'
     context_object_name = 'adverts'
     model = Advert
     paginate_by = 10
@@ -136,7 +135,6 @@ class IndexView(AdvertFilterMixin, ListView):
             return JsonResponse({
                 'success': True,
                 'data': render_to_string(self.ajax_items_template_name, response.context_data, request),
-                'sidebar': render_to_string(self.ajax_sidebar_template_name, response.context_data, request),
             })
 
         return response
@@ -158,8 +156,6 @@ class IndexView(AdvertFilterMixin, ListView):
             selected_social_network = int(selected_social_network)
 
         context['selected_social_network'] = selected_social_network
-        context['recommended_adverts'] = Advert.published_objects.filter(
-            social_account__social_network=selected_social_network).order_by('-views')
 
         return context
 
@@ -316,8 +312,9 @@ class AdvertAddView(LoginRequiredMixin, AdvertSubFormMixin, CreateView):
 
         advert_additional.save()
 
-        messages.add_message(self.request, messages.SUCCESS, _('Advert successfully added. '
-                                                               'It will be published on site after moderation.'))
+        messages.add_message(self.request, messages.SUCCESS, _('Advert has been successfully added. '
+                                                               'It will be published on the site after the moderation. '
+                                                               'Usually it takes from 20 to 50 minutes.'))
 
         del self.request.session['advert_confirmation_code']
 
@@ -387,10 +384,6 @@ class UserAdvertsView(IndexView):
 
         context['user_obj'] = user_model.objects.get(pk=self.kwargs['pk'])
         context['user_adverts_count'] = Advert.published_objects.filter(author=self.kwargs['pk']).count()
-
-        recommended_adverts_qs = context['recommended_adverts']
-
-        context['recommended_adverts'] = recommended_adverts_qs.filter(author=self.kwargs['pk'])
 
         return context
 

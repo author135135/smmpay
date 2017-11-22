@@ -4,7 +4,7 @@
 <div class="sidebar">
     <div class="sidebar__head">{% trans 'Recommended' %}</div>
         <ul class="sidebar__list">
-            {% for advert in recommended_adverts|slice:":4" %}
+            {% for advert in recommended_adverts %}
                 <li class="sidebar__item">
                     <a class="sidebar__link" href="{{ advert.get_absolute_url }}">
                         {% if advert.social_account.logo %}

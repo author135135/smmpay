@@ -1,6 +1,7 @@
 {% extends 'base/base_html.html' %}
 {% load i18n %}
 {% load static %}
+{% load advert_tags %}
 
 {% block pre_content %}
     {% include 'advert/parts/filter.html' %}
@@ -15,7 +16,8 @@
             {% include 'advert/parts/advert_list.html' %}
         </div>
     </div>
-    {% include 'advert/parts/sidebar.html' %}
+
+    {% recommended_adverts '-views' %}
 {% endblock %}
 
 {% block script %}

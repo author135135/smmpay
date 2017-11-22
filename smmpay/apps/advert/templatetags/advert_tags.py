@@ -3,7 +3,7 @@ from django.utils.http import urlencode
 from django.utils.html import mark_safe
 from django.template.loader import get_template
 
-from smmpay.apps.advert.models import Menu
+from smmpay.apps.advert.models import Menu, Advert
 
 register = template.Library()
 
@@ -31,6 +31,21 @@ def menu(context, position=None, *args, **kwargs):
                 'menu': menu,
                 'request': context['request']
             })
+
+    return mark_safe(output)
+
+
+@register.simple_tag(takes_context=True)
+def recommended_adverts(context, order_by='-pk', count=4, *args, **kwargs):
+    output = ''
+
+    qs = Advert.published_objects.filter(**kwargs).order_by(order_by)[:count]
+
+    template = get_template(template_name='advert/parts/sidebar.html')
+
+    output = template.render({
+        'recommended_adverts': qs
+    })
 
     return mark_safe(output)
 
