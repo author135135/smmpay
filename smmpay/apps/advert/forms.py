@@ -17,23 +17,25 @@ class FilterForm(forms.Form):
         attrs={'class': 'filter__search', 'placeholder': _("For example 'sport'")}))
     region = forms.ChoiceField(label=_('Region'), required=False)
     category = forms.ChoiceField(label=_('Category'), required=False)
-    price_min = forms.CharField(label=_('From'), required=False,
-                                widget=forms.TextInput(attrs={'class': 'filter__value'}))
-    price_max = forms.CharField(label=_('To'), required=False, widget=forms.TextInput(attrs={'class': 'filter__value'}))
-    subscribers_min = forms.CharField(label=_('From'), required=False,
-                                      widget=forms.TextInput(attrs={'class': 'filter__value'}))
-    subscribers_max = forms.CharField(label=_('To'), required=False,
-                                      widget=forms.TextInput(attrs={'class': 'filter__value'}))
+    price_min = forms.IntegerField(label=_('From'), required=False,
+                                   widget=forms.TextInput(attrs={'class': 'filter__value'}))
+    price_max = forms.IntegerField(label=_('To'), required=False,
+                                   widget=forms.TextInput(attrs={'class': 'filter__value'}))
+    subscribers_min = forms.IntegerField(label=_('From'), required=False,
+                                         widget=forms.TextInput(attrs={'class': 'filter__value'}))
+    subscribers_max = forms.IntegerField(label=_('To'), required=False,
+                                         widget=forms.TextInput(attrs={'class': 'filter__value'}))
+    social_network = forms.CharField(label=_('Social network'), required=False)
 
     def __init__(self, *args, **kwargs):
         super(FilterForm, self).__init__(*args, **kwargs)
 
-        region_choices = list(Region.objects.values_list('id', 'title'))
+        region_choices = list(Region.objects.values_list('slug', 'title'))
         region_choices.insert(0, [None, _('Any')])
 
         self.fields['region'].choices = region_choices
 
-        category_choices = list(Category.objects.values_list('id', 'title'))
+        category_choices = list(Category.objects.values_list('slug', 'title'))
         category_choices.insert(0, [None, _('Any')])
 
         self.fields['category'].choices = category_choices

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-22 14:45+0200\n"
+"POT-Creation-Date: 2017-11-23 15:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: smmpay/apps/account/apps.py:8 smmpay/templates/account/settings.html:107
+#: smmpay/apps/account/apps.py:8 smmpay/templates/account/settings.html:111
 msgid "Account"
 msgstr ""
 
@@ -69,15 +69,15 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: smmpay/apps/account/forms.py:204 smmpay/apps/advert/forms.py:139
+#: smmpay/apps/account/forms.py:204 smmpay/apps/advert/forms.py:141
 msgid "Message"
 msgstr ""
 
-#: smmpay/apps/account/forms.py:204 smmpay/apps/advert/forms.py:139
+#: smmpay/apps/account/forms.py:204 smmpay/apps/advert/forms.py:141
 msgid "Your message"
 msgstr ""
 
-#: smmpay/apps/account/forms.py:211 smmpay/apps/advert/forms.py:146
+#: smmpay/apps/account/forms.py:211 smmpay/apps/advert/forms.py:148
 msgid "Please enter a message"
 msgstr ""
 
@@ -102,12 +102,12 @@ msgid "date joined"
 msgstr ""
 
 #: smmpay/apps/account/models.py:52 smmpay/apps/account/models.py:77
-#: smmpay/apps/advert/models.py:431
+#: smmpay/apps/advert/models.py:433
 msgid "user"
 msgstr ""
 
 #: smmpay/apps/account/models.py:53 smmpay/apps/advert/admin.py:56
-#: smmpay/apps/advert/models.py:376
+#: smmpay/apps/advert/models.py:378
 msgid "users"
 msgstr ""
 
@@ -132,56 +132,56 @@ msgid "user profiles"
 msgstr ""
 
 #: smmpay/apps/account/views.py:80 smmpay/apps/account/views.py:130
-#: smmpay/apps/account/views.py:300
+#: smmpay/apps/account/views.py:305
 msgid "Newer first"
 msgstr ""
 
 #: smmpay/apps/account/views.py:81 smmpay/apps/account/views.py:131
-#: smmpay/apps/account/views.py:301
+#: smmpay/apps/account/views.py:306
 msgid "Older first"
 msgstr ""
 
 #: smmpay/apps/account/views.py:82 smmpay/apps/account/views.py:132
-#: smmpay/apps/account/views.py:302
+#: smmpay/apps/account/views.py:307
 msgid "Highest price"
 msgstr ""
 
 #: smmpay/apps/account/views.py:83 smmpay/apps/account/views.py:133
-#: smmpay/apps/account/views.py:303
+#: smmpay/apps/account/views.py:308
 msgid "Lowest price"
 msgstr ""
 
-#: smmpay/apps/account/views.py:361
+#: smmpay/apps/account/views.py:366
 msgid "Profile data updated"
 msgstr ""
 
-#: smmpay/apps/account/views.py:362
+#: smmpay/apps/account/views.py:367
 msgid "Your password has been successfully changed"
 msgstr ""
 
-#: smmpay/apps/account/views.py:363
+#: smmpay/apps/account/views.py:368
 msgid "Mail with instructions was sent on your current email address"
 msgstr ""
 
-#: smmpay/apps/advert/admin.py:60 smmpay/apps/advert/models.py:454
+#: smmpay/apps/advert/admin.py:60 smmpay/apps/advert/models.py:456
 msgid "messages"
 msgstr ""
 
-#: smmpay/apps/advert/admin.py:82
+#: smmpay/apps/advert/admin.py:83
 msgid "adverts count"
 msgstr ""
 
-#: smmpay/apps/advert/admin.py:92 smmpay/apps/advert/admin.py:102
+#: smmpay/apps/advert/admin.py:94 smmpay/apps/advert/admin.py:104
 msgid "social accounts count"
 msgstr ""
 
-#: smmpay/apps/advert/admin.py:113 smmpay/apps/advert/models.py:164
-#: smmpay/apps/advert/models.py:169
+#: smmpay/apps/advert/admin.py:115 smmpay/apps/advert/models.py:166
+#: smmpay/apps/advert/models.py:171
 msgid "phrase"
 msgstr ""
 
-#: smmpay/apps/advert/admin.py:121 smmpay/apps/advert/models.py:232
-#: smmpay/apps/advert/models.py:266 smmpay/apps/advert/models.py:374
+#: smmpay/apps/advert/admin.py:123 smmpay/apps/advert/models.py:234
+#: smmpay/apps/advert/models.py:268 smmpay/apps/advert/models.py:376
 msgid "advert"
 msgstr ""
 
@@ -207,48 +207,52 @@ msgstr ""
 msgid "Category"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:20 smmpay/apps/advert/forms.py:23
+#: smmpay/apps/advert/forms.py:20 smmpay/apps/advert/forms.py:24
 msgid "From"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:22 smmpay/apps/advert/forms.py:25
+#: smmpay/apps/advert/forms.py:22 smmpay/apps/advert/forms.py:26
 msgid "To"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:32 smmpay/apps/advert/forms.py:37
+#: smmpay/apps/advert/forms.py:28
+msgid "Social network"
+msgstr ""
+
+#: smmpay/apps/advert/forms.py:34 smmpay/apps/advert/forms.py:39
 msgid "Any"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:48
+#: smmpay/apps/advert/forms.py:50
 msgid "Group for sell..."
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:51
+#: smmpay/apps/advert/forms.py:53
 msgid ""
 "Description, use useful information to attract users (1-1000 characters)"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:69
+#: smmpay/apps/advert/forms.py:71
 msgid "Paste a link to the page, group or account that you are selling"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:73
+#: smmpay/apps/advert/forms.py:75
 msgid ""
 "You have inserted an incorrect value for the link to the page, group or "
 "account that you are selling *"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:91
+#: smmpay/apps/advert/forms.py:93
 msgid "Unsupported social network"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:102
+#: smmpay/apps/advert/forms.py:104
 msgid "This field is required."
 msgstr ""
 
 #: smmpay/apps/advert/models.py:80 smmpay/apps/advert/models.py:93
-#: smmpay/apps/advert/models.py:107 smmpay/apps/advert/models.py:120
-#: smmpay/apps/advert/models.py:133 smmpay/apps/advert/models.py:212
+#: smmpay/apps/advert/models.py:107 smmpay/apps/advert/models.py:121
+#: smmpay/apps/advert/models.py:135 smmpay/apps/advert/models.py:214
 #: smmpay/apps/blog/models.py:20 smmpay/templates/advert/advert_add.html:57
 msgid "title"
 msgstr ""
@@ -274,199 +278,203 @@ msgstr ""
 msgid "menu items"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:112 smmpay/apps/advert/models.py:273
+#: smmpay/apps/advert/models.py:108 smmpay/apps/advert/models.py:122
+msgid "slug"
+msgstr ""
+
+#: smmpay/apps/advert/models.py:113 smmpay/apps/advert/models.py:275
 msgid "region"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:113
+#: smmpay/apps/advert/models.py:114
 msgid "regions"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:125 smmpay/apps/advert/models.py:216
+#: smmpay/apps/advert/models.py:127 smmpay/apps/advert/models.py:218
 msgid "category"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:126
+#: smmpay/apps/advert/models.py:128
 msgid "categories"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:134
+#: smmpay/apps/advert/models.py:136
 msgid "network code"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:135
+#: smmpay/apps/advert/models.py:137
 msgid "URLs"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:136
+#: smmpay/apps/advert/models.py:138
 msgid "order"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:141 smmpay/apps/advert/models.py:271
+#: smmpay/apps/advert/models.py:143 smmpay/apps/advert/models.py:273
 msgid "social network"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:142
+#: smmpay/apps/advert/models.py:144
 msgid "social networks"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:163
+#: smmpay/apps/advert/models.py:165
 msgid "language"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:170
+#: smmpay/apps/advert/models.py:172
 msgid "phrases"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:199
+#: smmpay/apps/advert/models.py:201
 msgid "Social account"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:207
+#: smmpay/apps/advert/models.py:209
 msgid "Published"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:208
+#: smmpay/apps/advert/models.py:210
 msgid "Moderation"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:209
+#: smmpay/apps/advert/models.py:211
 msgid "Violation"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:213
+#: smmpay/apps/advert/models.py:215
 msgid "description"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:214
+#: smmpay/apps/advert/models.py:216
 msgid "type of advert"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:218
+#: smmpay/apps/advert/models.py:220
 msgid "author"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:219
+#: smmpay/apps/advert/models.py:221
 msgid "price"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:220
+#: smmpay/apps/advert/models.py:222
 msgid "count of views"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:221
+#: smmpay/apps/advert/models.py:223
 msgid "enabled by author"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:222 smmpay/apps/advert/models.py:337
+#: smmpay/apps/advert/models.py:224 smmpay/apps/advert/models.py:339
 #: smmpay/apps/blog/models.py:24
 msgid "status"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:223 smmpay/apps/advert/models.py:377
-#: smmpay/apps/advert/models.py:447 smmpay/apps/blog/models.py:25
+#: smmpay/apps/advert/models.py:225 smmpay/apps/advert/models.py:379
+#: smmpay/apps/advert/models.py:449 smmpay/apps/blog/models.py:25
 msgid "created"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:224 smmpay/apps/blog/models.py:26
+#: smmpay/apps/advert/models.py:226 smmpay/apps/blog/models.py:26
 msgid "updated"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:233
+#: smmpay/apps/advert/models.py:235
 msgid "adverts"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:268 smmpay/templates/advert/advert_add.html:47
+#: smmpay/apps/advert/models.py:270 smmpay/templates/advert/advert_add.html:47
 msgid "logo"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:269
+#: smmpay/apps/advert/models.py:271
 msgid "account link"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:270 smmpay/templates/advert/advert_add.html:63
+#: smmpay/apps/advert/models.py:272 smmpay/templates/advert/advert_add.html:63
 #: smmpay/templates/advert/parts/sidebar.html:17
 msgid "subscribers"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:275
+#: smmpay/apps/advert/models.py:277
 msgid "confirmed by author"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:276
+#: smmpay/apps/advert/models.py:278
 msgid "confirmation code"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:329
+#: smmpay/apps/advert/models.py:331
 msgid "New"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:330
+#: smmpay/apps/advert/models.py:332
 msgid "Success"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:331
+#: smmpay/apps/advert/models.py:333
 msgid "In progress"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:332
+#: smmpay/apps/advert/models.py:334
 msgid "Error"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:335
+#: smmpay/apps/advert/models.py:337
 msgid "social account"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:338
+#: smmpay/apps/advert/models.py:340
 msgid "attempts count"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:339
+#: smmpay/apps/advert/models.py:341
 msgid "last start"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:345
+#: smmpay/apps/advert/models.py:347
 msgid "Social account({}) {}"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:368
+#: smmpay/apps/advert/models.py:370
 msgid "favorite"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:369
+#: smmpay/apps/advert/models.py:371
 msgid "favorites"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:383 smmpay/apps/advert/models.py:429
-#: smmpay/apps/advert/models.py:443
+#: smmpay/apps/advert/models.py:385 smmpay/apps/advert/models.py:431
+#: smmpay/apps/advert/models.py:445
 msgid "discussion"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:384
+#: smmpay/apps/advert/models.py:386
 msgid "discussions"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:435
+#: smmpay/apps/advert/models.py:437
 msgid "discussion user"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:436
+#: smmpay/apps/advert/models.py:438
 msgid "discussion users"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:445
+#: smmpay/apps/advert/models.py:447
 msgid "message sender"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:446 smmpay/apps/advert/models.py:453
+#: smmpay/apps/advert/models.py:448 smmpay/apps/advert/models.py:455
 msgid "message"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:481
+#: smmpay/apps/advert/models.py:483
 msgid "view"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:482
+#: smmpay/apps/advert/models.py:484
 msgid "views"
 msgstr ""
 
@@ -484,8 +492,8 @@ msgstr ""
 msgid "Advert successfully edited"
 msgstr ""
 
-#: smmpay/apps/blog/apps.py:8 smmpay/templates/blog/index.html:5
-#: smmpay/templates/blog/index.html:13 smmpay/templates/blog/post.html:21
+#: smmpay/apps/blog/apps.py:8 smmpay/templates/blog/index.html:6
+#: smmpay/templates/blog/index.html:14 smmpay/templates/blog/post.html:22
 msgid "Blog"
 msgstr ""
 
@@ -546,7 +554,7 @@ msgid "Log out"
 msgstr ""
 
 #: smmpay/templates/account/account_delete.html:4
-#: smmpay/templates/account/settings.html:110
+#: smmpay/templates/account/settings.html:114
 msgid "Account delete"
 msgstr ""
 
@@ -559,7 +567,7 @@ msgstr ""
 #: smmpay/templates/advert/advert.html:10
 #: smmpay/templates/advert/advert_add.html:10
 #: smmpay/templates/advert/advert_edit.html:10
-#: smmpay/templates/blog/index.html:10 smmpay/templates/blog/post.html:18
+#: smmpay/templates/blog/index.html:11 smmpay/templates/blog/post.html:19
 #: smmpay/templates/flatpages/default.html:10
 msgid "Homepage"
 msgstr ""
@@ -612,17 +620,27 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: smmpay/templates/account/discussion.html:111
-#: smmpay/templates/account/parts/advert_list.html:63
+#: smmpay/templates/account/discussion.html:87
+#: smmpay/templates/account/parts/advert_list.html:57
+msgid "Active"
+msgstr ""
+
+#: smmpay/templates/account/discussion.html:91
+#: smmpay/templates/account/parts/advert_list.html:61
 msgid "Deactivate"
 msgstr ""
 
-#: smmpay/templates/account/discussion.html:113
-#: smmpay/templates/account/parts/advert_list.html:72
+#: smmpay/templates/account/discussion.html:96
+#: smmpay/templates/account/parts/advert_list.html:66
+msgid "Disabled"
+msgstr ""
+
+#: smmpay/templates/account/discussion.html:100
+#: smmpay/templates/account/parts/advert_list.html:70
 msgid "Activate"
 msgstr ""
 
-#: smmpay/templates/account/discussion.html:187
+#: smmpay/templates/account/discussion.html:157
 #: smmpay/templates/advert/advert.html:239
 msgid "Send"
 msgstr ""
@@ -669,15 +687,7 @@ msgstr ""
 msgid "Add advert"
 msgstr ""
 
-#: smmpay/templates/account/parts/advert_list.html:59
-msgid "Active"
-msgstr ""
-
-#: smmpay/templates/account/parts/advert_list.html:68
-msgid "Disabled"
-msgstr ""
-
-#: smmpay/templates/account/parts/advert_list.html:120
+#: smmpay/templates/account/parts/advert_list.html:118
 #: smmpay/templates/account/parts/discussion_list.html:76
 #: smmpay/templates/account/parts/favorite_list.html:91
 #: smmpay/templates/advert/parts/advert_list.html:92
@@ -721,7 +731,7 @@ msgstr ""
 
 #: smmpay/templates/account/settings.html:50
 #: smmpay/templates/account/settings.html:75
-#: smmpay/templates/account/settings.html:100
+#: smmpay/templates/account/settings.html:104
 msgid "Save"
 msgstr ""
 
@@ -731,6 +741,10 @@ msgstr ""
 
 #: smmpay/templates/account/settings.html:82
 msgid "Email change"
+msgstr ""
+
+#: smmpay/templates/account/settings.html:91
+msgid "Your current email address"
 msgstr ""
 
 #: smmpay/templates/advert/advert.html:75
@@ -864,11 +878,11 @@ msgid ""
 "TM is used on the basis of the license of the copyright holder QoopiQoopi"
 msgstr ""
 
-#: smmpay/templates/blog/post.html:40
+#: smmpay/templates/blog/post.html:41
 msgid "Share in social networks"
 msgstr ""
 
-#: smmpay/templates/blog/post.html:51
+#: smmpay/templates/blog/post.html:52
 msgid "Go to news list"
 msgstr ""
 

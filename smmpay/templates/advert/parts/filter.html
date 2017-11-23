@@ -74,8 +74,8 @@
         {% if social_networks %}
             <ul class="filter__form-social">
                 {% for social_network in social_networks %}
-                    <li class="{% if selected_social_network == social_network.pk %}active{% endif %}">
-                        <a href="?{% build_querystring request.GET 'social_network,page' social_network=social_network.pk %}" class="{{ social_network.code }}">
+                    <li class="{% if selected_social_network == social_network.code %}active{% endif %}">
+                        <a href="?{% build_querystring request.GET 'social_network,page' social_network=social_network.code %}" class="{{ social_network.code }}">
                             <span class="icon"></span>
                         </a>
                     </li>

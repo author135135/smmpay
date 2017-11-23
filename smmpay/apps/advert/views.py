@@ -26,23 +26,23 @@ class LoginRequiredMixin(object):
 class AdvertFilterMixin(object):
     filters = {
         'search_query': ['title__icontains', 'description__icontains'],
-        'region': ['social_account__region'],
-        'category': ['category'],
+        'region': ['social_account__region__slug'],
+        'category': ['category__slug'],
         'price_min': ['price__gte'],
         'price_max': ['price__lte'],
         'subscribers_min': ['social_account__subscribers__gte'],
         'subscribers_max': ['social_account__subscribers__lte'],
-        'social_network': ['social_account__social_network'],
+        'social_network': ['social_account__social_network__code'],
     }
 
     def get_queryset(self):
         qs = super(AdvertFilterMixin, self).get_queryset()
 
-        for item in self.filters:
-            search_value = self.request.GET.get(item, '')
-            search_value = search_value.strip()
+        filter_form = advert_forms.FilterForm(self.request.GET)
 
-            if search_value:
+        for item in self.filters:
+            if not filter_form.has_error(item) and filter_form.cleaned_data.get(item, None):
+                search_value = filter_form.cleaned_data[item]
                 qs_query = None
 
                 for expression in self.filters[item]:
@@ -55,9 +55,9 @@ class AdvertFilterMixin(object):
                     qs = qs.filter(qs_query)
 
         # Set filter by first social network if not checked
-        social_network = self.request.GET.get('social_network', None)
+        social_network = filter_form.cleaned_data.get('social_network', '')
 
-        if social_network is None or not social_network:
+        if not social_network:
             try:
                 obj = SocialNetwork.objects.first()
             except SocialNetwork.DoesNotExist:
@@ -148,12 +148,10 @@ class IndexView(AdvertFilterMixin, ListView):
         selected_social_network = self.request.GET.get('social_network', None)
 
         if selected_social_network is None or not selected_social_network:
-            social_network_obj = SocialNetwork.objects.values('pk').first()
+            social_network_obj = SocialNetwork.objects.values('code').first()
 
             if social_network_obj is not None:
-                selected_social_network = social_network_obj.get('pk')
-        else:
-            selected_social_network = int(selected_social_network)
+                selected_social_network = social_network_obj.get('code')
 
         context['selected_social_network'] = selected_social_network
 

@@ -73,9 +73,10 @@ class AdvertAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('title', '_adverts_count')
+    list_display = ('title', 'slug', '_adverts_count')
     list_per_page = 20
     search_fields = ('title',)
+    prepopulated_fields = {'slug': ('title',)}
 
     def _adverts_count(self, obj):
         return obj.adverts.count()
@@ -83,9 +84,10 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class RegionAdmin(admin.ModelAdmin):
-    list_display = ('title', '_adverts_count')
+    list_display = ('title', 'slug', '_adverts_count')
     list_per_page = 20
     search_fields = ('title',)
+    prepopulated_fields = {'slug': ('title',)}
 
     def _adverts_count(self, obj):
         return obj.social_accounts.count()

@@ -87,6 +87,10 @@
                     {% for hidden_field in email_change_form.hidden_fields %}
                         {{ hidden_field }}
                     {% endfor %}
+                    <div class="log__block">
+                        <div class="log__title">{% trans 'Your current email address' %}</div>
+                        <span class="log__input inactive_type">{{ user.email }}</span>
+                    </div>
                     {% for field in email_change_form.visible_fields %}
                         <div class="log__block">
                             <div class="log__title">{{ field.label }}</div>

@@ -105,6 +105,7 @@ class MenuItem(models.Model):
 
 class Region(models.Model):
     title = models.CharField(_('title'), max_length=255)
+    slug = models.SlugField(_('slug'), unique=True)
 
     class Meta:
         db_table = 'advert_region'
@@ -118,6 +119,7 @@ class Region(models.Model):
 
 class Category(models.Model):
     title = models.CharField(_('title'), max_length=255)
+    slug = models.SlugField(_('slug'), unique=True)
 
     class Meta:
         db_table = 'advert_category'
