@@ -1,6 +1,7 @@
 {% extends 'base/base_html.html' %}
 {% load i18n %}
 {% load static %}
+{% load advert_tags %}
 
 {% block title %} | {% trans 'Blog' %}{% endblock %}
 
@@ -17,7 +18,7 @@
         {% include 'blog/parts/post_list.html' %}
     </div>
 
-    {% include 'advert/parts/sidebar.html' %}
+    {% recommended_adverts '-social_account__subscribers' %}
 {% endblock %}
 
 {% block script %}
