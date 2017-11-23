@@ -1127,7 +1127,8 @@ body > .jcf-select-drop {
   .header__section .button {
     background: #5d42e7;
     color: #fff;
-    height: 40px; }
+    height: 40px;
+    margin-left: 30px }
 
 @media only screen and (min-width: 1025px) {
   .header__section .button:hover {
@@ -1155,7 +1156,7 @@ body > .jcf-select-drop {
   -ms-flex-align: center;
   align-items: center;
   cursor: pointer;
-  margin-right: 30px; }
+  margin-left: 30px; }
   .header__filter svg {
     display: block;
     width: 18px;
@@ -1348,7 +1349,7 @@ body > .jcf-select-drop {
   -ms-flex-align: center;
   align-items: center;
   cursor: pointer;
-  margin-right: 30px; }
+  margin-left: 30px; }
   .login.push .login__notifications {
     visibility: visible;
     opacity: 1; }
@@ -1434,8 +1435,7 @@ body > .jcf-select-drop {
   justify-content: flex-start;
   -webkit-align-items: center;
   -ms-flex-align: center;
-  align-items: center;
-  margin-right: 23px; }
+  align-items: center; }
 
 @media only screen and (max-width: 960px) {
   .menu {
@@ -2724,7 +2724,6 @@ body > .jcf-select-drop {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  width: 160px;
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;

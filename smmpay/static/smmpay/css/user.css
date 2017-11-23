@@ -253,7 +253,7 @@
 
 .ads-items .thumb__buttons {
   font-weight: 600;
-  width: 65%;
+  width: 80%;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start; }
@@ -321,7 +321,6 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  width: 160px;
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
@@ -333,7 +332,9 @@
   flex-wrap: wrap;
   height: 40px;
   font-weight: 600;
-  cursor: pointer; }
+  cursor: default;
+  margin-left: 20px;
+  padding-top: 24px; }
   .thumb__delete svg {
     width: 16px;
     height: 16px;
@@ -1447,6 +1448,19 @@
 
 /*status ads */
 
+.active-adt_btn span, .deactivate-adt_btn span, .disabled-admin_btn span {
+	padding: 5px 8px;
+	cursor: default;
+	font-size: 12px;
+}
+
+.thumb__buttons .thumb__delete a {
+	margin-left: 10px;
+	font-size: 12px;
+	color: #5d42e7;
+	text-decoration: underline;
+}
+
 .active-adt_btn span:first-child {
   color: #000;
   background: #c5ffbe;
@@ -1478,4 +1492,12 @@
 .wrong_1 span {
   background: #ffb9b9;
   color: #000;
+}
+
+.inactive_type {
+  padding: 17px 30px;
+  height: auto;
+  display: block;
+  background: #f7f7f7;
+  border: 0;
 }
