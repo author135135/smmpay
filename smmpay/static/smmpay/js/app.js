@@ -637,7 +637,7 @@
 
         // Advert activate/deactivate handlers
         if ($('.thumb__delete').length) {
-            $(document).on('click', '.thumb__delete', function(e) {
+            $(document).on('click', '.thumb__delete a', function(e) {
                 e.preventDefault();
 
                 $.ajaxSetup({
@@ -648,16 +648,19 @@
                     }
                 });
 
-                var link = $(this);
+                var link = $(this),
+                    wrapper = link.parent();
 
                 $.post(link.data('change-status-url'), {'advert_id': link.data('item-id')}, function(response) {
                     if (response['success']) {
-                        link.toggleClass('deactivate-adt_btn activate-adt_btn');
+                        wrapper.toggleClass('deactivate-adt_btn active-adt_btn');
 
                         if (response['status']) {
-                            $('span', link).text(gettext('Deactivate'));
+                            $('span', wrapper).text(gettext('Active'));
+                            link.text(gettext('Deactivate'));
                         } else {
-                            $('span', link).text(gettext('Activate'));
+                            $('span', wrapper).text(gettext('Deactivated'));
+                            link.text(gettext('Activate'));
                         }
                     }
                 }, 'json');

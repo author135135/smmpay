@@ -108,6 +108,11 @@ class IndexView(LoginRequiredMixin, SearchMixin, ListView):
                                             order_choices=self.SORT_CHOICES,
                                             initial={'order': 'created_desc'})
 
+        context['advert_statuses'] = {
+            'ADVERT_STATUS_MODERATION': Advert.ADVERT_STATUS_MODERATION,
+            'ADVERT_STATUS_VIOLATION': Advert.ADVERT_STATUS_VIOLATION,
+        }
+
         return context
 
 
@@ -193,6 +198,11 @@ class DiscussionView(LoginRequiredMixin, DetailView):
         context['discussion_messages'] = reversed(page_obj.object_list)
         context['has_next_page'] = page_obj.has_next()
         context['form'] = DiscussionMessageForm
+
+        context['advert_statuses'] = {
+            'ADVERT_STATUS_MODERATION': Advert.ADVERT_STATUS_MODERATION,
+            'ADVERT_STATUS_VIOLATION': Advert.ADVERT_STATUS_VIOLATION,
+        }
 
         return context
 
