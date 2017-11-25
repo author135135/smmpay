@@ -91,6 +91,7 @@
                 <div class="item item-price">
                     <div class="log__title">{{ form.price.label }}*</div>
                     {{ form.price }}
+                    <div class="text-required">{% trans 'For convenience, enter the equivalent amount in US dollars at the current exchange rate' %}</div>
                     {% for error in form.price.errors %}
                         <div class="error_input">{{ error }}</div>
                     {% endfor %}
