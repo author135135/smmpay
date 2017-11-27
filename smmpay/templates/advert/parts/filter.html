@@ -44,28 +44,28 @@
                     </div>
                 </div>
                 <div class="filter__row">
-                    <label class="filter__label">
+                    <div class="filter__label">
                         <span class="filter__title">{% trans 'Price' %},</span>
-                        <div class="filter__block">
+                        <label class="filter__block">
                             <div class="filter__range">{{ filter_form.price_min.label }}</div>
                             {{ filter_form.price_min }}
-                        </div>
-                        <div class="filter__block">
+                        </label>
+                        <label class="filter__block">
                             <div class="filter__range">{{ filter_form.price_max.label }}</div>
                             {{ filter_form.price_max }}
-                        </div>
-                    </label>
-                    <label class="filter__label filter__label--align">
+                        </label>
+                    </div>
+                    <div class="filter__label filter__label--align">
                         <span class="filter__title">{% trans 'Subscribers' %},</span>
-                        <div class="filter__block">
+                        <label class="filter__block">
                             <div class="filter__range">{{ filter_form.subscribers_min.label }}</div>
                             {{ filter_form.subscribers_min }}
-                        </div>
-                        <div class="filter__block">
+                        </label>
+                        <label class="filter__block">
                             <div class="filter__range">{{ filter_form.subscribers_max.label }}</div>
                             {{ filter_form.subscribers_max }}
-                        </div>
-                    </label>
+                        </label>
+                    </div>
                     <button type="button" class="filter__reset button">Очистить фильтр</button>
                     <button type="submit" class="filter__submit button">Применить фильтр</button>
                 </div>
