@@ -5,8 +5,8 @@ from django.utils.text import Truncator
 from django.utils.translation import ugettext_lazy as _
 
 from .models import (Menu, MenuItem, Discussion, DiscussionUser, DiscussionMessage, Advert, AdvertSocialAccount,
-                     Category, Region, SocialNetwork, Phrase, SocialAccountConfirmationQueue)
-from .forms import AdvertFlatpageForm
+                     Category, Region, SocialNetwork, Phrase, SocialAccountConfirmationQueue, ContentBlock)
+from .forms import AdvertFlatpageForm, ContentBlockForm
 
 
 class MenuItemInline(admin.StackedInline):
@@ -123,6 +123,19 @@ class SocialAccountConfirmationQueueAdmin(admin.ModelAdmin):
     _get_advert.short_description = _('advert')
 
 
+class ContentBlockAdmin(admin.ModelAdmin):
+    list_display = ('title', '_get_pages', 'position', 'enabled')
+    search_fields = ('title',)
+    list_filter = ('position', 'enabled')
+
+    form = ContentBlockForm
+
+    def _get_pages(self, obj):
+        return '<br>'.join(obj.pages.splitlines())
+    _get_pages.short_description = _('pages')
+    _get_pages.allow_tags = True
+
+
 class AdvertFlatPageAdmin(FlatPageAdmin):
     form = AdvertFlatpageForm
 
@@ -135,6 +148,7 @@ admin.site.register(Region, RegionAdmin)
 admin.site.register(SocialNetwork, SocialNetworkAdmin)
 admin.site.register(Phrase, PhraseAdmin)
 admin.site.register(SocialAccountConfirmationQueue, SocialAccountConfirmationQueueAdmin)
+admin.site.register(ContentBlock, ContentBlockAdmin)
 
 admin.site.unregister(FlatPage)
 admin.site.register(FlatPage, AdvertFlatPageAdmin)

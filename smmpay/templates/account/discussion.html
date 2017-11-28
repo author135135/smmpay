@@ -43,7 +43,12 @@
                 <div class="thumb__head">
                     <div class="thumb__info">
                         <a class="thumb__title" href="{{ discussion.advert.get_absolute_url }}">{{ discussion.advert.title|truncatechars:"30" }}</a>
-                        <a class="thumb__subtitle" href="{{ discussion.advert.social_account.link }}" target="_blank">{{ discussion.advert.social_account.link|truncatechars:"30" }}</a>
+                        <span class="thumb__subtitle">
+                            {{ discussion.advert.social_account.link|truncatechars:"30" }}
+                            <a href="{{ discussion.advert.social_account.link }}" target="_blank">
+                                <img src="{% static 'smmpay/images/subtitle-link.png' %}">
+                            </a>
+                        </span>
                     </div>
                     <div class="thumb_publication">
                         <span>{% trans 'Publication' %}:</span>

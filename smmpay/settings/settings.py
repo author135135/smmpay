@@ -195,6 +195,10 @@ ADVERT_MENU_POSITIONS = (
     ('bottom_menu', 'Bottom menu')
 )
 
+ADVERT_CONTENT_BLOCK_POSITIONS = (
+    ('sidebar', 'Sidebar'),
+)
+
 
 # Social networks settings
 

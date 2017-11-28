@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    {% recommended_adverts '-views' 4 author=user_obj.pk %}
+    {% content_block 'sidebar' order_by='-views' count=4 author=user_obj.pk %}
 {% endblock %}
 
 {% block script %}

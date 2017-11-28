@@ -18,7 +18,7 @@
         {% include 'blog/parts/post_list.html' %}
     </div>
 
-    {% recommended_adverts '-social_account__subscribers' %}
+    {% content_block 'sidebar' order_by='-social_account__subscribers' %}
 {% endblock %}
 
 {% block script %}

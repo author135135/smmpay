@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load static %}
 
 {% if adverts %}
     {% for advert in adverts %}
@@ -14,7 +15,12 @@
                 <div class="thumb__head">
                     <div class="thumb__info">
                         <a class="thumb__title" href="{{ advert.get_absolute_url }}">{{ advert.title }}</a>
-                        <a class="thumb__subtitle" href="{{ advert.social_account.link }}" target="_blank">{{ advert.social_account.link|truncatechars:"30" }}</a>
+                        <span class="thumb__subtitle">
+                            {{ advert.social_account.link|truncatechars:"25" }}
+                            <a href="{{ advert.social_account.link }}" target="_blank">
+                                <img src="{% static 'smmpay/images/subtitle-link.png' %}">
+                            </a>
+                        </span>
                     </div>
                     <div class="thumb_publication">
                         <span>{% trans 'Publication' %}:</span>

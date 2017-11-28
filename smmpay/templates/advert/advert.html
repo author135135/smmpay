@@ -59,6 +59,10 @@
                     <table class="thumb__info__table">
                         <tbody>
                             <tr>
+                                <th>{% trans 'Link' %}</th>
+                                <td><a href="{{ advert.social_account.link }}" target="_blank">{{ advert.social_account.link }}</a></td>
+                            </tr>
+                            <tr>
                                 <th>{% trans 'Subscribers' %}</th>
                                 <td>{{ advert.social_account.subscribers }}</td>
                             </tr>
@@ -94,12 +98,6 @@
                         <a href="#" class="thumb__favorite {% if advert.in_favorite %}active{% endif %}"
                            data-item-id="{{ advert.pk }}"
                            data-favorite-url="{% url 'advert:favorite_advert' %}">
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 19.5 19.5" style="enable-background:new 0 0 19.5 19.5;" xml:space="preserve">
-                                <g>
-                                    <path d="M10.2,0.8l2.5,5.9L19,7.2c0.4,0,0.6,0.6,0.3,0.9l-4.8,4.2l1.4,6.2c0.1,0.4-0.4,0.8-0.7,0.5l-5.5-3.3L4.3,19
-                                    c-0.4,0.2-0.8-0.1-0.7-0.5L5,12.2L0.2,8C-0.2,7.8,0,7.2,0.5,7.2l6.3-0.5l2.5-5.9C9.5,0.3,10,0.3,10.2,0.8z"></path>
-                                </g>
-                            </svg>
                             <span>
                                 {% if advert.in_favorite %}
                                     {% trans 'Delete from favorites' %}
@@ -187,7 +185,7 @@
             {% comment %}
             <span class="buy-button button">Купить</span>
             {% endcomment %}
-            <a href="{% url 'advert:user_adverts' advert.author.pk %}?social_network={{ advert.social_account.social_network.pk }}" class="btn-other-ads">
+            <a href="{% url 'advert:user_adverts' advert.author.pk %}?social_network={{ advert.social_account.social_network.code }}" class="btn-other-ads">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60.123 60.123" style="enable-background:new 0 0 60.123 60.123;" xml:space="preserve">
                     <g>
                         <path d="M57.124,51.893H16.92c-1.657,0-3-1.343-3-3s1.343-3,3-3h40.203c1.657,0,3,1.343,3,3S58.781,51.893,57.124,51.893z"></path>

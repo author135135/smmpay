@@ -1047,7 +1047,7 @@ body > .jcf-select-drop {
 .footer__link {
   display: inline-block;
   font-size: 13px;
-  color: #fff;
+  color: #a2a2a2;
   transition: all .3s ease-in-out; }
   .footer__link:hover {
     color: #e6a033; }
@@ -1132,7 +1132,7 @@ body > .jcf-select-drop {
 
 @media only screen and (min-width: 1025px) {
   .header__section .button:hover {
-    box-shadow: 0px 8px 27px 0px rgba(255, 176, 54, 0.5); } }
+    box-shadow: 0px 8px 27px 0px rgba(93, 66, 231, 0.31); } }
 
 .header__filter {
   width: 46px;
@@ -2089,8 +2089,7 @@ body > .jcf-select-drop {
     justify-content: space-between; } }
 
 .thumb__favorite {
-  width: 115px;
-  height: 40px;
+  height: 16px;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -2106,13 +2105,23 @@ body > .jcf-select-drop {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  color: #434f6a;
+  color: #020202;
   letter-spacing: -0.025em;
   font-weight: 600;
-  cursor: pointer; }
-  .thumb__favorite.active svg,
-  .thumb__favorite:hover svg {
-    opacity: 1; }
+  cursor: pointer;
+  background: url(../images/passion-heart.svg) no-repeat #fff;
+  padding-left: 24px;
+  opacity: 0.5;
+  transition: 0.2s; }
+  .thumb__favorite.active,
+  .thumb__favorite:hover {
+  opacity: 0.8; }
+
+  .thumb__favorite.active {
+  background-image: url(../images/passion-heart-active.svg);
+  fill: green;
+  }
+  
   .thumb__favorite svg {
     width: 21px;
     height: 20px;
@@ -2122,8 +2131,7 @@ body > .jcf-select-drop {
     transition: opacity .2s ease-in-out; }
 
 .thumb__read-more {
-  width: 124px;
-  height: 40px;
+  height: 36px;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -2141,12 +2149,15 @@ body > .jcf-select-drop {
   align-items: center;
   color: #434f6a;
   letter-spacing: -0.025em;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   border: 1px solid #dedede;
   border-radius: 20px;
   margin-left: 25px;
-  transition: box-shadow .2s ease-in-out, border-color .2s ease-in-out; }
+  transition: box-shadow .2s ease-in-out, border-color .2s ease-in-out;
+  padding: 0 20px;
+  font-size: 10px;
+  text-transform: uppercase; }
   .thumb__read-more:hover {
     border-color: #9742e7;
     color: #100a17; }

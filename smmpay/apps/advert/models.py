@@ -15,7 +15,6 @@ from . import query as advert_query
 from .utils import api_connectors, parsers
 from .helpers import RenameFile
 
-
 User = settings.AUTH_USER_MODEL
 
 
@@ -23,6 +22,7 @@ class ExtraQuerysetManager(models.Manager):
     """
     Provide method for extends QuerySet by raw SQL
     """
+
     def get_extra_queryset(self, *args, **kwargs):
         qs = self.get_queryset()
 
@@ -485,3 +485,26 @@ class DiscussionMessageView(models.Model):
 
     def __str__(self):
         return self.message.message
+
+
+class ContentBlock(models.Model):
+    title = models.CharField(_('title'), max_length=255)
+    pages = models.TextField(_('pages'), help_text=_(
+        'Url patterns of pages where you would like to see block, each address on new line'))
+    position = models.CharField(_('position'), max_length=50, choices=settings.ADVERT_CONTENT_BLOCK_POSITIONS,
+                                help_text=_('Position on site where block will be rendered'))
+    content = models.TextField(_('block content'), blank=True, default='')
+    context_function = models.CharField(_('context function'), max_length=100, help_text=_(
+        'Python function that will handle block context before render'), blank=True, default='')
+    template_name = models.CharField(_('template name'), max_length=255, help_text=_(
+        'In case field empty, default template advert/tags/content_block/`position`_default.html will be used'),
+                                     blank=True, default='')
+    enabled = models.BooleanField(_('enabled'), default=True)
+
+    class Meta:
+        db_table = 'advert_content_block'
+        verbose_name = _('content block')
+        verbose_name_plural = _('content blocks')
+
+    def __str__(self):
+        return self.title

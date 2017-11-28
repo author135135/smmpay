@@ -9,7 +9,7 @@ from django.contrib.flatpages.forms import FlatpageForm
 from django.utils.translation import ugettext_lazy as _
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
-from .models import Advert, AdvertSocialAccount, SocialNetwork, Region, Category
+from .models import Advert, AdvertSocialAccount, SocialNetwork, Region, Category, ContentBlock
 
 
 class FilterForm(forms.Form):
@@ -147,3 +147,19 @@ class DiscussionMessageForm(forms.Form):
         if len(message) == 0:
             raise forms.ValidationError(_('Please enter a message'), code='invalid')
         return message
+
+
+class ContentBlockForm(forms.ModelForm):
+    class Meta(FlatpageForm.Meta):
+        model = ContentBlock
+        fields = '__all__'
+        widgets = {
+            'content': CKEditorUploadingWidget()
+        }
+
+    def clean(self):
+        cleaned_data = super(ContentBlockForm, self).clean()
+
+        if not any([cleaned_data['content'], cleaned_data['context_function']]):
+            self.add_error('content', forms.ValidationError('Required if `context function` is empty', code='required'))
+            self.add_error('context_function', forms.ValidationError('Required if `content` is empty', code='required'))
