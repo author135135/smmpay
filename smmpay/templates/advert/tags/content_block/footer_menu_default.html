@@ -1,9 +1,9 @@
-{% if menu.menu_items.exists %}
+{% for menu_item in menu %}
     <ul class="footer__menu">
-        {% for item in menu.menu_items.all %}
+        {% for item in menu_item.menu_items.all %}
             <li class="footer__item">
                 <a class="footer__link" href="{{ item.url }}">{{ item.title }}</a>
             </li>
         {% endfor %}
     </ul>
-{% endif %}
+{% endfor %}

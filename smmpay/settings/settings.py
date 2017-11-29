@@ -197,6 +197,8 @@ ADVERT_MENU_POSITIONS = (
 
 ADVERT_CONTENT_BLOCK_POSITIONS = (
     ('sidebar', 'Sidebar'),
+    ('header_menu', 'Header menu'),
+    ('footer_menu', 'Footer menu'),
 )
 
 

@@ -11,32 +11,6 @@ from smmpay.apps.advert.models import Menu, Advert, ContentBlock
 register = template.Library()
 
 
-@register.simple_tag(takes_context=True)
-def menu(context, position=None, *args, **kwargs):
-    output = ''
-
-    try:
-        objects = Menu.objects.filter(position=position).prefetch_related('menu_items')
-    except Menu.DoesNotExist:
-        raise template.TemplateSyntaxError("Parameter `position` should be a valid menu position")
-
-    if objects is not None:
-        for menu in objects:
-            # Getting a menu template
-            template_name = 'advert/tags/%s_menu.html' % position
-
-            try:
-                menu_template = get_template(template_name=template_name)
-            except template.TemplateDoesNotExist:
-                menu_template = get_template(template_name='advert/tags/default_menu.html')
-
-            output += menu_template.render({
-                'menu': menu,
-                'request': context['request']
-            })
-
-    return mark_safe(output)
-
 @register.simple_tag
 def build_querystring(params, exclude='', **kwargs):
     final_params = {}
@@ -96,6 +70,14 @@ def content_block(context, position, *args, **kwargs):
             output += block_template.render(block_context)
 
     return mark_safe(output)
+
+
+def menu(context, *args, **kwargs):
+    block_context = {
+        'menu': Menu.objects.filter(position=args[0]).prefetch_related('menu_items').iterator()
+    }
+
+    return block_context
 
 
 def recommended_adverts(context, order_by='-pk', count=4, *args, **kwargs):

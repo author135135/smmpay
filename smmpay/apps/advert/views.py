@@ -38,7 +38,7 @@ class AdvertFilterMixin(object):
     def get_queryset(self):
         qs = super(AdvertFilterMixin, self).get_queryset()
 
-        filter_form = advert_forms.FilterForm(self.request.GET)
+        filter_form = self._get_filter_form()
 
         for item in self.filters:
             if not filter_form.has_error(item) and filter_form.cleaned_data.get(item, None):
@@ -66,6 +66,12 @@ class AdvertFilterMixin(object):
             qs = qs.filter(social_account__social_network=obj)
 
         return qs
+
+    def _get_filter_form(self):
+        if not hasattr(self, 'filter_form'):
+            self.filter_form = advert_forms.FilterForm(self.request.GET)
+
+        return self.filter_form
 
 
 class AdvertSubFormMixin(object):
@@ -142,7 +148,7 @@ class IndexView(AdvertFilterMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
 
-        context['filter_form'] = advert_forms.FilterForm(self.request.GET or None)
+        context['filter_form'] = self._get_filter_form()
         context['social_networks'] = SocialNetwork.objects.all()
 
         selected_social_network = self.request.GET.get('social_network', None)

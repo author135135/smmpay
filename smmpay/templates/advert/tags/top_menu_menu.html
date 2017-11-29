@@ -1,9 +1,0 @@
-{% if menu.menu_items.exists %}
-    <ul class="menu">
-        {% for item in menu.menu_items.all %}
-            <li class="menu__item">
-                <a class="menu__link" href="{{ item.url }}">{{ item.title }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-{% endif %}
