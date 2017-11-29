@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^jsi18n/$', javascript_catalog, name='javascript-catalog'),
     url(r'^blog/', include('smmpay.apps.blog.urls', namespace='blog')),
     url(r'^account/', include('smmpay.apps.account.urls', namespace='account')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^forstaffonly/', include(admin.site.urls)),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^', include('smmpay.apps.advert.urls', namespace='advert')),
 ]

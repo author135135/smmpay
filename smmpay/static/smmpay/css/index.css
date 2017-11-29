@@ -2107,12 +2107,13 @@ body > .jcf-select-drop {
   align-items: center;
   color: #020202;
   letter-spacing: -0.025em;
-  font-weight: 600;
   cursor: pointer;
   background: url(../images/passion-heart.svg) no-repeat #fff;
   padding-left: 24px;
   opacity: 0.5;
-  transition: 0.2s; }
+  transition: 0.2s;
+  font-size: 10px;
+  text-transform: uppercase; }
   .thumb__favorite.active,
   .thumb__favorite:hover {
   opacity: 0.8; }
@@ -2153,7 +2154,7 @@ body > .jcf-select-drop {
   cursor: pointer;
   border: 1px solid #dedede;
   border-radius: 20px;
-  margin-left: 25px;
+  margin-left: 22px;
   transition: box-shadow .2s ease-in-out, border-color .2s ease-in-out;
   padding: 0 20px;
   font-size: 10px;
@@ -3861,4 +3862,13 @@ body > .jcf-select-drop {
 
 .filter__search {
   border: 2px solid #5d42e7;
+}
+
+.banner-box a {
+  display: block;
+}
+
+.sidebar.banner-box {
+  height: 380px;
+  overflow: hidden;
 }
