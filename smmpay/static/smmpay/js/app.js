@@ -206,7 +206,6 @@
             $('input[name="link"]', advert_add_form).on('focusout', function(e) {
                 var field = $(this),
                     wrapper = field.parent(),
-                    link_pat = /http(s)?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
                     info_table = $('.product-table_info');
 
                 if (link == $.trim(field.val()) || link_check_progress) {
@@ -225,12 +224,10 @@
 
                 $('.hidden-field', advert_add_form).addClass('hidden');
 
-                if (!link) {
-                    wrapper.append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                var result = check_link(link);
 
-                    return false;
-                }else if (!link_pat.test(link)) {
-                    wrapper.append('<div class="error_input">' + gettext('You have inserted an incorrect value for the link to the page, group or account that you are selling *') + '</div>');
+                if (!result['success']) {
+                    wrapper.append('<div class="error_input">' + result['error'] + '</div>');
 
                     return false;
                 }
@@ -289,14 +286,12 @@
 
                 $('.error_input', advert_add_form).remove();
 
-                if (!$('input[name="link"]', advert_add_form).val()) {
-                    error = 1;
+                var result = check_link(link);
 
-                    $('input[name="link"]', advert_add_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
-                } else if (!link_pat.test($('input[name="link"]', advert_add_form).val())) {
-                    error = 1;
+                if (!result['success']) {
+                    $('input[name="link"]', advert_add_form).after('<div class="error_input">' + result['error'] + '</div>');
 
-                    $('input[name="link"]', advert_add_form).after('<div class="error_input">' + gettext('You have inserted an incorrect value for the link to the page, group or account that you are selling *') + '</div>');
+                    error = 1;
                 }
 
                 if (!$('select[name="category"]', advert_add_form).val()) {
@@ -314,7 +309,25 @@
                 if (!$('input[name="price"]', advert_add_form).val()) {
                     error = 1;
 
-                    $('input[name="price"]', advert_add_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    $('input[name="price"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                }
+
+                if (result['success'] && !$('input[name="title"]', advert_add_form).val()) {
+                    error = 1;
+
+                    $('input[name="title"]', advert_add_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
+                }
+
+                if (result['success'] && !$('input[name="subscribers"]', advert_add_form).val()) {
+                    error = 1;
+
+                    $('input[name="subscribers"]', advert_add_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
+                }
+
+                if (result['success'] && !$('input[name="external_logo"]', advert_add_form).val() && !$('input[name="logo"]', advert_add_form).val()) {
+                    error = 1;
+
+                    $('input[name="logo"]', advert_add_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
                 if (error) {
@@ -370,12 +383,10 @@
 
                 info_table.empty();
 
-                if (!link) {
-                    wrapper.append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                var result = check_link(link);
 
-                    return false;
-                }else if (!link_pat.test(link)) {
-                    wrapper.append('<div class="error_input">' + gettext('You have inserted an incorrect value for the link to the page, group or account that you are selling *') + '</div>');
+                if (!result['success']) {
+                    wrapper.append('<div class="error_input">' + result['error'] + '</div>');
 
                     return false;
                 }
@@ -411,14 +422,12 @@
 
                 $('.error_input', advert_edit_form).remove();
 
-                if (!$('input[name="link"]', advert_edit_form).val()) {
-                    error = 1;
+                var result = check_link(link);
 
-                    $('input[name="link"]', advert_edit_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
-                } else if (!link_pat.test($('input[name="link"]', advert_edit_form).val())) {
-                    error = 1;
+                if (!result['success']) {
+                    $('input[name="link"]', advert_edit_form).after('<div class="error_input">' + result['error'] + '</div>');
 
-                    $('input[name="link"]', advert_edit_form).after('<div class="error_input">' + gettext('You have inserted an incorrect value for the link to the page, group or account that you are selling *') + '</div>');
+                    error = 1;
                 }
 
                 if (!$('select[name="category"]', advert_edit_form).val()) {
@@ -437,6 +446,24 @@
                     error = 1;
 
                     $('input[name="price"]', advert_edit_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
+                }
+
+                if (result['success'] && !$('input[name="title"]', advert_edit_form).val()) {
+                    error = 1;
+
+                    $('input[name="title"]', advert_edit_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
+                }
+
+                if (result['success'] && !$('input[name="subscribers"]', advert_edit_form).val()) {
+                    error = 1;
+
+                    $('input[name="subscribers"]', advert_edit_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
+                }
+
+                if (result['success'] && !$('input[name="external_logo"]', advert_edit_form).val() && !$('input[name="logo"]', advert_edit_form).val()) {
+                    error = 1;
+
+                    $('input[name="logo"]', advert_edit_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
                 if (error) {
@@ -925,6 +952,78 @@
 
             $('.message', modal).empty().text(message);
             modal.fadeIn(200);
+        }
+
+        function check_link(link) {
+            var result = {'success': true, 'error': ''},
+                link_pat = /http(s)?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+
+            if (!link) {
+                result = {
+                    'success': false,
+                    'error': gettext('This field is required')
+                };
+            } else {
+                var url_info = new URI(link),
+                    is_valid = false,
+                    social_networks = {
+                        'vk': {
+                            'hosts': ['m.vk.com', 'vk.com', 'www.vk.com'],
+                            'pattern': /^https:\/\/vk\.com\/[a-zA-Z0-9-_]+\/?$/g,
+                            'valid_pattern': 'https://vk.com/xxxxxxx'
+                        },
+                        'youtube': {
+                            'hosts': ['www.youtube.com', 'youtube.com', 'm.youtube.com'],
+                            'pattern': /^https:\/\/www\.youtube\.com\/channel\/[a-zA-Z0-9-_]+\/?$/g,
+                            'valid_pattern': 'https://www.youtube.com/channel/xxxxxxx'
+                        },
+                        'facebook': {
+                            'hosts': ['www.facebook.com', 'facebook.com', 'm.facebook.com'],
+                            'pattern': /^https:\/\/www\.facebook\.com\/groups\/[a-zA-Z0-9-_]+\/?$/g,
+                            'valid_pattern': 'https://www.facebook.com/groups/xxxxxxx'
+                        },
+                        'instagram': {
+                            'hosts': ['www.instagram.com', 'instagram.com'],
+                            'pattern': /^https:\/\/www\.instagram\.com\/[a-zA-Z0-9-_]+\/$/g,
+                            'valid_pattern': 'https://www.instagram.com/xxxxxxx/'
+                        },
+                        'twitter': {
+                            'hosts': ['www.twitter.com', 'twitter.com', 'mobile.twitter.com'],
+                            'pattern': /^https:\/\/twitter\.com\/[a-zA-Z0-9-_]+\/?$/g,
+                            'valid_pattern': 'https://twitter.com/xxxxxxx'
+                        }
+                    };
+
+                for (var social_network in social_networks) {
+                    var hosts = social_networks[social_network]['hosts'],
+                        pattern = social_networks[social_network]['pattern'],
+                        valid_pattern = social_networks[social_network]['valid_pattern'];
+
+                    if (hosts.indexOf(url_info.hostname()) !== -1) {
+                        if (!pattern.test(url_info)) {
+                            var msg = gettext('Seems you wrote incorrect link. The link should be in the format ');
+
+                            result = {
+                                'success': false,
+                                'error': msg + valid_pattern
+                            };
+
+                            break;
+                        } else {
+                            is_valid = true;
+                        }
+                    }
+                }
+
+                if (!is_valid && result['success']) {
+                    result = {
+                        'success': false,
+                        'error': gettext('You have inserted an incorrect value for the link to the page, group or account that you are selling *')
+                    };
+                }
+            }
+
+            return result;
         }
 
         function getCookie(name) {

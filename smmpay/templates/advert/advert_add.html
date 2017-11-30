@@ -24,7 +24,7 @@
             <strong>{% trans 'Advert creation' %}</strong>
         </div>
         <div class="form-create-abs">
-            <form id="advert-add-form" enctype="multipart/form-data" action="" method="post" data-validation-url="{% url 'advert:advert_social_account_info' %}">
+            <form id="advert-add-form" enctype="multipart/form-data" novalidate action="" method="post" data-validation-url="{% url 'advert:advert_social_account_info' %}">
                 {% csrf_token %}
                 {% for hidden_field in form.hidden_fields %}
                     {{ hidden_field }}
@@ -138,4 +138,5 @@
     <script src="{% static 'smmpay/components/jcf/js/jcf.js' %}"></script>
     <script src="{% static 'smmpay/components/jcf/js/jcf.select.js' %}"></script>
     <script src="{% static 'smmpay/components/jcf/js/jcf.scrollable.js' %}"></script>
+    <script src="{% static 'smmpay/components/URI.min.js' %}"></script>
 {% endblock %}
