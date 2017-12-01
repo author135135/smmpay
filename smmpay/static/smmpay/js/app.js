@@ -969,48 +969,57 @@
                     social_networks = {
                         'vk': {
                             'hosts': ['m.vk.com', 'vk.com', 'www.vk.com'],
-                            'pattern': /^https:\/\/vk\.com\/[a-zA-Z0-9-_]+\/?$/g,
+                            'patterns': [/^https:\/\/vk\.com\/[a-zA-Z0-9-_.]+\/?$/g],
                             'valid_pattern': 'https://vk.com/xxxxxxx'
                         },
                         'youtube': {
                             'hosts': ['www.youtube.com', 'youtube.com', 'm.youtube.com'],
-                            'pattern': /^https:\/\/www\.youtube\.com\/channel\/[a-zA-Z0-9-_]+\/?$/g,
+                            'patterns': [/^https:\/\/www\.youtube\.com\/channel\/[a-zA-Z0-9-_]+\/?$/g],
                             'valid_pattern': 'https://www.youtube.com/channel/xxxxxxx'
                         },
                         'facebook': {
                             'hosts': ['www.facebook.com', 'facebook.com', 'm.facebook.com'],
-                            'pattern': /^https:\/\/www\.facebook\.com\/groups\/[a-zA-Z0-9-_]+\/?$/g,
-                            'valid_pattern': 'https://www.facebook.com/groups/xxxxxxx'
+                            'patterns': [
+                                /^https:\/\/www\.facebook\.com\/groups\/[a-zA-Z0-9-_]+\/?$/g,
+                                /^https:\/\/www\.facebook\.com\/[a-zA-Z0-9-_]+\/?$/g
+                            ],
+                            'valid_pattern': 'https://www.facebook.com/xxxxxxx, https://www.facebook.com/groups/xxxxxxx'
                         },
                         'instagram': {
                             'hosts': ['www.instagram.com', 'instagram.com'],
-                            'pattern': /^https:\/\/www\.instagram\.com\/[a-zA-Z0-9-_]+\/$/g,
+                            'patterns': [/^https:\/\/www\.instagram\.com\/[a-zA-Z0-9-_.]+\/$/g],
                             'valid_pattern': 'https://www.instagram.com/xxxxxxx/'
                         },
                         'twitter': {
                             'hosts': ['www.twitter.com', 'twitter.com', 'mobile.twitter.com'],
-                            'pattern': /^https:\/\/twitter\.com\/[a-zA-Z0-9-_]+\/?$/g,
+                            'patterns': [/^https:\/\/twitter\.com\/[a-zA-Z0-9-_]+\/?$/g],
                             'valid_pattern': 'https://twitter.com/xxxxxxx'
                         }
                     };
 
                 for (var social_network in social_networks) {
                     var hosts = social_networks[social_network]['hosts'],
-                        pattern = social_networks[social_network]['pattern'],
+                        patterns = social_networks[social_network]['patterns'],
                         valid_pattern = social_networks[social_network]['valid_pattern'];
 
                     if (hosts.indexOf(url_info.hostname()) !== -1) {
-                        if (!pattern.test(url_info)) {
+                        for (var index in patterns) {
+                            var pattern = patterns[index];
+
+                            if (pattern.test(url_info)) {
+                                is_valid = true;
+
+                                break;
+                            }
+                        }
+
+                        if (!is_valid) {
                             var msg = gettext('Seems you wrote incorrect link. The link should be in the format ');
 
                             result = {
                                 'success': false,
                                 'error': msg + valid_pattern
                             };
-
-                            break;
-                        } else {
-                            is_valid = true;
                         }
                     }
                 }
