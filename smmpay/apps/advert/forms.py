@@ -85,15 +85,6 @@ class AdvertSocialAccountForm(forms.ModelForm):
 
             self.fields[field].widget.attrs['class'] = class_name
 
-    def clean_link(self):
-        link = self.cleaned_data['link']
-        social_network = SocialNetwork.get_social_network(link)
-
-        if social_network is None:
-            raise forms.ValidationError(_('Unsupported social network'), code='invalid')
-
-        return link
-
     def clean(self):
         cleaned_data = super(AdvertSocialAccountForm, self).clean()
 

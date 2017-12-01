@@ -1,4 +1,5 @@
 import random
+import re
 
 from urllib.parse import urlparse
 from datetime import timedelta
@@ -7,6 +8,7 @@ from django.db import models
 from django.db.models import FieldDoesNotExist
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -134,7 +136,11 @@ class Category(models.Model):
 class SocialNetwork(models.Model):
     title = models.CharField(_('title'), max_length=255)
     code = models.CharField(_('network code'), max_length=25, unique=True)
-    urls = models.TextField(_('URLs'))
+    urls = models.TextField(_('URLs'), help_text=_('Valid social network hosts, one host per line'))
+    patterns = models.TextField(_('URL patterns'), default='',
+                                help_text=_('Python regexp patterns for validation, one per line. Format ^...$'))
+    valid_pattern = models.CharField(_('Valid url pattern'), max_length=255, default='',
+                                     help_text=_('Valid url pattern of social network, uses in validation errors'))
     order = models.SmallIntegerField(_('order'), default=0)
 
     class Meta:
@@ -154,11 +160,33 @@ class SocialNetwork(models.Model):
         url_info = urlparse(link)
 
         try:
-            social_network = cls.objects.get(urls__icontains=url_info.netloc)
+            social_network = cls.objects.get(urls__icontains='%s://%s' % (url_info.scheme, url_info.netloc))
         except cls.DoesNotExist:
             social_network = None
 
         return social_network
+
+
+def validate_social_network_link(value):
+    is_valid = False
+    social_network = SocialNetwork.get_social_network(value)
+
+    if social_network is None:
+        raise ValidationError(_('Unsupported social network'), code='error')
+
+    re_patterns = social_network.patterns.splitlines()
+
+    if re_patterns:
+        for re_pattern in social_network.patterns.splitlines():
+            if re.search(r'%s' % re_pattern, value):
+                is_valid = True
+
+                break
+
+        if is_valid is False:
+            raise ValidationError(
+                _('Seems you wrote incorrect link. The link should be in the format %(pattern)s') % {
+                    'pattern': social_network.valid_pattern}, code='error')
 
 
 class Phrase(models.Model):
@@ -268,7 +296,7 @@ class AdvertSocialAccount(models.Model):
     advert = models.OneToOneField(verbose_name=_('advert'), to=Advert, related_name='social_account',
                                   on_delete=models.CASCADE)
     logo = models.ImageField(_('logo'), upload_to=RenameFile('offer/social_accounts/%Y/%m/%d'))
-    link = models.URLField(_('account link'))
+    link = models.URLField(_('account link'), validators=[validate_social_network_link])
     subscribers = models.PositiveIntegerField(_('subscribers'))
     social_network = models.ForeignKey(verbose_name=_('social network'), to=SocialNetwork, null=True,
                                        related_name='social_accounts', on_delete=models.SET_NULL)

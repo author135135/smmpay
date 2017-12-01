@@ -117,6 +117,8 @@ class PhraseAdmin(admin.ModelAdmin):
 
 class SocialAccountConfirmationQueueAdmin(admin.ModelAdmin):
     list_display = ('_get_advert', 'status', 'attempts', 'last_start')
+    search_fields = ('social_account__advert__title',)
+    list_filter = ('status',)
 
     def _get_advert(self, obj):
         return obj.social_account.advert
