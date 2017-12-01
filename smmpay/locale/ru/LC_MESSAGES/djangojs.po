@@ -91,4 +91,4 @@ msgstr "Активировать"
 #: smmpay/static/smmpay/js/app.js:974
 msgid "Seems you wrote incorrect link. The link should be in the format "
 msgstr ""
-"Возможно вы ввели неправильно ввели ссылку, ссылка должны быть в формате "
+"Возможно вы неправильно ввели ссылку, ссылка должны быть в формате "
