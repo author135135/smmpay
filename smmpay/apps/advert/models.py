@@ -174,19 +174,21 @@ def validate_social_network_link(value):
     if social_network is None:
         raise ValidationError(_('Unsupported social network'), code='error')
 
-    re_patterns = social_network.patterns.splitlines()
+    for re_pattern in social_network.patterns.splitlines():
+        re_pattern = re_pattern.strip()
 
-    if re_patterns:
-        for re_pattern in social_network.patterns.splitlines():
-            if re.search(r'%s' % re_pattern, value):
+        try:
+            if re_pattern and re.search(r'%s' % re_pattern, value):
                 is_valid = True
 
                 break
+        except Exception as e:
+            pass
 
-        if is_valid is False:
-            raise ValidationError(
-                _('Seems you wrote incorrect link. The link should be in the format %(pattern)s') % {
-                    'pattern': social_network.valid_pattern}, code='error')
+    if is_valid is False:
+        raise ValidationError(
+            _('Seems you wrote incorrect link. The link should be in the format %(pattern)s') % {
+                'pattern': social_network.valid_pattern}, code='error')
 
 
 class Phrase(models.Model):
