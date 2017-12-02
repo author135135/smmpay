@@ -43,7 +43,7 @@ class PasswordResetForm(AuthPasswordResetForm):
         try:
             User.objects.get(email=email)
         except User.DoesNotExist:
-            raise forms.ValidationError(_('E-mail address does not exists'), code='invalid')
+            raise forms.ValidationError(_('Email address does not exists'), code='invalid')
 
         return email
 
@@ -141,7 +141,7 @@ class EmailChangeForm(forms.Form):
         email = self.cleaned_data['email']
 
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError(_('E-mail address already in use'), code='invalid')
+            raise forms.ValidationError(_('Email address already in use'), code='invalid')
 
         return email
 
