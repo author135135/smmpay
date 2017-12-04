@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-02 15:53+0200\n"
+"POT-Creation-Date: 2017-12-04 15:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -957,6 +957,56 @@ msgstr "Редактирование объявления"
 #: smmpay/templates/advert/advert_edit.html:115
 msgid "Edit advert"
 msgstr "Редактировать объявление"
+
+#: smmpay/templates/advert/emails/advert_status_published_email.html:6
+#, python-format
+msgid ""
+"\n"
+"Congratulations, %(user)s!<br><br>\n"
+"Your advert was successfully published!<br>\n"
+"To view, go to the advert page <a href=\"http://%(domain)s%(advert_url)s\" "
+"target=\"_blank\">%(advert)s</a>.<br>\n"
+"To manage your advert, go to your account on the site <a href=\"http://"
+"%(domain)s%(account_index_url)s\">http://%(domain)s%(account_index_url)s</"
+"a>.\n"
+msgstr ""
+"\n"
+"Поздравляем, %(user)s!<br><br>\n"
+"Ваше объявление успешно опубликовано!<br>\n"
+"Для просмотра перейдите на страницу объявления <a href=\"http://%(domain)s"
+"%(advert_url)s\">%(advert)s</a>.<br>\n"
+"Для управления вашим объявлением, перейдите в личный кабинет на сайте <a "
+"href=\"http://%(domain)s%(account_index_url)s\">http://%(domain)s"
+"%(account_index_url)s</a>.\n"
+
+#: smmpay/templates/advert/emails/advert_status_published_email_subject.txt:2
+msgid "Your advert was published"
+msgstr "Ваше объявление успешно опубликовано"
+
+#: smmpay/templates/advert/emails/advert_status_violation_email.html:6
+#, python-format
+msgid ""
+"\n"
+"Attention, %(user)s!<br><br>\n"
+"Your advert was blocked for violation!<br>\n"
+"To view, go to the advert page <a href=\"http://%(domain)s%(advert_url)s\" "
+"target=\"_blank\">%(advert)s</a>.<br>\n"
+"To manage your advert, go to your account on the site <a href=\"http://"
+"%(domain)s%(account_index_url)s\">http://%(domain)s%(account_index_url)s</"
+"a>.\n"
+msgstr ""
+"\n"
+"Внимание, %(user)s!<br><br>\n"
+"Ваше объявление заблокировано за нарушение!<br>\n"
+"Для просмотра перейдите на страницу объявления <a href=\"http://%(domain)s"
+"%(advert_url)s\">%(advert)s</a>.<br>\n"
+"Для управления вашим объявлением, перейдите в личный кабинет на сайте <a "
+"href=\"http://%(domain)s%(account_index_url)s\">http://%(domain)s"
+"%(account_index_url)s</a>.\n"
+
+#: smmpay/templates/advert/emails/advert_status_violation_email_subject.txt:2
+msgid "Your advert was blocked"
+msgstr "Ваше объявление заблокировано за нарушение"
 
 #: smmpay/templates/advert/parts/filter.html:48
 msgid "Price"

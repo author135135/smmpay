@@ -1,0 +1,12 @@
+{% load i18n %}
+{% autoescape off %}
+
+{% url 'account:index' as account_index_url %}
+
+{% blocktrans with advert_url=advert.get_absolute_url %}
+Congratulations, {{ user }}!<br><br>
+Your advert was successfully published!<br>
+To view, go to the advert page <a href="http://{{ domain }}{{ advert_url }}" target="_blank">{{ advert }}</a>.<br>
+To manage your advert, go to your account on the site <a href="http://{{ domain }}{{ account_index_url }}">http://{{ domain }}{{ account_index_url }}</a>.
+{% endblocktrans %}
+{% endautoescape %}
