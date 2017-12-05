@@ -1616,26 +1616,37 @@ body > .jcf-select-drop {
       bottom: 0;
       left: -13px;
       position: absolute; }
+
     .filter__form-social li a.facebook .icon {
       background: url(../images/facebook.svg) no-repeat; }
     .filter__form-social li a.facebook:after {
       background: #3B5998; }
+
     .filter__form-social li a.twitter .icon {
       background: url(../images/twitter.svg) no-repeat; }
     .filter__form-social li a.twitter:after {
       background: #55ACEE; }
+
     .filter__form-social li a.vk .icon {
       background: url(../images/vkontakte.svg) no-repeat; }
     .filter__form-social li a.vk:after {
       background: #4D76A1; }
+
     .filter__form-social li a.instagram .icon {
       background: url(../images/instagram.svg) no-repeat; }
     .filter__form-social li a.instagram:after {
       background: #6A453B; }
+
     .filter__form-social li a.youtube .icon {
       background: url(../images/youtube.svg) no-repeat; }
     .filter__form-social li a.youtube:after {
       background: #c4302b; }
+
+    .filter__form-social li a.telegram .icon {
+      background: url(../images/telegram.svg) no-repeat; }
+    .filter__form-social li a.telegram:after {
+      background: #0088cc; }
+
     .filter__form-social li a:hover {
       opacity: 1; }
   .filter__form-social li.active {
@@ -3845,8 +3856,6 @@ body > .jcf-select-drop {
   position: absolute;
   left: 0;
   top: 4px; }
-
-/*# sourceMappingURL=index.css.map */
 
 .load-avatar-img {
    border-color: transparent;

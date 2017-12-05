@@ -994,6 +994,14 @@
                             'hosts': ['www.twitter.com', 'twitter.com', 'mobile.twitter.com'],
                             'patterns': [/^https:\/\/twitter\.com\/[a-zA-Z0-9-_]+\/?$/g],
                             'valid_pattern': 'https://twitter.com/xxxxxxx'
+                        },
+                        'telegram': {
+                            'hosts': ['www.t.me', 't.me'],
+                            'patterns': [
+                                /^https:\/\/t\.me\/[a-zA-Z0-9_]+\/?$/g,
+                                /^https:\/\/www\.t\.me\/[a-zA-Z0-9_]+\/?$/g
+                            ],
+                            'valid_pattern': 'https://www.t.me/xxxxxxx, https://t.me/xxxxxxx'
                         }
                     };
 
