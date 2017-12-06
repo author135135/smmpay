@@ -11,7 +11,7 @@
                     <img src="{{ post.image.url }}" alt="blog">
                 </a>
             {% endif %}
-            <div class="text-wrap">{{ post.content|striptags|truncatewords:'57' }}</div>
+            <div class="text-wrap">{{ post.content|safe|striptags|truncatewords:'57' }}</div>
             <div class="nav-blog">
                 <time class="time">{{ post.created|date:'d E Y' }}</time>
                 <a class="thumb__read-more" href="{{ post.get_absolute_url }}">{% trans 'Read more' %}</a>

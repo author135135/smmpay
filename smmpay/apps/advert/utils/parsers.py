@@ -1,4 +1,3 @@
-import os
 import sys
 import time
 
@@ -7,16 +6,10 @@ from bs4 import BeautifulSoup
 
 from django.conf import settings
 
-if settings.DEBUG:
-    import os
-
-    os.environ['https_proxy'] = 'https://104.236.27.71:3128'
-
 
 class WebClient(object):
     def __init__(self):
         self.browser = None
-        self.parser = BeautifulSoup(features='lxml')
 
         driver_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'webdrivers', 'chromedriver')
 
@@ -141,6 +134,21 @@ class YoutubeSocialNetworkParser(object):
 
 class InstagramSocialNetworkParser(object):
     ACCOUNT_CONFIRMATION_SELECTOR = 'header ul + div span'
+
+    def get_account_confirmation(self, url, code):
+        client = WebClient()
+
+        parser = BeautifulSoup(client.get_page_content(url), 'lxml')
+        element = parser.select_one(self.ACCOUNT_CONFIRMATION_SELECTOR)
+
+        if element is not None:
+            return element.text.strip() == code.strip()
+
+        return False
+
+
+class TelegramSocialNetworkParser(object):
+    ACCOUNT_CONFIRMATION_SELECTOR = '.tgme_page_description'
 
     def get_account_confirmation(self, url, code):
         client = WebClient()

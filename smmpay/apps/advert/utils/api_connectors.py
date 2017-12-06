@@ -1,16 +1,20 @@
 import logging
 import sys
-from urllib import parse
+import requests
+import re
 
 import vk
 import facebook
 import tweepy
 
+from django.conf import settings
+
 from vk.exceptions import VkAPIError
 from apiclient.discovery import build
 from apiclient.errors import HttpError
+from bs4 import BeautifulSoup
 
-from django.conf import settings
+from urllib import parse
 
 logger = logging.getLogger('db')
 
@@ -19,6 +23,9 @@ class SocialNetworkConnector(object):
     """
     Abstract interface for social network connectors
     """
+    def __init__(self, *args, **kwargs):
+        self.account_link = parse.urlparse(kwargs.get('account_link', None))
+
     def get_account_info(self):
         raise NotImplementedError()
 
@@ -28,7 +35,8 @@ class VkSocialNetworkConnector(SocialNetworkConnector):
     Connector for work with vk.com
     """
     def __init__(self, *args, **kwargs):
-        self.account_link = parse.urlparse(kwargs.get('account_link', None))
+        super(VkSocialNetworkConnector).__init__(*args, **kwargs)
+
         # @TODO Keep eyes on it, seems vk changed their workflow
         """session = vk.AuthSession(app_id=settings.SOCIAL_NETWORK_VK_APP_ID,
                                  user_login=settings.SOCIAL_NETWORK_VK_LOGIN,
@@ -63,7 +71,7 @@ class FacebookSocialNetworkConnector(SocialNetworkConnector):
     Connector for work with facebook
     """
     def __init__(self, *args, **kwargs):
-        self.account_link = parse.urlparse(kwargs.get('account_link', '').strip())
+        super(FacebookSocialNetworkConnector).__init__(*args, **kwargs)
 
         self.api = facebook.GraphAPI(version='2.7')
         self.api.access_token = self.api.get_app_access_token(settings.SOCIAL_NETWORK_FACEBOOK_KEY,
@@ -94,7 +102,7 @@ class TwitterSocialNetworkConnector(SocialNetworkConnector):
     Connector for work with twitter
     """
     def __init__(self, *args, **kwargs):
-        self.account_link = parse.urlparse(kwargs.get('account_link', None))
+        super(TwitterSocialNetworkConnector).__init__(*args, **kwargs)
 
         auth = tweepy.OAuthHandler(settings.SOCIAL_NETWORK_TWITTER_API_KEY, settings.SOCIAL_NETWORK_TWITTER_API_SECRET)
         auth.set_access_token(settings.SOCIAL_NETWORK_TWITTER_ACCESS_TOKEN,
@@ -129,7 +137,7 @@ class YoutubeSocialNetworkConnector(SocialNetworkConnector):
     Connector for work with youtube
     """
     def __init__(self, *args, **kwargs):
-        self.account_link = parse.urlparse(kwargs.get('account_link', None))
+        super(YoutubeSocialNetworkConnector).__init__(*args, **kwargs)
 
         self.api = build('youtube', 'v3', developerKey=settings.SOCIAL_NETWORK_YOUTUBE_API_KEY)
 
@@ -151,6 +159,68 @@ class YoutubeSocialNetworkConnector(SocialNetworkConnector):
                 result['subscribers'] = response['items'][0]['statistics']['subscriberCount']
                 result['logo'] = response['items'][0]['snippet']['thumbnails']['high']['url']
         except HttpError as e:
+            logger.exception(e)
+
+        return result
+
+
+class InstagramSocialNetworkConnector(SocialNetworkConnector):
+    def get_account_info(self):
+        result = {}
+
+        try:
+            response = requests.get('%s?__a=1' % self.account_link.geturl())
+
+            if response.status_code == 200:
+                json_data = response.json()
+
+                result['title'] = json_data['user']['full_name']
+                result['subscribers'] = json_data['user']['followed_by']['count']
+                result['logo'] = json_data['user']['profile_pic_url_hd']
+        except Exception as e:
+            logger.exception(e)
+
+        return result
+
+
+class TelegramSocialNetworkConnector(SocialNetworkConnector):
+    """
+    Connector for work with telegram.
+    For now we just parse account page by BeautifulSoup.
+    """
+    def get_account_info(self):
+        result = {}
+
+        try:
+            response = requests.get(self.account_link.geturl())
+
+            if response.status_code == 200:
+                parser = BeautifulSoup(response.content, features='lxml')
+
+                element_logo = parser.select_one('.tgme_page_photo_image')
+
+                if element_logo is not None:
+                    result['logo'] = element_logo.attrs['src']
+
+                element_title = parser.select_one('.tgme_page_title')
+
+                if element_title is not None:
+                    result['title'] = element_title.text.strip()
+
+                element_subscribers = parser.select_one('.tgme_page_extra')
+
+                if element_subscribers is not None:
+                    re_match = re.match(r'[\d ]+', element_subscribers.text)
+
+                    if re_match is not None:
+                        subscribers = re_match.group()
+                        subscribers = subscribers.replace(' ', '')
+
+                        try:
+                            result['subscribers'] = int(subscribers)
+                        except ValueError:
+                            pass
+        except Exception as e:
             logger.exception(e)
 
         return result
