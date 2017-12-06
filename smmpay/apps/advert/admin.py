@@ -124,6 +124,9 @@ class SocialAccountConfirmationQueueAdmin(admin.ModelAdmin):
         return obj.social_account.advert
     _get_advert.short_description = _('advert')
 
+    def get_queryset(self, request):
+        return SocialAccountConfirmationQueue.objects.select_related('social_account__advert')
+
 
 class ContentBlockAdmin(admin.ModelAdmin):
     list_display = ('title', '_get_pages', 'position', 'enabled')
