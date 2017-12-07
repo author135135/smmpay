@@ -35,7 +35,7 @@ class VkSocialNetworkConnector(SocialNetworkConnector):
     Connector for work with vk.com
     """
     def __init__(self, *args, **kwargs):
-        super(VkSocialNetworkConnector).__init__(*args, **kwargs)
+        super(VkSocialNetworkConnector, self).__init__(*args, **kwargs)
 
         # @TODO Keep eyes on it, seems vk changed their workflow
         """session = vk.AuthSession(app_id=settings.SOCIAL_NETWORK_VK_APP_ID,
@@ -71,7 +71,7 @@ class FacebookSocialNetworkConnector(SocialNetworkConnector):
     Connector for work with facebook
     """
     def __init__(self, *args, **kwargs):
-        super(FacebookSocialNetworkConnector).__init__(*args, **kwargs)
+        super(FacebookSocialNetworkConnector, self).__init__(*args, **kwargs)
 
         self.api = facebook.GraphAPI(version='2.7')
         self.api.access_token = self.api.get_app_access_token(settings.SOCIAL_NETWORK_FACEBOOK_KEY,
@@ -102,7 +102,7 @@ class TwitterSocialNetworkConnector(SocialNetworkConnector):
     Connector for work with twitter
     """
     def __init__(self, *args, **kwargs):
-        super(TwitterSocialNetworkConnector).__init__(*args, **kwargs)
+        super(TwitterSocialNetworkConnector, self).__init__(*args, **kwargs)
 
         auth = tweepy.OAuthHandler(settings.SOCIAL_NETWORK_TWITTER_API_KEY, settings.SOCIAL_NETWORK_TWITTER_API_SECRET)
         auth.set_access_token(settings.SOCIAL_NETWORK_TWITTER_ACCESS_TOKEN,
@@ -137,7 +137,7 @@ class YoutubeSocialNetworkConnector(SocialNetworkConnector):
     Connector for work with youtube
     """
     def __init__(self, *args, **kwargs):
-        super(YoutubeSocialNetworkConnector).__init__(*args, **kwargs)
+        super(YoutubeSocialNetworkConnector, self).__init__(*args, **kwargs)
 
         self.api = build('youtube', 'v3', developerKey=settings.SOCIAL_NETWORK_YOUTUBE_API_KEY)
 
