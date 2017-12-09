@@ -37,7 +37,8 @@
 
 .inner-product .thumb__info__table {
   margin-bottom: 25px;
-  text-align: left; }
+  text-align: left;
+  line-height: 1.5; }
   .inner-product .thumb__info__table th {
     padding: 6px 0;
     color: #888a8e;
@@ -240,5 +241,3 @@
       margin-right: 8px;
       height: 14px;
       display: inline-block; }
-
-/*# sourceMappingURL=product.css.map */

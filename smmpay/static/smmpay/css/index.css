@@ -478,7 +478,7 @@ body > .jcf-select-drop {
   position: absolute;
   cursor: default;
   background: rgba(67, 79, 106, 0.1);
-  width: 12px;
+  width: 10px;
   border-radius: 5px;
   bottom: auto;
   right: 17px;
@@ -487,9 +487,9 @@ body > .jcf-select-drop {
   transform: translate3d(0, -50%, 0);
   max-height: calc(100% - 100px); }
   .jcf-scrollbar-vertical .jcf-scrollbar-handle {
-    background: #7d8aa5;
+    background: #5d42e7;
     height: 1px;
-    width: 12px;
+    width: 10px;
     border-radius: 5px; }
   .jcf-scrollbar-vertical .jcf-scrollbar-dec, .jcf-scrollbar-vertical .jcf-scrollbar-inc {
     background: none;
@@ -1050,7 +1050,7 @@ body > .jcf-select-drop {
   color: #a2a2a2;
   transition: all .3s ease-in-out; }
   .footer__link:hover {
-    color: #e6a033; }
+    color: #5d42e7; }
 
 .header {
   width: 100%;
@@ -1125,10 +1125,12 @@ body > .jcf-select-drop {
   -ms-flex-align: center;
   align-items: center; }
   .header__section .button {
-    background: #5d42e7;
+	background: url(../images/add-1.png) no-repeat #5d42e7;
+    background-position: 23px 16px;
     color: #fff;
     height: 40px;
-    margin-left: 30px }
+    margin-left: 30px;
+    padding-left: 41px; }
 
 @media only screen and (min-width: 1025px) {
   .header__section .button:hover {
@@ -1497,8 +1499,10 @@ body > .jcf-select-drop {
 .pagination__item {
   margin: 0 8px; }
   .pagination__item.active .pagination__link {
-    background: #2b364f;
-    color: #fff; }
+    background: #ffffff;
+    color: #000;
+    border: 2px solid #5d42e7;
+    font-weight: 600; }
   .pagination__item:hover .pagination__link {
     box-shadow: 0 2px 6px 0 rgba(43, 54, 79, 0.2); }
     .pagination__item:hover .pagination__link.pagination__link--dots {
@@ -1824,7 +1828,7 @@ body > .jcf-select-drop {
     fill: #9199aa;
     transition: all .3s ease-in-out; }
   .social__item:hover svg {
-    fill: #e6a033; }
+    fill: #5d42e7; }
 
 .thumb {
   width: 100%;
@@ -3869,9 +3873,9 @@ body > .jcf-select-drop {
    padding: 25px 25px 0;
 }
 
-.filter__search {
+/*.filter__search {
   border: 2px solid #5d42e7;
-}
+}*/
 
 .banner-box a {
   display: block;
