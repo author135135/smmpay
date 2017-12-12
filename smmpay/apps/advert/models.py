@@ -135,7 +135,7 @@ class Category(models.Model):
 
 class SocialNetwork(models.Model):
     title = models.CharField(_('title'), max_length=255)
-    code = models.CharField(_('network code'), max_length=25, unique=True)
+    code = models.SlugField(_('URL'), max_length=255, unique=True)
     urls = models.TextField(_('URLs'), help_text=_('Valid social network hosts, one host per line'))
     patterns = models.TextField(_('URL patterns'), default='',
                                 help_text=_('Python regexp patterns for validation, one per line. Format ^...$'))
@@ -165,6 +165,9 @@ class SocialNetwork(models.Model):
             social_network = None
 
         return social_network
+
+    def get_absolute_url(self):
+        return reverse('advert:social_network', kwargs={'social_network': self.code})
 
 
 def validate_social_network_link(value):

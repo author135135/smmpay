@@ -25,7 +25,6 @@ class FilterForm(forms.Form):
                                          widget=forms.TextInput(attrs={'class': 'filter__value'}))
     subscribers_max = forms.IntegerField(label=_('To'), required=False,
                                          widget=forms.TextInput(attrs={'class': 'filter__value'}))
-    social_network = forms.CharField(label=_('Social network'), required=False)
 
     def __init__(self, *args, **kwargs):
         super(FilterForm, self).__init__(*args, **kwargs)

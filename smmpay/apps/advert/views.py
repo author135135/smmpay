@@ -1,6 +1,6 @@
 import logging
 
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.views.generic import CreateView, UpdateView, View, ListView, DetailView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -32,10 +32,20 @@ class AdvertFilterMixin(object):
         'price_max': ['price__lte'],
         'subscribers_min': ['social_account__subscribers__gte'],
         'subscribers_max': ['social_account__subscribers__lte'],
-        'social_network': ['social_account__social_network__code'],
     }
 
-    def get_queryset(self):
+    def get(self, request, *args, **kwargs):
+        response = super(AdvertFilterMixin, self).get(request, *args, **kwargs)
+
+        if request.is_ajax():
+            return JsonResponse({
+                'success': True,
+                'data': render_to_string(self.ajax_items_template_name, response.context_data, request),
+            })
+
+        return response
+
+    def get_queryset(self, *args, **kwargs):
         qs = super(AdvertFilterMixin, self).get_queryset()
 
         filter_form = self._get_filter_form()
@@ -54,18 +64,23 @@ class AdvertFilterMixin(object):
                 if qs_query is not None:
                     qs = qs.filter(qs_query)
 
-        # Set filter by first social network if not checked
-        social_network = filter_form.cleaned_data.get('social_network', '')
-
-        if not social_network:
-            try:
-                obj = SocialNetwork.objects.first()
-            except SocialNetwork.DoesNotExist:
-                return qs
-
-            qs = qs.filter(social_account__social_network=obj)
+        qs &= Advert.published_objects.get_extra_queryset(select_items=['in_favorite'],
+                                                          select_params=[self.request.user.pk])
 
         return qs
+
+    def get_context_data(self, **kwargs):
+        context = super(AdvertFilterMixin, self).get_context_data(**kwargs)
+
+        context['filter_form'] = self._get_filter_form()
+
+        try:
+            context['social_networks'] = SocialNetwork.objects.all()
+            context['selected_social_network'] = SocialNetwork.objects.values('code').first().get('code')
+        except SocialNetwork.DoesNotExist:
+            pass
+
+        return context
 
     def _get_filter_form(self):
         if not hasattr(self, 'filter_form'):
@@ -134,39 +149,14 @@ class IndexView(AdvertFilterMixin, ListView):
     model = Advert
     paginate_by = 10
 
-    def get(self, request, *args, **kwargs):
-        response = super(IndexView, self).get(request, *args, **kwargs)
-
-        if request.is_ajax():
-            return JsonResponse({
-                'success': True,
-                'data': render_to_string(self.ajax_items_template_name, response.context_data, request),
-            })
-
-        return response
-
-    def get_context_data(self, **kwargs):
-        context = super(IndexView, self).get_context_data(**kwargs)
-
-        context['filter_form'] = self._get_filter_form()
-        context['social_networks'] = SocialNetwork.objects.all()
-
-        selected_social_network = self.request.GET.get('social_network', None)
-
-        if selected_social_network is None or not selected_social_network:
-            social_network_obj = SocialNetwork.objects.values('code').first()
-
-            if social_network_obj is not None:
-                selected_social_network = social_network_obj.get('code')
-
-        context['selected_social_network'] = selected_social_network
-
-        return context
-
-    def get_queryset(self):
+    def get_queryset(self, *args, **kwargs):
         qs = super(IndexView, self).get_queryset()
-        qs &= Advert.published_objects.get_extra_queryset(select_items=['in_favorite'],
-                                                          select_params=[self.request.user.pk])
+
+        try:
+            obj = SocialNetwork.objects.first()
+            qs = qs.filter(social_account__social_network=obj)
+        except SocialNetwork.DoesNotExist:
+            pass
 
         return qs
 
@@ -378,18 +368,73 @@ class AdvertEditView(LoginRequiredMixin, AdvertSubFormMixin, UpdateView):
         return super(AdvertEditView, self).get_queryset().filter(author=self.request.user)
 
 
-class UserAdvertsView(IndexView):
+class UserAdvertsView(AdvertFilterMixin, ListView):
     template_name = 'advert/user_adverts.html'
+    ajax_items_template_name = 'advert/parts/advert_list.html'
+    context_object_name = 'adverts'
+    model = Advert
+    paginate_by = 10
+
+    def get(self, request, *args, **kwargs):
+        self._user = None
+
+        user_model = get_user_model()
+
+        try:
+            self._user = user_model.objects.get(pk=self.kwargs['pk'], is_active=True)
+        except user_model.DoesNotExist as e:
+            raise Http404()
+
+        return super(UserAdvertsView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(UserAdvertsView, self).get_context_data(**kwargs)
 
-        user_model = get_user_model()
+        context['user_obj'] = self._user
+        context['user_adverts_count'] = Advert.published_objects.filter(author=self._user).count()
 
-        context['user_obj'] = user_model.objects.get(pk=self.kwargs['pk'])
-        context['user_adverts_count'] = Advert.published_objects.filter(author=self.kwargs['pk']).count()
+        social_network = self.request.GET.get('social_network', '')
+
+        if social_network:
+            context['selected_social_network'] = social_network
 
         return context
 
     def get_queryset(self):
-        return super(UserAdvertsView, self).get_queryset().filter(author=self.kwargs['pk'])
+        qs = super(UserAdvertsView, self).get_queryset().filter(author=self._user)
+
+        social_network = self.request.GET.get('social_network', '')
+
+        if social_network:
+            qs = qs.filter(social_account__social_network__code=social_network)
+
+        return qs
+
+
+class SocialNetworkView(AdvertFilterMixin, ListView):
+    template_name = 'advert/index.html'
+    ajax_items_template_name = 'advert/parts/advert_list.html'
+    context_object_name = 'adverts'
+    model = Advert
+    paginate_by = 10
+
+    def get(self, request, *args, **kwargs):
+        self._social_network = None
+
+        try:
+            self._social_network = SocialNetwork.objects.get(code=self.kwargs['social_network'])
+        except SocialNetwork.DoesNotExist:
+            raise Http404()
+
+        return super(SocialNetworkView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(SocialNetworkView, self).get_context_data()
+
+        context['selected_social_network'] = self._social_network.code
+
+        return context
+
+    def get_queryset(self):
+        return super(SocialNetworkView, self).get_queryset().filter(
+            social_account__social_network=self._social_network)
