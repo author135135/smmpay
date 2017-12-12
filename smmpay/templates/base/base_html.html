@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load static %}
 {% load advert_tags %}
+{% load seo_tags %}
 {% get_current_language as LANGUAGE_CODE %}
 {% get_language_info for LANGUAGE_CODE as language %}
 <!DOCTYPE html>
@@ -11,7 +12,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=1200">
         {% block head %}{% endblock %}
-        <title>QoopiQoopi{% block title %}{% endblock %}</title>
+        {% render_head_meta_information %}
         <link href="{% static 'smmpay/favicon.ico' %}" rel="shortcut icon" type="image/x-icon" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;amp;subset=cyrillic,cyrillic-ext" rel="stylesheet">
         <link href="{% static 'smmpay/components/jcf/css/jcf.css' %}" rel="stylesheet">
@@ -139,7 +140,7 @@
                             </svg>
                         </a>
                     </div>
-                    <div class="footer__copyright">{% trans 'TM is used on the basis of the license of the copyright holder QoopiQoopi' %}</div>
+                    <div class="footer__copyright">{% trans 'The site works in beta mode qoopiqoopi.com' %}</div>
                 </div>
             </div>
         </div>

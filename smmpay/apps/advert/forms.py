@@ -14,7 +14,7 @@ from .models import Advert, AdvertSocialAccount, SocialNetwork, Region, Category
 
 class FilterForm(forms.Form):
     search_query = forms.CharField(label=_('Search'), required=False, widget=forms.TextInput(
-        attrs={'class': 'filter__search', 'placeholder': _("For example 'sport'")}))
+        attrs={'class': 'filter__search', 'placeholder': _("For example 'sport'"), 'autofocus': ''}))
     region = forms.ChoiceField(label=_('Region'), required=False)
     category = forms.ChoiceField(label=_('Category'), required=False)
     price_min = forms.IntegerField(label=_('From'), required=False,
@@ -128,7 +128,8 @@ class AdvertFlatpageForm(FlatpageForm):
 
 
 class DiscussionMessageForm(forms.Form):
-    message = forms.CharField(label=_('Message'), widget=forms.Textarea(attrs={'placeholder': _('Your message')}))
+    message = forms.CharField(label=_('Message'), widget=forms.Textarea(attrs={'placeholder': _('Your message'),
+                                                                               'autofocus': ''}))
 
     def clean_message(self):
         message = self.cleaned_data['message']

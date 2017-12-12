@@ -57,7 +57,7 @@ class SetPasswordForm(AuthSetPasswordForm):
 
 
 class RegistrationForm(registration_forms.RegistrationForm):
-    first_name = forms.CharField(label=_('First name'), required=True)
+    first_name = forms.CharField(label=_('First name'), required=True, widget=forms.TextInput(attrs={'autofocus': ''}))
 
     class Meta(registration_forms.RegistrationForm.Meta):
         model = User

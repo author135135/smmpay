@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'smmpay.apps.account',
     'smmpay.apps.advert',
     'smmpay.apps.blog',
+    'smmpay.apps.seo'
 )
 
 MIDDLEWARE_CLASSES = (

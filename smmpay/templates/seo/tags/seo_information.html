@@ -1,0 +1,9 @@
+{% if seo_obj.meta_title %}
+    <title>{{ seo_obj.meta_title }}</title>
+{% endif %}
+{% if seo_obj.meta_description %}
+    <meta name="description" content="{{ seo_obj.meta_description }}">
+{% endif %}
+{% if seo_obj.meta_keywords %}
+    <meta name="keywords" content="{{ seo_obj.meta_keywords }}">
+{% endif %}

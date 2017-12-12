@@ -10,6 +10,7 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import get_language_from_request
 from django.utils.crypto import get_random_string
 from django.template.loader import render_to_string
+from django.db import transaction
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
@@ -294,17 +295,16 @@ class AdvertAddView(LoginRequiredMixin, AdvertSubFormMixin, CreateView):
 
         return context
 
+    @transaction.atomic
     def form_valid(self, form, sub_form):
         advert = form.save(False)
         advert.author = self.request.user
-
+        advert.social_account = sub_form.save(False)
+        advert.social_account.confirmation_code = self.request.session['advert_confirmation_code']
         advert.save()
 
-        advert_additional = sub_form.save(False)
-        advert_additional.advert = advert
-        advert_additional.confirmation_code = self.request.session['advert_confirmation_code']
-
-        advert_additional.save()
+        advert.social_account.advert = advert
+        advert.social_account.save()
 
         messages.add_message(self.request, messages.SUCCESS, _('Advert has been successfully added. '
                                                                'It will be published on the site after the moderation. '
