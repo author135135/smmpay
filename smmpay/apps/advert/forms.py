@@ -64,7 +64,7 @@ class AdvertForm(forms.ModelForm):
 
 
 class AdvertSocialAccountForm(forms.ModelForm):
-    logo = forms.ImageField(required=False, widget=forms.FileInput())
+    logo = forms.ImageField(label=_('Logo'), required=False, widget=forms.FileInput())
     external_logo = forms.CharField(required=False, widget=forms.HiddenInput())
 
     class Meta:

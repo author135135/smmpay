@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-14 13:03+0200\n"
+"POT-Creation-Date: 2017-12-14 17:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -235,6 +235,10 @@ msgid ""
 msgstr ""
 "Описание, используйте полезную информацию для привлечения пользователей "
 "(1-1000 символов)"
+
+#: smmpay/apps/advert/forms.py:67
+msgid "Logo"
+msgstr "Логотип"
 
 #: smmpay/apps/advert/forms.py:77
 msgid "Paste a link to the page, group or account that you are selling"

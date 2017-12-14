@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-14 13:03+0200\n"
+"POT-Creation-Date: 2017-12-14 17:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -232,6 +232,10 @@ msgid ""
 "Description, use useful information to attract users (1-1000 characters)"
 msgstr ""
 
+#: smmpay/apps/advert/forms.py:67
+msgid "Logo"
+msgstr ""
+
 #: smmpay/apps/advert/forms.py:77
 msgid "Paste a link to the page, group or account that you are selling"
 msgstr ""
@@ -243,7 +247,7 @@ msgid ""
 msgstr ""
 
 #: smmpay/apps/advert/forms.py:102 smmpay/apps/advert/forms.py:119
-msgid "Can not handle logo automatically,please select it manually"
+msgid "Can not download logo automatically,please select it manually"
 msgstr ""
 
 #: smmpay/apps/advert/forms.py:132

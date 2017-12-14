@@ -65,11 +65,16 @@ class AdvertSocialAccountInline(admin.StackedInline):
 
 
 class AdvertAdmin(admin.ModelAdmin):
-    list_display = ('title', 'advert_type', 'category', 'author', 'price', 'enabled_by_author', 'status')
+    list_display = ('title', 'category', 'advert_type', '_get_social_network', 'author', 'price', 'enabled_by_author',
+                    'status')
     list_per_page = 20
     search_fields = ('title', 'description')
-    list_filter = ('advert_type', 'category', 'enabled_by_author', 'status')
+    list_filter = ('advert_type', 'category', 'social_account__social_network', 'enabled_by_author', 'status')
     inlines = (AdvertSocialAccountInline,)
+
+    def _get_social_network(self, obj):
+        return obj.social_account.social_network
+    _get_social_network.short_description = _('social network')
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -117,6 +122,7 @@ class PhraseAdmin(admin.ModelAdmin):
 
 class SocialAccountConfirmationQueueAdmin(admin.ModelAdmin):
     list_display = ('_get_advert', 'status', 'attempts', 'last_start')
+    list_per_page = 20
     search_fields = ('social_account__advert__title',)
     list_filter = ('status',)
 
@@ -130,6 +136,7 @@ class SocialAccountConfirmationQueueAdmin(admin.ModelAdmin):
 
 class ContentBlockAdmin(admin.ModelAdmin):
     list_display = ('title', '_get_pages', 'position', 'enabled')
+    list_per_page = 20
     search_fields = ('title',)
     list_filter = ('position', 'enabled')
 
