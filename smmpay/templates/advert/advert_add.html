@@ -40,7 +40,7 @@
                 </div>
                 {% if form.title.value or sub_form.subscribers.value or sub_form.external_logo.value %}
                     <ul class="product-table_info">
-                        {% if sub_form.external_logo.value %}
+                        {% if sub_form.external_logo.value and not sub_form.logo.errors %}
                             <li>
                                 <span class="th">{% trans 'logo' %}</span>
                                 <span class="td">
@@ -66,7 +66,7 @@
                 {% else %}
                     <ul class="product-table_info hidden"></ul>
                 {% endif %}
-                <div class="item hidden-field {% if request.method == 'GET' or sub_form.external_logo.value %}hidden{% endif %}">
+                <div class="item hidden-field {% if request.method == 'GET' or sub_form.external_logo.value and not sub_form.logo.errors %}hidden{% endif %}">
                     <div class="log__title">{{ sub_form.logo.label }}*</div>
                     {{ sub_form.logo }}
                     {% for error in sub_form.logo.errors %}

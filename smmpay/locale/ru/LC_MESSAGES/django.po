@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-12 18:14+0200\n"
+"POT-Creation-Date: 2017-12-14 13:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -63,7 +63,7 @@ msgstr "Введен неверный пароль"
 msgid "Search query"
 msgstr "Поисковый запрос"
 
-#: smmpay/apps/account/forms.py:194 smmpay/apps/advert/forms.py:17
+#: smmpay/apps/account/forms.py:194 smmpay/apps/advert/forms.py:21
 msgid "For example 'sport'"
 msgstr "К примеру 'спорт'"
 
@@ -71,15 +71,15 @@ msgstr "К примеру 'спорт'"
 msgid "Order"
 msgstr "Сортировка"
 
-#: smmpay/apps/account/forms.py:204 smmpay/apps/advert/forms.py:131
+#: smmpay/apps/account/forms.py:204 smmpay/apps/advert/forms.py:158
 msgid "Message"
 msgstr "Сообщение"
 
-#: smmpay/apps/account/forms.py:204 smmpay/apps/advert/forms.py:131
+#: smmpay/apps/account/forms.py:204 smmpay/apps/advert/forms.py:158
 msgid "Your message"
 msgstr "Ваше сообщение"
 
-#: smmpay/apps/account/forms.py:211 smmpay/apps/advert/forms.py:139
+#: smmpay/apps/account/forms.py:211 smmpay/apps/advert/forms.py:166
 msgid "Please enter a message"
 msgstr "Введите сообщение"
 
@@ -195,53 +195,53 @@ msgstr "Страницы"
 msgid "Advert"
 msgstr "Объявление"
 
-#: smmpay/apps/advert/forms.py:16
+#: smmpay/apps/advert/forms.py:20
 msgid "Search"
 msgstr "Поиск"
 
-#: smmpay/apps/advert/forms.py:18
+#: smmpay/apps/advert/forms.py:22
 #: smmpay/templates/account/parts/favorite_list.html:71
 #: smmpay/templates/advert/advert.html:73
 #: smmpay/templates/advert/parts/advert_list.html:66
 msgid "Region"
 msgstr "Регион"
 
-#: smmpay/apps/advert/forms.py:19
+#: smmpay/apps/advert/forms.py:23
 #: smmpay/templates/account/parts/favorite_list.html:67
 #: smmpay/templates/advert/advert.html:69
 #: smmpay/templates/advert/parts/advert_list.html:62
 msgid "Category"
 msgstr "Категория"
 
-#: smmpay/apps/advert/forms.py:20 smmpay/apps/advert/forms.py:24
+#: smmpay/apps/advert/forms.py:24 smmpay/apps/advert/forms.py:28
 msgid "From"
 msgstr "От"
 
-#: smmpay/apps/advert/forms.py:22 smmpay/apps/advert/forms.py:26
+#: smmpay/apps/advert/forms.py:26 smmpay/apps/advert/forms.py:30
 msgid "To"
 msgstr "До"
 
-#: smmpay/apps/advert/forms.py:33 smmpay/apps/advert/forms.py:38
+#: smmpay/apps/advert/forms.py:37 smmpay/apps/advert/forms.py:42
 msgid "Any"
 msgstr "Любой"
 
-#: smmpay/apps/advert/forms.py:49
+#: smmpay/apps/advert/forms.py:53
 msgid "Group for sell..."
 msgstr "Группа для продажи"
 
-#: smmpay/apps/advert/forms.py:52
+#: smmpay/apps/advert/forms.py:56
 msgid ""
 "Description, use useful information to attract users (1-1000 characters)"
 msgstr ""
 "Описание, используйте полезную информацию для привлечения пользователей "
 "(1-1000 символов)"
 
-#: smmpay/apps/advert/forms.py:70
+#: smmpay/apps/advert/forms.py:77
 msgid "Paste a link to the page, group or account that you are selling"
 msgstr ""
 "Вставьте ссылку на страницу, группу или учетную запись, которую вы продаете"
 
-#: smmpay/apps/advert/forms.py:74
+#: smmpay/apps/advert/forms.py:81
 msgid ""
 "You have inserted an incorrect value for the link to the page, group or "
 "account that you are selling *"
@@ -249,7 +249,11 @@ msgstr ""
 "Вы вставили неверное значение для ссылки на страницу, группу или учетную "
 "запись, которую вы продаете *"
 
-#: smmpay/apps/advert/forms.py:94
+#: smmpay/apps/advert/forms.py:102 smmpay/apps/advert/forms.py:119
+msgid "Can not download logo automatically,please select it manually"
+msgstr "Невозможно загрузить логотип автоматически, выберите его вручную"
+
+#: smmpay/apps/advert/forms.py:132
 msgid "This field is required."
 msgstr "Обязательное поле"
 
@@ -744,9 +748,8 @@ msgstr ""
 "telegram, куплю канал"
 
 #: smmpay/templates/account/account_base.html:23
-#: smmpay/templates/advert/user_adverts.html:33
-msgid "Adverts creator"
-msgstr "Создатель объявлений"
+msgid "It is you"
+msgstr "Это вы"
 
 #: smmpay/templates/account/account_base.html:29
 #: smmpay/templates/account/index.html:22
@@ -897,7 +900,7 @@ msgid "Account email change on site"
 msgstr "Изменение адреса электронной почты на сайте"
 
 #: smmpay/templates/account/index.html:42
-#: smmpay/templates/base/base_html.html:67
+#: smmpay/templates/base/base_html.html:66
 #: smmpay/templates/flatpages/default.html:34
 msgid "Add advert"
 msgstr "Добавить объявление"
@@ -1134,6 +1137,10 @@ msgstr "Цена"
 msgid "Recommended"
 msgstr "Рекомендуемые"
 
+#: smmpay/templates/advert/user_adverts.html:33
+msgid "Adverts creator"
+msgstr "Создатель объявлений"
+
 #: smmpay/templates/advert/user_adverts.html:37
 msgid "Count of adverts"
 msgstr "Количество объявлений"
@@ -1142,11 +1149,11 @@ msgstr "Количество объявлений"
 msgid "On the site with"
 msgstr "На сайте с"
 
-#: smmpay/templates/base/base_html.html:98
+#: smmpay/templates/base/base_html.html:97
 msgid "Understand"
 msgstr "Понятно"
 
-#: smmpay/templates/base/base_html.html:118
+#: smmpay/templates/base/base_html.html:117
 msgid ""
 "QoopiQoopi is a convenient platform for buying and selling public groups and "
 "accounts in social networks"
@@ -1154,7 +1161,7 @@ msgstr ""
 "QoopiQoopi - это удобная площадка для покупки и продажи пабликов и аккаунтов "
 "социальных сетей"
 
-#: smmpay/templates/base/base_html.html:143
+#: smmpay/templates/base/base_html.html:142
 msgid "The site works in beta mode qoopiqoopi.com"
 msgstr "Сайт работает в бета режиме qoopiqoopi.com"
 

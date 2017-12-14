@@ -5,11 +5,15 @@ import os
 from django import forms
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
+from django.core import validators
 from django.contrib.flatpages.forms import FlatpageForm
 from django.utils.translation import ugettext_lazy as _
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 from .models import Advert, AdvertSocialAccount, SocialNetwork, Region, Category, ContentBlock
+
+
+logger = logging.getLogger('db')
 
 
 class FilterForm(forms.Form):
@@ -66,6 +70,9 @@ class AdvertSocialAccountForm(forms.ModelForm):
     class Meta:
         model = AdvertSocialAccount
         fields = ('link', 'subscribers', 'region', 'logo')
+        widgets = {
+            'link': forms.URLInput(attrs={'autofocus': ''})
+        }
         help_texts = {
             'link': _('Paste a link to the page, group or account that you are selling')
         }
@@ -84,6 +91,37 @@ class AdvertSocialAccountForm(forms.ModelForm):
 
             self.fields[field].widget.attrs['class'] = class_name
 
+    def clean_external_logo(self):
+        external_logo_url = self.cleaned_data['external_logo']
+        external_logo = None
+
+        if external_logo_url:
+            try:
+                validators.URLValidator(external_logo_url)
+            except Exception as e:
+                self.add_error('logo', forms.ValidationError(_('Can not download logo automatically,'
+                                                               'please select it manually'), code='required'))
+                logger.exception(e)
+
+                return external_logo
+
+            try:
+                response = requests.get(external_logo_url)
+
+                if response.status_code == 200:
+                    tmp_file = NamedTemporaryFile()
+                    tmp_file.write(response.content)
+                    tmp_file.flush()
+
+                    external_logo = File(tmp_file)
+                    external_logo._origin_name = os.path.basename(external_logo_url)
+            except Exception as e:
+                self.add_error('logo', forms.ValidationError(_('Can not download logo automatically,'
+                                                               'please select it manually'), code='required'))
+                logger.exception(e)
+
+        return external_logo
+
     def clean(self):
         cleaned_data = super(AdvertSocialAccountForm, self).clean()
 
@@ -97,23 +135,12 @@ class AdvertSocialAccountForm(forms.ModelForm):
         social_account = super(AdvertSocialAccountForm, self).save(commit=False)
 
         social_network = SocialNetwork.get_social_network(link=social_account.link)
-
         social_account.social_network = social_network
 
-        external_logo_url = self.cleaned_data['external_logo']
+        external_logo = self.cleaned_data['external_logo']
 
-        if external_logo_url:
-            try:
-                response = requests.get(external_logo_url)
-            except requests.HTTPError as e:
-                logging.exception(e)
-
-            if response.status_code == 200:
-                tmp_file = NamedTemporaryFile()
-                tmp_file.write(response.content)
-                tmp_file.flush()
-
-                social_account.logo.save(os.path.basename(external_logo_url), File(tmp_file), False)
+        if external_logo:
+            social_account.logo.save(external_logo._origin_name, external_logo, False)
 
         if commit:
             social_account.save()
