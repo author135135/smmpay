@@ -200,7 +200,7 @@
                 $('.addition-box').slideToggle();
             });
 
-            var link = '',
+            var link = $('input[name="link"]', advert_add_form).val() ? $('input[name="link"]', advert_add_form).val(): '',
                 link_check_progress = 0;
 
             $('input[name="link"]', advert_add_form).on('focusout', function(e) {
@@ -215,6 +215,7 @@
                 link = $.trim($(this).val());
 
                 $('.error_input', wrapper).remove();
+                $('.hidden-field .error_input', advert_add_form).remove();
 
                 info_table.empty();
                 info_table.addClass('hidden');
@@ -361,7 +362,7 @@
                 $('.addition-box').slideToggle();
             });
 
-            var link = '',
+            var link = $('input[name="link"]', advert_edit_form).val() ? $('input[name="link"]', advert_edit_form).val(): '',
                 link_check_progress = 0;
 
             $('input[name="link"]', advert_edit_form).on('focusout', function(e) {
@@ -376,6 +377,7 @@
 
                 link = $.trim($(this).val());
 
+                $('.hidden-field .error_input', advert_add_form).remove();
                 $('.error_input', wrapper).remove();
 
                 $('.hidden-field input', advert_edit_form).val('');
@@ -448,22 +450,16 @@
                     $('input[name="price"]', advert_edit_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
-                if (result['success'] && !$('input[name="title"]', advert_edit_form).val()) {
+                if (!$('input[name="title"]', advert_edit_form).val()) {
                     error = 1;
 
                     $('input[name="title"]', advert_edit_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
-                if (result['success'] && !$('input[name="subscribers"]', advert_edit_form).val()) {
+                if (!$('input[name="subscribers"]', advert_edit_form).val()) {
                     error = 1;
 
                     $('input[name="subscribers"]', advert_edit_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
-                }
-
-                if (result['success'] && !$('input[name="external_logo"]', advert_edit_form).val() && !$('input[name="logo"]', advert_edit_form).val()) {
-                    error = 1;
-
-                    $('input[name="logo"]', advert_edit_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
                 if (error) {
@@ -925,6 +921,20 @@
                     $(content).empty().append(response['data']);
 
                     $('html, body').animate({scrollTop: 0});
+                }
+
+                if (response['page_seo_information']) {
+                    if (response['page_seo_information']['meta_title']) {
+                        $('title').text(response['page_seo_information']['meta_title']);
+                    }
+
+                    if (response['page_seo_information']['meta_description']) {
+                        $('meta[name="description"]').attr('content', response['page_seo_information']['meta_description']);
+                    }
+
+                    if (response['page_seo_information']['meta_keywords']) {
+                        $('meta[name="keywords"]').attr('content', response['page_seo_information']['meta_keywords']);
+                    }
                 }
 
                 preloader_hide();

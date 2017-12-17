@@ -14,6 +14,8 @@ from django.db import transaction
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
+from smmpay.apps.seo.models import PageSeoInformation
+
 from . import forms as advert_forms
 from .models import Advert, AdvertSocialAccount, Phrase, SocialNetwork, FavoriteAdvert, Discussion
 
@@ -39,10 +41,20 @@ class AdvertFilterMixin(object):
         response = super(AdvertFilterMixin, self).get(request, *args, **kwargs)
 
         if request.is_ajax():
-            return JsonResponse({
+            json_data = {
                 'success': True,
                 'data': render_to_string(self.ajax_items_template_name, response.context_data, request),
-            })
+                'page_seo_information': {}
+            }
+
+            page_seo_information = PageSeoInformation.get_for_url(request.path)
+
+            if page_seo_information is not False:
+                json_data['page_seo_information']['meta_title'] = page_seo_information.meta_title
+                json_data['page_seo_information']['meta_description'] = page_seo_information.meta_description
+                json_data['page_seo_information']['meta_keywords'] = page_seo_information.meta_keywords
+
+            return JsonResponse(json_data)
 
         return response
 
