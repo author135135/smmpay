@@ -1,12 +1,13 @@
 import re
 import sys
+import random
 
 from django import template
 from django.utils.http import urlencode
 from django.utils.html import mark_safe
 from django.template.loader import get_template
 
-from smmpay.apps.advert.models import Menu, Advert, ContentBlock
+from smmpay.apps.advert.models import Menu, Advert, ContentBlock, VipAdvert
 
 register = template.Library()
 
@@ -81,8 +82,29 @@ def menu(context, *args, **kwargs):
 
 
 def recommended_adverts(context, order_by='-pk', count=4, *args, **kwargs):
+    adverts = []
+
+    # Get VIP adverts first
+    vip_advert_ids = [obj['pk'] for obj in VipAdvert.objects.values('pk')]
+    sample_count = count if len(vip_advert_ids) >= count else len(vip_advert_ids)
+    filter_ids = random.sample(vip_advert_ids, sample_count)
+
+    vip_adverts_qs = VipAdvert.objects.filter(id__in=filter_ids).select_related('advert')
+
+    for vip_advert in vip_adverts_qs:
+        adverts.append(vip_advert.advert)
+
+    # Get adverts from main list if less than `count` adverts have vip status
+    if len(adverts) < count:
+        count = count - len(adverts)
+
+        adverts_qs = Advert.published_objects.filter(**kwargs).order_by(order_by)[:count]
+
+        for advert in adverts_qs:
+            adverts.append(advert)
+
     block_context = {
-        'recommended_adverts': Advert.published_objects.filter(**kwargs).order_by(order_by)[:count]
+        'recommended_adverts': adverts
     }
 
     return block_context

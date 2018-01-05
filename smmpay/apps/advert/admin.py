@@ -5,7 +5,8 @@ from django.utils.text import Truncator
 from django.utils.translation import ugettext_lazy as _
 
 from .models import (Menu, MenuItem, Discussion, DiscussionUser, DiscussionMessage, Advert, AdvertSocialAccount,
-                     Category, Region, SocialNetwork, Phrase, SocialAccountConfirmationQueue, ContentBlock)
+                     Category, Region, SocialNetwork, Phrase, SocialAccountConfirmationQueue, ContentBlock,
+                     VipAdvert, TopAdvert)
 from .forms import AdvertFlatpageForm, ContentBlockForm
 
 
@@ -64,17 +65,45 @@ class AdvertSocialAccountInline(admin.StackedInline):
     model = AdvertSocialAccount
 
 
+class VipAdvertInline(admin.StackedInline):
+    model = VipAdvert
+
+
+class TopAdvertInline(admin.StackedInline):
+    model = TopAdvert
+
+
 class AdvertAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'advert_type', '_get_social_network', 'author', 'price', 'enabled_by_author',
-                    'status')
+                    '_get_in_vip', '_get_in_top', 'status')
     list_per_page = 20
     search_fields = ('title', 'description')
     list_filter = ('advert_type', 'category', 'social_account__social_network', 'enabled_by_author', 'status')
-    inlines = (AdvertSocialAccountInline,)
+    inlines = (AdvertSocialAccountInline, VipAdvertInline, TopAdvertInline)
 
     def _get_social_network(self, obj):
         return obj.social_account.social_network
     _get_social_network.short_description = _('social network')
+
+    def _get_in_vip(self, obj):
+        return obj.in_vip()
+    _get_in_vip.short_description = _('in vip')
+    _get_in_vip.boolean = True
+
+    def _get_in_top(self, obj):
+        return obj.in_top()
+    _get_in_top.short_description = _('in top')
+    _get_in_top.boolean = True
+
+
+class MarkedAdvertAdmin(admin.ModelAdmin):
+    list_display = ('_get_advert_title', 'date_start', 'date_end')
+    list_per_page = 20
+    search_fields = ('advert__title', 'advert__description')
+
+    def _get_advert_title(self, obj):
+        return obj.advert.title
+    _get_advert_title.short_description = _('title')
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -155,6 +184,9 @@ class AdvertFlatPageAdmin(FlatPageAdmin):
 admin.site.register(Menu, MenuAdmin)
 admin.site.register(Discussion, DiscussionAdmin)
 admin.site.register(Advert, AdvertAdmin)
+# For now we use one admin model for two models
+admin.site.register(VipAdvert, MarkedAdvertAdmin)
+admin.site.register(TopAdvert, MarkedAdvertAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Region, RegionAdmin)
 admin.site.register(SocialNetwork, SocialNetworkAdmin)

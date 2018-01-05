@@ -80,7 +80,7 @@ class AdvertFilterMixin(object):
         qs &= Advert.published_objects.get_extra_queryset(select_items=['in_favorite'],
                                                           select_params=[self.request.user.pk])
 
-        return qs
+        return qs.order_by('vip_advert__advert', 'top_advert__advert', '-pk')
 
     def get_context_data(self, **kwargs):
         context = super(AdvertFilterMixin, self).get_context_data(**kwargs)

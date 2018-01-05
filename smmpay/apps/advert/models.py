@@ -58,7 +58,7 @@ class AdvertManager(ExtraQuerysetManager):
     def get_queryset(self):
         qs = super(AdvertManager, self).get_queryset()
         qs = qs.select_related('social_account', 'category', 'social_account__region',
-                               'social_account__social_network', 'author__profile')
+                               'social_account__social_network', 'author__profile', 'vip_advert', 'top_advert')
 
         return qs
 
@@ -296,6 +296,12 @@ class Advert(models.Model):
     def is_published(self):
         return self.status == self.ADVERT_STATUS_PUBLISHED
 
+    def in_vip(self):
+        return hasattr(self, 'vip_advert')
+
+    def in_top(self):
+        return hasattr(self, 'top_advert')
+
 
 class AdvertSocialAccount(models.Model):
     advert = models.OneToOneField(verbose_name=_('advert'), to=Advert, related_name='social_account',
@@ -312,6 +318,8 @@ class AdvertSocialAccount(models.Model):
 
     class Meta:
         db_table = 'advert_advert_social_account'
+        verbose_name = _('advert social account')
+        verbose_name_plural = _('advert social accounts')
 
     def __str__(self):
         return self.advert.title
@@ -391,8 +399,8 @@ class SocialAccountConfirmationQueue(models.Model):
 
 
 class FavoriteAdvert(models.Model):
-    advert = models.ForeignKey(to=Advert, related_name='favorite_adverts', on_delete=models.CASCADE)
-    user = models.ForeignKey(to=User, related_name='favorite_adverts', on_delete=models.CASCADE)
+    advert = models.ForeignKey(verbose_name=_('advert'), to=Advert, related_name='favorite_adverts', on_delete=models.CASCADE)
+    user = models.ForeignKey(verbose_name=_('user'), to=User, related_name='favorite_adverts', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
     objects = FavoriteAdvertManager()
@@ -403,6 +411,38 @@ class FavoriteAdvert(models.Model):
         verbose_name = _('favorite')
         verbose_name_plural = _('favorites')
         unique_together = ('advert', 'user')
+
+
+class VipAdvert(models.Model):
+    advert = models.OneToOneField(verbose_name=_('advert'), to=Advert, related_name='vip_advert',
+                                  on_delete=models.CASCADE)
+    date_start = models.DateTimeField(_('date start'), auto_now_add=True)
+    date_end = models.DateTimeField(_('date end'))
+
+    class Meta:
+        db_table = 'advert_vip_advert'
+        ordering = ('-advert_id',)
+        verbose_name = _('vip advert')
+        verbose_name_plural = _('vip adverts')
+
+    def __str__(self):
+        return self.advert.title
+
+
+class TopAdvert(models.Model):
+    advert = models.OneToOneField(verbose_name=_('advert'), to=Advert, related_name='top_advert',
+                                  on_delete=models.CASCADE)
+    date_start = models.DateTimeField(_('date start'), auto_now_add=True)
+    date_end = models.DateTimeField(_('date end'))
+
+    class Meta:
+        db_table = 'advert_top_advert'
+        ordering = ('-advert_id',)
+        verbose_name = _('top advert')
+        verbose_name_plural = _('top adverts')
+
+    def __str__(self):
+        return self.advert.title
 
 
 class Discussion(models.Model):
