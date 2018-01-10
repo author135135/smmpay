@@ -1,0 +1,36 @@
+{% extends 'base/base_html.html' %}
+{% load i18n %}
+{% load static %}
+{% load advert_tags %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
+        </li>
+        <li>
+            <a href="#">{% trans '404 Not Found' %}</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <div class="inner__content other-page_content">
+        <div class="global-title_box">
+            <h1>{% trans '"404 Not Found" Page not found' %}</h1>
+        </div>
+        <div class="text-wrap">
+            <div>
+                {% blocktrans %}
+                Incorrectly typed address or such page on the site no longer exists.
+                Go to the main page and try again.
+                {% endblocktrans %}
+            </div>
+        </div>
+        <div class="nav-ads">
+            <a href="{% url 'advert:index' %}" class="btn-search-ads">{% trans 'Homepage' %}</a>
+        </div>
+    </div>
+
+    {% include 'advert/tags/content_block/sidebar_default.html' %}
+{% endblock %}

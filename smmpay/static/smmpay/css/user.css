@@ -1504,6 +1504,7 @@
 
 .inactive_type {
   padding: 17px 30px;
+  margin-top: 16px;
   height: auto;
   display: block;
   background: #f7f7f7;

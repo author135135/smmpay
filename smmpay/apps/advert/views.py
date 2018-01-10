@@ -1,7 +1,7 @@
 import logging
 
 from django.http import JsonResponse, Http404
-from django.views.generic import CreateView, UpdateView, View, ListView, DetailView
+from django.views.generic import CreateView, UpdateView, View, ListView, DetailView, TemplateView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import get_user_model
@@ -15,6 +15,7 @@ from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 from smmpay.apps.seo.models import PageSeoInformation
+from smmpay.apps.advert.templatetags.advert_tags import recommended_adverts
 
 from . import forms as advert_forms
 from .models import Advert, AdvertSocialAccount, Phrase, SocialNetwork, FavoriteAdvert, Discussion
@@ -450,3 +451,14 @@ class SocialNetworkView(AdvertFilterMixin, ListView):
     def get_queryset(self):
         return super(SocialNetworkView, self).get_queryset().filter(
             social_account__social_network=self._social_network)
+
+
+class NotFound(TemplateView):
+    template_name = 'base/404.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(NotFound, self).get_context_data()
+
+        context.update(recommended_adverts(context, order_by='-social_account__subscribers'))
+
+        return context

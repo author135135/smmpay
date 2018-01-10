@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-05 19:32+0200\n"
+"POT-Creation-Date: 2018-01-10 20:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,12 +102,12 @@ msgid "date joined"
 msgstr ""
 
 #: smmpay/apps/account/models.py:52 smmpay/apps/account/models.py:77
-#: smmpay/apps/advert/models.py:504
+#: smmpay/apps/advert/models.py:403 smmpay/apps/advert/models.py:506
 msgid "user"
 msgstr ""
 
 #: smmpay/apps/account/models.py:53 smmpay/apps/advert/admin.py:57
-#: smmpay/apps/advert/models.py:449
+#: smmpay/apps/advert/models.py:451
 msgid "users"
 msgstr ""
 
@@ -163,7 +163,7 @@ msgstr ""
 msgid "Mail with instructions was sent on your current email address"
 msgstr ""
 
-#: smmpay/apps/advert/admin.py:61 smmpay/apps/advert/models.py:527
+#: smmpay/apps/advert/admin.py:61 smmpay/apps/advert/models.py:529
 msgid "messages"
 msgstr ""
 
@@ -183,7 +183,7 @@ msgstr ""
 #: smmpay/apps/advert/admin.py:106 smmpay/apps/advert/models.py:82
 #: smmpay/apps/advert/models.py:95 smmpay/apps/advert/models.py:109
 #: smmpay/apps/advert/models.py:123 smmpay/apps/advert/models.py:137
-#: smmpay/apps/advert/models.py:247 smmpay/apps/advert/models.py:562
+#: smmpay/apps/advert/models.py:247 smmpay/apps/advert/models.py:564
 #: smmpay/apps/blog/models.py:20 smmpay/templates/advert/advert_add.html:55
 msgid "title"
 msgstr ""
@@ -202,11 +202,13 @@ msgid "phrase"
 msgstr ""
 
 #: smmpay/apps/advert/admin.py:160 smmpay/apps/advert/models.py:267
-#: smmpay/apps/advert/models.py:307 smmpay/apps/advert/models.py:447
+#: smmpay/apps/advert/models.py:307 smmpay/apps/advert/models.py:402
+#: smmpay/apps/advert/models.py:417 smmpay/apps/advert/models.py:433
+#: smmpay/apps/advert/models.py:449
 msgid "advert"
 msgstr ""
 
-#: smmpay/apps/advert/admin.py:176 smmpay/apps/advert/models.py:563
+#: smmpay/apps/advert/admin.py:176 smmpay/apps/advert/models.py:565
 msgid "pages"
 msgstr ""
 
@@ -412,8 +414,8 @@ msgstr ""
 msgid "status"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:258 smmpay/apps/advert/models.py:450
-#: smmpay/apps/advert/models.py:520 smmpay/apps/blog/models.py:25
+#: smmpay/apps/advert/models.py:258 smmpay/apps/advert/models.py:452
+#: smmpay/apps/advert/models.py:522 smmpay/apps/blog/models.py:25
 msgid "created"
 msgstr ""
 
@@ -495,122 +497,122 @@ msgstr ""
 msgid "favorites"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:418 smmpay/apps/advert/models.py:433
+#: smmpay/apps/advert/models.py:419 smmpay/apps/advert/models.py:435
 msgid "date start"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:419 smmpay/apps/advert/models.py:434
+#: smmpay/apps/advert/models.py:420 smmpay/apps/advert/models.py:436
 msgid "date end"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:424
+#: smmpay/apps/advert/models.py:425
 msgid "vip advert"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:425
+#: smmpay/apps/advert/models.py:426
 msgid "vip adverts"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:439
+#: smmpay/apps/advert/models.py:441
 msgid "top advert"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:440
+#: smmpay/apps/advert/models.py:442
 msgid "top adverts"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:456 smmpay/apps/advert/models.py:502
-#: smmpay/apps/advert/models.py:516
+#: smmpay/apps/advert/models.py:458 smmpay/apps/advert/models.py:504
+#: smmpay/apps/advert/models.py:518
 msgid "discussion"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:457
+#: smmpay/apps/advert/models.py:459
 msgid "discussions"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:508
+#: smmpay/apps/advert/models.py:510
 msgid "discussion user"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:509
+#: smmpay/apps/advert/models.py:511
 msgid "discussion users"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:518
+#: smmpay/apps/advert/models.py:520
 msgid "message sender"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:519 smmpay/apps/advert/models.py:526
+#: smmpay/apps/advert/models.py:521 smmpay/apps/advert/models.py:528
 msgid "message"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:554
+#: smmpay/apps/advert/models.py:556
 msgid "view"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:555
+#: smmpay/apps/advert/models.py:557
 msgid "views"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:564
+#: smmpay/apps/advert/models.py:566
 msgid ""
 "Url patterns of pages where you would like to see block, each address on new "
 "line"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:565
+#: smmpay/apps/advert/models.py:567
 msgid "position"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:566
+#: smmpay/apps/advert/models.py:568
 msgid "Position on site where block will be rendered"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:567
+#: smmpay/apps/advert/models.py:569
 msgid "block content"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:568
+#: smmpay/apps/advert/models.py:570
 msgid "context function"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:569
+#: smmpay/apps/advert/models.py:571
 msgid "Python function that will handle block context before render"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:570
+#: smmpay/apps/advert/models.py:572
 msgid "template name"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:571
+#: smmpay/apps/advert/models.py:573
 msgid ""
 "In case field empty, default template advert/tags/content_block/"
 "`position`_default.html will be used"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:573
+#: smmpay/apps/advert/models.py:575
 msgid "enabled"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:577
+#: smmpay/apps/advert/models.py:579
 msgid "content block"
 msgstr ""
 
-#: smmpay/apps/advert/models.py:578
+#: smmpay/apps/advert/models.py:580
 msgid "content blocks"
 msgstr ""
 
-#: smmpay/apps/advert/views.py:191
+#: smmpay/apps/advert/views.py:192
 msgid "Advert on moderation. It will be published on site after this."
 msgstr ""
 
-#: smmpay/apps/advert/views.py:321
+#: smmpay/apps/advert/views.py:322
 msgid ""
 "Advert has been successfully added. It will be published on the site after "
 "the moderation. Usually it takes from 20 to 50 minutes."
 msgstr ""
 
-#: smmpay/apps/advert/views.py:372
+#: smmpay/apps/advert/views.py:373
 msgid "Advert successfully edited"
 msgstr ""
 
@@ -794,9 +796,9 @@ msgstr ""
 #: smmpay/templates/account/settings.html:8
 #: smmpay/templates/advert/advert.html:8
 #: smmpay/templates/advert/advert_add.html:8
-#: smmpay/templates/advert/advert_edit.html:8
-#: smmpay/templates/blog/index.html:9 smmpay/templates/blog/post.html:17
-#: smmpay/templates/flatpages/default.html:8
+#: smmpay/templates/advert/advert_edit.html:8 smmpay/templates/base/404.html:9
+#: smmpay/templates/base/404.html:31 smmpay/templates/blog/index.html:9
+#: smmpay/templates/blog/post.html:17 smmpay/templates/flatpages/default.html:8
 msgid "Homepage"
 msgstr ""
 
@@ -1136,6 +1138,23 @@ msgstr ""
 
 #: smmpay/templates/advert/user_adverts.html:41
 msgid "On the site with"
+msgstr ""
+
+#: smmpay/templates/base/404.html:12
+msgid "404 Not Found"
+msgstr ""
+
+#: smmpay/templates/base/404.html:20
+msgid "\"404 Not Found\" Page not found"
+msgstr ""
+
+#: smmpay/templates/base/404.html:24
+msgid ""
+"\n"
+"                Incorrectly typed address or such page on the site no longer "
+"exists.\n"
+"                Go to the main page and try again.\n"
+"                "
 msgstr ""
 
 #: smmpay/templates/base/base_html.html:97

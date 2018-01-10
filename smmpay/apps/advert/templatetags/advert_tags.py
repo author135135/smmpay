@@ -98,7 +98,12 @@ def recommended_adverts(context, order_by='-pk', count=4, *args, **kwargs):
     if len(adverts) < count:
         count = count - len(adverts)
 
-        adverts_qs = Advert.published_objects.filter(**kwargs).order_by(order_by)[:count]
+        adverts_qs = Advert.published_objects.filter(**kwargs)
+
+        if adverts:
+            adverts_qs = adverts_qs.exclude(id__in=[advert.pk for advert in adverts])
+
+        adverts_qs = adverts_qs.order_by(order_by)[:count]
 
         for advert in adverts_qs:
             adverts.append(advert)
