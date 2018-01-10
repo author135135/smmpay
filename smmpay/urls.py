@@ -28,4 +28,4 @@ if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
-handler404 = 'smmpay.apps.advert.views.NotFound.as_view'
+handler404 = 'smmpay.apps.advert.views.page_not_found'

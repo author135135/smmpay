@@ -456,9 +456,18 @@ class SocialNetworkView(AdvertFilterMixin, ListView):
 class NotFound(TemplateView):
     template_name = 'base/404.html'
 
+    def render_to_response(self, context, *args, **kwargs):
+        response = super(NotFound, self).render_to_response(context, **kwargs)
+        response.status_code = 404
+
+        return response
+
     def get_context_data(self, **kwargs):
         context = super(NotFound, self).get_context_data()
 
         context.update(recommended_adverts(context, order_by='-social_account__subscribers'))
 
         return context
+
+
+page_not_found = NotFound.as_view()
