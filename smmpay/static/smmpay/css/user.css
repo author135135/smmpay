@@ -1226,11 +1226,15 @@
       width: 100%;
       font-size: 14px;
       height: 95px;
+      overflow: hidden;
       margin-bottom: 25px;
       padding: 15px 18px;
       resize: none;
       border-radius: 25px;
-      transition: all .3s ease-in-out;
+      -webkit-transition: none !important;
+      -moz-transition: none !important;
+      -o-transition: none !important;
+      transition: none !important;
       color: #434f6a;
       border: 1px solid #e6ebf8; }
       .form-create-abs .addition-box textarea:focus {

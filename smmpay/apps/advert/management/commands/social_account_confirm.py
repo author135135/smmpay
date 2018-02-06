@@ -39,7 +39,7 @@ class Command(BaseCommand):
               last_start__lte=timezone.now() - timedelta(days=1)) |
             Q(status=SocialAccountConfirmationQueue.QUEUE_STATUS_ERROR,
               attempts__lt=SocialAccountConfirmationQueue.QUEUE_MAX_ATTEMPTS,
-              last_start=None)).values('pk')[:50]
+              last_start=None)).values('pk')[:20]
 
         social_accounts_ids = [advert_id['pk'] for advert_id in social_accounts_ids]
 

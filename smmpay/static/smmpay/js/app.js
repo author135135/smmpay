@@ -200,6 +200,19 @@
                 $('.addition-box').slideToggle();
             });
 
+            var message_box = $('textarea[name="description"]', advert_add_form);
+
+            message_box.attr('data-original-height', parseFloat(message_box.css('height')));
+
+            $(message_box).on('input', function() {
+                var content_height = $(this).val().split("\n").length * parseFloat(message_box.css('line-height')),
+                    message_box_height = parseFloat($(this).attr('data-original-height'));
+
+                message_box_height = content_height > message_box_height ? content_height : message_box_height;
+
+                $(this).css('height', message_box_height + 'px');
+            });
+
             var link = $('input[name="link"]', advert_add_form).val() ? $('input[name="link"]', advert_add_form).val(): '',
                 link_check_progress = 0;
 
@@ -361,6 +374,21 @@
                 $(this).toggleClass('active');
                 $('.addition-box').slideToggle();
             });
+
+            var message_box = $('textarea[name="description"]', advert_edit_form);
+
+            message_box.attr('data-original-height', parseFloat(message_box.css('height')));
+
+            $(message_box).on('input', function() {
+                var content_height = $(this).val().split("\n").length * parseFloat(message_box.css('line-height')),
+                    message_box_height = parseFloat($(this).attr('data-original-height'));
+
+                message_box_height = content_height > message_box_height ? content_height : message_box_height;
+
+                $(this).css('height', message_box_height + 'px');
+            });
+
+            $(message_box).trigger('input');
 
             var link = $('input[name="link"]', advert_edit_form).val() ? $('input[name="link"]', advert_edit_form).val(): '',
                 link_check_progress = 0;
