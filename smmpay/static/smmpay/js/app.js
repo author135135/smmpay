@@ -940,6 +940,8 @@
         function load_data(url, data, element) {
             var content = typeof element != 'undefined' ? element : $('.inner__content');
 
+            $('html, body').animate({scrollTop: 0});
+
             preloader_show();
 
             window.history.pushState('', '', url);
@@ -947,8 +949,6 @@
             $.get(url, data, function(response) {
                 if (response['success']) {
                     $(content).empty().append(response['data']);
-
-                    $('html, body').animate({scrollTop: 0});
                 }
 
                 if (response['page_seo_information']) {

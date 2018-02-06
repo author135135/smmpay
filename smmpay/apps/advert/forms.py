@@ -50,7 +50,7 @@ class AdvertForm(forms.ModelForm):
         fields = ('title', 'description', 'price', 'advert_type', 'category')
         widgets = {
             'advert_type': forms.HiddenInput(),
-            'description': forms.Textarea(attrs={'placeholder': _('Group for sell...')})
+            'description': forms.Textarea(attrs={'placeholder': _('Short description')})
         }
         help_texts = {
             'description': _('Description, use useful information to attract users (1-1000 characters)')

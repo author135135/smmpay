@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-10 20:02+0200\n"
+"POT-Creation-Date: 2018-02-06 12:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -249,8 +249,8 @@ msgid "Any"
 msgstr "Любой"
 
 #: smmpay/apps/advert/forms.py:53
-msgid "Group for sell..."
-msgstr "Группа для продажи"
+msgid "Short description"
+msgstr "Краткое описание"
 
 #: smmpay/apps/advert/forms.py:56
 msgid ""
@@ -1397,6 +1397,9 @@ msgid ""
 msgstr ""
 "Благодарим за регистрацию на нашем сайте! Вам было отправлено письмо для "
 "активации вашего аккаунта."
+
+#~ msgid "Group for sell..."
+#~ msgstr "Группа для продажи"
 
 #~ msgid ""
 #~ "TM is used on the basis of the license of the copyright holder QoopiQoopi"

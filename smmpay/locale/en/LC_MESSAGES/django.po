@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-10 20:02+0200\n"
+"POT-Creation-Date: 2018-02-06 12:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -247,7 +247,7 @@ msgid "Any"
 msgstr ""
 
 #: smmpay/apps/advert/forms.py:53
-msgid "Group for sell..."
+msgid "Short description"
 msgstr ""
 
 #: smmpay/apps/advert/forms.py:56
