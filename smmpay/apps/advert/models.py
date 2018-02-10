@@ -375,8 +375,8 @@ class SocialAccountConfirmationQueue(models.Model):
         (QUEUE_STATUS_ERROR, _('Error'))
     )
 
-    social_account = models.ForeignKey(verbose_name=_('social account'), to=AdvertSocialAccount,
-                                       on_delete=models.CASCADE)
+    social_account = models.OneToOneField(verbose_name=_('social account'), to=AdvertSocialAccount,
+                                          on_delete=models.CASCADE)
     status = models.CharField(_('status'), max_length=10, choices=QUEUE_STATUSES, default='new')
     attempts = models.SmallIntegerField(_('attempts count'), default=0)
     last_start = models.DateTimeField(_('last start'), blank=True, null=True)

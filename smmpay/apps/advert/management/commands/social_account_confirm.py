@@ -4,6 +4,7 @@ import time
 from datetime import timedelta
 
 from django.db.models import Q
+from django.db import IntegrityError
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
@@ -29,7 +30,10 @@ class Command(BaseCommand):
                 queue_item = SocialAccountConfirmationQueue(social_account=social_account)
                 social_accounts_to_queue.append(queue_item)
 
-            SocialAccountConfirmationQueue.objects.bulk_create(social_accounts_to_queue)
+            try:
+                SocialAccountConfirmationQueue.objects.bulk_create(social_accounts_to_queue)
+            except IntegrityError as e:
+                logger.exception(e)
 
         # Step 2: get adverts from main queue for handling, update theirs status and refresh from DB
         social_accounts_ids = SocialAccountConfirmationQueue.objects.filter(
