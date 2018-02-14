@@ -44,3 +44,5 @@ uritemplate==3.0.0
 urllib3==1.22
 vk==2.0.2
 zope.interface==4.4.3
+pytest-django==3.1.2
+pytest-cov==2.5.1
