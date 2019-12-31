@@ -7,7 +7,7 @@ from django.utils.http import urlencode
 from django.utils.html import mark_safe
 from django.template.loader import get_template
 
-from smmpay.apps.advert.models import Menu, Advert, ContentBlock, VipAdvert
+from smmpay.apps.advert.models import Menu, Advert, ContentBlock
 
 register = template.Library()
 
@@ -75,24 +75,20 @@ def content_block(context, position, *args, **kwargs):
 
 def menu(context, *args, **kwargs):
     block_context = {
-        'menu': Menu.objects.filter(position=args[0]).prefetch_related('menu_items').iterator()
+        'menu': Menu.objects.filter(position=args[0]).prefetch_related('menu_items')
     }
 
     return block_context
 
 
 def recommended_adverts(context, order_by='-pk', count=4, *args, **kwargs):
-    adverts = []
-
     # Get VIP adverts first
-    vip_advert_ids = [obj['pk'] for obj in VipAdvert.objects.values('pk')]
+    vip_advert_ids = [obj['pk'] for obj in Advert.objects.filter(
+        special_status=Advert.ADVERT_SPECIAL_STATUS_VIP).values('pk')]
     sample_count = count if len(vip_advert_ids) >= count else len(vip_advert_ids)
     filter_ids = random.sample(vip_advert_ids, sample_count)
 
-    vip_adverts_qs = VipAdvert.objects.filter(id__in=filter_ids).select_related('advert')
-
-    for vip_advert in vip_adverts_qs:
-        adverts.append(vip_advert.advert)
+    adverts = list(Advert.objects.filter(id__in=filter_ids))
 
     # Get adverts from main list if less than `count` adverts have vip status
     if len(adverts) < count:

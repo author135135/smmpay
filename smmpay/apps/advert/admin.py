@@ -2,12 +2,17 @@ from django.contrib import admin
 from django.contrib.flatpages.models import FlatPage
 from django.contrib.flatpages.admin import FlatPageAdmin
 from django.utils.text import Truncator
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
+"""
 from .models import (Menu, MenuItem, Discussion, DiscussionUser, DiscussionMessage, Advert, AdvertSocialAccount,
-                     Category, Region, SocialNetwork, Phrase, SocialAccountConfirmationQueue, ContentBlock,
-                     VipAdvert, TopAdvert)
-from .forms import AdvertFlatpageForm, ContentBlockForm
+                     AdvertService, Category, Service, SocialNetwork, Phrase, SocialAccountConfirmationQueue,
+                     ContentBlock, VipAdvert, TopAdvert)
+"""
+from .models import (Menu, MenuItem, Advert, AdvertSocialAccount, AdvertSocialAccountService, Category, SocialNetwork,
+                     SocialNetworkService, Phrase, SocialAccountConfirmationQueue, ContentBlock)
+from .forms import AdvertFlatpageForm, ContentBlockForm, AdminAdvertForm
 
 
 class MenuItemInline(admin.StackedInline):
@@ -24,62 +29,24 @@ class MenuAdmin(admin.ModelAdmin):
         return obj.menu_items.count()
 
 
-class DiscussionUserInline(admin.StackedInline):
-    model = DiscussionUser
-    readonly_fields = ('user',)
-    can_delete = False
-
-    def has_add_permission(self, request):
-        return False
-
-
-class DiscussionMessageInline(admin.StackedInline):
-    model = DiscussionMessage
-    readonly_fields = ('sender', 'message', 'created')
-    can_delete = False
-
-    def has_add_permission(self, request):
-        return False
-
-
-class DiscussionAdmin(admin.ModelAdmin):
-    list_display = ('advert', '_get_users', '_messages_count', 'created')
-    list_per_page = 20
-    search_fields = ('advert__title',)
-    inlines = (DiscussionUserInline, DiscussionMessageInline)
-    readonly_fields = ('advert', 'created')
-
-    def has_add_permission(self, request):
-        return False
-
-    def _get_users(self, obj):
-        return ', '.join([str(user) for user in obj.discussion_users.all()])
-    _get_users.short_description = _('users')
-
-    def _messages_count(self, obj):
-        return obj.discussion_messages.count()
-    _messages_count.short_description = _('messages')
-
-
 class AdvertSocialAccountInline(admin.StackedInline):
     model = AdvertSocialAccount
 
 
-class VipAdvertInline(admin.StackedInline):
-    model = VipAdvert
-
-
-class TopAdvertInline(admin.StackedInline):
-    model = TopAdvert
+class ServiceInline(admin.StackedInline):
+    model = SocialNetworkService
+    extra = 1
 
 
 class AdvertAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'advert_type', '_get_social_network', 'author', 'price', 'enabled_by_author',
-                    '_get_in_vip', '_get_in_top', 'status')
+    list_display = ('title', 'category', '_get_social_network', 'author', '_get_services', 'min_price', 'max_price',
+                    'enabled_by_author', '_get_in_vip', '_get_in_top', 'status')
     list_per_page = 20
     search_fields = ('title', 'description')
     list_filter = ('advert_type', 'category', 'social_account__social_network', 'enabled_by_author', 'status')
-    inlines = (AdvertSocialAccountInline, VipAdvertInline, TopAdvertInline)
+    inlines = (AdvertSocialAccountInline,)
+
+    form = AdminAdvertForm
 
     def _get_social_network(self, obj):
         return obj.social_account.social_network
@@ -95,15 +62,23 @@ class AdvertAdmin(admin.ModelAdmin):
     _get_in_top.short_description = _('in top')
     _get_in_top.boolean = True
 
+    def _get_services(self, obj):
+        return mark_safe('<br>'.join(map(str, obj.social_account.social_account_services.all())))
+    _get_services.short_description = _('Services')
 
-class MarkedAdvertAdmin(admin.ModelAdmin):
-    list_display = ('_get_advert_title', 'date_start', 'date_end')
+
+class AdvertSocialAccountServiceAdmin(admin.ModelAdmin):
+    list_display = ('social_account', '_get_social_network', '_get_service', 'price', 'negotiated_price')
     list_per_page = 20
-    search_fields = ('advert__title', 'advert__description')
+    search_fields = ('social_account',)
 
-    def _get_advert_title(self, obj):
-        return obj.advert.title
-    _get_advert_title.short_description = _('title')
+    def _get_social_network(self, obj):
+        return obj.social_account.social_network
+    _get_social_network.short_description = _('social network')
+
+    def _get_service(self, obj):
+        return '{}: {}'.format(obj.social_network_service.social_network.title, obj.social_network_service.title)
+    _get_service.short_description = _('service')
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -117,21 +92,11 @@ class CategoryAdmin(admin.ModelAdmin):
     _adverts_count.short_description = _('adverts count')
 
 
-class RegionAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', '_adverts_count')
-    list_per_page = 20
-    search_fields = ('title',)
-    prepopulated_fields = {'slug': ('title',)}
-
-    def _adverts_count(self, obj):
-        return obj.social_accounts.count()
-    _adverts_count.short_description = _('social accounts count')
-
-
 class SocialNetworkAdmin(admin.ModelAdmin):
     list_display = ('title', 'code', 'order', '_adverts_count')
     list_per_page = 20
     search_fields = ('title',)
+    inlines = (ServiceInline,)
 
     def _adverts_count(self, obj):
         return obj.social_accounts.count()
@@ -181,14 +146,51 @@ class AdvertFlatPageAdmin(FlatPageAdmin):
     form = AdvertFlatpageForm
 
 
+"""
+class DiscussionUserInline(admin.StackedInline):
+    model = DiscussionUser
+    readonly_fields = ('user',)
+    can_delete = False
+
+    def has_add_permission(self, request):
+        return False
+
+
+class DiscussionMessageInline(admin.StackedInline):
+    model = DiscussionMessage
+    readonly_fields = ('sender', 'message', 'created')
+    can_delete = False
+
+    def has_add_permission(self, request):
+        return False
+
+
+class DiscussionAdmin(admin.ModelAdmin):
+    list_display = ('advert', '_get_users', '_messages_count', 'created')
+    list_per_page = 20
+    search_fields = ('advert__title',)
+    inlines = (DiscussionUserInline, DiscussionMessageInline)
+    readonly_fields = ('advert', 'created')
+
+    def has_add_permission(self, request):
+        return False
+
+    def _get_users(self, obj):
+        return ', '.join([str(user) for user in obj.discussion_users.all()])
+    _get_users.short_description = _('users')
+
+    def _messages_count(self, obj):
+        return obj.discussion_messages.count()
+    _messages_count.short_description = _('messages')
+"""
+
+
 admin.site.register(Menu, MenuAdmin)
-admin.site.register(Discussion, DiscussionAdmin)
+# admin.site.register(Discussion, DiscussionAdmin)
 admin.site.register(Advert, AdvertAdmin)
+admin.site.register(AdvertSocialAccountService, AdvertSocialAccountServiceAdmin)
 # For now we use one admin model for two models
-admin.site.register(VipAdvert, MarkedAdvertAdmin)
-admin.site.register(TopAdvert, MarkedAdvertAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Region, RegionAdmin)
 admin.site.register(SocialNetwork, SocialNetworkAdmin)
 admin.site.register(Phrase, PhraseAdmin)
 admin.site.register(SocialAccountConfirmationQueue, SocialAccountConfirmationQueueAdmin)

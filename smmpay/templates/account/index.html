@@ -2,7 +2,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block breadcrumbs %}
+{% block content %}
     <ul class="breadcrumb">
         <li>
             <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
@@ -11,15 +11,13 @@
             <a href="#">{% trans 'My account' %}</a>
         </li>
     </ul>
-{% endblock %}
 
-{% block content %}
     {{ block.super }}
 
     <div class="inner__content user-ads_content">
         <div class="nav-user-search">
             <div class="global-title_box">
-                <h1>{% trans 'My adverts' %}</h1>
+                <h1>{% trans 'My adverts' %} ({{ adverts_count }})</h1>
             </div>
             <div class="sort-content">
                 {% include 'account/parts/search_form.html' %}

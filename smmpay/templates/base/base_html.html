@@ -13,8 +13,8 @@
         {% block head %}{% endblock %}
         {% render_head_meta_information %}
         <link href="{% static 'smmpay/favicon.ico' %}" rel="shortcut icon" type="image/x-icon" />
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;amp;subset=cyrillic,cyrillic-ext" rel="stylesheet">
-        <link href="{% static 'smmpay/components/jcf/css/jcf.css' %}" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;subset=cyrillic" rel="stylesheet">
+        <link href="{% static 'smmpay/components/select2/css/select2.min.css' %}" rel="stylesheet">
         <link href="{% static 'smmpay/css/index.css' %}" rel="stylesheet">
         <link href="{% static 'smmpay/css/product.css' %}" rel="stylesheet">
         <link href="{% static 'smmpay/css/user.css' %}" rel="stylesheet">
@@ -26,27 +26,19 @@
                     <a class="logo" href="{% url 'advert:index' %}">
                         <img src="{% static 'smmpay/data/logo.png' %}">
                     </a>
+                    <div class="site-description">
+                        {% trans 'Global base of platforms for advertising on social networks' %}
+                    </div>
                     <div class="header__section">
 
                         {% content_block 'header_menu' 'top_menu' %}
 
                         {% if user.is_authenticated %}
-                            <a class="login push" href="{% url 'account:index' %}">
+                            <a class="login" href="{% url 'account:index' %}">{% trans 'Account' %}</a>
                         {% else %}
-                            <a class="login" href="{% url 'account:login' %}">
+                            <a class="login" href="{% url 'account:login' %}">{% trans 'Enter' %}</a>
                         {% endif %}
 
-                            <div class="login__notifications"></div>
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 25.7 25.7" style="enable-background:new 0 0 25.7 25.7;" xml:space="preserve">
-                                <g>
-                                    <g>
-                                        <path d="M16.4,15.7c-0.2-0.1-1.2-0.5-0.5-2.4h0c1.6-1.7,2.9-4.4,2.9-7.1C18.8,2.2,16,0,12.9,0C9.7,0,7,2.2,7,6.3
-                                        c0,2.7,1.2,5.4,2.9,7.1c0.6,1.7-0.5,2.3-0.7,2.4c-3.3,1.2-7.2,3.4-7.2,5.6c0,0.6,0,0.2,0,0.8c0,2.9,5.7,3.6,11,3.6
-                                        c5.3,0,10.9-0.7,10.9-3.6c0-0.6,0-0.2,0-0.8C23.8,19.1,19.9,16.9,16.4,15.7z"></path>
-                                    </g>
-                                </g>
-                            </svg>
-                        </a>
                         {% if request.path != '/' %}
                             <div class="header__filter">
                                 <a href="{% url 'advert:index' %}">
@@ -68,9 +60,7 @@
                     </div>
                 </div>
             </header>
-            {% block pre_content %}{% endblock %}
             <div class="main">
-                {% block breadcrumbs %}{% endblock %}
                 {% if messages %}
                     <div class="hint-info_box show">
                         <svg version="1.1" class="i-icon" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 23.625 23.625" style="enable-background:new 0 0 23.625 23.625;" xml:space="preserve">

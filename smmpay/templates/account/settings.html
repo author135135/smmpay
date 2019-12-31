@@ -14,6 +14,18 @@
 {% endblock %}
 
 {% block content %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
+        </li>
+        <li>
+            <a href="{% url 'account:index' %}">{% trans 'My account' %}</a>
+        </li>
+        <li>
+            <a href="#">{% trans 'Settings' %}</a>
+        </li>
+    </ul>
+
     {{ block.super }}
 
     <div class="inner__content user-setting_content">
@@ -40,9 +52,6 @@
                         {% for error in profile_form.phone_number.errors %}
                             <div class="error_input">{{ error }}</div>
                         {% endfor %}
-                        <label class="checkbox" for="checkbox_view">
-                            {{ profile_form.is_profile_public }}{{ profile_form.is_profile_public.label }}
-                        </label>
                     </div>
                     <div class="log__btn">
                         <button class="log__enter button" type="submit">{% trans 'Save' %}</button>

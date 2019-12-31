@@ -1,0 +1,11 @@
+{% extends 'base/base_html.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class="content-other_text">
+        <h2>{% trans 'Activation complete' %}</h2>
+        <br>
+        <p>{% trans 'You have activated you account. Please log in by your credentials.' %}</p>
+        <a href="{% url 'account:login' %}" class="button filter__submit">{% trans 'Log in' %}</a>
+    </div>
+{% endblock %}

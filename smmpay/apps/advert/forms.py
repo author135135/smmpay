@@ -10,50 +10,125 @@ from django.contrib.flatpages.forms import FlatpageForm
 from django.utils.translation import ugettext_lazy as _
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
-from .models import Advert, AdvertSocialAccount, SocialNetwork, Region, Category, ContentBlock
-
+from .models import (Advert, AdvertSocialAccount, AdvertSocialAccountService, SocialNetwork, SocialNetworkService,
+                     Category, ContentBlock)
+from .widgets import SelectWithOptionAttrs
 
 logger = logging.getLogger('db')
 
 
 class FilterForm(forms.Form):
     search_query = forms.CharField(label=_('Search'), required=False, widget=forms.TextInput(
-        attrs={'class': 'filter__search', 'placeholder': _("For example 'sport'"), 'autofocus': ''}))
-    region = forms.ChoiceField(label=_('Region'), required=False)
-    category = forms.ChoiceField(label=_('Category'), required=False)
-    price_min = forms.IntegerField(label=_('From'), required=False,
+        attrs={'class': 'filter__search', 'placeholder': _("For example 'sport'")}))
+    category = forms.MultipleChoiceField(label=_('Category'), required=False, widget=forms.SelectMultiple(
+        attrs={'multiple': 'multiple'}))
+    price_min = forms.IntegerField(label=_('Price, from'), required=False,
                                    widget=forms.TextInput(attrs={'class': 'filter__value'}))
-    price_max = forms.IntegerField(label=_('To'), required=False,
+    price_max = forms.IntegerField(label=_('Price, to'), required=False,
                                    widget=forms.TextInput(attrs={'class': 'filter__value'}))
-    subscribers_min = forms.IntegerField(label=_('From'), required=False,
+    subscribers_min = forms.IntegerField(label=_('Subscribers, from'), required=False,
                                          widget=forms.TextInput(attrs={'class': 'filter__value'}))
-    subscribers_max = forms.IntegerField(label=_('To'), required=False,
+    subscribers_max = forms.IntegerField(label=_('Subscribers, to'), required=False,
                                          widget=forms.TextInput(attrs={'class': 'filter__value'}))
+    sort_by = forms.ChoiceField(label=_('Sort by'), required=False,
+                                widget=SelectWithOptionAttrs(attrs={'class': 'filter__select', 'id': 'sort_by'}))
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, sort_choices, *args, **kwargs):
         super(FilterForm, self).__init__(*args, **kwargs)
 
-        region_choices = list(Region.objects.values_list('slug', 'title'))
-        region_choices.insert(0, [None, _('Any')])
+        self.fields['category'].choices = Category.objects.values_list('slug', 'title')
+        self.fields['sort_by'].choices = sort_choices
 
-        self.fields['region'].choices = region_choices
 
-        category_choices = list(Category.objects.values_list('slug', 'title'))
-        category_choices.insert(0, [None, _('Any')])
+class AdvertSocialAccountServiceForm(forms.ModelForm):
+    class Meta:
+        fields = ('social_network_service', 'price', 'negotiated_price')
+        help_texts = {
+            'social_network_service': _('Now you can enter the price for a specific service')
+        }
+        labels = {
+            'social_network_service': _('Service')
+        }
 
-        self.fields['category'].choices = category_choices
+    def __init__(self, post_data, *args, **kwargs):
+        super(AdvertSocialAccountServiceForm, self).__init__(*args, **kwargs)
+
+        if self.social_account_instance.advert_id is not None:
+            social_account_link = self.social_account_instance.link
+        else:
+            social_account_link = post_data.get('link')
+
+        if social_account_link:
+            social_network = SocialNetwork.get_social_network(social_account_link)
+            self.fields['social_network_service'].queryset = SocialNetworkService.objects.filter(
+                social_network=social_network)
+        else:
+            self.fields['social_network_service'].queryset = SocialNetworkService.objects.none()
+
+        for field in self.fields:
+            if field != 'negotiated_price':
+                self.fields[field].widget.attrs['class'] = 'log__input'
+
+    def clean(self):
+        cleaned_data = super(AdvertSocialAccountServiceForm, self).clean()
+
+        price = cleaned_data.get('price', None)
+        negotiated_price = cleaned_data.get('negotiated_price', None)
+
+        if not price and not negotiated_price:
+            self.add_error('price', forms.ValidationError(_('This field is required.'), code='required'))
+
+
+class AdvertSocialAccountServiceFormSet(forms.BaseInlineFormSet):
+    def __init__(self, *args, **kwargs):
+        super(AdvertSocialAccountServiceFormSet, self).__init__(*args, **kwargs)
+
+        self.form.social_account_instance = self.instance
+
+    def clean(self):
+        super(AdvertSocialAccountServiceFormSet, self).clean()
+
+        services = []
+        selected = False
+
+        for form in self.forms:
+            for field_name in form.fields:
+                field_value = form.cleaned_data.get(field_name, None)
+
+                if field_value and selected is False:
+                    selected = True
+
+                if field_name == 'social_network_service' and field_value is not None:
+                    if field_value not in services:
+                        services.append(field_value)
+                    else:
+                        form.add_error(field_name, forms.ValidationError(_('This value already selected'),
+                                                                         code='required'))
+
+        if selected is False:
+            self.forms[0].add_error('social_network_service', forms.ValidationError(_('This field is required.'),
+                                                                                    code='required'))
+            self.forms[0].add_error('price', forms.ValidationError(_('This field is required.'), code='required'))
+
+
+AdvertServiceFormSetFactory = forms.inlineformset_factory(AdvertSocialAccount, AdvertSocialAccountService,
+                                                          AdvertSocialAccountServiceForm,
+                                                          formset=AdvertSocialAccountServiceFormSet, extra=1,
+                                                          can_delete=True)
 
 
 class AdvertForm(forms.ModelForm):
     class Meta:
         model = Advert
-        fields = ('title', 'description', 'price', 'advert_type', 'category')
+        fields = ('title', 'description', 'min_price', 'max_price', 'advert_type', 'category')
         widgets = {
-            'advert_type': forms.HiddenInput(),
-            'description': forms.Textarea(attrs={'placeholder': _('Short description')})
+            'advert_type': forms.HiddenInput()
         }
         help_texts = {
-            'description': _('Description, use useful information to attract users (1-1000 characters)')
+            'min_price': _('Enter the price of the minimum service on your site'),
+            'max_price': _('Enter the price of the maximum service on your site'),
+            'category': _('Select category'),
+            'description': _('Add a description of your site, indicate the benefits')
         }
 
     def __init__(self, *args, **kwargs):
@@ -69,12 +144,12 @@ class AdvertSocialAccountForm(forms.ModelForm):
 
     class Meta:
         model = AdvertSocialAccount
-        fields = ('link', 'subscribers', 'region', 'logo')
+        fields = ('link', 'subscribers', 'logo')
         widgets = {
             'link': forms.URLInput(attrs={'autofocus': ''})
         }
         help_texts = {
-            'link': _('Paste a link to the page, group or account that you are selling')
+            'link': _('Paste a link to a page, group or channel')
         }
         error_messages = {
             'link': {
@@ -154,19 +229,6 @@ class AdvertFlatpageForm(FlatpageForm):
         }
 
 
-class DiscussionMessageForm(forms.Form):
-    message = forms.CharField(label=_('Message'), widget=forms.Textarea(attrs={'placeholder': _('Your message'),
-                                                                               'autofocus': ''}))
-
-    def clean_message(self):
-        message = self.cleaned_data['message']
-        message = message.strip()
-
-        if len(message) == 0:
-            raise forms.ValidationError(_('Please enter a message'), code='invalid')
-        return message
-
-
 class ContentBlockForm(forms.ModelForm):
     class Meta(FlatpageForm.Meta):
         model = ContentBlock
@@ -181,3 +243,36 @@ class ContentBlockForm(forms.ModelForm):
         if not any([cleaned_data['content'], cleaned_data['context_function']]):
             self.add_error('content', forms.ValidationError('Required if `context function` is empty', code='required'))
             self.add_error('context_function', forms.ValidationError('Required if `content` is empty', code='required'))
+
+
+class AdminAdvertForm(forms.ModelForm):
+    class Meta:
+        model = Advert
+        fields = '__all__'
+        widgets = {
+            'special_status': forms.Select(choices=Advert.ADVERT_SPECIAL_STATUSES)
+        }
+
+    def clean(self):
+        cleaned_data = super(AdminAdvertForm, self).clean()
+
+        if cleaned_data['special_status'] != Advert.ADVERT_SPECIAL_STATUS_NONE:
+            if not self.has_error('special_status_start') and not cleaned_data['special_status_start']:
+                self.add_error('special_status_start', forms.ValidationError('This field is required', code='required'))
+            if not self.has_error('special_status_end') and not cleaned_data['special_status_end']:
+                self.add_error('special_status_end', forms.ValidationError('This field is required', code='required'))
+
+
+"""
+class DiscussionMessageForm(forms.Form):
+    message = forms.CharField(label=_('Message'), widget=forms.Textarea(attrs={'placeholder': _('Your message'),
+                                                                               'autofocus': ''}))
+
+    def clean_message(self):
+        message = self.cleaned_data['message']
+        message = message.strip()
+
+        if len(message) == 0:
+            raise forms.ValidationError(_('Please enter a message'), code='invalid')
+        return message
+"""

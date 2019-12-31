@@ -14,7 +14,9 @@ from django.contrib.auth import get_user_model, update_session_auth_hash
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.translation import ugettext_lazy as _
 
-from registration import forms as registration_forms
+from django_registration import forms as registration_forms
+
+from smmpay.apps.advert.widgets import SelectWithOptionAttrs
 
 from .tokens import email_change_token_generator
 
@@ -190,16 +192,18 @@ class EmailChangeForm(forms.Form):
 
 
 class SearchForm(forms.Form):
-    query = forms.CharField(label=_('Search query'), required=False, widget=forms.TextInput(
+    search_query = forms.CharField(label=_('Search query'), required=False, widget=forms.TextInput(
         attrs={'class': 'filter__search', 'placeholder': _("For example 'sport'")}))
-    order = forms.ChoiceField(label=_('Order'), required=False, widget=forms.Select(attrs={'class': 'filter__select'}))
+    sort_by = forms.ChoiceField(label=_('Sort by'), required=False,
+                                widget=SelectWithOptionAttrs(attrs={'class': 'filter__select', 'id': 'sort_by'}))
 
-    def __init__(self, order_choices, *args, **kwargs):
+    def __init__(self, sort_choices, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)
 
-        self.fields['order'].choices = order_choices
+        self.fields['sort_by'].choices = sort_choices
 
 
+"""
 class DiscussionMessageForm(forms.Form):
     message = forms.CharField(label=_('Message'), widget=forms.Textarea(attrs={'placeholder': _('Your message')}))
 
@@ -210,3 +214,4 @@ class DiscussionMessageForm(forms.Form):
         if len(message) == 0:
             raise forms.ValidationError(_('Please enter a message'), code='invalid')
         return message
+"""

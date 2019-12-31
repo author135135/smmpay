@@ -5,6 +5,7 @@ from django.views.generic import CreateView, UpdateView, View, ListView, DetailV
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import get_user_model
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.utils.translation import get_language_from_request
@@ -18,7 +19,8 @@ from smmpay.apps.seo.models import PageSeoInformation
 from smmpay.apps.advert.templatetags.advert_tags import recommended_adverts
 
 from . import forms as advert_forms
-from .models import Advert, AdvertSocialAccount, Phrase, SocialNetwork, FavoriteAdvert, Discussion
+# from .models import Advert, AdvertSocialAccount, Phrase, SocialNetwork, FavoriteAdvert, Discussion
+from .models import Advert, AdvertSocialAccount, Phrase, SocialNetwork, FavoriteAdvert
 
 
 class LoginRequiredMixin(object):
@@ -30,13 +32,24 @@ class LoginRequiredMixin(object):
 class AdvertFilterMixin(object):
     filters = {
         'search_query': ['title__icontains', 'description__icontains'],
-        'region': ['social_account__region__slug'],
-        'category': ['category__slug'],
-        'price_min': ['price__gte'],
-        'price_max': ['price__lte'],
+        'category': ['category__slug__in'],
+        'price_min': ['min_price__gte'],
+        'price_max': ['max_price__lte'],
         'subscribers_min': ['social_account__subscribers__gte'],
         'subscribers_max': ['social_account__subscribers__lte'],
     }
+
+    SORT_CHOICES = (
+        ('social_account__subscribers', {'label': _('subscribers'),
+                                         'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('-social_account__subscribers', {'label': _('subscribers'),
+                                          'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+        ('min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('-min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+        ('max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('-max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+        ('-views', _('popularity')),
+    )
 
     def get(self, request, *args, **kwargs):
         response = super(AdvertFilterMixin, self).get(request, *args, **kwargs)
@@ -45,6 +58,7 @@ class AdvertFilterMixin(object):
             json_data = {
                 'success': True,
                 'data': render_to_string(self.ajax_items_template_name, response.context_data, request),
+                'items_count': response.context_data['paginator'].count,
                 'page_seo_information': {}
             }
 
@@ -63,25 +77,34 @@ class AdvertFilterMixin(object):
         qs = super(AdvertFilterMixin, self).get_queryset()
 
         filter_form = self._get_filter_form()
+        sort_by = self.SORT_CHOICES[0][0]
 
-        for item in self.filters:
-            if not filter_form.has_error(item) and filter_form.cleaned_data.get(item, None):
-                search_value = filter_form.cleaned_data[item]
-                qs_query = None
+        if filter_form.is_bound:
+            for item in self.filters:
+                if not filter_form.has_error(item) and filter_form.cleaned_data.get(item, None):
+                    search_value = filter_form.cleaned_data[item]
+                    qs_query = None
 
-                for expression in self.filters[item]:
-                    if qs_query is None:
-                        qs_query = Q(**{expression: search_value})
-                    else:
-                        qs_query |= Q(**{expression: search_value})
+                    for expression in self.filters[item]:
+                        if qs_query is None:
+                            qs_query = Q(**{expression: search_value})
+                        else:
+                            qs_query |= Q(**{expression: search_value})
 
-                if qs_query is not None:
-                    qs = qs.filter(qs_query)
+                    if qs_query is not None:
+                        qs = qs.filter(qs_query)
+
+            sort_by_value = filter_form.cleaned_data.get('sort_by', None)
+
+            if sort_by_value:
+                sort_by = sort_by_value
 
         qs &= Advert.published_objects.get_extra_queryset(select_items=['in_favorite'],
                                                           select_params=[self.request.user.pk])
 
-        return qs.order_by('vip_advert__advert', 'top_advert__advert', '-pk')
+        qs = qs.order_by('-special_status', sort_by)
+
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super(AdvertFilterMixin, self).get_context_data(**kwargs)
@@ -91,69 +114,83 @@ class AdvertFilterMixin(object):
         try:
             context['social_networks'] = SocialNetwork.objects.all()
             context['selected_social_network'] = SocialNetwork.objects.values('code').first().get('code')
-        except SocialNetwork.DoesNotExist:
+        except (SocialNetwork.DoesNotExist, AttributeError):
             pass
 
         return context
 
     def _get_filter_form(self):
         if not hasattr(self, 'filter_form'):
-            self.filter_form = advert_forms.FilterForm(self.request.GET)
+            self.filter_form = advert_forms.FilterForm(data=self.request.GET or None,
+                                                       sort_choices=self.SORT_CHOICES,
+                                                       initial={'sort_by': self.SORT_CHOICES[0][0]})
 
         return self.filter_form
 
 
-class AdvertSubFormMixin(object):
+class AdvertSubFormsMixin(object):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.sub_object = self.get_sub_object()
+        self.social_account_object = self.get_social_account_object()
 
-        return super(AdvertSubFormMixin, self).get(request, *args, **kwargs)
+        return super(AdvertSubFormsMixin, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.sub_object = self.get_sub_object()
+        self.social_account_object = self.get_social_account_object()
 
         form = self.get_form()
-        sub_form = self.get_sub_form()
+        advert_type_form = self.get_advert_type_form()
+        advert_service_formset = self.get_advert_service_formset()
 
-        if form.is_valid() and sub_form.is_valid():
-            return self.form_valid(form, sub_form)
+        if advert_service_formset.is_valid() and form.is_valid() and advert_type_form.is_valid():
+            return self.form_valid(form, advert_type_form, advert_service_formset)
         else:
-            return self.form_invalid(form, sub_form)
+            return self.form_invalid(form, advert_type_form, advert_service_formset)
 
     def get_context_data(self, **kwargs):
-        if 'sub_form' not in kwargs:
-            kwargs['sub_form'] = self.get_sub_form()
+        if 'advert_type_form' not in kwargs:
+            kwargs['advert_type_form'] = self.get_advert_type_form()
 
-        return super(AdvertSubFormMixin, self).get_context_data(**kwargs)
+        if 'advert_service_formset' not in kwargs:
+            kwargs['advert_service_formset'] = self.get_advert_service_formset()
 
-    def form_valid(self, form, sub_form):
+        return super(AdvertSubFormsMixin, self).get_context_data(**kwargs)
+
+    def form_valid(self, form, advert_type_form, advert_service_formset):
         self.object = form.save()
-        self.sub_object = sub_form.save()
+        self.social_account_object = advert_type_form.save()
 
-        return super(AdvertSubFormMixin, self).form_valid(form)
+        advert_service_formset.save()
 
-    def form_invalid(self, form, sub_form):
-        return self.render_to_response(self.get_context_data(form=form, sub_form=sub_form))
+        return super(AdvertSubFormsMixin, self).form_valid(form)
 
-    def get_sub_form(self):
+    def form_invalid(self, form, advert_type_form, advert_service_formset):
+        return self.render_to_response(self.get_context_data(form=form, advert_type_form=advert_type_form,
+                                                             advert_service_formset=advert_service_formset))
+
+    def get_advert_type_form(self):
         advert_type = self.model.get_default_advert_type()
         advert_type = ''.join(map(lambda item: item.capitalize(), advert_type.split('_')))
 
-        sub_form_class = 'Advert{}Form'.format(advert_type)
+        advert_type_form_class = 'Advert{}Form'.format(advert_type)
 
-        return getattr(advert_forms, sub_form_class)(self.request.POST or None, self.request.FILES or None,
-                                                     instance=self.get_sub_object())
+        return getattr(advert_forms, advert_type_form_class)(self.request.POST or None, self.request.FILES or None,
+                                                             instance=self.get_social_account_object())
 
-    def get_sub_object(self):
-        sub_object = None
+    def get_advert_service_formset(self):
+        return advert_forms.AdvertServiceFormSetFactory(self.request.POST or None,
+                                                        instance=self.get_social_account_object(),
+                                                        form_kwargs={'post_data': self.request.POST})
+
+    def get_social_account_object(self):
+        social_account_object = None
 
         if isinstance(self.object, Advert):
             advert_type = self.model.get_default_advert_type()
-            sub_object = getattr(self.object, advert_type)
+            social_account_object = getattr(self.object, advert_type)
 
-        return sub_object
+        return social_account_object
 
 
 class IndexView(AdvertFilterMixin, ListView):
@@ -161,7 +198,7 @@ class IndexView(AdvertFilterMixin, ListView):
     ajax_items_template_name = 'advert/parts/advert_list.html'
     context_object_name = 'adverts'
     model = Advert
-    paginate_by = 10
+    paginate_by = 30
 
     def get_queryset(self, *args, **kwargs):
         qs = super(IndexView, self).get_queryset()
@@ -183,10 +220,11 @@ class AdvertView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(AdvertView, self).get_context_data(**kwargs)
 
-        context['prev_advert'] = self.model.published_objects.filter(pk__lt=self.object.pk).first()
-        context['next_advert'] = self.model.published_objects.filter(pk__gt=self.object.pk).order_by('pk').first()
+        context['prev_advert'] = self.model.simple_published_objects.filter(pk__lt=self.object.pk).first()
+        context['next_advert'] = self.model.simple_published_objects.filter(pk__gt=self.object.pk).order_by(
+            'pk').first()
 
-        context['message_form'] = advert_forms.DiscussionMessageForm()
+        # context['message_form'] = advert_forms.DiscussionMessageForm()
 
         if self.object.author == self.request.user and self.object.status != Advert.ADVERT_STATUS_PUBLISHED:
             messages.add_message(self.request, messages.INFO, _('Advert on moderation. '
@@ -211,7 +249,6 @@ class FavoriteAdvertView(View):
         }
 
         if request.user.is_authenticated():
-            in_favorite = None
             advert_id = request.POST.get('advert_id', None)
 
             if advert_id is not None:
@@ -221,17 +258,12 @@ class FavoriteAdvertView(View):
                     try:
                         favorite = FavoriteAdvert.objects.get(advert=advert, user=request.user)
                         favorite.delete()
-
-                        in_favorite = False
                     except FavoriteAdvert.DoesNotExist:
                         favorite = FavoriteAdvert(advert=advert, user=request.user)
                         favorite.save()
 
-                        in_favorite = True
-
                     response_data = {
-                        'success': True,
-                        'in_favorite': in_favorite
+                        'success': True
                     }
                 except Advert.DoesNotExist:
                     pass
@@ -239,6 +271,7 @@ class FavoriteAdvertView(View):
         return JsonResponse(response_data)
 
 
+"""
 class AdvertSendMessageView(View):
     def post(self, request, *args, **kwargs):
         response_data = {
@@ -269,6 +302,7 @@ class AdvertSendMessageView(View):
                 pass
 
         return JsonResponse(response_data)
+"""
 
 
 class AdvertAddViewView(View):
@@ -287,7 +321,7 @@ class AdvertAddViewView(View):
         return JsonResponse(response_data)
 
 
-class AdvertAddView(LoginRequiredMixin, AdvertSubFormMixin, CreateView):
+class AdvertAddView(LoginRequiredMixin, AdvertSubFormsMixin, CreateView):
     template_name = 'advert/advert_add.html'
     form_class = advert_forms.AdvertForm
     model = Advert
@@ -309,15 +343,18 @@ class AdvertAddView(LoginRequiredMixin, AdvertSubFormMixin, CreateView):
         return context
 
     @transaction.atomic
-    def form_valid(self, form, sub_form):
+    def form_valid(self, form, advert_type_form, advert_service_formset):
         advert = form.save(False)
         advert.author = self.request.user
-        advert.social_account = sub_form.save(False)
+        advert.social_account = advert_type_form.save(False)
         advert.social_account.confirmation_code = self.request.session['advert_confirmation_code']
         advert.save()
 
         advert.social_account.advert = advert
         advert.social_account.save()
+
+        advert_service_formset.instance = advert.social_account
+        advert_service_formset.save()
 
         messages.add_message(self.request, messages.SUCCESS, _('Advert has been successfully added. '
                                                                'It will be published on the site after the moderation. '
@@ -325,7 +362,7 @@ class AdvertAddView(LoginRequiredMixin, AdvertSubFormMixin, CreateView):
 
         del self.request.session['advert_confirmation_code']
 
-        return super(AdvertAddView, self).form_valid(form, sub_form)
+        return super(AdvertAddView, self).form_valid(form, advert_type_form, advert_service_formset)
 
     def get_success_url(self):
         return self.request.GET.get('next', reverse_lazy('advert:index'))
@@ -363,16 +400,37 @@ class AdvertSocialAccountInfoView(View):
         return JsonResponse(response_data)
 
 
-class AdvertEditView(LoginRequiredMixin, AdvertSubFormMixin, UpdateView):
+class AdvertSocialAccountServicesView(View):
+    def get(self, *args, **kwargs):
+        account_link = self.request.GET.get('account_link', None)
+        response_data = {
+            'success': False
+        }
+
+        if account_link is None:
+            return JsonResponse(response_data)
+
+        social_network = SocialNetwork.get_social_network(account_link)
+
+        if social_network is None:
+            return JsonResponse(response_data)
+
+        response_data['success'] = True
+        response_data['services'] = list(social_network.services.values_list('pk', 'title'))
+
+        return JsonResponse(response_data)
+
+
+class AdvertEditView(LoginRequiredMixin, AdvertSubFormsMixin, UpdateView):
     template_name = 'advert/advert_edit.html'
     form_class = advert_forms.AdvertForm
     model = Advert
     context_object_name = 'advert'
 
-    def form_valid(self, form, sub_form):
+    def form_valid(self, form, advert_type_form, advert_service_formset):
         messages.add_message(self.request, messages.SUCCESS, _('Advert successfully edited'))
 
-        return super(AdvertEditView, self).form_valid(form, sub_form)
+        return super(AdvertEditView, self).form_valid(form, advert_type_form, advert_service_formset)
 
     def get_success_url(self):
         return self.object.get_absolute_url()
@@ -429,7 +487,7 @@ class SocialNetworkView(AdvertFilterMixin, ListView):
     ajax_items_template_name = 'advert/parts/advert_list.html'
     context_object_name = 'adverts'
     model = Advert
-    paginate_by = 10
+    paginate_by = 30
 
     def get(self, request, *args, **kwargs):
         self._social_network = None

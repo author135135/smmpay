@@ -2,22 +2,24 @@
 {% load static %}
 
 <div class="sidebar">
-    <div class="sidebar__head">{% trans 'Recommended' %}</div>
-    <ul class="sidebar__list">
-        {% for advert in recommended_adverts %}
-            <li class="sidebar__item">
-                <a class="sidebar__link" href="{{ advert.get_absolute_url }}">
-                    {% if advert.social_account.logo %}
-                        <span class="sidebar__image">
-                            <img src="{{ advert.social_account.logo.url }}" width="36" height="36">
+    <div class="sidebar__inner">
+        <div class="sidebar__head">{% trans 'Recommended' %}</div>
+        <ul class="sidebar__list">
+            {% for advert in recommended_adverts %}
+                <li class="sidebar__item">
+                    <a class="sidebar__link" href="{{ advert.get_absolute_url }}">
+                        {% if advert.social_account.logo %}
+                            <span class="sidebar__image">
+                                <img src="{{ advert.social_account.logo.url }}" width="36" height="36">
+                            </span>
+                        {% endif %}
+                        <span class="sidebar__description">
+                            <span class="sidebar__title" title="{{ advert.title }}">{{ advert.title|truncatechars:"16" }}</span>
+                            <span class="sidebar__subtitle">{{ advert.social_account.subscribers }} {% trans 'subscribers' %}</span>
                         </span>
-                    {% endif %}
-                    <span class="sidebar__description">
-                        <span class="sidebar__title" title="{{ advert.title }}">{{ advert.title|truncatechars:"16" }}</span>
-                        <span class="sidebar__subtitle">{{ advert.social_account.subscribers }} {% trans 'subscribers' %}</span>
-                    </span>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>

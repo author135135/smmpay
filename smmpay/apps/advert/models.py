@@ -44,21 +44,19 @@ class ExtraQuerysetManager(models.Manager):
         return qs.extra(select=select, **kwargs)
 
 
-class DiscussionManager(ExtraQuerysetManager):
-    def get_queryset(self):
-        return super(DiscussionManager, self).get_queryset().select_related('advert', 'advert__social_account')
-
-
-class MessageManager(ExtraQuerysetManager):
-    def get_queryset(self):
-        return super(MessageManager, self).get_queryset().select_related('sender__user__profile')
-
-
 class AdvertManager(ExtraQuerysetManager):
     def get_queryset(self):
         qs = super(AdvertManager, self).get_queryset()
-        qs = qs.select_related('social_account', 'category', 'social_account__region',
-                               'social_account__social_network', 'author__profile', 'vip_advert', 'top_advert')
+        qs = qs.select_related('social_account', 'social_account__social_network', 'category', 'author__profile')
+        qs = qs.prefetch_related('social_account__social_account_services')
+
+        return qs
+
+
+class AdvertSocialAccountManager(ExtraQuerysetManager):
+    def get_queryset(self):
+        qs = super(AdvertSocialAccountManager, self).get_queryset().select_related('advert', 'social_network')
+        # qs = qs.prefetch_related('social_account_services')
 
         return qs
 
@@ -71,11 +69,36 @@ class PublishedAdvertManager(AdvertManager):
         return qs
 
 
+class SimplePublishedAdvertManager(models.Manager):
+    def get_queryset(self):
+        qs = super(SimplePublishedAdvertManager, self).get_queryset().filter(enabled_by_author=True,
+                                                                             status=Advert.ADVERT_STATUS_PUBLISHED)
+
+        return qs
+
+
 class FavoriteAdvertManager(models.Manager):
     def get_queryset(self):
         return super(FavoriteAdvertManager, self).get_queryset().select_related('advert', 'advert__category', 'user',
-                                                                                'advert__social_account',
-                                                                                'advert__social_account__region')
+                                                                                'advert__social_account')
+
+
+class AdvertSocialAccountServiceManager(models.Manager):
+    def get_queryset(self):
+        return super(AdvertSocialAccountServiceManager, self).get_queryset().select_related().prefetch_related(
+            'social_account__social_network')
+
+
+"""
+class DiscussionManager(ExtraQuerysetManager):
+    def get_queryset(self):
+        return super(DiscussionManager, self).get_queryset().select_related('advert', 'advert__social_account')
+
+
+class MessageManager(ExtraQuerysetManager):
+    def get_queryset(self):
+        return super(MessageManager, self).get_queryset().select_related('sender__user__profile')
+"""
 
 
 class Menu(models.Model):
@@ -100,20 +123,6 @@ class MenuItem(models.Model):
         db_table = 'advert_menu_item'
         verbose_name = _('menu item')
         verbose_name_plural = _('menu items')
-
-    def __str__(self):
-        return self.title
-
-
-class Region(models.Model):
-    title = models.CharField(_('title'), max_length=255)
-    slug = models.SlugField(_('slug'), max_length=255, unique=True)
-
-    class Meta:
-        db_table = 'advert_region'
-        ordering = ('title',)
-        verbose_name = _('region')
-        verbose_name_plural = _('regions')
 
     def __str__(self):
         return self.title
@@ -227,6 +236,21 @@ class Phrase(models.Model):
         return None
 
 
+class SocialNetworkService(models.Model):
+    title = models.CharField(_('title'), max_length=125)
+    social_network = models.ForeignKey(verbose_name=_('social network'), to=SocialNetwork, related_name='services',
+                                       on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'advert_social_network_service'
+        ordering = ('pk',)
+        verbose_name = _('social network service')
+        verbose_name_plural = _('social network services')
+
+    def __str__(self):
+        return self.title
+
+
 class Advert(models.Model):
     ADVERT_TYPE_SOCIAL_ACCOUNT = 'social_account'
 
@@ -244,6 +268,16 @@ class Advert(models.Model):
         (ADVERT_STATUS_VIOLATION, _('Violation')),
     )
 
+    ADVERT_SPECIAL_STATUS_NONE = 0
+    ADVERT_SPECIAL_STATUS_TOP = 10
+    ADVERT_SPECIAL_STATUS_VIP = 20
+
+    ADVERT_SPECIAL_STATUSES = (
+        (ADVERT_SPECIAL_STATUS_NONE, _('No special status')),
+        (ADVERT_SPECIAL_STATUS_TOP, _('Top status')),
+        (ADVERT_SPECIAL_STATUS_VIP, _('Vip status'))
+    )
+
     title = models.CharField(_('title'), max_length=255)
     description = models.TextField(_('description'), blank=True)
     advert_type = models.CharField(_('type of advert'), max_length=25, choices=ADVERT_TYPES,
@@ -251,15 +285,20 @@ class Advert(models.Model):
     category = models.ForeignKey(verbose_name=_('category'), to=Category, null=True, related_name='adverts',
                                  on_delete=models.SET_NULL)
     author = models.ForeignKey(verbose_name=_('author'), to=User, related_name='adverts', on_delete=models.CASCADE)
-    price = models.PositiveIntegerField(_('price'))
+    min_price = models.PositiveIntegerField(_('Minimum price'))
+    max_price = models.PositiveIntegerField(_('Maximum price'))
     views = models.PositiveIntegerField(_('count of views'), default=0, editable=False)
     enabled_by_author = models.BooleanField(_('enabled by author'), default=True)
     status = models.CharField(_('status'), max_length=25, choices=ADVERT_STATUSES, default=ADVERT_STATUS_MODERATION)
+    special_status = models.SmallIntegerField(_('special status'), blank=True, default=ADVERT_SPECIAL_STATUS_NONE)
+    special_status_start = models.DateTimeField(_('special status start'), blank=True, null=True)
+    special_status_end = models.DateTimeField(_('special status end'), blank=True, null=True)
     created = models.DateTimeField(_('created'), auto_now_add=True)
     updated = models.DateTimeField(_('updated'), auto_now=True)
 
     objects = AdvertManager()
     published_objects = PublishedAdvertManager()
+    simple_published_objects = SimplePublishedAdvertManager()
 
     class Meta:
         db_table = 'advert_advert'
@@ -297,24 +336,26 @@ class Advert(models.Model):
         return self.status == self.ADVERT_STATUS_PUBLISHED
 
     def in_vip(self):
-        return hasattr(self, 'vip_advert')
+        return self.special_status == self.ADVERT_SPECIAL_STATUS_VIP
 
     def in_top(self):
-        return hasattr(self, 'top_advert')
+        return self.special_status == self.ADVERT_SPECIAL_STATUS_TOP
 
 
 class AdvertSocialAccount(models.Model):
     advert = models.OneToOneField(verbose_name=_('advert'), to=Advert, related_name='social_account',
                                   on_delete=models.CASCADE)
     logo = models.ImageField(_('logo'), upload_to=RenameFile('offer/social_accounts/%Y/%m/%d'))
-    link = models.URLField(_('account link'), validators=[validate_social_network_link])
+    link = models.URLField(_('account link'), validators=[validate_social_network_link], unique=True)
     subscribers = models.PositiveIntegerField(_('subscribers'))
     social_network = models.ForeignKey(verbose_name=_('social network'), to=SocialNetwork, null=True,
                                        related_name='social_accounts', on_delete=models.SET_NULL)
-    region = models.ForeignKey(verbose_name=_('region'), to=Region, null=True, related_name='social_accounts',
-                               on_delete=models.SET_NULL)
+    services = models.ManyToManyField(verbose_name=_('service'), to=SocialNetworkService,
+                                      through='AdvertSocialAccountService')
     confirmed = models.BooleanField(_('confirmed by author'), default=False)
     confirmation_code = models.TextField(_('confirmation code'))
+
+    objects = AdvertSocialAccountManager()
 
     class Meta:
         db_table = 'advert_advert_social_account'
@@ -351,6 +392,27 @@ class AdvertSocialAccount(models.Model):
         return parsers.get_parser(social_network, **kwargs)
 
 
+class AdvertSocialAccountService(models.Model):
+    social_account = models.ForeignKey(verbose_name=_('advert'), to=AdvertSocialAccount,
+                                       related_name='social_account_services', on_delete=models.CASCADE)
+    social_network_service = models.ForeignKey(verbose_name=_('social network service'), to=SocialNetworkService,
+                                               related_name='social_account_services', on_delete=models.CASCADE)
+    price = models.PositiveIntegerField(_('price'), null=True, blank=True)
+    negotiated_price = models.BooleanField(_('negotiated price'), default=False)
+
+    objects = AdvertSocialAccountServiceManager()
+
+    class Meta:
+        db_table = 'advert_social_account_service'
+        ordering = ('pk',)
+        verbose_name = _('advert social account service')
+        verbose_name_plural = _('advert social account services')
+        unique_together = ('social_account', 'social_network_service')
+
+    def __str__(self):
+        return '{}: {}'.format(self.social_network_service.title, self.price)
+
+
 class AdvertViewsStatistic(models.Model):
     advert = models.ForeignKey(to=Advert, related_name='views_statistic', on_delete=models.CASCADE)
     ip = models.GenericIPAddressField()
@@ -383,6 +445,8 @@ class SocialAccountConfirmationQueue(models.Model):
 
     class Meta:
         db_table = 'advert_advert_social_account_confirmation'
+        verbose_name = _('social account confirmation queue')
+        verbose_name_plural = _('social account confirmation queues')
 
     def __str__(self):
         return _('Social account({}) {}').format(self.social_account.pk, self.get_status_display())
@@ -399,8 +463,10 @@ class SocialAccountConfirmationQueue(models.Model):
 
 
 class FavoriteAdvert(models.Model):
-    advert = models.ForeignKey(verbose_name=_('advert'), to=Advert, related_name='favorite_adverts', on_delete=models.CASCADE)
-    user = models.ForeignKey(verbose_name=_('user'), to=User, related_name='favorite_adverts', on_delete=models.CASCADE)
+    advert = models.ForeignKey(verbose_name=_('advert'), to=Advert, related_name='favorite_adverts',
+                               on_delete=models.CASCADE)
+    user = models.ForeignKey(verbose_name=_('user'), to=User, related_name='favorite_adverts',
+                             on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
     objects = FavoriteAdvertManager()
@@ -413,38 +479,30 @@ class FavoriteAdvert(models.Model):
         unique_together = ('advert', 'user')
 
 
-class VipAdvert(models.Model):
-    advert = models.OneToOneField(verbose_name=_('advert'), to=Advert, related_name='vip_advert',
-                                  on_delete=models.CASCADE)
-    date_start = models.DateTimeField(_('date start'), auto_now_add=True)
-    date_end = models.DateTimeField(_('date end'))
+class ContentBlock(models.Model):
+    title = models.CharField(_('title'), max_length=255)
+    pages = models.TextField(_('pages'), help_text=_(
+        'Url patterns of pages where you would like to see block, each address on new line'))
+    position = models.CharField(_('position'), max_length=50, choices=settings.ADVERT_CONTENT_BLOCK_POSITIONS,
+                                help_text=_('Position on site where block will be rendered'))
+    content = models.TextField(_('block content'), blank=True, default='')
+    context_function = models.CharField(_('context function'), max_length=100, help_text=_(
+        'Python function that will handle block context before render'), blank=True, default='')
+    template_name = models.CharField(_('template name'), max_length=255, help_text=_(
+        'In case field empty, default template advert/tags/content_block/`position`_default.html will be used'),
+                                     blank=True, default='')
+    enabled = models.BooleanField(_('enabled'), default=True)
 
     class Meta:
-        db_table = 'advert_vip_advert'
-        ordering = ('-advert_id',)
-        verbose_name = _('vip advert')
-        verbose_name_plural = _('vip adverts')
+        db_table = 'advert_content_block'
+        verbose_name = _('content block')
+        verbose_name_plural = _('content blocks')
 
     def __str__(self):
-        return self.advert.title
+        return self.title
 
 
-class TopAdvert(models.Model):
-    advert = models.OneToOneField(verbose_name=_('advert'), to=Advert, related_name='top_advert',
-                                  on_delete=models.CASCADE)
-    date_start = models.DateTimeField(_('date start'), auto_now_add=True)
-    date_end = models.DateTimeField(_('date end'))
-
-    class Meta:
-        db_table = 'advert_top_advert'
-        ordering = ('-advert_id',)
-        verbose_name = _('top advert')
-        verbose_name_plural = _('top adverts')
-
-    def __str__(self):
-        return self.advert.title
-
-
+"""
 class Discussion(models.Model):
     advert = models.ForeignKey(verbose_name=_('advert'), to=Advert, related_name='discussions',
                                on_delete=models.CASCADE)
@@ -558,26 +616,4 @@ class DiscussionMessageView(models.Model):
 
     def __str__(self):
         return self.message.message
-
-
-class ContentBlock(models.Model):
-    title = models.CharField(_('title'), max_length=255)
-    pages = models.TextField(_('pages'), help_text=_(
-        'Url patterns of pages where you would like to see block, each address on new line'))
-    position = models.CharField(_('position'), max_length=50, choices=settings.ADVERT_CONTENT_BLOCK_POSITIONS,
-                                help_text=_('Position on site where block will be rendered'))
-    content = models.TextField(_('block content'), blank=True, default='')
-    context_function = models.CharField(_('context function'), max_length=100, help_text=_(
-        'Python function that will handle block context before render'), blank=True, default='')
-    template_name = models.CharField(_('template name'), max_length=255, help_text=_(
-        'In case field empty, default template advert/tags/content_block/`position`_default.html will be used'),
-                                     blank=True, default='')
-    enabled = models.BooleanField(_('enabled'), default=True)
-
-    class Meta:
-        db_table = 'advert_content_block'
-        verbose_name = _('content block')
-        verbose_name_plural = _('content blocks')
-
-    def __str__(self):
-        return self.title
+"""

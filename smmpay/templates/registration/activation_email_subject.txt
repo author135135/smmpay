@@ -1,4 +1,0 @@
-{% load i18n %}
-{% autoescape off %}
-    {% blocktrans %}Registration on site{% endblocktrans %} {{ site.name }}
-{% endautoescape %}

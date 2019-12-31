@@ -3,17 +3,17 @@
 {% load static %}
 {% load advert_tags %}
 
-{% block pre_content %}
-    {% include 'advert/parts/filter.html' %}
-{% endblock %}
-
 {% block content %}
-    <div class="preloader-content">
-        <span class="ajax-loader"></span>
-    </div>
     <div class="inner__content">
-        <div class="items">
-            {% include 'advert/parts/advert_list.html' %}
+        {% include 'advert/parts/filter.html' %}
+
+        <div class="items-wrapper">
+            <div class="preloader-content">
+                <span class="ajax-loader"></span>
+            </div>
+            <div class="items">
+                {% include 'advert/parts/advert_list.html' %}
+            </div>
         </div>
     </div>
 
@@ -21,8 +21,8 @@
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'smmpay/components/jcf/js/jcf.js' %}"></script>
-    <script src="{% static 'smmpay/components/jcf/js/jcf.select.js' %}"></script>
-    <script src="{% static 'smmpay/components/jcf/js/jcf.scrollable.js' %}"></script>
+    <script src="{% static 'smmpay/components/select2/js/select2.full.min.js' %}"></script>
+    <script src="{% static 'smmpay/components/jquery.ddslick.min.js' %}"></script>
+    <script src="{% static 'smmpay/components/jquery.sticky-sidebar.min.js' %}"></script>
     <script src="{% static 'smmpay/components/URI.min.js' %}"></script>
 {% endblock %}

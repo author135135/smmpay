@@ -6,6 +6,13 @@
             cache: false
         });
 
+        if ($('.sidebar:not(.sidebar-user_cabinet)').length) {
+            $('.sidebar').stickySidebar({
+                topSpacing: 20,
+                bottomSpacing: 20
+            });
+        }
+
         // Filter form handlers
         if ($('#filter-form').length) {
             $('.header__filter').on('click', function (e) {
@@ -21,28 +28,47 @@
                 $('.filter').removeClass('visible');
             });
 
-            jcf.setOptions('Select', {
-                wrapNative: false,
-                flipDropToFit: false,
-                maxVisibleItems: 5
+            $("#id_category").select2({
+                tags: true
             });
 
-            jcf.replaceAll();
+            $('#sort_by').ddslick({
+                imagePosition: 'right',
+                onSelected: function(selectedData){
+                    var current_value = $('#sort_by').parents('.sort-wrapper').data('current-value'),
+                        selected_value = selectedData['selectedData']['value'];
+
+                    if (current_value === selected_value || process_in_progress) {
+                        return false;
+                    }
+
+                    var url = new URI(window.location.href),
+                        url_query = url.query(true);
+
+                    url_query['sort_by'] = selected_value;
+                    url.query(url_query);
+
+                    $('#sort_by').parents('.sort-wrapper').data('current-value', selected_value);
+
+                    load_data(url, {}, $('.items'));
+                }
+            });
 
             $('.filter__reset').on('click', function () {
                 var need_reload = false;
 
                 $('#filter-form input').val('');
 
-                $('#filter-form select').each(function(k, v) {
-                    $('option:first', this).prop('selected', true)
-                });
-
-                jcf.replaceAll();
+                $('#filter-form select').val('').trigger('change');
 
                 var url = new URI(window.location.href);
 
                 url.removeQuery('page');
+
+                if (url.hasSearch('category')) {
+                    url.removeQuery('category');
+                    need_reload = true;
+                }
 
                 $.each($('#filter-form').serializeArray(), function(index, item) {
                     if (url.hasSearch(item.name)) {
@@ -81,19 +107,29 @@
                 }
 
                 var url = new URI(window.location.href),
-                    url_query = url.query(true);
-
-                delete url_query['page'];
+                    url_query = url.query(true),
+                    query = {};
 
                 $.each($('#filter-form').serializeArray(), function(index, item) {
                     if (item.value) {
-                        url_query[item.name] = item.value;
-                    } else {
-                        delete url_query[item.name];
+                        if (query.hasOwnProperty(item.name)) {
+                            if (typeof query[item.name] !== "object") {
+                                var tmp_value = query[item.name];
+                                query[item.name] = [tmp_value];
+                            }
+
+                            query[item.name].push(item.value)
+                        } else {
+                            query[item.name] = item.value;
+                        }
                     }
                 });
 
-                url.query(url_query);
+                if (url_query['sort_by']) {
+                    query['sort_by'] = url_query['sort_by'];
+                }
+
+                url.query(query);
 
                 $('.filter__form-social a').each(function() {
                     var link_url = new URI($(this).attr('href')),
@@ -140,7 +176,7 @@
 
                 $('.filter__form-social .active').removeClass('active');
                 $(this).parent().addClass('active');
-            })
+            });
         }
 
         // Add/delete favorites handlers
@@ -187,20 +223,15 @@
                 }
             });
 
-            jcf.setOptions('Select', {
-                wrapNative: false,
-                flipDropToFit: false,
-                maxVisibleItems: 5
-            });
-
-            jcf.replaceAll();
-
-            $('.addition-title').on('click' , function() {
-                $(this).toggleClass('active');
-                $('.addition-box').slideToggle();
+            $("select").select2({
+                minimumResultsForSearch: -1
             });
 
             autosize($('textarea[name="description"]', advert_add_form));
+
+            new ClipboardJS('button.copy');
+
+            processNegotiatedPriceFields();
 
             var link = $('input[name="link"]', advert_add_form).val() ? $('input[name="link"]', advert_add_form).val(): '',
                 link_check_progress = 0;
@@ -226,6 +257,14 @@
                 $('input[name="external_logo"]', advert_add_form).val('');
 
                 $('.hidden-field', advert_add_form).addClass('hidden');
+
+                $('select[name^="social_account_services"] option:not(:first-child)').remove();
+                $('select[name^="social_account_services"]').val('');
+                $('input[name^="social_account_services"]').val('');
+
+                $("select").select2({
+                    minimumResultsForSearch: -1
+                });
 
                 var result = check_link(link);
 
@@ -258,15 +297,15 @@
                         var info_table_html = '';
 
                         if (response['fields']['external_logo']) {
-                            info_table_html += '<li><span class="th">' + gettext('logo') + '</span><span class="td"><a class="thumb__avatar"><img src="' + response['fields']['external_logo'] + '"></a></span></li>';
+                            info_table_html += '<div class="item avatar"><div class="item__label">' + gettext('logo') + '</div><div class="item__field"><a class="thumb__avatar"><img src="' + response['fields']['external_logo'] + '"></a></div></div>';
                         }
 
                         if (response['fields']['title']) {
-                            info_table_html += '<li><span class="th">' + gettext('title') + '</span><span class="td">' + response['fields']['title'] + '</span></li>';
+                            info_table_html += '<div class="item"><div class="item__label">' + gettext('title') + '</div><div class="item__field">' + response['fields']['title'] + '</div></div>';
                         }
 
                         if (response['fields']['subscribers']) {
-                            info_table_html += '<li><span class="th">' + gettext('subscribers') + '</span><span class="td">' + response['fields']['subscribers'] + '</span></li>';
+                            info_table_html += '<div class="item"><div class="item__label">' + gettext('subscribers') + '</div><div class="item__field">' + response['fields']['subscribers'] + '</div></div>';
                         }
 
                         if (info_table_html) {
@@ -276,11 +315,55 @@
                     } else {
                         $('.item.hidden', advert_add_form).removeClass('hidden');
                     }
+                }, 'json');
+
+                $.get(advert_add_form.data('services-url'), {account_link: link}, function(response) {
+                    if (response['success']) {
+                        var option_html = '';
+
+                        $.each(response['services'], function(idx, item) {
+                            option_html += '<option value="' + item[0] + '">' + item[1] + '</option>';
+                        });
+
+                        $('select[name^="social_account_services"]').append(option_html);
+                    }
 
                     link_check_progress = 0;
 
                     preloader_hide();
                 }, 'json');
+            });
+
+            $('.add-service').on('click', function(e) {
+                e.preventDefault();
+
+                $('select').each(function(e) {
+                    $(this).select2('destroy');
+                });
+
+                var wrapper = $(this).parents('.item'),
+                    form_idx = $('#id_social_account_services-TOTAL_FORMS').val();
+
+                wrapper.before($('.empty-formset').html().replace(/__prefix__/g, form_idx));
+
+                $('#id_social_account_services-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+
+                $('select').select2({
+                    minimumResultsForSearch: -1
+                });
+            });
+
+            $(document).on('click', '.remove-service', function(e) {
+                e.preventDefault();
+
+                var form_idx = $('#id_social_account_services-TOTAL_FORMS').val();
+                $('#id_social_account_services-TOTAL_FORMS').val(parseInt(form_idx) - 1);
+
+                $(this).parents('.item').remove();
+            });
+
+            $(document).on('click', '.negotiated-price input', function(e) {
+                processNegotiatedPriceFields();
             });
 
             advert_add_form.submit(function(e) {
@@ -292,7 +375,7 @@
                 var result = check_link(link);
 
                 if (!result['success']) {
-                    $('input[name="link"]', advert_add_form).after('<div class="error_input">' + result['error'] + '</div>');
+                    $('input[name="link"]', advert_add_form).parent().append('<div class="error_input">' + result['error'] + '</div>');
 
                     error = 1;
                 }
@@ -303,16 +386,61 @@
                     $('select[name="category"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
-                if (!$('select[name="region"]', advert_add_form).val()) {
+                if (!$('input[name="min_price"]', advert_add_form).val()) {
                     error = 1;
 
-                    $('select[name="region"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    $('input[name="min_price"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
-                if (!$('input[name="price"]', advert_add_form).val()) {
+                if (!$('input[name="max_price"]', advert_add_form).val()) {
                     error = 1;
 
-                    $('input[name="price"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    $('input[name="max_price"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                }
+
+                var services = [];
+                var selected = false;
+
+                $('#advert-add-form > .service-item').each(function(e) {
+                    var service_wrapper = $(this),
+                        service_val = $('select', service_wrapper).val(),
+                        price_val = $('input[type="number"]', service_wrapper).val(),
+                        negotiated_price = $('.negotiated-price input[type="checkbox"]', service_wrapper).prop('checked');
+
+                    if (service_val) {
+                        var elem_idx = services.indexOf(service_val);
+
+                        selected = true;
+
+                        if (elem_idx !== -1) {
+                            error = 1;
+
+                            $('select', service_wrapper).parent().append('<div class="error_input">' + gettext('This value already selected') + '</div>');
+                        } else {
+                            services.push(service_val);
+                        }
+
+                        if (!price_val && !negotiated_price) {
+                            error = 1;
+
+                            $('input[type="number"]', service_wrapper).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                        }
+                    }
+
+                    if ((price_val || negotiated_price) && !service_val) {
+                        error = 1;
+
+                        $('select', service_wrapper).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    }
+                });
+
+                if (selected === false) {
+                    var service_wrapper = $('#advert-add-form > .service-item:first');
+
+                    $('.error_input', service_wrapper).remove();
+
+                    $('select', service_wrapper).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    $('input[type="number"]', service_wrapper).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
                 if (result['success'] && !$('input[name="title"]', advert_add_form).val()) {
@@ -351,20 +479,15 @@
                 }
             });
 
-            jcf.setOptions('Select', {
-                wrapNative: false,
-                flipDropToFit: false,
-                maxVisibleItems: 5
-            });
-
-            jcf.replaceAll();
-
-            $('.addition-title').on('click' , function() {
-                $(this).toggleClass('active');
-                $('.addition-box').slideToggle();
+            $("select").select2({
+                minimumResultsForSearch: -1
             });
 
             autosize($('textarea[name="description"]', advert_edit_form));
+
+            new ClipboardJS('button.copy');
+
+            processNegotiatedPriceFields();
 
             var link = $('input[name="link"]', advert_edit_form).val() ? $('input[name="link"]', advert_edit_form).val(): '',
                 link_check_progress = 0;
@@ -372,8 +495,7 @@
             $('input[name="link"]', advert_edit_form).on('focusout', function(e) {
                 var field = $(this),
                     wrapper = field.parent(),
-                    link_pat = /http(s)?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
-                    info_table = $('.product-table_info');
+                    link_pat = /http(s)?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
                 if (link == $.trim(field.val()) || link_check_progress) {
                     return false;
@@ -387,7 +509,11 @@
                 $('.hidden-field input', advert_edit_form).val('');
                 $('input[name="external_logo"]', advert_edit_form).val('');
 
-                info_table.empty();
+                $('select[name^="social_account_services"] option:not(:first-child)').remove();
+                $('select[name^="social_account_services"]').val('');
+                $('input[name^="social_account_services"]').val('');
+
+                $('.item.avatar .item__field .thumb__avatar').remove();
 
                 var result = check_link(link);
 
@@ -412,58 +538,171 @@
                         });
 
                         if (response['fields']['external_logo']) {
-                            info_table.append('<li><a class="thumb__avatar"><img src="' + response['fields']['external_logo'] + '"></a></li>');
+                            $('.item.avatar .item__field').prepend('<a class="thumb__avatar"><img src="' + response['fields']['external_logo'] + '"></a>');
                         }
+                    }
+                }, 'json');
+
+                $.get(advert_edit_form.data('services-url'), {account_link: link}, function(response) {
+                    if (response['success']) {
+                        var option_html = '';
+
+                        $.each(response['services'], function(idx, item) {
+                            option_html += '<option value="' + item[0] + '">' + item[1] + '</option>';
+                        });
+
+                        $('select[name^="social_account_services"]').append(option_html);
                     }
 
                     link_check_progress = 0;
 
                     preloader_hide();
                 }, 'json');
+
+                $('select').select2({
+                    minimumResultsForSearch: -1
+                });
+            });
+
+            $('.add-service').on('click', function(e) {
+                e.preventDefault();
+
+                $('select').each(function(e) {
+                    $(this).select2('destroy');
+                });
+
+                var wrapper = $(this).parents('.item'),
+                    form_idx = $('#id_social_account_services-TOTAL_FORMS').val();
+
+                wrapper.before($('.empty-formset').html().replace(/__prefix__/g, form_idx));
+
+                $('#id_social_account_services-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+
+                $('select').select2({
+                    minimumResultsForSearch: -1
+                });
+            });
+
+            $(document).on('click', '.remove-service', function(e) {
+                e.preventDefault();
+
+                var wrapper = $(this).parents('.item'),
+                    form_idx = $('#id_social_account_services-TOTAL_FORMS').val(),
+                    new_form_idx = parseInt(form_idx) - 1,
+                    initial_forms = $('#id_advert_services-INITIAL_FORMS').val();
+
+
+                if (new_form_idx < initial_forms) {
+                    new_form_idx = initial_forms;
+                }
+
+                $('#id_social_account_services-TOTAL_FORMS').val(new_form_idx);
+
+                if (wrapper.hasClass('new_item')) {
+                   wrapper.remove();
+                } else {
+                    wrapper.addClass('hidden');
+                    $('input[type="checkbox"]', wrapper).click();
+                }
+            });
+
+            $(document).on('click', '.negotiated-price input', function(e) {
+                processNegotiatedPriceFields();
             });
 
             advert_edit_form.submit(function(e) {
                 var error = 0,
                     link_pat = /http(s)?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
-                $('.error_input', advert_edit_form).remove();
+                $('.error_input', advert_add_form).remove();
 
                 var result = check_link(link);
 
                 if (!result['success']) {
-                    $('input[name="link"]', advert_edit_form).after('<div class="error_input">' + result['error'] + '</div>');
+                    $('input[name="link"]', advert_add_form).parent().append('<div class="error_input">' + result['error'] + '</div>');
 
                     error = 1;
                 }
 
-                if (!$('select[name="category"]', advert_edit_form).val()) {
+                if (!$('select[name="category"]', advert_add_form).val()) {
                     error = 1;
 
-                    $('select[name="category"]', advert_edit_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    $('select[name="category"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
-                if (!$('select[name="region"]', advert_edit_form).val()) {
+                if (!$('input[name="min_price"]', advert_add_form).val()) {
                     error = 1;
 
-                    $('select[name="region"]', advert_edit_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    $('input[name="min_price"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
-                if (!$('input[name="price"]', advert_edit_form).val()) {
+                if (!$('input[name="max_price"]', advert_add_form).val()) {
                     error = 1;
 
-                    $('input[name="price"]', advert_edit_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    $('input[name="max_price"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
-                if (!$('input[name="title"]', advert_edit_form).val()) {
-                    error = 1;
+                var services = [];
+                var selected = false;
 
-                    $('input[name="title"]', advert_edit_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
+                $('#advert-edit-form > .service-item:not(.hidden)').each(function(e) {
+                    var service_wrapper = $(this),
+                        service_val = $('select', service_wrapper).val(),
+                        price_val = $('input[type="number"]', service_wrapper).val(),
+                        negotiated_price = $('.negotiated-price input[type="checkbox"]', service_wrapper).prop('checked');
+
+                    if (service_val) {
+                        var elem_idx = services.indexOf(service_val);
+
+                        selected = true;
+
+                        if (elem_idx !== -1) {
+                            error = 1;
+
+                            $('select', service_wrapper).parent().append('<div class="error_input">' + gettext('This value already selected') + '</div>');
+                        } else {
+                            services.push(service_val);
+                        }
+
+                        if (!price_val && !negotiated_price) {
+                            error = 1;
+
+                            $('input[type="number"]', service_wrapper).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                        }
+                    }
+
+                    if ((price_val || negotiated_price) && !service_val) {
+                        error = 1;
+
+                        $('select', service_wrapper).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    }
+                });
+
+                if (selected === false) {
+                    var service_wrapper = $('#advert-edit-form > .service-item:first');
+
+                    $('.error_input', service_wrapper).remove();
+
+                    $('select', service_wrapper).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    $('input[type="number"]', service_wrapper).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
-                if (!$('input[name="subscribers"]', advert_edit_form).val()) {
+                if (result['success'] && !$('input[name="title"]', advert_add_form).val()) {
                     error = 1;
 
-                    $('input[name="subscribers"]', advert_edit_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    $('input[name="title"]', advert_add_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
+                }
+
+                if (result['success'] && !$('input[name="subscribers"]', advert_add_form).val()) {
+                    error = 1;
+
+                    $('input[name="subscribers"]', advert_add_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
+                }
+
+                if (result['success'] && !$('input[name="external_logo"]', advert_add_form).val() && !$('input[name="logo"]', advert_add_form).val() && $('.thumb__avatar img').length === 0) {
+                    error = 1;
+
+                    $('input[name="logo"]', advert_add_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
                 if (error) {
@@ -632,33 +871,49 @@
                 }
             });
 
-            jcf.setOptions('Select', {
-                wrapNative: false,
-                flipDropToFit: false,
-                maxVisibleItems: 5
-            });
+            $('#sort_by').ddslick({
+                imagePosition: 'right',
+                onSelected: function(selectedData){
+                    var current_value = $('#sort_by').parents('.sort-wrapper').data('current-value'),
+                        selected_value = selectedData['selectedData']['value'];
 
-            jcf.replaceAll();
+                    if (current_value === selected_value || process_in_progress) {
+                        return false;
+                    }
+
+                    var url = new URI(window.location.href),
+                        url_query = url.query(true);
+
+                    url_query['sort_by'] = selected_value;
+                    url.query(url_query);
+
+                    $('#sort_by').parents('.sort-wrapper').data('current-value', selected_value);
+
+                    load_data(url, {}, $('.items'));
+                }
+            });
 
             $('#account-search-form').submit(function(e) {
                 e.preventDefault();
 
                 var form = $(this),
-                    url = new URI(window.location.href);
-
-                url.query('');
+                    url = new URI(window.location.href),
+                    url_query = url.query(true),
+                    query = {};
 
                 $.each(form.serializeArray(), function(index, item) {
                     if (item.value) {
-                        url.addQuery(item.name, item.value);
+                        query[item.name] = item.value;
                     }
                 });
 
-                load_data(url, {}, $('.items'));
-            });
+                if (url_query['sort_by']) {
+                    query['sort_by'] = url_query['sort_by'];
+                }
 
-            $('#account-search-form select[name="order"]').change(function(e) {
-                $('#account-search-form').submit();
+                url.query(query);
+
+                load_data(url, {}, $('.items'));
             });
         }
 
@@ -855,6 +1110,8 @@
                 load_data(url, {}, $('.items'));
             });
 
+            // Rewrite click event handler
+            $(document).off('click', '.thumb__favorite');
             $(document).on('click', '.thumb__favorite', function(e) {
                 e.preventDefault();
 
@@ -870,11 +1127,6 @@
                     }
                 }, 'json');
             });
-        }
-
-        // Account settings page handlers
-        if ($('.sidebar-user_cabinet').length) {
-            jcf.replaceAll();
         }
 
         // Blog handlers
@@ -925,6 +1177,7 @@
             $.get(url, data, function(response) {
                 if (response['success']) {
                     $(content).empty().append(response['data']);
+                    $('#items-count').text(response['items_count']);
                 }
 
                 if (response['page_seo_information']) {
@@ -1055,6 +1308,18 @@
             }
 
             return result;
+        }
+
+        function processNegotiatedPriceFields() {
+            $('.negotiated-price input').each(function(e) {
+                var negotiated_price = $(this).prop('checked');
+
+                if (negotiated_price === false) {
+                    $(this).parents('.item__field').find('.log__input').prop('disabled', '').removeClass('disabled');
+                } else {
+                    $(this).parents('.item__field').find('.log__input').prop('disabled', 'disabled').addClass('disabled');
+                }
+            });
         }
 
         function getCookie(name) {

@@ -38,10 +38,10 @@ class VkSocialNetworkConnector(SocialNetworkConnector):
         super(VkSocialNetworkConnector, self).__init__(*args, **kwargs)
 
         # @TODO Keep eyes on it, seems vk changed their workflow
-        """session = vk.AuthSession(app_id=settings.SOCIAL_NETWORK_VK_APP_ID,
+        session = vk.AuthSession(app_id=settings.SOCIAL_NETWORK_VK_APP_ID,
                                  user_login=settings.SOCIAL_NETWORK_VK_LOGIN,
-                                 user_password=settings.SOCIAL_NETWORK_VK_PASSWORD)"""
-        session = vk.Session()
+                                 user_password=settings.SOCIAL_NETWORK_VK_PASSWORD)
+        # session = vk.Session()
         self.api = vk.API(session)
 
     def get_account_info(self):
@@ -55,7 +55,8 @@ class VkSocialNetworkConnector(SocialNetworkConnector):
             return result
 
         try:
-            response = self.api.groups.getById(group_id=object_keyword, fields='name,members_count,photo_200')[0]
+            response = self.api.groups.getById(group_id=object_keyword,
+                                               fields='name,members_count,photo_200', v=5.103)[0]
 
             result['title'] = response['name']
             result['subscribers'] = response['members_count']
@@ -73,7 +74,7 @@ class FacebookSocialNetworkConnector(SocialNetworkConnector):
     def __init__(self, *args, **kwargs):
         super(FacebookSocialNetworkConnector, self).__init__(*args, **kwargs)
 
-        self.api = facebook.GraphAPI(version='2.7')
+        self.api = facebook.GraphAPI(version='2.9')
         self.api.access_token = self.api.get_app_access_token(settings.SOCIAL_NETWORK_FACEBOOK_KEY,
                                                               settings.SOCIAL_NETWORK_FACEBOOK_SECRET)
 
@@ -169,14 +170,15 @@ class InstagramSocialNetworkConnector(SocialNetworkConnector):
         result = {}
 
         try:
-            response = requests.get('%s?__a=1' % self.account_link.geturl())
+            headers = {'x-requested-with': 'XMLHttpRequest'}
+            response = requests.get('%s?__a=1' % self.account_link.geturl(), headers=headers)
 
             if response.status_code == 200:
                 json_data = response.json()
 
-                result['title'] = json_data['user']['full_name']
-                result['subscribers'] = json_data['user']['followed_by']['count']
-                result['logo'] = json_data['user']['profile_pic_url_hd']
+                result['title'] = json_data['graphql']['user']['full_name']
+                result['subscribers'] = json_data['graphql']['user']['edge_followed_by']['count']
+                result['logo'] = json_data['graphql']['user']['profile_pic_url_hd']
         except Exception as e:
             logger.exception(e)
 

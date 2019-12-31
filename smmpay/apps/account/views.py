@@ -1,4 +1,4 @@
-import json
+# import json
 
 from django.http import Http404, JsonResponse, HttpResponseNotAllowed
 from django.views.generic import TemplateView, RedirectView, ListView, DeleteView, FormView, DetailView, View
@@ -6,17 +6,22 @@ from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.core.paginator import Paginator
+# from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
-from registration.backends.hmac import views
-from channels import Group
-from smmpay.apps.advert.models import Discussion, DiscussionUser, Advert, FavoriteAdvert
+# from registration.backends.hmac import views
+# from channels import Group
+from django_registration.backends.activation import views
+# from smmpay.apps.advert.models import Discussion, DiscussionUser, Advert, FavoriteAdvert
+from smmpay.apps.advert.models import Advert, FavoriteAdvert
 
-from .forms import RegistrationForm, ProfileForm, PasswordChangeForm, EmailChangeForm, DiscussionMessageForm, SearchForm
+# from .forms import RegistrationForm, ProfileForm, PasswordChangeForm, EmailChangeForm, DiscussionMessageForm,
+# SearchForm
+from .forms import RegistrationForm, ProfileForm, PasswordChangeForm, EmailChangeForm, SearchForm
 from .models import Profile
 from .tokens import email_change_token_generator
 
@@ -31,39 +36,45 @@ class SearchMixin(object):
     def get_queryset(self):
         qs = super(SearchMixin, self).get_queryset()
 
-        order = self.request.GET.get('order', 'created_desc')
+        filter_form = self._get_search_form()
+        sort_by = self.SORT_CHOICES[0][0]
 
-        try:
-            order_field, order_type = order.rsplit('_', 1)
+        if filter_form.is_bound:
+            for item in self.filters:
+                if not filter_form.has_error(item) and filter_form.cleaned_data.get(item, None):
+                    search_value = filter_form.cleaned_data[item]
+                    qs_query = None
 
-            if order_field in self.sorting_fields:
-                order_str = ''
-                order_type = order_type.lower()
+                    for expression in self.filters[item]:
+                        if qs_query is None:
+                            qs_query = Q(**{expression: search_value})
+                        else:
+                            qs_query |= Q(**{expression: search_value})
 
-                if order_type == 'desc':
-                    order_str = '-{}'
-                else:
-                    order_str = '{}'
+                    if qs_query is not None:
+                        qs = qs.filter(qs_query)
 
-                qs = qs.order_by(order_str.format(order_field))
-        except ValueError:
-            pass
+            sort_by_value = filter_form.cleaned_data.get('sort_by', None)
 
-        query = self.request.GET.get('query', '')
-        query = query.strip()
+            if sort_by_value:
+                sort_by = sort_by_value
 
-        if query:
-            qs_query = None
-
-            for field in self.search_fields:
-                if qs_query is None:
-                    qs_query = Q(**{'{}__icontains'.format(field): query})
-                else:
-                    qs_query |= Q(**{'{}__icontains'.format(field): query})
-
-            qs = qs.filter(qs_query)
+        qs = qs.order_by(sort_by)
 
         return qs
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchMixin, self).get_context_data(**kwargs)
+        context['search_form'] = self._get_search_form()
+
+        return context
+
+    def _get_search_form(self):
+        if not hasattr(self, 'search_form'):
+            self.search_form = SearchForm(data=self.request.GET or None, sort_choices=self.SORT_CHOICES,
+                                          initial={'sort_by': self.SORT_CHOICES[0][0]})
+
+        return self.search_form
 
 
 class IndexView(LoginRequiredMixin, SearchMixin, ListView):
@@ -73,14 +84,17 @@ class IndexView(LoginRequiredMixin, SearchMixin, ListView):
     context_object_name = 'adverts'
     paginate_by = 4
 
-    search_fields = ('title', 'description')
-    sorting_fields = ('price', 'created')
+    filters = {
+        'search_query': ['title__icontains', 'description__icontains']
+    }
 
     SORT_CHOICES = (
-        ('created_desc', _('Newer first')),
-        ('created_asc', _('Older first')),
-        ('price_desc', _('Highest price')),
-        ('price_asc', _('Lowest price')),
+        ('created', {'label': _('Latest'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('-created', {'label': _('Latest'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+        ('min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('-min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+        ('max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('-max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_higher.png')})
     )
 
     def get(self, request, *args, **kwargs):
@@ -95,8 +109,8 @@ class IndexView(LoginRequiredMixin, SearchMixin, ListView):
         return response
 
     def get_queryset(self):
-        qs = super(IndexView, self).get_queryset().select_related('social_account')
-        qs &= self.model.objects.get_extra_queryset(select_items=['new_messages_count']).filter(
+        qs = super(IndexView, self).get_queryset()
+        qs &= self.model.objects.get_extra_queryset(select_items=['advert_in_favorite_count']).filter(
             author=self.request.user)
 
         return qs
@@ -104,10 +118,7 @@ class IndexView(LoginRequiredMixin, SearchMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
 
-        context['search_form'] = SearchForm(data=self.request.GET or None,
-                                            order_choices=self.SORT_CHOICES,
-                                            initial={'order': 'created_desc'})
-
+        context['adverts_count'] = context['adverts'].count()
         context['advert_statuses'] = {
             'ADVERT_STATUS_MODERATION': Advert.ADVERT_STATUS_MODERATION,
             'ADVERT_STATUS_VIOLATION': Advert.ADVERT_STATUS_VIOLATION,
@@ -116,6 +127,49 @@ class IndexView(LoginRequiredMixin, SearchMixin, ListView):
         return context
 
 
+class FavoritesView(LoginRequiredMixin, SearchMixin, ListView):
+    template_name = 'account/favorites.html'
+    ajax_template_name = 'account/parts/favorite_list.html'
+    model = FavoriteAdvert
+    context_object_name = 'favorites'
+    paginate_by = 4
+
+    filters = {
+        'search_query': ['advert__title__icontains', 'advert__description__icontains']
+    }
+
+    SORT_CHOICES = (
+        ('advert__created', {'label': _('Latest'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('-advert__created', {'label': _('Latest'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+        ('advert__min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('-advert__min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+        ('advert__max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('-advert__max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_higher.png')})
+    )
+
+    def get(self, request, *args, **kwargs):
+        response = super(FavoritesView, self).get(request, *args, **kwargs)
+
+        if request.is_ajax():
+            return JsonResponse({
+                'success': True,
+                'data': render_to_string(self.ajax_template_name, response.context_data, request)
+            })
+
+        return response
+
+    def get_queryset(self):
+        return super(FavoritesView, self).get_queryset().filter(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super(FavoritesView, self).get_context_data(**kwargs)
+
+        context['adverts_count'] = context['favorites'].count()
+
+        return context
+
+
+"""
 class DiscussionsView(LoginRequiredMixin, SearchMixin, ListView):
     template_name = 'account/discussions.html'
     ajax_template_name = 'account/parts/discussion_list.html'
@@ -289,47 +343,7 @@ class DiscussionMessageViewAddView(View):
                 pass
 
         return JsonResponse(response_data)
-
-
-class FavoritesView(LoginRequiredMixin, SearchMixin, ListView):
-    template_name = 'account/favorites.html'
-    ajax_template_name = 'account/parts/favorite_list.html'
-    model = FavoriteAdvert
-    context_object_name = 'favorites'
-    paginate_by = 4
-
-    search_fields = ('advert__title', 'advert__description')
-    sorting_fields = ('advert__price', 'advert__created')
-
-    SORT_CHOICES = (
-        ('advert__created_desc', _('Newer first')),
-        ('advert__created_asc', _('Older first')),
-        ('advert__price_desc', _('Highest price')),
-        ('advert__price_asc', _('Lowest price')),
-    )
-
-    def get(self, request, *args, **kwargs):
-        response = super(FavoritesView, self).get(request, *args, **kwargs)
-
-        if request.is_ajax():
-            return JsonResponse({
-                'success': True,
-                'data': render_to_string(self.ajax_template_name, response.context_data, request)
-            })
-
-        return response
-
-    def get_queryset(self):
-        return super(FavoritesView, self).get_queryset().filter(user=self.request.user)
-
-    def get_context_data(self, **kwargs):
-        context = super(FavoritesView, self).get_context_data(**kwargs)
-
-        context['search_form'] = SearchForm(data=self.request.GET or None,
-                                            order_choices=self.SORT_CHOICES,
-                                            initial={'order': 'created_desc'})
-
-        return context
+"""
 
 
 class FavoriteDeleteView(View):
@@ -441,7 +455,6 @@ class SettingsView(LoginRequiredMixin, TemplateView):
 
 
 class RegistrationView(views.RegistrationView):
-    template_name = 'registration/registration.html'
     form_class = RegistrationForm
 
     def dispatch(self, *args, **kwargs):
@@ -453,7 +466,7 @@ class RegistrationView(views.RegistrationView):
         return dispatch
 
     def get_success_url(self, user):
-        return reverse('account:registration_complete')
+        return reverse('account:django_registration_complete')
 
     def register(self, form):
         new_user = super(RegistrationView, self).register(form)
@@ -472,7 +485,11 @@ class RegistrationView(views.RegistrationView):
 
 class ActivationView(views.ActivationView):
     def get_success_url(self, user):
-        return reverse('account:registration_activation_complete')
+        return reverse('account:account_activation_complete')
+
+
+class ActivationCompleteView(TemplateView):
+    template_name = 'django_registration/activation_complete.html'
 
 
 class EmailChangeConfirmView(LoginRequiredMixin, RedirectView):

@@ -1,7 +1,7 @@
 from django.db.models import signals
 from django.dispatch import receiver
 
-from .models import Advert
+from .models import Advert, AdvertSocialAccountService
 from .tasks import send_notification_for_author
 
 
@@ -16,3 +16,9 @@ def create_notification_for_author_task(created, instance, **kwargs):
        instance.status in (Advert.ADVERT_STATUS_PUBLISHED,
                            Advert.ADVERT_STATUS_VIOLATION)):
         send_notification_for_author.delay(instance.id)
+
+
+@receiver(signals.pre_save, sender=AdvertSocialAccountService)
+def check_price_fields(sender, instance, **kwargs):
+    if instance.negotiated_price is True and instance.price:
+        instance.price = None

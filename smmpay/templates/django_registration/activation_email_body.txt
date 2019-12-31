@@ -1,0 +1,12 @@
+{% load i18n %}{% autoescape off %}{% blocktrans %}
+    Dear {{ user}},
+
+    For curtained registering on the site and activate your user, please click here below:
+    {% endblocktrans %}
+
+    http://{{ site.domain }}{% url 'account:account_activation' activation_key=activation_key %}
+
+    {% blocktrans %}
+    Attention! You only have {{ expiration_days }} to activate later registration process needs to be repeated.
+    {% endblocktrans %}
+{% endautoescape %}

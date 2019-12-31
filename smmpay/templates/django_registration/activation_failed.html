@@ -1,0 +1,10 @@
+{% extends 'base/base_html.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class="content-other_text">
+        <h2>{% trans 'Activation failed' %}</h2>
+        <br>
+        <p>{{ activation_error.message }}</p>
+    </div>
+{% endblock %}

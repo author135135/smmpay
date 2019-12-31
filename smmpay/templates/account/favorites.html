@@ -14,12 +14,24 @@
 {% endblock %}
 
 {% block content %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
+        </li>
+        <li>
+            <a href="{% url 'account:index' %}">{% trans 'My account' %}</a>
+        </li>
+        <li>
+            <a href="#">{% trans 'Favorites' %}</a>
+        </li>
+    </ul>
+
     {{ block.super }}
 
-    <div class="inner__content user-favorites_content">
+    <div class="inner__content user-ads_content user-favorites_content">
         <div class="nav-user-search">
             <div class="global-title_box">
-                <h1>{% trans 'Favorites' %}</h1>
+                <h1>{% trans 'Favorites' %} ({{ adverts_count }})</h1>
             </div>
             <div class="sort-content">
                 {% include 'account/parts/search_form.html' %}

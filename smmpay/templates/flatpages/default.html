@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load advert_tags %}
 
-{% block breadcrumbs %}
+{% block content %}
     <ul class="breadcrumb">
         <li>
             <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
@@ -11,9 +11,6 @@
             <a href="#">{{ flatpage.title }}</a>
         </li>
     </ul>
-{% endblock %}
-
-{% block content %}
     <div class="inner__content other-page_content">
         <div class="global-title_box">
             <h1>{{ flatpage.title }}</h1>

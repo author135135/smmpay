@@ -1,7 +1,7 @@
 <form id="account-search-form" class="filter__form-search">
     <div class="filter__row">
         <label class="filter__label filter__label--search">
-            {{ search_form.query }}
+            {{ search_form.search_query }}
             <button type="submit">
                 <svg class="search-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                     <g>
@@ -12,9 +12,13 @@
         </label>
     </div>
     <div class="sort-item">
-        <label class="filter__label">
-            <span class="filter__title">{{ search_form.order.label }}</span>
-            {{ search_form.order }}
-        </label>
+        <div class="sort">
+            <label class="filter__label">
+                <span class="filter__title">{{ search_form.sort_by.label }}:</span>
+                <div class="sort-wrapper" data-current-value="{{ search_form.sort_by.value }}">
+                    {{ search_form.sort_by }}
+                </div>
+            </label>
+        </div>
     </div>
 </form>
