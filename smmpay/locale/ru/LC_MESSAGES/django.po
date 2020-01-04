@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-28 14:22+0200\n"
+"POT-Creation-Date: 2020-01-04 17:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -231,40 +231,40 @@ msgstr "Теперь вы можете вписать цену для конкр
 msgid "Service"
 msgstr "Услуга"
 
-#: smmpay/apps/advert/forms.py:96
-msgid "This value already selected"
-msgstr "Такое значение уже выбрано"
-
-#: smmpay/apps/advert/forms.py:100 smmpay/apps/advert/forms.py:102
-#: smmpay/apps/advert/forms.py:198
+#: smmpay/apps/advert/forms.py:79 smmpay/apps/advert/forms.py:109
+#: smmpay/apps/advert/forms.py:111 smmpay/apps/advert/forms.py:207
 msgid "This field is required."
 msgstr "Обязательное поле"
 
-#: smmpay/apps/advert/forms.py:119
+#: smmpay/apps/advert/forms.py:105
+msgid "This value already selected"
+msgstr "Такое значение уже выбрано"
+
+#: smmpay/apps/advert/forms.py:128
 msgid "Enter the price of the minimum service on your site"
 msgstr "Впишите цену минимальной услуги на вашей площадке"
 
-#: smmpay/apps/advert/forms.py:120
+#: smmpay/apps/advert/forms.py:129
 msgid "Enter the price of the maximum service on your site"
 msgstr "Впишите цену максимальной услуги на вашей площадке"
 
-#: smmpay/apps/advert/forms.py:121
+#: smmpay/apps/advert/forms.py:130
 msgid "Select category"
 msgstr "Выберите тематику"
 
-#: smmpay/apps/advert/forms.py:122
+#: smmpay/apps/advert/forms.py:131
 msgid "Add a description of your site, indicate the benefits"
 msgstr "Добавьте описание вашей площадки, укажите преимущества"
 
-#: smmpay/apps/advert/forms.py:133
+#: smmpay/apps/advert/forms.py:142
 msgid "Logo"
 msgstr "Логотип"
 
-#: smmpay/apps/advert/forms.py:143
+#: smmpay/apps/advert/forms.py:152
 msgid "Paste a link to a page, group or channel"
 msgstr "Вставьте ссылку на страницу, группу или канал"
 
-#: smmpay/apps/advert/forms.py:147
+#: smmpay/apps/advert/forms.py:156
 msgid ""
 "You have inserted an incorrect value for the link to the page, group or "
 "account that you are selling *"
@@ -272,7 +272,7 @@ msgstr ""
 "Вы вставили неверное значение для ссылки на страницу, группу или учетную "
 "запись, которую вы продаете *"
 
-#: smmpay/apps/advert/forms.py:168 smmpay/apps/advert/forms.py:185
+#: smmpay/apps/advert/forms.py:177 smmpay/apps/advert/forms.py:194
 msgid "Can not download logo automatically,please select it manually"
 msgstr "Невозможно загрузить логотип автоматически, выберите его вручную"
 
@@ -511,7 +511,7 @@ msgstr "аккаунты социальной сети"
 msgid "price"
 msgstr "цена"
 
-#: smmpay/apps/advert/models.py:401
+#: smmpay/apps/advert/models.py:401 smmpay/templates/advert/advert.html:135
 msgid "negotiated price"
 msgstr "договорная цена"
 
@@ -876,7 +876,7 @@ msgstr "Опубликовано"
 
 #: smmpay/templates/account/discussion.html:56
 #: smmpay/templates/account/parts/advert_list.html:80
-#: smmpay/templates/advert/advert.html:210
+#: smmpay/templates/advert/advert.html:216
 msgid "Views"
 msgstr "Просмотров"
 
@@ -887,7 +887,7 @@ msgstr "Посмотреть"
 
 #: smmpay/templates/account/discussion.html:85
 #: smmpay/templates/account/parts/advert_list.html:112
-#: smmpay/templates/advert/advert.html:195
+#: smmpay/templates/advert/advert.html:201
 msgid "Edit"
 msgstr "Редактировать"
 
@@ -1035,45 +1035,45 @@ msgstr "Ссылка"
 msgid "Subscribers"
 msgstr "Подписчиков"
 
-#: smmpay/templates/advert/advert.html:148
+#: smmpay/templates/advert/advert.html:154
 msgid "Date of publication"
 msgstr "Дата публикации"
 
-#: smmpay/templates/advert/advert.html:152
+#: smmpay/templates/advert/advert.html:158
 #: smmpay/templates/advert/advert_add.html:224
 #: smmpay/templates/advert/advert_edit.html:213
 msgid "Verification"
 msgstr "Верификация"
 
-#: smmpay/templates/advert/advert.html:155
+#: smmpay/templates/advert/advert.html:161
 msgid "The author confirmed"
 msgstr "Автор подтвердил"
 
-#: smmpay/templates/advert/advert.html:157
+#: smmpay/templates/advert/advert.html:163
 msgid "The author did not confirm"
 msgstr "Автор не подтвердил"
 
-#: smmpay/templates/advert/advert.html:162
+#: smmpay/templates/advert/advert.html:168
 msgid "Description"
 msgstr "Описание"
 
-#: smmpay/templates/advert/advert.html:179
+#: smmpay/templates/advert/advert.html:185
 msgid "Delete from favorites"
 msgstr "В избранном"
 
-#: smmpay/templates/advert/advert.html:181
+#: smmpay/templates/advert/advert.html:187
 msgid "Add to favorites"
 msgstr "В избранное"
 
-#: smmpay/templates/advert/advert.html:220
+#: smmpay/templates/advert/advert.html:226
 msgid "Previous advert"
 msgstr "Предыдущее объявление"
 
-#: smmpay/templates/advert/advert.html:225
+#: smmpay/templates/advert/advert.html:231
 msgid "Next advert"
 msgstr "Следующее объявление"
 
-#: smmpay/templates/advert/advert.html:235
+#: smmpay/templates/advert/advert.html:241
 msgid "Return to advert search"
 msgstr "Вернуться к поиску"
 
@@ -1283,42 +1283,37 @@ msgid "Log in"
 msgstr "Вход"
 
 #: smmpay/templates/django_registration/activation_email_body.txt:1
-#, python-format
 msgid ""
 "\n"
-"    Dear %(user)s,\n"
+"Dear %(user)s,\n"
 "\n"
-"    For curtained registering on the site and activate your user, please "
-"click here below:\n"
-"    "
+"For curtained registering on the site and activate your user, please click "
+"here below:\n"
 msgstr ""
 "\n"
-"    Уважаемый %(user)s,\n"
+"Уважаемый %(user)s,\n"
 "\n"
-"    Для завершения регистрации и активации вашего пользователя пожалуйста "
+"Для завершения регистрации и активации вашего пользователя пожалуйста "
 "перейдите по ссылке ниже:\n"
-"    "
+""
 
 #: smmpay/templates/django_registration/activation_email_body.txt:9
-#, python-format
 msgid ""
 "\n"
-"    Attention! You only have %(expiration_days)s to activate later "
-"registration process needs to be repeated.\n"
-"    "
+"Attention! You only have %(expiration_days)s to activate later registration "
+"process needs to be repeated.\n"
+""
 msgstr ""
 "\n"
-"    Внимание! У вас есть только %(expiration_days)s дней для активации иначе "
+"Внимание! У вас есть только %(expiration_days)s дней для активации иначе "
 "регистрацию нужно будет повторить.\n"
-"    "
+""
 
 #: smmpay/templates/django_registration/activation_email_subject.txt:3
 msgid "Registration on site"
 msgstr "Регистрация на сайте"
 
 #: smmpay/templates/django_registration/activation_failed.html:6
-#, fuzzy
-#| msgid "Activation complete"
 msgid "Activation failed"
 msgstr "Активация завершена"
 
