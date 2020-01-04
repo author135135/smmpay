@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-04 17:05+0200\n"
+"POT-Creation-Date: 2020-01-04 17:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1283,6 +1283,7 @@ msgid "Log in"
 msgstr "Вход"
 
 #: smmpay/templates/django_registration/activation_email_body.txt:1
+#, python-format
 msgid ""
 "\n"
 "Dear %(user)s,\n"
@@ -1295,19 +1296,17 @@ msgstr ""
 "\n"
 "Для завершения регистрации и активации вашего пользователя пожалуйста "
 "перейдите по ссылке ниже:\n"
-""
 
 #: smmpay/templates/django_registration/activation_email_body.txt:9
+#, python-format
 msgid ""
 "\n"
 "Attention! You only have %(expiration_days)s to activate later registration "
 "process needs to be repeated.\n"
-""
 msgstr ""
 "\n"
 "Внимание! У вас есть только %(expiration_days)s дней для активации иначе "
 "регистрацию нужно будет повторить.\n"
-""
 
 #: smmpay/templates/django_registration/activation_email_subject.txt:3
 msgid "Registration on site"
