@@ -1,5 +1,5 @@
 {% load i18n %}{% autoescape off %}{% blocktrans %}
-Dear {{ user}},
+Dear {{ user }},
 
 For curtained registering on the site and activate your user, please click here below:
 {% endblocktrans %}
