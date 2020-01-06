@@ -260,7 +260,7 @@
 
                 $('select[name^="social_account_services"] option:not(:first-child)').remove();
                 $('select[name^="social_account_services"]').val('');
-                $('input[name^="social_account_services"]').val('');
+                $('input[type="number"][name^="social_account_services"]').val('');
 
                 $("select").select2({
                     minimumResultsForSearch: -1
@@ -511,7 +511,7 @@
 
                 $('select[name^="social_account_services"] option:not(:first-child)').remove();
                 $('select[name^="social_account_services"]').val('');
-                $('input[name^="social_account_services"]').val('');
+                $('input[type="number"][name^="social_account_services"]').val('');
 
                 $('.item.avatar .item__field .thumb__avatar').remove();
 
