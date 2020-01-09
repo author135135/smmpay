@@ -2,6 +2,7 @@ import logging
 import sys
 import requests
 import re
+import json
 
 import vk
 import facebook
@@ -15,6 +16,8 @@ from apiclient.errors import HttpError
 from bs4 import BeautifulSoup
 
 from urllib import parse
+
+from smmpay.apps.advert.utils.parsers import WebClient
 
 logger = logging.getLogger('db')
 
@@ -222,6 +225,30 @@ class TelegramSocialNetworkConnector(SocialNetworkConnector):
                             result['subscribers'] = int(subscribers)
                         except ValueError:
                             pass
+        except Exception as e:
+            logger.exception(e)
+
+        return result
+
+
+class TiktokSocialNetworkConnector(SocialNetworkConnector):
+    def get_account_info(self):
+        result = {}
+
+        try:
+            client = WebClient()
+            content = client.get_page_content(self.account_link.geturl())
+
+            parser = BeautifulSoup(content, features='lxml')
+
+            element_script = parser.select_one('#__NEXT_DATA__')
+
+            if element_script is not None:
+                json_data = json.loads(element_script.text)
+
+                result['logo'] = json_data['props']['pageProps']['userData']['coversMedium'][0]
+                result['title'] = json_data['props']['pageProps']['userData']['nickName']
+                result['subscribers'] = json_data['props']['pageProps']['userData']['fans']
         except Exception as e:
             logger.exception(e)
 

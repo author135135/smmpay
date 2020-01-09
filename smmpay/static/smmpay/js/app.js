@@ -283,7 +283,7 @@
                         $.each(response['fields'], function(field, value) {
                             var form_field = $('input[name="' + field + '"]', advert_add_form);
 
-                            if (value) {
+                            if (value != null) {
                                 $(form_field).val(value);
                             } else {
                                 if (field === 'external_logo') {
@@ -304,7 +304,7 @@
                             info_table_html += '<div class="item"><div class="item__label">' + gettext('title') + '</div><div class="item__field">' + response['fields']['title'] + '</div></div>';
                         }
 
-                        if (response['fields']['subscribers']) {
+                        if (response['fields']['subscribers'] !== null) {
                             info_table_html += '<div class="item"><div class="item__label">' + gettext('subscribers') + '</div><div class="item__field">' + response['fields']['subscribers'] + '</div></div>';
                         }
 
@@ -449,7 +449,7 @@
                     $('input[name="title"]', advert_add_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
-                if (result['success'] && !$('input[name="subscribers"]', advert_add_form).val()) {
+                if (result['success'] && $.trim($('input[name="subscribers"]', advert_add_form).val()) === "") {
                     error = 1;
 
                     $('input[name="subscribers"]', advert_add_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
@@ -532,7 +532,7 @@
                         $.each(response['fields'], function(field, value) {
                             var form_field = $('input[name="' + field + '"]', advert_edit_form);
 
-                            if (value) {
+                            if (value !== null) {
                                 $(form_field).val(value);
                             }
                         });
@@ -693,7 +693,7 @@
                     $('input[name="title"]', advert_add_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
-                if (result['success'] && !$('input[name="subscribers"]', advert_add_form).val()) {
+                if (result['success'] && $.trim($('input[name="subscribers"]', advert_add_form).val()) === "") {
                     error = 1;
 
                     $('input[name="subscribers"]', advert_add_form).after('<div class="error_input">' + gettext('This field is required') + '</div>');
@@ -1269,6 +1269,14 @@
                                 /^https:\/\/www\.t\.me\/[a-zA-Z0-9_]+\/?$/g
                             ],
                             'valid_pattern': 'https://www.t.me/xxxxxxx, https://t.me/xxxxxxx'
+                        },
+                        'tiktok': {
+                            'hosts': ['www.tiktok.com', 'tiktok.com'],
+                            'patterns': [
+                                /^https:\/\/www\.tiktok\.com\/@[a-zA-Z0-9_.]+\/?$/g,
+                                /^https:\/\/tiktok\.com\/@[a-zA-Z0-9_.]+\/?$/g
+                            ],
+                            'valid_pattern': 'https://www.tiktok.com/@xxxxxxx, https://tiktok.com/@xxxxxxx'
                         }
                     };
 
@@ -1302,7 +1310,7 @@
                 if (!is_valid && result['success']) {
                     result = {
                         'success': false,
-                        'error': gettext('You have inserted an incorrect value for the link to the page, group or account that you are selling *')
+                        'error': gettext('You have inserted an incorrect value for the link to the page, group or account *')
                     };
                 }
             }

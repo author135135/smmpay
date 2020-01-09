@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-30 12:08+0200\n"
+"POT-Creation-Date: 2020-01-09 15:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,76 +19,83 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: smmpay/static/smmpay/js/app.js:166
+#: smmpay/static/smmpay/js/app.js:202
 msgid "Delete from favorites"
 msgstr "В избранном"
 
-#: smmpay/static/smmpay/js/app.js:168
+#: smmpay/static/smmpay/js/app.js:204
 msgid "Add to favorites"
 msgstr "В избранное"
 
-#: smmpay/static/smmpay/js/app.js:173 smmpay/static/smmpay/js/app.js:877
+#: smmpay/static/smmpay/js/app.js:209 smmpay/static/smmpay/js/app.js:1159
 msgid "You must be logged to perform this operation"
 msgstr "Вы должны войти в систему для выполнения этой операции"
 
-#: smmpay/static/smmpay/js/app.js:258
+#: smmpay/static/smmpay/js/app.js:300
 msgid "logo"
 msgstr "логотип"
 
-#: smmpay/static/smmpay/js/app.js:262
+#: smmpay/static/smmpay/js/app.js:304
 msgid "title"
 msgstr "название"
 
-#: smmpay/static/smmpay/js/app.js:266
+#: smmpay/static/smmpay/js/app.js:308
 msgid "subscribers"
 msgstr "подписчиков"
 
-#: smmpay/static/smmpay/js/app.js:292 smmpay/static/smmpay/js/app.js:302
-#: smmpay/static/smmpay/js/app.js:308 smmpay/static/smmpay/js/app.js:314
-#: smmpay/static/smmpay/js/app.js:371 smmpay/static/smmpay/js/app.js:414
-#: smmpay/static/smmpay/js/app.js:424 smmpay/static/smmpay/js/app.js:430
-#: smmpay/static/smmpay/js/app.js:436 smmpay/static/smmpay/js/app.js:457
-#: smmpay/static/smmpay/js/app.js:467 smmpay/static/smmpay/js/app.js:488
-#: smmpay/static/smmpay/js/app.js:494 smmpay/static/smmpay/js/app.js:504
-#: smmpay/static/smmpay/js/app.js:510 smmpay/static/smmpay/js/app.js:531
-#: smmpay/static/smmpay/js/app.js:934
+#: smmpay/static/smmpay/js/app.js:386 smmpay/static/smmpay/js/app.js:392
+#: smmpay/static/smmpay/js/app.js:398 smmpay/static/smmpay/js/app.js:426
+#: smmpay/static/smmpay/js/app.js:433 smmpay/static/smmpay/js/app.js:442
+#: smmpay/static/smmpay/js/app.js:443 smmpay/static/smmpay/js/app.js:449
+#: smmpay/static/smmpay/js/app.js:455 smmpay/static/smmpay/js/app.js:461
+#: smmpay/static/smmpay/js/app.js:630 smmpay/static/smmpay/js/app.js:636
+#: smmpay/static/smmpay/js/app.js:642 smmpay/static/smmpay/js/app.js:670
+#: smmpay/static/smmpay/js/app.js:677 smmpay/static/smmpay/js/app.js:686
+#: smmpay/static/smmpay/js/app.js:687 smmpay/static/smmpay/js/app.js:693
+#: smmpay/static/smmpay/js/app.js:699 smmpay/static/smmpay/js/app.js:705
+#: smmpay/static/smmpay/js/app.js:726 smmpay/static/smmpay/js/app.js:736
+#: smmpay/static/smmpay/js/app.js:757 smmpay/static/smmpay/js/app.js:763
+#: smmpay/static/smmpay/js/app.js:773 smmpay/static/smmpay/js/app.js:779
+#: smmpay/static/smmpay/js/app.js:800 smmpay/static/smmpay/js/app.js:1231
 msgid "This field is required"
 msgstr "Поле обязательно к заполнению"
 
-#: smmpay/static/smmpay/js/app.js:296 smmpay/static/smmpay/js/app.js:375
-#: smmpay/static/smmpay/js/app.js:418 smmpay/static/smmpay/js/app.js:991
-msgid ""
-"You have inserted an incorrect value for the link to the page, group or "
-"account that you are selling *"
-msgstr ""
-"Вы вставили неверную ссылку на страницу, группу или аккаунт что вы продаете *"
+#: smmpay/static/smmpay/js/app.js:418 smmpay/static/smmpay/js/app.js:662
+msgid "This value already selected"
+msgstr "Это значение уже выбрано"
 
-#: smmpay/static/smmpay/js/app.js:461 smmpay/static/smmpay/js/app.js:498
-#: smmpay/static/smmpay/js/app.js:535
+#: smmpay/static/smmpay/js/app.js:730 smmpay/static/smmpay/js/app.js:767
+#: smmpay/static/smmpay/js/app.js:804
 msgid "Incorrect email address"
 msgstr "Неправильный email"
 
-#: smmpay/static/smmpay/js/app.js:585
+#: smmpay/static/smmpay/js/app.js:854
 msgid "Your message was successfully sent"
 msgstr "Ваше сообщение было успешно отправлено"
 
-#: smmpay/static/smmpay/js/app.js:656
+#: smmpay/static/smmpay/js/app.js:941
 msgid "Active"
 msgstr "Активно"
 
-#: smmpay/static/smmpay/js/app.js:657
+#: smmpay/static/smmpay/js/app.js:942
 msgid "Deactivate"
 msgstr "Деактивировать"
 
-#: smmpay/static/smmpay/js/app.js:659
+#: smmpay/static/smmpay/js/app.js:944
 msgid "Deactivated"
 msgstr "Отключено"
 
-#: smmpay/static/smmpay/js/app.js:660
+#: smmpay/static/smmpay/js/app.js:945
 msgid "Activate"
 msgstr "Активировать"
 
-#: smmpay/static/smmpay/js/app.js:974
+#: smmpay/static/smmpay/js/app.js:1300
 msgid "Seems you wrote incorrect link. The link should be in the format "
+msgstr "Возможно вы неправильно ввели ссылку, ссылка должны быть в формате "
+
+#: smmpay/static/smmpay/js/app.js:1313
+msgid ""
+"You have inserted an incorrect value for the link to the page, group or "
+"account *"
 msgstr ""
-"Возможно вы неправильно ввели ссылку, ссылка должны быть в формате "
+"Вы вставили неверную ссылку на страницу, группу или аккаунт *"

@@ -278,7 +278,7 @@ class Advert(models.Model):
         (ADVERT_SPECIAL_STATUS_VIP, _('Vip status'))
     )
 
-    title = models.CharField(_('title'), max_length=255)
+    title = models.CharField(_('title'), max_length=80)
     description = models.TextField(_('description'), blank=True)
     advert_type = models.CharField(_('type of advert'), max_length=25, choices=ADVERT_TYPES,
                                    default=ADVERT_TYPE_SOCIAL_ACCOUNT)

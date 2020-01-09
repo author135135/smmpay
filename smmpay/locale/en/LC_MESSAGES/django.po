@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-09 13:36+0200\n"
+"POT-Creation-Date: 2020-01-09 15:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -377,7 +377,7 @@ msgid "Social account"
 msgstr ""
 
 #: smmpay/apps/advert/models.py:266
-#: smmpay/templates/account/parts/advert_list.html:75
+#: smmpay/templates/account/parts/advert_list.html:77
 msgid "Published"
 msgstr ""
 
@@ -854,39 +854,39 @@ msgid "Publication"
 msgstr ""
 
 #: smmpay/templates/account/discussion.html:56
-#: smmpay/templates/account/parts/advert_list.html:80
+#: smmpay/templates/account/parts/advert_list.html:82
 #: smmpay/templates/advert/advert.html:216
 msgid "Views"
 msgstr ""
 
 #: smmpay/templates/account/discussion.html:74
-#: smmpay/templates/account/parts/advert_list.html:102
+#: smmpay/templates/account/parts/advert_list.html:104
 msgid "View advert"
 msgstr ""
 
 #: smmpay/templates/account/discussion.html:85
-#: smmpay/templates/account/parts/advert_list.html:112
+#: smmpay/templates/account/parts/advert_list.html:114
 #: smmpay/templates/advert/advert.html:201
 msgid "Edit"
 msgstr ""
 
 #: smmpay/templates/account/discussion.html:90
-#: smmpay/templates/account/parts/advert_list.html:117
+#: smmpay/templates/account/parts/advert_list.html:119
 msgid "Active"
 msgstr ""
 
 #: smmpay/templates/account/discussion.html:94
-#: smmpay/templates/account/parts/advert_list.html:121
+#: smmpay/templates/account/parts/advert_list.html:123
 msgid "Deactivate"
 msgstr ""
 
 #: smmpay/templates/account/discussion.html:99
-#: smmpay/templates/account/parts/advert_list.html:126
+#: smmpay/templates/account/parts/advert_list.html:128
 msgid "Disabled"
 msgstr ""
 
 #: smmpay/templates/account/discussion.html:103
-#: smmpay/templates/account/parts/advert_list.html:130
+#: smmpay/templates/account/parts/advert_list.html:132
 msgid "Activate"
 msgstr ""
 
@@ -942,14 +942,14 @@ msgstr ""
 msgid "advertising price range"
 msgstr ""
 
-#: smmpay/templates/account/parts/advert_list.html:85
+#: smmpay/templates/account/parts/advert_list.html:87
 msgid "Added to favorites"
 msgstr ""
 
-#: smmpay/templates/account/parts/advert_list.html:178
+#: smmpay/templates/account/parts/advert_list.html:180
 #: smmpay/templates/account/parts/discussion_list.html:76
-#: smmpay/templates/account/parts/favorite_list.html:94
-#: smmpay/templates/advert/parts/advert_list.html:94
+#: smmpay/templates/account/parts/favorite_list.html:96
+#: smmpay/templates/advert/parts/advert_list.html:96
 #: smmpay/templates/blog/parts/post_list.html:25
 msgid "There is nothing to show"
 msgstr ""
@@ -963,8 +963,8 @@ msgstr ""
 msgid "Advert creator"
 msgstr ""
 
-#: smmpay/templates/account/parts/favorite_list.html:84
-#: smmpay/templates/advert/parts/advert_list.html:84
+#: smmpay/templates/account/parts/favorite_list.html:86
+#: smmpay/templates/advert/parts/advert_list.html:86
 #: smmpay/templates/blog/parts/post_list.html:17
 msgid "Read more"
 msgstr ""
