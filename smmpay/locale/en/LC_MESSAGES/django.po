@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-04 17:40+0200\n"
+"POT-Creation-Date: 2020-01-09 13:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -678,89 +678,107 @@ msgstr ""
 
 #: smmpay/apps/seo/templates.py:7
 #, python-format
-msgid "Sell group, public vkontakte - %s"
+msgid "VKontakte advertising - %s"
 msgstr ""
 
 #: smmpay/apps/seo/templates.py:8
-msgid "Sell ​​or buy a group, public vkontakte. Safe transaction."
+msgid "Sell ​​or buy ads on VKontakte"
 msgstr ""
 
 #: smmpay/apps/seo/templates.py:9
 msgid ""
-"Buy group vkontakte, buy group vk, buy public, buy a community, buy a group "
-"in vk"
+"Buy VKontakte ads, VK exchange, find advertisers for VKontakte group, sell "
+"ads in VK"
 msgstr ""
 
 #: smmpay/apps/seo/templates.py:12
 #, python-format
-msgid "Sell a Youtube channel - %s"
+msgid "Youtube advertising - %s"
 msgstr ""
 
 #: smmpay/apps/seo/templates.py:13
-msgid "Sell ​​or buy a Youtube channel. Safe transaction."
+msgid "Sell ​​or buy Youtube ads"
 msgstr ""
 
 #: smmpay/apps/seo/templates.py:14
 msgid ""
-"Buy YouTube channel, buy youtube channel, buy YouTube, buy youtube, buy "
-"channel"
-msgstr ""
-
-#: smmpay/apps/seo/templates.py:17
-#, python-format
-msgid "Sell a Facebook group - %s"
+"Buy ads on YouTube, youtube channel exchange, find advertisers for YouTube "
+"channel, sell ads on YouTube"
 msgstr ""
 
 #: smmpay/apps/seo/templates.py:18
-msgid "Sell ​​or buy a Facebook group. Safe transaction."
+#, python-format
+msgid "Facebook advertising - %s"
 msgstr ""
 
 #: smmpay/apps/seo/templates.py:19
+msgid "Sell ​​or buy Facebook ads"
+msgstr ""
+
+#: smmpay/apps/seo/templates.py:20
 msgid ""
-"Buy group Facebook, buy group fb, buy public, buy community, buy group in "
-"facebook"
-msgstr ""
-
-#: smmpay/apps/seo/templates.py:22
-#, python-format
-msgid "Sell an Instagram account - %s"
-msgstr ""
-
-#: smmpay/apps/seo/templates.py:23
-msgid "Sell ​​or buy an Instagram account. Safe transaction."
+"Buy advertising on facebook, the exchange of facebook groups, find "
+"advertisers for facebook groups, sell advertising on facebook"
 msgstr ""
 
 #: smmpay/apps/seo/templates.py:24
-msgid ""
-"Buy account instagram, buy account inst, buy account, buy account in "
-"instagram"
-msgstr ""
-
-#: smmpay/apps/seo/templates.py:27
 #, python-format
-msgid "Sell a Twitter account - %s"
+msgid "Instagram advertising - %s"
 msgstr ""
 
-#: smmpay/apps/seo/templates.py:28
-msgid "Sell ​​or buy a Twitter account. Safe transaction."
+#: smmpay/apps/seo/templates.py:25
+msgid "Sell ​​or buy Instagram ads"
 msgstr ""
 
-#: smmpay/apps/seo/templates.py:29
+#: smmpay/apps/seo/templates.py:26
 msgid ""
-"Buy account twitter, buy account tw, buy account, buy account in twitter"
+"Buy ads on instagram, instagram account exchange, find advertisers for "
+"instagram, sell ads on instagram"
+msgstr ""
+
+#: smmpay/apps/seo/templates.py:30
+#, python-format
+msgid "Twitter advertising - %s"
+msgstr ""
+
+#: smmpay/apps/seo/templates.py:31
+msgid "Sell ​​or buy Twitter ads"
 msgstr ""
 
 #: smmpay/apps/seo/templates.py:32
+msgid ""
+"Buy advertising on twitter, the exchange of twitter groups, find advertisers "
+"for twitter groups, sell advertising on twitter"
+msgstr ""
+
+#: smmpay/apps/seo/templates.py:36
 #, python-format
-msgid "Selling the Telegram channel - %s"
+msgid "Telegram advertising - %s"
 msgstr ""
 
-#: smmpay/apps/seo/templates.py:33
-msgid "Sell ​​or buy the Telegram channel. Safe transaction."
+#: smmpay/apps/seo/templates.py:37
+msgid "Sell ​​or buy Telegram ads"
 msgstr ""
 
-#: smmpay/apps/seo/templates.py:34
-msgid "Buy a telegram channel, buy telegram, buy a channel"
+#: smmpay/apps/seo/templates.py:38
+msgid ""
+"Buy telegram advertising, telegram exchange of channels, find advertisers "
+"for telegram channel, sell advertising in telegram"
+msgstr ""
+
+#: smmpay/apps/seo/templates.py:42
+#, python-format
+msgid "Tiktok advertising - %s"
+msgstr ""
+
+#: smmpay/apps/seo/templates.py:43
+msgid "Sell ​​or buy adverts at Tiktok"
+msgstr ""
+
+#: smmpay/apps/seo/templates.py:44
+msgid ""
+"Buy adverts in Tik Tok, Tiktok exchange, find advertisers for Tiktok, sell "
+"advertisements in Tiktok"
 msgstr ""
 
 #: smmpay/templates/account/account_base.html:8

@@ -70,7 +70,7 @@ class AdvertAdmin(admin.ModelAdmin):
 class AdvertSocialAccountServiceAdmin(admin.ModelAdmin):
     list_display = ('social_account', '_get_social_network', '_get_service', 'price', 'negotiated_price')
     list_per_page = 20
-    search_fields = ('social_account',)
+    search_fields = ('social_account__advert__title',)
 
     def _get_social_network(self, obj):
         return obj.social_account.social_network

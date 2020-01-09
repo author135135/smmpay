@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-04 17:40+0200\n"
+"POT-Creation-Date: 2020-01-09 13:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -400,22 +400,16 @@ msgid "Violation"
 msgstr "Нарушение"
 
 #: smmpay/apps/advert/models.py:276
-#, fuzzy
-#| msgid "active status"
 msgid "No special status"
-msgstr "активировано"
+msgstr "Нет специального статуса"
 
 #: smmpay/apps/advert/models.py:277
-#, fuzzy
-#| msgid "status"
 msgid "Top status"
-msgstr "статус"
+msgstr "Статус ТОП"
 
 #: smmpay/apps/advert/models.py:278
-#, fuzzy
-#| msgid "status"
 msgid "Vip status"
-msgstr "статус"
+msgstr "Статус ВИП"
 
 #: smmpay/apps/advert/models.py:282
 msgid "description"
@@ -451,10 +445,8 @@ msgid "status"
 msgstr "статус"
 
 #: smmpay/apps/advert/models.py:293
-#, fuzzy
-#| msgid "active status"
 msgid "special status"
-msgstr "активировано"
+msgstr "Специальный статус"
 
 #: smmpay/apps/advert/models.py:294
 msgid "special status start"
@@ -705,102 +697,116 @@ msgstr "SEO данные страницы"
 
 #: smmpay/apps/seo/templates.py:7
 #, python-format
-msgid "Sell group, public vkontakte - %s"
-msgstr "Продам группу, паблик вконтакте - %s"
+msgid "VKontakte advertising - %s"
+msgstr "Реклама в вконтакте - %s"
 
 #: smmpay/apps/seo/templates.py:8
-msgid "Sell ​​or buy a group, public vkontakte. Safe transaction."
-msgstr "Продать или купить группу, паблик вконтакте. Безопасная сделка."
+msgid "Sell ​​or buy ads on VKontakte"
+msgstr "Продать или купить рекламу в вконтакте"
 
 #: smmpay/apps/seo/templates.py:9
 msgid ""
-"Buy group vkontakte, buy group vk, buy public, buy a community, buy a group "
-"in vk"
+"Buy VKontakte ads, VK exchange, find advertisers for VKontakte group, sell "
+"ads in VK"
 msgstr ""
-"Купить группу вконтакте, купить группу вк, купить паблик, куплю сообщество, "
-"купить группу в vk"
+"Купить рекламу вконтакте, биржа вк, найти рекламодателей для группы "
+"вконтакте, продать рекламу в паблике вк"
 
 #: smmpay/apps/seo/templates.py:12
 #, python-format
-msgid "Sell a Youtube channel - %s"
-msgstr "Продам канал Youtube - %s"
+msgid "Youtube advertising - %s"
+msgstr "Реклама на Youtube - %s"
 
 #: smmpay/apps/seo/templates.py:13
-msgid "Sell ​​or buy a Youtube channel. Safe transaction."
-msgstr "Продать или купить канал Youtube. Безопасная сделка."
+msgid "Sell ​​or buy Youtube ads"
+msgstr "Продать или купить рекламу на Youtube"
 
 #: smmpay/apps/seo/templates.py:14
 msgid ""
-"Buy YouTube channel, buy youtube channel, buy YouTube, buy youtube, buy "
-"channel"
+"Buy ads on YouTube, youtube channel exchange, find advertisers for YouTube "
+"channel, sell ads on YouTube"
 msgstr ""
-"Купить канал ютуб, купить канал youtube, купить ютуб, купить youtube, куплю "
-"канал"
-
-#: smmpay/apps/seo/templates.py:17
-#, python-format
-msgid "Sell a Facebook group - %s"
-msgstr "Продам группу Facebook - %s"
+"Купить рекламу в ютубе, биржа каналов youtube, найти рекламодателей для ютуб "
+"канала, продать рекламу в ютубе"
 
 #: smmpay/apps/seo/templates.py:18
-msgid "Sell ​​or buy a Facebook group. Safe transaction."
-msgstr "Продать или купить группу Facebook. Безопасная сделка."
+#, python-format
+msgid "Facebook advertising - %s"
+msgstr "Реклама в Facebook - %s"
 
 #: smmpay/apps/seo/templates.py:19
+msgid "Sell ​​or buy Facebook ads"
+msgstr "Продать или купить рекламу в Facebook"
+
+#: smmpay/apps/seo/templates.py:20
 msgid ""
-"Buy group Facebook, buy group fb, buy public, buy community, buy group in "
-"facebook"
-msgstr ""
-"Купить группу фейсбук, купить группу fb, купить паблик, куплю сообщество, "
-"купить группу в facebook"
-
-#: smmpay/apps/seo/templates.py:22
-#, python-format
-msgid "Sell an Instagram account - %s"
-msgstr "Продам аккаунт Instagram - %s"
-
-#: smmpay/apps/seo/templates.py:23
-msgid "Sell ​​or buy an Instagram account. Safe transaction."
-msgstr "Продать или купить аккаунт Instagram. Безопасная сделка."
+"Buy advertising on facebook, the exchange of facebook groups, find "
+"advertisers for facebook groups, sell advertising on facebook"
+msgstr "Купить рекламу в фейсбук, биржа групп facebook, найти рекламодателей для facebook группы, продать "
+"рекламу в фейсбук"
 
 #: smmpay/apps/seo/templates.py:24
-msgid ""
-"Buy account instagram, buy account inst, buy account, buy account in "
-"instagram"
-msgstr ""
-"Купить аккаунт инстаграмм, купить аккаунт inst, купить аккаунт, куплю "
-"аккаунт, купить аккаунт в instagram"
-
-#: smmpay/apps/seo/templates.py:27
 #, python-format
-msgid "Sell a Twitter account - %s"
-msgstr "Продам аккаунт twitter - %s"
+msgid "Instagram advertising - %s"
+msgstr "Реклама в Instagram - %s"
 
-#: smmpay/apps/seo/templates.py:28
-msgid "Sell ​​or buy a Twitter account. Safe transaction."
-msgstr "Продать или купить аккаунт Twitter. Безопасная сделка."
+#: smmpay/apps/seo/templates.py:25
+msgid "Sell ​​or buy Instagram ads"
+msgstr "Продать или купить рекламу в Instagram"
 
-#: smmpay/apps/seo/templates.py:29
+#: smmpay/apps/seo/templates.py:26
 msgid ""
-"Buy account twitter, buy account tw, buy account, buy account in twitter"
-msgstr ""
-"Купить аккаунт твиттер, купить аккаунт tw, купить аккаунт, куплю аккаунт, "
-"купить аккаунт в twitter"
+"Buy ads on instagram, instagram account exchange, find advertisers for "
+"instagram, sell ads on instagram"
+msgstr "Купить рекламу в инстаграм, биржа аккаунтов instagram, найти рекламодателей для инстаграма, продать рекламу "
+"в инстаграме"
+
+#: smmpay/apps/seo/templates.py:30
+#, python-format
+msgid "Twitter advertising - %s"
+msgstr "Реклама в Twitter - %s"
+
+#: smmpay/apps/seo/templates.py:31
+msgid "Sell ​​or buy Twitter ads"
+msgstr "Продать или купить рекламу в Twitter"
 
 #: smmpay/apps/seo/templates.py:32
-#, python-format
-msgid "Selling the Telegram channel - %s"
-msgstr "Продам канал Telegram - %s"
-
-#: smmpay/apps/seo/templates.py:33
-msgid "Sell ​​or buy the Telegram channel. Safe transaction."
-msgstr "Продать или купить канал Telegram. Безопасная сделка."
-
-#: smmpay/apps/seo/templates.py:34
-msgid "Buy a telegram channel, buy telegram, buy a channel"
+msgid ""
+"Buy advertising on twitter, the exchange of twitter groups, find advertisers "
+"for twitter groups, sell advertising on twitter"
 msgstr ""
-"Купить канал телеграм, купить канал telegram, купить телеграм, купить "
-"telegram, куплю канал"
+"Купить рекламу twitter, продать рекламу в twitter"
+
+#: smmpay/apps/seo/templates.py:36
+#, python-format
+msgid "Telegram advertising - %s"
+msgstr "Реклама в Telegram - %s"
+
+#: smmpay/apps/seo/templates.py:37
+msgid "Sell ​​or buy Telegram ads"
+msgstr "Продать или купить рекламу в Telegram"
+
+#: smmpay/apps/seo/templates.py:38
+msgid ""
+"Buy telegram advertising, telegram exchange of channels, find advertisers "
+"for telegram channel, sell advertising in telegram"
+msgstr "Купить рекламу в телеграм, биржа телеграм каналов, найти рекламодателей для телеграм канала, "
+"продать рекламу в телеграме"
+
+#: smmpay/apps/seo/templates.py:42
+#, python-format
+msgid "Tiktok advertising - %s"
+msgstr "Реклама в Tiktok- %s"
+
+#: smmpay/apps/seo/templates.py:43
+msgid "Sell ​​or buy adverts at Tiktok"
+msgstr "Продать или купить рекламу в Tiktok"
+
+#: smmpay/apps/seo/templates.py:44
+msgid ""
+"Buy adverts in Tik Tok, Tiktok exchange, find advertisers for Tiktok, sell "
+"advertisements in Tiktok"
+msgstr "Купить рекламу в Тик Токе, биржа Tiktok, найти рекламодателей для Tiktok, продать рекламу в Tiktok"
 
 #: smmpay/templates/account/account_base.html:8
 msgid "You are logged in as"
@@ -1425,6 +1431,60 @@ msgstr "Ваше имя пользователя, если вы забыли:"
 #: smmpay/templates/registration/password_reset_form.html:27
 msgid "Reset"
 msgstr "Сброс"
+
+#~ msgid "Sell group, public vkontakte - %s"
+#~ msgstr "Продам группу, паблик вконтакте - %s"
+
+#~ msgid ""
+#~ "Buy group vkontakte, buy group vk, buy public, buy a community, buy a "
+#~ "group in vk"
+#~ msgstr ""
+#~ "Купить группу вконтакте, купить группу вк, купить паблик, куплю "
+#~ "сообщество, купить группу в vk"
+
+#~ msgid "Sell a Youtube channel - %s"
+#~ msgstr "Продам канал Youtube - %s"
+
+#~ msgid ""
+#~ "Buy YouTube channel, buy youtube channel, buy YouTube, buy youtube, buy "
+#~ "channel"
+#~ msgstr ""
+#~ "Купить канал ютуб, купить канал youtube, купить ютуб, купить youtube, "
+#~ "куплю канал"
+
+#~ msgid "Sell a Facebook group - %s"
+#~ msgstr "Продам группу Facebook - %s"
+
+#~ msgid ""
+#~ "Buy group Facebook, buy group fb, buy public, buy community, buy group in "
+#~ "facebook"
+#~ msgstr ""
+#~ "Купить группу фейсбук, купить группу fb, купить паблик, куплю сообщество, "
+#~ "купить группу в facebook"
+
+#~ msgid ""
+#~ "Buy account instagram, buy account inst, buy account, buy account in "
+#~ "instagram"
+#~ msgstr ""
+#~ "Купить аккаунт инстаграмм, купить аккаунт inst, купить аккаунт, куплю "
+#~ "аккаунт, купить аккаунт в instagram"
+
+#~ msgid "Sell a Twitter account - %s"
+#~ msgstr "Продам аккаунт twitter - %s"
+
+#~ msgid ""
+#~ "Buy account twitter, buy account tw, buy account, buy account in twitter"
+#~ msgstr ""
+#~ "Купить аккаунт твиттер, купить аккаунт tw, купить аккаунт, куплю аккаунт, "
+#~ "купить аккаунт в twitter"
+
+#~ msgid "Selling the Telegram channel - %s"
+#~ msgstr "Продам канал Telegram - %s"
+
+#~ msgid "Buy a telegram channel, buy telegram, buy a channel"
+#~ msgstr ""
+#~ "Купить канал телеграм, купить канал telegram, купить телеграм, купить "
+#~ "telegram, куплю канал"
 
 #~ msgid "Message"
 #~ msgstr "Сообщение"

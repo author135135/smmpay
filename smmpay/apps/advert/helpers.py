@@ -13,7 +13,7 @@ class RenameFile(object):
         self.path = path
 
     def __call__(self, instance, filename):
-        name, extension = filename.rsplit('.')
+        name, extension = filename.rsplit('.', 1)
         name = name.encode('utf-8')
 
         if instance.pk:

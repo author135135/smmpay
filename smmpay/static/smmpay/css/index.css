@@ -1493,7 +1493,6 @@ body > .jcf-select-drop {
     -webkit-flex: 0 0 100%;
     -ms-flex: 0 0 100%;
     flex: 0 0 100%;
-    line-height: 46px;
     margin: 15px auto;
 }
 
@@ -2525,7 +2524,7 @@ body > .jcf-select-drop {
     font-size: 13px;
     letter-spacing: 0.01em;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 400;
     color: #969696;
 }
 
@@ -4235,10 +4234,10 @@ body > .jcf-select-drop {
 }
 
 .hint-info_box {
-    width: 1170px;
+    width: 940px;
     margin: 0 auto;
     border-radius: 6px;
-    background: #e3eaf9;
+    background: #ddf0ff;
     position: relative;
     padding: 0 33px;
     display: -webkit-flex;

@@ -1127,10 +1127,10 @@
 }
 
 .hint-info_box {
-    width: 1170px;
+    width: 940px;
     margin: 0 auto;
     border-radius: 6px;
-    background: #e3eaf9;
+    background: #ddf0ff;
     position: relative;
     padding: 0 33px;
     display: -webkit-flex;
