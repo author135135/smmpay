@@ -3,8 +3,8 @@ import sys
 import random
 
 from django import template
-from django.utils.http import urlencode
 from django.utils.html import mark_safe
+from django.http import QueryDict
 from django.template.loader import get_template
 
 from smmpay.apps.advert.models import Menu, Advert, ContentBlock
@@ -14,18 +14,29 @@ register = template.Library()
 
 @register.simple_tag
 def build_querystring(params, exclude='', **kwargs):
-    final_params = {}
+    final_params = QueryDict(mutable=True)
 
     exclude = exclude.split(',')
 
+    if isinstance(params, QueryDict):
+        params = dict(params)
+
     for key, value in params.items():
         if key not in exclude:
-            final_params[key] = value
+            if isinstance(value, list):
+                for item in value:
+                    final_params.update({key: item})
+            else:
+                final_params.update({key: value})
 
     for key, value in kwargs.items():
-        final_params[key] = value
+        if isinstance(value, list):
+            for item in value:
+                final_params.update({key: item})
+        else:
+            final_params.update({key: value})
 
-    return urlencode(final_params)
+    return final_params.urlencode()
 
 
 @register.simple_tag(takes_context=True)

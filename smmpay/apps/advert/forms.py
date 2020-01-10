@@ -7,7 +7,9 @@ from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 from django.core import validators
 from django.contrib.flatpages.forms import FlatpageForm
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.utils.translation import ugettext_lazy as _
+
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 from .models import (Advert, AdvertSocialAccount, AdvertSocialAccountService, SocialNetwork, SocialNetworkService,
@@ -18,9 +20,23 @@ logger = logging.getLogger('db')
 
 
 class FilterForm(forms.Form):
+    SORT_CHOICES = (
+        ('social_account__subscribers', {'label': _('subscribers'),
+                                         'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('-social_account__subscribers', {'label': _('subscribers'),
+                                          'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+        ('min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('-min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+        ('max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('-max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+        ('-views', _('popularity')),
+    )
+
     search_query = forms.CharField(label=_('Search'), required=False, widget=forms.TextInput(
         attrs={'class': 'filter__search', 'placeholder': _("For example 'sport'")}))
     category = forms.MultipleChoiceField(label=_('Category'), required=False, widget=forms.SelectMultiple(
+        attrs={'multiple': 'multiple'}))
+    service = forms.MultipleChoiceField(label=_('Advertising services'), required=False, widget=forms.SelectMultiple(
         attrs={'multiple': 'multiple'}))
     price_min = forms.IntegerField(label=_('Price, from'), required=False,
                                    widget=forms.TextInput(attrs={'class': 'filter__value'}))
@@ -30,14 +46,17 @@ class FilterForm(forms.Form):
                                          widget=forms.TextInput(attrs={'class': 'filter__value'}))
     subscribers_max = forms.IntegerField(label=_('Subscribers, to'), required=False,
                                          widget=forms.TextInput(attrs={'class': 'filter__value'}))
-    sort_by = forms.ChoiceField(label=_('Sort by'), required=False,
+    sort_by = forms.ChoiceField(label=_('Sort by'), required=False, choices=SORT_CHOICES, initial=SORT_CHOICES[0][0],
                                 widget=SelectWithOptionAttrs(attrs={'class': 'filter__select', 'id': 'sort_by'}))
 
-    def __init__(self, sort_choices, *args, **kwargs):
+    def __init__(self, selected_social_network, *args, **kwargs):
         super(FilterForm, self).__init__(*args, **kwargs)
 
         self.fields['category'].choices = Category.objects.values_list('slug', 'title')
-        self.fields['sort_by'].choices = sort_choices
+
+        if selected_social_network is not None:
+            self.fields['service'].choices = SocialNetworkService.objects.filter(
+                social_network=selected_social_network).values_list('pk', 'title')
 
 
 class AdvertSocialAccountServiceForm(forms.ModelForm):

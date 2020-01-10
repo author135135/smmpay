@@ -1513,6 +1513,7 @@ body > .jcf-select-drop {
     -ms-flex-align: center;
     align-items: center;
     margin: 0 0 0 auto;
+    position: relative;
 }
 
 .header__section .button {
@@ -1789,6 +1790,11 @@ body > .jcf-select-drop {
     margin-left: 30px;
 }
 
+.login:hover + .account-dropdown-menu-wrapper,
+.account-dropdown-menu-wrapper:hover {
+    display: block;
+}
+
 .login.push .login__notifications {
     visibility: visible;
     opacity: 1;
@@ -1851,6 +1857,111 @@ body > .jcf-select-drop {
     height: 8px;
     border-radius: 50%;
     background: #c2b7ff;
+}
+
+.account-dropdown-menu-wrapper {
+    position: absolute;
+    top: 80%;
+    left: -210px;
+    z-index: 1000;
+    display: none;
+}
+
+.account-dropdown-menu {
+    position: relative;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.17);
+    border-radius: 4px;
+    padding: 25px 0 12px 0;
+    margin-top: 10px;
+    min-width: 292px;
+}
+
+.account-dropdown-menu::before {
+    content: "";
+    display: inline-block;
+    background: #FFFFFF;
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    top: -6px;
+    right: 16px;
+    border-radius: 5px;
+    transform: rotate(45deg);
+}
+
+.account-dropdown-menu .account-info {
+    padding: 0 20px;
+}
+
+.account-dropdown-menu .account-info::after {
+    content: "";
+    display: block;
+    height: 1px;
+    background: #D5D5D5;
+}
+
+.account-dropdown-menu .account-info .you-login {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: -0.107143px;
+    color: #3B4952;
+    mix-blend-mode: normal;
+    opacity: 0.86;
+    margin-bottom: 4px;
+}
+
+.account-dropdown-menu .account-info .you-login::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #77BF5D;
+    margin-right: 7px;
+}
+
+.account-dropdown-menu .account-info .name-user {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.107143px;
+    color: #3B4952;
+    mix-blend-mode: normal;
+    margin-bottom: 17px;
+}
+
+.account-dropdown-menu .links {
+    padding: 0;
+    list-style: none;
+    margin: 15px 0 0 0;
+}
+
+.account-dropdown-menu .links li {
+}
+
+.account-dropdown-menu .links li a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 18px;
+    color: #3B4952;
+    padding: 15px 20px;
+}
+
+.account-dropdown-menu .links li a svg {
+    margin-right: 10px;
+}
+
+.account-dropdown-menu .links li a:hover {
+    background: #F4F4F4;
 }
 
 .logo {
@@ -2821,7 +2932,7 @@ body > .jcf-select-drop {
 }
 
 .thumb__read-more {
-    height: 36px;
+    height: 33px;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -2844,7 +2955,7 @@ body > .jcf-select-drop {
     border: 1px solid #E0E0E0;
     margin-left: 22px;
     transition: box-shadow .2s ease-in-out, border-color .2s ease-in-out;
-    padding: 0 20px;
+    padding: 0 15px;
     text-transform: uppercase;
     background: #FFFFFF;
     border-radius: 4px;

@@ -5,7 +5,6 @@ from django.views.generic import CreateView, UpdateView, View, ListView, DetailV
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import get_user_model
-from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.utils.translation import get_language_from_request
@@ -33,25 +32,22 @@ class AdvertFilterMixin(object):
     filters = {
         'search_query': ['title__icontains', 'description__icontains'],
         'category': ['category__slug__in'],
+        'service': ['social_account__social_account_services__social_network_service__in'],
         'price_min': ['min_price__gte'],
         'price_max': ['max_price__lte'],
         'subscribers_min': ['social_account__subscribers__gte'],
         'subscribers_max': ['social_account__subscribers__lte'],
     }
 
-    SORT_CHOICES = (
-        ('social_account__subscribers', {'label': _('subscribers'),
-                                         'data-imagesrc': static('smmpay/images/sort_lower.png')}),
-        ('-social_account__subscribers', {'label': _('subscribers'),
-                                          'data-imagesrc': static('smmpay/images/sort_higher.png')}),
-        ('min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
-        ('-min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
-        ('max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
-        ('-max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
-        ('-views', _('popularity')),
-    )
-
     def get(self, request, *args, **kwargs):
+        if 'social_network' in kwargs:
+            try:
+                self._social_network = SocialNetwork.objects.get(code=kwargs['social_network'])
+            except SocialNetwork.DoesNotExist:
+                raise Http404()
+        else:
+            self._social_network = SocialNetwork.objects.first()
+
         response = super(AdvertFilterMixin, self).get(request, *args, **kwargs)
 
         if request.is_ajax():
@@ -59,6 +55,7 @@ class AdvertFilterMixin(object):
                 'success': True,
                 'data': render_to_string(self.ajax_items_template_name, response.context_data, request),
                 'items_count': response.context_data['paginator'].count,
+                'service': self._get_filter_form().fields['service'].choices,
                 'page_seo_information': {}
             }
 
@@ -77,7 +74,7 @@ class AdvertFilterMixin(object):
         qs = super(AdvertFilterMixin, self).get_queryset()
 
         filter_form = self._get_filter_form()
-        sort_by = self.SORT_CHOICES[0][0]
+        sort_by = filter_form.fields['sort_by'].initial
 
         if filter_form.is_bound:
             for item in self.filters:
@@ -113,17 +110,16 @@ class AdvertFilterMixin(object):
 
         try:
             context['social_networks'] = SocialNetwork.objects.all()
-            context['selected_social_network'] = SocialNetwork.objects.values('code').first().get('code')
+            context['selected_social_network'] = self._social_network.code
         except (SocialNetwork.DoesNotExist, AttributeError):
             pass
 
         return context
 
-    def _get_filter_form(self):
+    def _get_filter_form(self, *args, **kwargs):
         if not hasattr(self, 'filter_form'):
             self.filter_form = advert_forms.FilterForm(data=self.request.GET or None,
-                                                       sort_choices=self.SORT_CHOICES,
-                                                       initial={'sort_by': self.SORT_CHOICES[0][0]})
+                                                       selected_social_network=self._social_network)
 
         return self.filter_form
 
@@ -201,15 +197,7 @@ class IndexView(AdvertFilterMixin, ListView):
     paginate_by = 30
 
     def get_queryset(self, *args, **kwargs):
-        qs = super(IndexView, self).get_queryset()
-
-        try:
-            obj = SocialNetwork.objects.first()
-            qs = qs.filter(social_account__social_network=obj)
-        except SocialNetwork.DoesNotExist:
-            pass
-
-        return qs
+        return super(IndexView, self).get_queryset().filter(social_account__social_network=self._social_network)
 
 
 class AdvertView(DetailView):
@@ -269,40 +257,6 @@ class FavoriteAdvertView(View):
                     pass
 
         return JsonResponse(response_data)
-
-
-"""
-class AdvertSendMessageView(View):
-    def post(self, request, *args, **kwargs):
-        response_data = {
-            'success': False
-        }
-
-        if request.user.is_authenticated():
-            try:
-                advert = Advert.published_objects.get(pk=kwargs['pk'])
-
-                if advert.author != request.user:
-                    try:
-                        discussion = Discussion.objects.get(advert=advert, users=self.request.user)
-                    except Discussion.DoesNotExist:
-                        discussion_users = [self.request.user, advert.author]
-
-                        discussion = Discussion.create_discussion(advert, discussion_users)
-
-                    form = advert_forms.DiscussionMessageForm(self.request.POST)
-
-                    if form.is_valid():
-                        discussion.add_message(self.request.user, form.cleaned_data['message'])
-
-                        response_data['success'] = True
-                    else:
-                        response_data['errors'] = form.errors
-            except Advert.DoesNotExist:
-                pass
-
-        return JsonResponse(response_data)
-"""
 
 
 class AdvertAddViewView(View):
@@ -489,23 +443,6 @@ class SocialNetworkView(AdvertFilterMixin, ListView):
     model = Advert
     paginate_by = 30
 
-    def get(self, request, *args, **kwargs):
-        self._social_network = None
-
-        try:
-            self._social_network = SocialNetwork.objects.get(code=self.kwargs['social_network'])
-        except SocialNetwork.DoesNotExist:
-            raise Http404()
-
-        return super(SocialNetworkView, self).get(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(SocialNetworkView, self).get_context_data()
-
-        context['selected_social_network'] = self._social_network.code
-
-        return context
-
     def get_queryset(self):
         return super(SocialNetworkView, self).get_queryset().filter(
             social_account__social_network=self._social_network)
@@ -529,3 +466,37 @@ class NotFound(TemplateView):
 
 
 page_not_found = NotFound.as_view()
+
+
+"""
+class AdvertSendMessageView(View):
+    def post(self, request, *args, **kwargs):
+        response_data = {
+            'success': False
+        }
+
+        if request.user.is_authenticated():
+            try:
+                advert = Advert.published_objects.get(pk=kwargs['pk'])
+
+                if advert.author != request.user:
+                    try:
+                        discussion = Discussion.objects.get(advert=advert, users=self.request.user)
+                    except Discussion.DoesNotExist:
+                        discussion_users = [self.request.user, advert.author]
+
+                        discussion = Discussion.create_discussion(advert, discussion_users)
+
+                    form = advert_forms.DiscussionMessageForm(self.request.POST)
+
+                    if form.is_valid():
+                        discussion.add_message(self.request.user, form.cleaned_data['message'])
+
+                        response_data['success'] = True
+                    else:
+                        response_data['errors'] = form.errors
+            except Advert.DoesNotExist:
+                pass
+
+        return JsonResponse(response_data)
+"""

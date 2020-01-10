@@ -30,6 +30,12 @@
             </div>
             <div class="filter__row">
                 <label class="filter__label">
+                    <span class="filter__title">{{ filter_form.service.label }}</span>
+                    {{ filter_form.service }}
+                </label>
+            </div>
+            <div class="filter__row">
+                <label class="filter__label">
                     <span class="filter__title">{{ filter_form.search_query.label }}</span>
                     {{ filter_form.search_query }}
                 </label>
@@ -66,7 +72,7 @@
                 <div class="sort">
                     <label class="filter__label">
                         <span class="filter__title">{{ filter_form.sort_by.label }}:</span>
-                        <div class="sort-wrapper" data-current-value="{{ filter_form.sort_by.value }}">
+                        <div class="sort-wrapper">
                             {{ filter_form.sort_by }}
                         </div>
                     </label>
