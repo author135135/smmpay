@@ -1165,11 +1165,11 @@
                 if (response['success']) {
                     $(content).empty().append(response['data']);
 
-                    if (response['items_count']) {
+                    if (response.hasOwnProperty('items_count')) {
                         $('#items-count').text(response['items_count']);
                     }
 
-                    if (response['service'] && servicesReload === true) {
+                    if (response.hasOwnProperty('service') && servicesReload === true) {
                         var option_html = '';
 
                         $.each(response['service'], function(idx, item) {
