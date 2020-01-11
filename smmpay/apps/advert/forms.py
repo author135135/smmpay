@@ -2,6 +2,8 @@ import requests
 import logging
 import os
 
+from urllib.parse import urlparse
+
 from django import forms
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
@@ -189,9 +191,18 @@ class AdvertSocialAccountForm(forms.ModelForm):
         external_logo_url = self.cleaned_data['external_logo']
         external_logo = None
 
+        print(external_logo_url)
+
         if external_logo_url:
             try:
                 validators.URLValidator(external_logo_url)
+
+                url_info = urlparse(external_logo_url)
+
+                if not url_info.path:
+                    raise forms.ValidationError('Incorrect image URL')
+
+                filename = os.path.basename(url_info.path)
             except Exception as e:
                 self.add_error('logo', forms.ValidationError(_('Can not download logo automatically,'
                                                                'please select it manually'), code='required'))
@@ -202,13 +213,17 @@ class AdvertSocialAccountForm(forms.ModelForm):
             try:
                 response = requests.get(external_logo_url)
 
-                if response.status_code == 200:
-                    tmp_file = NamedTemporaryFile()
-                    tmp_file.write(response.content)
-                    tmp_file.flush()
+                if response.status_code != 200:
+                    raise Exception('Unsupported HTTP response code: {}'.format(response.status_code))
 
-                    external_logo = File(tmp_file)
-                    external_logo._origin_name = os.path.basename(external_logo_url)
+                tmp_file = NamedTemporaryFile()
+                tmp_file.write(response.content)
+                tmp_file.flush()
+
+                external_logo = File(tmp_file, os.path.basename(filename))
+                external_logo._origin_name = external_logo.name
+
+                validators.validate_image_file_extension(external_logo)
             except Exception as e:
                 self.add_error('logo', forms.ValidationError(_('Can not download logo automatically,'
                                                                'please select it manually'), code='required'))

@@ -243,11 +243,11 @@
                 $('.hidden-field input', advert_add_form).val('');
                 $('input[name="external_logo"]', advert_add_form).val('');
 
-                $('.hidden-field', advert_add_form).addClass('hidden');
-
                 $('select[name^="social_account_services"] option:not(:first-child)').remove();
                 $('select[name^="social_account_services"]').val('');
                 $('input[type="number"][name^="social_account_services"]').val('');
+
+                $('.item.avatar .item__field .thumb__avatar').remove();
 
                 $("select").select2({
                     minimumResultsForSearch: -1
@@ -272,36 +272,19 @@
 
                             if (value != null) {
                                 $(form_field).val(value);
-                            } else {
-                                if (field === 'external_logo') {
-                                    form_field = $('input[name="logo"]', advert_add_form);
-                                }
 
-                                $(form_field).parent().removeClass('hidden');
+                                if (field === 'external_logo') {
+                                    $('.item.avatar .item__field').prepend('<a class="thumb__avatar"><img src="' + value + '"></a>');
+                                }
                             }
                         });
-
-                        var info_table_html = '';
-
-                        if (response['fields']['external_logo']) {
-                            info_table_html += '<div class="item avatar"><div class="item__label">' + gettext('logo') + '</div><div class="item__field"><a class="thumb__avatar"><img src="' + response['fields']['external_logo'] + '"></a></div></div>';
-                        }
-
-                        if (response['fields']['title']) {
-                            info_table_html += '<div class="item"><div class="item__label">' + gettext('title') + '</div><div class="item__field">' + response['fields']['title'] + '</div></div>';
-                        }
-
-                        if (response['fields']['subscribers'] !== null) {
-                            info_table_html += '<div class="item"><div class="item__label">' + gettext('subscribers') + '</div><div class="item__field">' + response['fields']['subscribers'] + '</div></div>';
-                        }
-
-                        if (info_table_html) {
-                            info_table.append(info_table_html);
-                            info_table.removeClass('hidden');
-                        }
-                    } else {
-                        $('.item.hidden', advert_add_form).removeClass('hidden');
                     }
+
+                    $('.item.hidden', advert_add_form).removeClass('hidden');
+
+                    link_check_progress = 0;
+
+                    preloader_hide();
                 }, 'json');
 
                 $.get(advert_add_form.data('services-url'), {account_link: link}, function(response) {
@@ -314,10 +297,6 @@
 
                         $('select[name^="social_account_services"]').append(option_html);
                     }
-
-                    link_check_progress = 0;
-
-                    preloader_hide();
                 }, 'json');
             });
 
@@ -528,6 +507,10 @@
                             $('.item.avatar .item__field').prepend('<a class="thumb__avatar"><img src="' + response['fields']['external_logo'] + '"></a>');
                         }
                     }
+
+                    link_check_progress = 0;
+
+                    preloader_hide();
                 }, 'json');
 
                 $.get(advert_edit_form.data('services-url'), {account_link: link}, function(response) {
@@ -540,10 +523,6 @@
 
                         $('select[name^="social_account_services"]').append(option_html);
                     }
-
-                    link_check_progress = 0;
-
-                    preloader_hide();
                 }, 'json');
 
                 $('select').select2({

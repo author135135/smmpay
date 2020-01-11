@@ -3,6 +3,7 @@ import os
 from time import time
 from datetime import datetime
 from hashlib import sha1
+from urllib.parse import urlparse
 
 from django.utils.deconstruct import deconstructible
 
@@ -13,6 +14,9 @@ class RenameFile(object):
         self.path = path
 
     def __call__(self, instance, filename):
+        # Fix for filenames with query params
+        filename = urlparse(filename).path
+
         name, extension = filename.rsplit('.', 1)
         name = name.encode('utf-8')
 

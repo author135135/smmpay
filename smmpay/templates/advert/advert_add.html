@@ -32,36 +32,7 @@
                     </div>
                 </div>
 
-                {% if form.title.value or advert_type_form.subscribers.value or advert_type_form.external_logo.value %}
-                    <div class="product-table_info">
-                        {% if advert_type_form.external_logo.value and not advert_type_form.logo.errors %}
-                            <div class="item avatar">
-                                <div class="item__label">{% trans 'logo' %}</div>
-                                <div class="item__field">
-                                    <a class="thumb__avatar">
-                                        <img src="{{ advert_type_form.external_logo.value }}">
-                                    </a>
-                                </div>
-                            </div>
-                        {% endif %}
-                        {% if form.title.value %}
-                            <div class="item">
-                                <div class="item__label">{% trans 'title' %}</div>
-                                <div class="item__field">{{ form.title.value }}</div>
-                            </div>
-                        {% endif %}
-                        {% if advert_type_form.subscribers.value %}
-                            <div class="item">
-                                <div class="item__label">{% trans 'subscribers' %}</div>
-                                <div class="item__field">{{ advert_type_form.subscribers.value }}</div>
-                            </div>
-                        {% endif %}
-                    </div>
-                {% else %}
-                    <div class="product-table_info hidden"></div>
-                {% endif %}
-
-                <div class="item hidden-field {% if request.method == 'GET' or advert_type_form.external_logo.value and not advert_type_form.logo.errors %}hidden{% endif %}">
+                <div class="item hidden-field avatar {% if request.method == 'GET' or advert_type_form.external_logo.value and not advert_type_form.logo.errors %}hidden{% endif %}">
                     <label class="item__label">{{ advert_type_form.logo.label }}*</label>
                     <div class="item__field">
                         {{ advert_type_form.logo }}
@@ -225,7 +196,7 @@
                     <div class="item__field">
                         <div class="text-help">{% blocktrans %}For maximum confidence in the identity and relevance of information about your site,
                             we recommend that you confirm that you are an administrator. By temporarily putting the passphrase which is written below, the status if it is a
-                            Vkontakte community, for Twitter, Youtube, Facebook and Telegram in the description and for Instagram in the "About me" field.{% endblocktrans %}</div>
+                            Vkontakte community, for Twitter, Youtube, Facebook, Telegram and TikTok in the description and for Instagram in the "About me" field.{% endblocktrans %}</div>
                         <div class="code-button-wrapper">
                             <div class="code-button">
                                 <span>{{ advert_confirmation_code }}</span>
