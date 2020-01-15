@@ -981,7 +981,6 @@ body > .jcf-select-drop {
     height: 36px;
     transition: all .2s ease-in-out;
     background: transparent !important;
-    z-index: 10000;
 }
 
 #id_social_network .dd-select.telegram {
