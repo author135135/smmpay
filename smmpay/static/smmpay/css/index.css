@@ -361,10 +361,6 @@ img {
     margin: 0 auto;
 }
 
-#filter-form {
-    margin-top: 26px;
-}
-
 .filter__search, .filter__value, .log__input {
     display: block;
     height: 36px;
@@ -1978,7 +1974,7 @@ body > .jcf-select-drop {
     position: absolute;
     top: 80%;
     left: -210px;
-    z-index: 1000;
+    z-index: 3000;
     display: none;
 }
 
