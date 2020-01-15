@@ -1,0 +1,28 @@
+{% extends 'base/base_html.html' %}
+{% load i18n %}
+{% load static %}
+{% load advert_tags %}
+
+{% block content %}
+    <div class="inner__content">
+        {% include 'advert/parts/filter.html' %}
+
+        <div class="items-wrapper">
+            <div class="preloader-content">
+                <span class="ajax-loader"></span>
+            </div>
+            <div class="items">
+                {% include 'advert/parts/advert_list.html' %}
+            </div>
+        </div>
+    </div>
+
+    {% content_block 'sidebar' order_by='-views' %}
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'smmpay/components/select2/js/select2.full.min.js' %}"></script>
+    <script src="{% static 'smmpay/components/jquery.ddslick.min.js' %}"></script>
+    <script src="{% static 'smmpay/components/jquery.sticky-sidebar.min.js' %}"></script>
+    <script src="{% static 'smmpay/components/URI.min.js' %}"></script>
+{% endblock %}

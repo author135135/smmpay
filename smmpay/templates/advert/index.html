@@ -5,12 +5,31 @@
 
 {% block content %}
     <div class="inner__content">
-        {% include 'advert/parts/filter.html' %}
+        <div class="social-networks-wrapper">
+            <div class="social-networks-title">{% trans 'Select social network' %}:</div>
+            <div class="social-networks-items">
+                {% for social_network in social_networks %}
+                <a href="{{ social_network.get_absolute_url }}" class="item {{ social_network.code }}">
+                    {% with 'smmpay/images/'|add:social_network.code|add:'.svg' as image_path %}
+                    <span class="icon">
+                        <img src="{% static image_path %}" alt="{{ social_network.code }}">
+                    </span>
+                    {% endwith %}
+                    <span class="info">
+                        <span class="social-network">{{ social_network.title }}</span>
+                        <span class="adverts-count">{{ social_network.adverts_count }}</span>
+                        <span class="text">{% trans 'platform' %}</span>
+                    </span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
 
         <div class="items-wrapper">
             <div class="preloader-content">
                 <span class="ajax-loader"></span>
             </div>
+            <div class="items-title">{% trans 'VIP Adverts' %}</div>
             <div class="items">
                 {% include 'advert/parts/advert_list.html' %}
             </div>

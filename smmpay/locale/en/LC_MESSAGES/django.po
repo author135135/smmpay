@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-11 15:33+0200\n"
+"POT-Creation-Date: 2020-01-15 16:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,7 +66,7 @@ msgstr ""
 msgid "For example 'sport'"
 msgstr ""
 
-#: smmpay/apps/account/forms.py:197 smmpay/apps/advert/forms.py:51
+#: smmpay/apps/account/forms.py:197 smmpay/apps/advert/forms.py:52
 msgid "Sort by"
 msgstr ""
 
@@ -149,8 +149,8 @@ msgid "Mail with instructions was sent on your current email address"
 msgstr ""
 
 #: smmpay/apps/advert/admin.py:53 smmpay/apps/advert/admin.py:77
-#: smmpay/apps/advert/models.py:158 smmpay/apps/advert/models.py:241
-#: smmpay/apps/advert/models.py:351
+#: smmpay/apps/advert/forms.py:43 smmpay/apps/advert/models.py:158
+#: smmpay/apps/advert/models.py:241 smmpay/apps/advert/models.py:351
 msgid "social network"
 msgstr ""
 
@@ -220,70 +220,70 @@ msgstr ""
 msgid "Advertising services"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:43
+#: smmpay/apps/advert/forms.py:44
 msgid "Price, from"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:45
+#: smmpay/apps/advert/forms.py:46
 msgid "Price, to"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:47
+#: smmpay/apps/advert/forms.py:48
 msgid "Subscribers, from"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:49
+#: smmpay/apps/advert/forms.py:50
 msgid "Subscribers, to"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:68
+#: smmpay/apps/advert/forms.py:69
 msgid "Now you can enter the price for a specific service"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:71
+#: smmpay/apps/advert/forms.py:72
 msgid "Service"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:100 smmpay/apps/advert/forms.py:130
-#: smmpay/apps/advert/forms.py:132 smmpay/apps/advert/forms.py:241
+#: smmpay/apps/advert/forms.py:101 smmpay/apps/advert/forms.py:131
+#: smmpay/apps/advert/forms.py:133 smmpay/apps/advert/forms.py:242
 msgid "This field is required."
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:126
+#: smmpay/apps/advert/forms.py:127
 msgid "This value already selected"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:149
+#: smmpay/apps/advert/forms.py:150
 msgid "Enter the price of the minimum service on your site"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:150
+#: smmpay/apps/advert/forms.py:151
 msgid "Enter the price of the maximum service on your site"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:151
+#: smmpay/apps/advert/forms.py:152
 msgid "Select category"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:152
+#: smmpay/apps/advert/forms.py:153
 msgid "Add a description of your site, indicate the benefits"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:163
+#: smmpay/apps/advert/forms.py:164
 msgid "Logo"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:173
+#: smmpay/apps/advert/forms.py:174
 msgid "Paste a link to a page, group or channel"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:177
+#: smmpay/apps/advert/forms.py:178
 msgid ""
 "You have inserted an incorrect value for the link to the page, group or "
 "account that you are selling *"
 msgstr ""
 
-#: smmpay/apps/advert/forms.py:207 smmpay/apps/advert/forms.py:228
+#: smmpay/apps/advert/forms.py:208 smmpay/apps/advert/forms.py:229
 msgid "Can not download logo automatically,please select it manually"
 msgstr ""
 
@@ -608,17 +608,17 @@ msgstr ""
 msgid "content blocks"
 msgstr ""
 
-#: smmpay/apps/advert/views.py:218
+#: smmpay/apps/advert/views.py:228
 msgid "Advert on moderation. It will be published on site after this."
 msgstr ""
 
-#: smmpay/apps/advert/views.py:313
+#: smmpay/apps/advert/views.py:323
 msgid ""
 "Advert has been successfully added. It will be published on the site after "
 "the moderation. Usually it takes from 20 to 50 minutes."
 msgstr ""
 
-#: smmpay/apps/advert/views.py:385
+#: smmpay/apps/advert/views.py:395
 msgid "Advert successfully edited"
 msgstr ""
 
@@ -1143,15 +1143,31 @@ msgstr ""
 msgid "Your advert was blocked"
 msgstr ""
 
-#: smmpay/templates/advert/parts/filter.html:80
+#: smmpay/templates/advert/index.html:9
+msgid "Select social network"
+msgstr ""
+
+#: smmpay/templates/advert/index.html:21
+msgid "platform"
+msgstr ""
+
+#: smmpay/templates/advert/index.html:32
+msgid "VIP Adverts"
+msgstr ""
+
+#: smmpay/templates/advert/parts/filter.html:18
+msgid "Social"
+msgstr ""
+
+#: smmpay/templates/advert/parts/filter.html:84
 msgid "Reset filter"
 msgstr ""
 
-#: smmpay/templates/advert/parts/filter.html:83
+#: smmpay/templates/advert/parts/filter.html:87
 msgid "Found"
 msgstr ""
 
-#: smmpay/templates/advert/parts/filter.html:87
+#: smmpay/templates/advert/parts/filter.html:91
 msgid "Find adverts"
 msgstr ""
 

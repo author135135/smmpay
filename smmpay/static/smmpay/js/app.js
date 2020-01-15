@@ -32,13 +32,40 @@
                 tags: true
             });
 
-            var ddSlickInitCall = true;
+            var ddSlickInitCall1 = true;
+
+            $('#id_social_network').ddslick({
+                imagePosition: 'left',
+                onSelected: function(selectedData){
+                    if ($('#id_social_network .dd-select').hasClass(selectedData['selectedData']['value']) || process_in_progress) {
+                        return false;
+                    }
+
+                    $('#id_social_network .dd-select').attr('class', 'dd-select');
+                    $('#id_social_network .dd-select').addClass(selectedData['selectedData']['value']);
+
+                    if (ddSlickInitCall1 === true) {
+                        ddSlickInitCall1 = false;
+                        return false;
+                    }
+
+                    $('#filter-form input').val('');
+                    $('#filter-form select:not(#id_category)').val('').trigger('change');
+
+                    var url = new URI(window.location.href);
+                    url.path(selectedData['selectedData']['value']).query('').hash('');
+
+                    load_data(url, {}, $('.items'), true);
+                }
+            });
+
+            var ddSlickInitCall2 = true;
 
             $('#sort_by').ddslick({
                 imagePosition: 'right',
                 onSelected: function(selectedData){
-                    if (ddSlickInitCall === true) {
-                        ddSlickInitCall = false;
+                    if (ddSlickInitCall2 === true) {
+                        ddSlickInitCall2 = false;
                         return false;
                     }
 
@@ -140,29 +167,6 @@
                         e.preventDefault();
                     }
                 }
-            });
-
-            $('.filter__form-social a').click(function(e) {
-                e.preventDefault();
-
-                if ($(this).parent().hasClass('active')) {
-                    return false;
-                }
-
-                if (process_in_progress) {
-                    return false;
-                }
-
-                $('#filter-form input').val('');
-
-                $('#filter-form select:not(#id_category)').val('').trigger('change');
-
-                var url = new URI($(this).attr('href'));
-
-                load_data(url, {}, $('.items'), true);
-
-                $('.filter__form-social .active').removeClass('active');
-                $(this).parent().addClass('active');
             });
         }
 

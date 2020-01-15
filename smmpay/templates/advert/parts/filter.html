@@ -10,18 +10,26 @@
         </svg>
     </div>
     <div class="filter__container">
-        {% if social_networks %}
-            <ul class="filter__form-social">
-                {% for social_network in social_networks %}
-                    <li class="{% if selected_social_network == social_network.code %}active{% endif %}">
-                        <a href="{{ social_network.get_absolute_url }}" class="{{ social_network.code }}">
-                            {{ social_network.title }}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
         <form id="filter-form">
+            {% if social_networks %}
+                <div class="filter__row">
+                    <label class="filter__label">
+                        <span class="filter__title">{% trans 'Social' %}</span>
+                        <select name="social_network" id="id_social_network">
+                            {% for social_network in social_networks %}
+                                {% with 'smmpay/images/'|add:social_network.code|add:'_icon.svg' as icon_path %}
+                                    {% if social_network.code == selected_social_network %}
+                                        <option value="{{ social_network.code }}" data-imagesrc="{% static icon_path %}" selected>{{ social_network.title }}</option>
+                                    {% else %}
+                                        <option value="{{ social_network.code }}" data-imagesrc="{% static icon_path %}">{{ social_network.title }}</option>
+                                    {% endif %}
+                                {% endwith %}
+                            {% endfor %}
+                        </select>
+                    </label>
+                </div>
+            {% endif %}
+
             <div class="filter__row">
                 <label class="filter__label">
                     <span class="filter__title">{{ filter_form.category.label }}</span>

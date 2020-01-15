@@ -11,7 +11,7 @@ from django.utils.translation import get_language_from_request
 from django.utils.crypto import get_random_string
 from django.template.loader import render_to_string
 from django.db import transaction
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.utils.translation import ugettext_lazy as _
 
 from smmpay.apps.seo.models import PageSeoInformation
@@ -29,6 +29,9 @@ class LoginRequiredMixin(object):
 
 
 class AdvertFilterMixin(object):
+    """
+    Check this mixin after creating user's adverts page
+    """
     filters = {
         'search_query': ['title__icontains', 'description__icontains'],
         'category': ['category__slug__in'],
@@ -189,15 +192,22 @@ class AdvertSubFormsMixin(object):
         return social_account_object
 
 
-class IndexView(AdvertFilterMixin, ListView):
+class IndexView(ListView):
     template_name = 'advert/index.html'
     ajax_items_template_name = 'advert/parts/advert_list.html'
     context_object_name = 'adverts'
     model = Advert
     paginate_by = 30
 
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+
+        context['social_networks'] = SocialNetwork.objects.annotate(adverts_count=Count('social_accounts'))
+
+        return context
+
     def get_queryset(self, *args, **kwargs):
-        return super(IndexView, self).get_queryset().filter(social_account__social_network=self._social_network)
+        return super(IndexView, self).get_queryset().filter(special_status=self.model.ADVERT_SPECIAL_STATUS_VIP)
 
 
 class AdvertView(DetailView):
@@ -437,7 +447,7 @@ class UserAdvertsView(AdvertFilterMixin, ListView):
 
 
 class SocialNetworkView(AdvertFilterMixin, ListView):
-    template_name = 'advert/index.html'
+    template_name = 'advert/social_network.html'
     ajax_items_template_name = 'advert/parts/advert_list.html'
     context_object_name = 'adverts'
     model = Advert
