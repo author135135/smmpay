@@ -53,7 +53,7 @@
                     $('#filter-form select:not(#id_category)').val('').trigger('change');
 
                     var url = new URI(window.location.href);
-                    url.path(selectedData['selectedData']['value']).query('').hash('');
+                    url.path(selectedData['selectedData']['value'] + '/').query('').hash('');
 
                     load_data(url, {}, $('.items'), true);
                 }
