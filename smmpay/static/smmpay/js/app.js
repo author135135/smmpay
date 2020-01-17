@@ -559,7 +559,7 @@
                 var wrapper = $(this).parents('.item'),
                     form_idx = $('#id_social_account_services-TOTAL_FORMS').val(),
                     new_form_idx = parseInt(form_idx) - 1,
-                    initial_forms = $('#id_advert_services-INITIAL_FORMS').val();
+                    initial_forms = $('#id_social_account_services-INITIAL_FORMS').val();
 
 
                 if (new_form_idx < initial_forms) {
