@@ -17,7 +17,11 @@ class RenameFile(object):
         # Fix for filenames with query params
         filename = urlparse(filename).path
 
-        name, extension = filename.rsplit('.', 1)
+        try:
+            name, extension = filename.rsplit('.', 1)
+        except ValueError:
+            name, extension = filename, None
+
         name = name.encode('utf-8')
 
         if instance.pk:
@@ -25,6 +29,9 @@ class RenameFile(object):
         else:
             salt = str(time()).encode('utf-8')
 
-        filename = '{0}.{1}'.format(sha1(name + salt).hexdigest()[::2], extension)
+        if extension is not None:
+            filename = '{0}.{1}'.format(sha1(name + salt).hexdigest()[::2], extension)
+        else:
+            filename = sha1(name + salt).hexdigest()[::2]
 
         return os.path.join(datetime.now().strftime(self.path), filename)

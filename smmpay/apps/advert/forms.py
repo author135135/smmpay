@@ -5,7 +5,7 @@ import os
 from urllib.parse import urlparse
 
 from django import forms
-from django.core.files import File
+from django.core.files.base import ContentFile
 from django.core.files.temp import NamedTemporaryFile
 from django.core import validators
 from django.contrib.flatpages.forms import FlatpageForm
@@ -17,6 +17,7 @@ from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from .models import (Advert, AdvertSocialAccount, AdvertSocialAccountService, SocialNetwork, SocialNetworkService,
                      Category, ContentBlock)
 from .widgets import SelectWithOptionAttrs
+from .validators import validate_image_file_mime_type
 
 logger = logging.getLogger('db')
 
@@ -160,7 +161,8 @@ class AdvertForm(forms.ModelForm):
 
 
 class AdvertSocialAccountForm(forms.ModelForm):
-    logo = forms.ImageField(label=_('Logo'), required=False, widget=forms.FileInput())
+    logo = forms.FileField(label=_('Logo'), required=False, widget=forms.FileInput(),
+                           validators=[validate_image_file_mime_type])
     external_logo = forms.CharField(required=False, widget=forms.HiddenInput())
 
     class Meta:
@@ -188,12 +190,11 @@ class AdvertSocialAccountForm(forms.ModelForm):
             self.fields[field].widget.attrs['class'] = class_name
 
     def clean_external_logo(self):
+        logo = self.cleaned_data['logo']
         external_logo_url = self.cleaned_data['external_logo']
         external_logo = None
 
-        print(external_logo_url)
-
-        if external_logo_url:
+        if not logo and external_logo_url:
             try:
                 validators.URLValidator(external_logo_url)
 
@@ -216,14 +217,10 @@ class AdvertSocialAccountForm(forms.ModelForm):
                 if response.status_code != 200:
                     raise Exception('Unsupported HTTP response code: {}'.format(response.status_code))
 
-                tmp_file = NamedTemporaryFile()
-                tmp_file.write(response.content)
-                tmp_file.flush()
-
-                external_logo = File(tmp_file, os.path.basename(filename))
+                external_logo = ContentFile(response.content, os.path.basename(filename))
                 external_logo._origin_name = external_logo.name
 
-                validators.validate_image_file_extension(external_logo)
+                validate_image_file_mime_type(external_logo)
             except Exception as e:
                 self.add_error('logo', forms.ValidationError(_('Can not download logo automatically,'
                                                                'please select it manually'), code='required'))
