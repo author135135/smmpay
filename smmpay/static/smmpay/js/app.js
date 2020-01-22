@@ -15,9 +15,11 @@
 
         if ($('.login').length) {
             $('.login').click(function(e) {
-                e.preventDefault();
+                if (is_user_authenticated()) {
+                    e.preventDefault();
 
-                $(this).parent().find('.account-dropdown-menu-wrapper').toggleClass('visible');
+                    $(this).parent().find('.account-dropdown-menu-wrapper').toggleClass('visible');
+                }
             });
 
             $(document).on('click', function(e) {
