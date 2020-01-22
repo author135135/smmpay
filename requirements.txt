@@ -6,7 +6,7 @@ celery==4.3.0
 certifi==2019.9.11
 chardet==3.0.4
 confusable-homoglyphs==3.2.0
-Django==1.11.26
+Django==1.11.27
 django-appconf==1.0.3
 django-ckeditor==5.8.0
 django-db-logger==0.1.7
