@@ -13,6 +13,32 @@
             });
         }
 
+        if ($('.login').length) {
+            $('.login').click(function(e) {
+                e.preventDefault();
+
+                $(this).parent().find('.account-dropdown-menu-wrapper').toggleClass('visible');
+            });
+
+            $(document).on('click', function(e) {
+                if (!$(e.target).hasClass('login') && !$(e.target).closest('.account-dropdown-menu-wrapper').length) {
+                    $('.account-dropdown-menu-wrapper').removeClass('visible');
+                }
+            });
+        }
+
+        $('.to-top').click(function(e) {
+            $('html, body').animate({scrollTop:0}, '300');
+        });
+
+        $(window).on('scroll', function(e) {
+            if ($(window).scrollTop() > 500) {
+                $('.to-top').addClass('visible');
+            } else {
+                $('.to-top').removeClass('visible');
+            }
+        }).scroll();
+
         // Filter form handlers
         if ($('#filter-form').length) {
             $('.header__filter').on('click', function (e) {
@@ -1229,8 +1255,8 @@
                         },
                         'youtube': {
                             'hosts': ['www.youtube.com', 'youtube.com', 'm.youtube.com'],
-                            'patterns': [/^https:\/\/www\.youtube\.com\/channel\/[a-zA-Z0-9-_]+\/?$/g],
-                            'valid_pattern': 'https://www.youtube.com/channel/xxxxxxx'
+                            'patterns': [/^https:\/\/www\.youtube\.com\/(channel|user)\/[a-zA-Z0-9-_]+\/?$/g],
+                            'valid_pattern': 'https://www.youtube.com/channel/xxxxxxx, https://www.youtube.com/user/xxxxxxx'
                         },
                         'facebook': {
                             'hosts': ['www.facebook.com', 'facebook.com', 'm.facebook.com'],
@@ -1267,6 +1293,9 @@
                             'valid_pattern': 'https://www.tiktok.com/@xxxxxxx, https://tiktok.com/@xxxxxxx'
                         }
                     };
+
+                url_info.query('');
+                url_info.fragment('');
 
                 for (var social_network in social_networks) {
                     var hosts = social_networks[social_network]['hosts'],

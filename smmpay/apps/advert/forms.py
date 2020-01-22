@@ -2,11 +2,10 @@ import requests
 import logging
 import os
 
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlunparse
 
 from django import forms
 from django.core.files.base import ContentFile
-from django.core.files.temp import NamedTemporaryFile
 from django.core import validators
 from django.contrib.flatpages.forms import FlatpageForm
 from django.contrib.staticfiles.templatetags.staticfiles import static
@@ -24,14 +23,14 @@ logger = logging.getLogger('db')
 
 class FilterForm(forms.Form):
     SORT_CHOICES = (
-        ('social_account__subscribers', {'label': _('subscribers'),
-                                         'data-imagesrc': static('smmpay/images/sort_lower.png')}),
         ('-social_account__subscribers', {'label': _('subscribers'),
-                                          'data-imagesrc': static('smmpay/images/sort_higher.png')}),
-        ('min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+                                         'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+        ('social_account__subscribers', {'label': _('subscribers'),
+                                          'data-imagesrc': static('smmpay/images/sort_lower.png')}),
         ('-min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
-        ('max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
         ('-max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+        ('max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
         ('-views', _('popularity')),
     )
 
@@ -227,6 +226,13 @@ class AdvertSocialAccountForm(forms.ModelForm):
                 logger.exception(e)
 
         return external_logo
+
+    def clean_link(self):
+        social_account_link = self.cleaned_data['link']
+
+        url_info = urlparse(social_account_link)
+
+        return urlunparse((url_info.scheme, url_info.netloc, url_info.path, url_info.params, '', ''))
 
     def clean(self):
         cleaned_data = super(AdvertSocialAccountForm, self).clean()

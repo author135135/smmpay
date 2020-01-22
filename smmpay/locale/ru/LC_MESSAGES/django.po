@@ -1080,11 +1080,11 @@ msgstr "В избранное"
 
 #: smmpay/templates/advert/advert.html:226
 msgid "Previous advert"
-msgstr "Предыдущее объявление"
+msgstr "Предыдущая площадка"
 
 #: smmpay/templates/advert/advert.html:231
 msgid "Next advert"
-msgstr "Следующее объявление"
+msgstr "Следующая площадка"
 
 #: smmpay/templates/advert/advert.html:241
 msgid "Return to advert search"

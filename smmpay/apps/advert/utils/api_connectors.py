@@ -155,8 +155,23 @@ class YoutubeSocialNetworkConnector(SocialNetworkConnector):
         if not object_keyword:
             return result
 
+        object_type = path_parts[-2]
+
+        if object_type == 'channel':
+            requests_kwargs = {
+                'part': 'snippet,statistics',
+                'id': object_keyword
+            }
+        elif object_type == 'user':
+            requests_kwargs = {
+                'part': 'snippet,statistics',
+                'forUsername': object_keyword
+            }
+        else:
+            return result
+
         try:
-            response = self.api.channels().list(id=object_keyword, part='snippet,statistics').execute()
+            response = self.api.channels().list(**requests_kwargs).execute()
 
             if response['pageInfo']['totalResults']:
                 result['title'] = response['items'][0]['snippet']['title']

@@ -390,7 +390,7 @@ img {
     color: #1F1F1F;
     outline: 0;
     display: flex;
-    height: 36px;
+    min-height: 36px;
     transition: all .2s ease-in-out;
 }
 
@@ -1901,11 +1901,6 @@ body > .jcf-select-drop {
     margin-left: 30px;
 }
 
-.login:hover + .account-dropdown-menu-wrapper,
-.account-dropdown-menu-wrapper:hover {
-    display: block;
-}
-
 .login.push .login__notifications {
     visibility: visible;
     opacity: 1;
@@ -1976,6 +1971,10 @@ body > .jcf-select-drop {
     left: -210px;
     z-index: 3000;
     display: none;
+}
+
+.account-dropdown-menu-wrapper.visible {
+    display: block;
 }
 
 .account-dropdown-menu {
@@ -5421,6 +5420,30 @@ body > .jcf-select-drop {
 .sidebar.banner-box {
     height: 380px;
     overflow: hidden;
+}
+
+.to-top {
+    position: fixed;
+    right: 109px;
+    bottom: 52px;
+    height: 41px;
+    width: 41px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 50px;
+    cursor: pointer;
+    z-index: 3000;
+    display: none;
+}
+
+.to-top.visible {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.to-top svg {
+    width: 14px;
+    height: 14px;
 }
 
 /*     CONCEPT MODERN FORM STYLE     */
