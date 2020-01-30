@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-09 15:59+0200\n"
+"POT-Creation-Date: 2020-01-30 16:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,82 +17,80 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: smmpay/static/smmpay/js/app.js:202
+#: smmpay/static/smmpay/js/app.js:284
 msgid "Delete from favorites"
 msgstr ""
 
-#: smmpay/static/smmpay/js/app.js:204
+#: smmpay/static/smmpay/js/app.js:286
 msgid "Add to favorites"
 msgstr ""
 
-#: smmpay/static/smmpay/js/app.js:209 smmpay/static/smmpay/js/app.js:1159
+#: smmpay/static/smmpay/js/app.js:291 smmpay/static/smmpay/js/app.js:1229
 msgid "You must be logged to perform this operation"
 msgstr ""
 
-#: smmpay/static/smmpay/js/app.js:300
-msgid "logo"
-msgstr ""
-
-#: smmpay/static/smmpay/js/app.js:304
-msgid "title"
-msgstr ""
-
-#: smmpay/static/smmpay/js/app.js:308
-msgid "subscribers"
-msgstr ""
-
-#: smmpay/static/smmpay/js/app.js:386 smmpay/static/smmpay/js/app.js:392
-#: smmpay/static/smmpay/js/app.js:398 smmpay/static/smmpay/js/app.js:426
-#: smmpay/static/smmpay/js/app.js:433 smmpay/static/smmpay/js/app.js:442
-#: smmpay/static/smmpay/js/app.js:443 smmpay/static/smmpay/js/app.js:449
-#: smmpay/static/smmpay/js/app.js:455 smmpay/static/smmpay/js/app.js:461
-#: smmpay/static/smmpay/js/app.js:630 smmpay/static/smmpay/js/app.js:636
-#: smmpay/static/smmpay/js/app.js:642 smmpay/static/smmpay/js/app.js:670
-#: smmpay/static/smmpay/js/app.js:677 smmpay/static/smmpay/js/app.js:686
-#: smmpay/static/smmpay/js/app.js:687 smmpay/static/smmpay/js/app.js:693
-#: smmpay/static/smmpay/js/app.js:699 smmpay/static/smmpay/js/app.js:705
-#: smmpay/static/smmpay/js/app.js:726 smmpay/static/smmpay/js/app.js:736
-#: smmpay/static/smmpay/js/app.js:757 smmpay/static/smmpay/js/app.js:763
-#: smmpay/static/smmpay/js/app.js:773 smmpay/static/smmpay/js/app.js:779
-#: smmpay/static/smmpay/js/app.js:800 smmpay/static/smmpay/js/app.js:1231
+#: smmpay/static/smmpay/js/app.js:447 smmpay/static/smmpay/js/app.js:453
+#: smmpay/static/smmpay/js/app.js:459 smmpay/static/smmpay/js/app.js:487
+#: smmpay/static/smmpay/js/app.js:494 smmpay/static/smmpay/js/app.js:503
+#: smmpay/static/smmpay/js/app.js:504 smmpay/static/smmpay/js/app.js:510
+#: smmpay/static/smmpay/js/app.js:516 smmpay/static/smmpay/js/app.js:522
+#: smmpay/static/smmpay/js/app.js:691 smmpay/static/smmpay/js/app.js:697
+#: smmpay/static/smmpay/js/app.js:703 smmpay/static/smmpay/js/app.js:731
+#: smmpay/static/smmpay/js/app.js:738 smmpay/static/smmpay/js/app.js:747
+#: smmpay/static/smmpay/js/app.js:748 smmpay/static/smmpay/js/app.js:754
+#: smmpay/static/smmpay/js/app.js:760 smmpay/static/smmpay/js/app.js:766
+#: smmpay/static/smmpay/js/app.js:787 smmpay/static/smmpay/js/app.js:797
+#: smmpay/static/smmpay/js/app.js:818 smmpay/static/smmpay/js/app.js:824
+#: smmpay/static/smmpay/js/app.js:834 smmpay/static/smmpay/js/app.js:840
+#: smmpay/static/smmpay/js/app.js:861 smmpay/static/smmpay/js/app.js:1319
 msgid "This field is required"
 msgstr ""
 
-#: smmpay/static/smmpay/js/app.js:418 smmpay/static/smmpay/js/app.js:662
+#: smmpay/static/smmpay/js/app.js:479 smmpay/static/smmpay/js/app.js:723
 msgid "This value already selected"
 msgstr ""
 
-#: smmpay/static/smmpay/js/app.js:730 smmpay/static/smmpay/js/app.js:767
-#: smmpay/static/smmpay/js/app.js:804
+#: smmpay/static/smmpay/js/app.js:791 smmpay/static/smmpay/js/app.js:828
+#: smmpay/static/smmpay/js/app.js:865
 msgid "Incorrect email address"
 msgstr ""
 
-#: smmpay/static/smmpay/js/app.js:854
+#: smmpay/static/smmpay/js/app.js:915
 msgid "Your message was successfully sent"
 msgstr ""
 
-#: smmpay/static/smmpay/js/app.js:941
+#: smmpay/static/smmpay/js/app.js:1011
 msgid "Active"
 msgstr ""
 
-#: smmpay/static/smmpay/js/app.js:942
+#: smmpay/static/smmpay/js/app.js:1012
 msgid "Deactivate"
 msgstr ""
 
-#: smmpay/static/smmpay/js/app.js:944
+#: smmpay/static/smmpay/js/app.js:1014
 msgid "Deactivated"
 msgstr ""
 
-#: smmpay/static/smmpay/js/app.js:945
+#: smmpay/static/smmpay/js/app.js:1015
 msgid "Activate"
 msgstr ""
 
-#: smmpay/static/smmpay/js/app.js:1300
+#: smmpay/static/smmpay/js/app.js:1391
 msgid "Seems you wrote incorrect link. The link should be in the format "
 msgstr ""
 
-#: smmpay/static/smmpay/js/app.js:1313
+#: smmpay/static/smmpay/js/app.js:1404
 msgid ""
 "You have inserted an incorrect value for the link to the page, group or "
 "account *"
+msgstr ""
+
+#: smmpay/static/smmpay/js/app.js:1470
+#, javascript-format
+msgid "subscribers %s-%s"
+msgstr ""
+
+#: smmpay/static/smmpay/js/app.js:1488
+#, javascript-format
+msgid "price %s-%s"
 msgstr ""

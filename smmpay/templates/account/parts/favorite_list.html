@@ -15,7 +15,7 @@
                 <div class="thumb__head">
                     <div class="thumb__info">
                         <a class="thumb__title" href="{{ favorite.advert.get_absolute_url }}">{{ favorite.advert.title }}</a>
-                        <div class="thumb__price">{{ favorite.advert.min_price }} $ - {{ favorite.advert.max_price }} $</div>
+                        <div class="thumb__price hidden-sm">{{ favorite.advert.min_price }} $ - {{ favorite.advert.max_price }} $</div>
                     </div>
                     <div class="thumb__meta">
                         <span class="thumb__subtitle">
@@ -24,7 +24,7 @@
                                 <img src="{% static 'smmpay/images/subtitle-link.png' %}">
                             </a>
                         </span>
-                        <span class="thumb__about_price">
+                        <span class="thumb__about_price hidden-sm">
                             {% trans 'advertising price range' %}
                         </span>
                     </div>
@@ -77,6 +77,19 @@
                         {% for service in favorite.advert.social_account.social_account_services.all %}
                             <div class="thumb__service">{{ service.social_network_service }}</div>
                         {% endfor %}
+                    </div>
+                    <div class="thumb__buttons hidden-sm">
+                        <a href="#" class="thumb__favorite active"
+                           data-item-id="{{ favorite.pk }}"
+                           data-favorite-url="{% url 'account:favorite_delete' %}">
+                        </a>
+                        <a class="thumb__read-more" href="{{ favorite.advert.get_absolute_url }}">{% trans 'Read more' %}</a>
+                    </div>
+                </div>
+                <div class="thumb__data hidden-lg hidden-md visible-sm">
+                    <div class="thumb__price_info">
+                        <div class="thumb__price">{{ favorite.advert.min_price }} $ - {{ favorite.advert.max_price }} $</div>
+                        <div class="thumb__about_price">{% trans 'advertising price range' %}</div>
                     </div>
                     <div class="thumb__buttons">
                         <a href="#" class="thumb__favorite active"

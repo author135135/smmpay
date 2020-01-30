@@ -7,7 +7,7 @@
             {% if advert.social_account.logo %}
                 <div class="thumb__image">
                     <a class="thumb__avatar" href="{{ advert.get_absolute_url }}">
-                        <img src="{{ advert.social_account.logo.url }}" width="42" height="42">
+                        <img src="{{ advert.social_account.logo.url }}">
                     </a>
                 </div>
             {% endif %}
@@ -15,7 +15,7 @@
                 <div class="thumb__head">
                     <div class="thumb__info">
                         <a class="thumb__title" href="{{ advert.get_absolute_url }}">{{ advert.title }}</a>
-                        <div class="thumb__price">{{ advert.min_price }} $ - {{ advert.max_price }} $</div>
+                        <div class="thumb__price hidden-md hidden-sm">{{ advert.min_price }} $ - {{ advert.max_price }} $</div>
                     </div>
                     <div class="thumb__meta">
                         <span class="thumb__subtitle">
@@ -24,7 +24,7 @@
                                 <img src="{% static 'smmpay/images/subtitle-link.png' %}">
                             </a>
                         </span>
-                        <span class="thumb__about_price">
+                        <span class="thumb__about_price hidden-md hidden-sm">
                             {% trans 'advertising price range' %}
                         </span>
                     </div>
@@ -72,7 +72,119 @@
                         </div>
                     </div>
                 </div>
-                <div class="thumb__general_data">
+                <div class="thumb__data">
+                    <div class="thumb__services">
+                        {% for service in advert.social_account.social_account_services.all %}
+                            <div class="thumb__service">{{ service.social_network_service }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="thumb__data hidden-lg">
+                    <div class="thumb__price_info">
+                        <div class="thumb__price">{{ advert.min_price }} $ - {{ advert.max_price }} $</div>
+                        <div class="thumb__about_price">{% trans 'advertising price range' %}</div>
+                    </div>
+                </div>
+                <div class="thumb__general_data hidden-md hidden-sm">
+                    <div class="column">
+                        <div>{% trans 'Published' %}:</div>
+                        <div>{{ advert.created|date:'d b Y' }}</div>
+                    </div>
+                    <div class="column-border"></div>
+                    <div class="column">
+                        <div>{% trans 'Views' %}:</div>
+                        <div>{{ advert.views }}</div>
+                    </div>
+                    <div class="column-border"></div>
+                    <div class="column">
+                        <div>{% trans 'Added to favorites' %}:</div>
+                        <div>{{ advert.advert_in_favorite_count }}</div>
+                    </div>
+                </div>
+                <div class="thumb__footer hidden-md hidden-sm">
+                    <nav class="thumb__buttons">
+                        <a href="{{ advert.get_absolute_url }}" class="thumb__external-link">
+                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 283.922 283.922" style="enable-background:new 0 0 283.922 283.922;" xml:space="preserve">
+                                <g>
+                                    <path d="M266.422,0h-97.625c-9.65,0-17.5,7.851-17.5,17.5c0,9.649,7.85,17.5,17.5,17.5h55.377l-92.375,92.374
+                                    c-3.307,3.305-5.127,7.699-5.127,12.375c0,4.676,1.819,9.069,5.125,12.371c3.306,3.309,7.699,5.13,12.375,5.13
+                                    c4.674,0,9.069-1.82,12.376-5.127l92.374-92.375v55.377c0,9.649,7.851,17.5,17.5,17.5c9.649,0,17.5-7.851,17.5-17.5V17.5
+                                    C283.922,7.851,276.071,0,266.422,0z" />
+                                    <path d="M201.137,253.922H30V82.785h128.711l30-30H15c-8.284,0-15,6.716-15,15v201.137c0,8.284,6.716,15,15,15h201.137
+                                    c8.284,0,15-6.716,15-15V95.211l-30,30V253.922z" />
+                                </g>
+                            </svg>
+                            {% trans 'View advert' %}
+                        </a>
+                        <a href="{% url 'advert:advert_edit' advert.pk %}" class="thumb__pain">
+                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="511.995px" height="511.995px" viewBox="0 0 511.995 511.995" style="enable-background:new 0 0 511.995 511.995;" xml:space="preserve">
+                                <g>
+                                    <path d="M497.941,14.057c18.75,18.75,18.719,49.141,0,67.891l-22.625,22.625L407.41,36.682l22.625-22.625
+                                    C448.784-4.677,479.191-4.693,497.941,14.057z M158.534,285.588l-22.609,90.5l90.5-22.625l226.266-226.266l-67.906-67.891
+                                    L158.534,285.588z M384.003,241.15v206.844h-320v-320h206.859l63.983-64H0.003v448h448v-334.86L384.003,241.15z" />
+                                </g>
+                            </svg>
+                            {% trans 'Edit' %}
+                        </a>
+                        {% if advert.is_published %}
+                            {% if advert.enabled_by_author %}
+                                <div class="thumb__delete active-adt_btn">
+                                    <span>{% trans 'Active' %}</span>
+                                    <a href="#"
+                                       data-item-id="{{ advert.pk }}"
+                                       data-change-status-url="{% url 'account:advert_change_status' %}">
+                                        {% trans 'Deactivate' %}
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div class="thumb__delete deactivate-adt_btn">
+                                    <span>{% trans 'Disabled' %}</span>
+                                    <a href="#"
+                                       data-item-id="{{ advert.pk }}"
+                                       data-change-status-url="{% url 'account:advert_change_status' %}">
+                                        {% trans 'Activate' %}
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            {% if advert.status == advert_statuses.ADVERT_STATUS_MODERATION %}
+                                <div class="thumb__delete disabled-admin_btn">
+                                    <span>{{ advert.get_status_display|capfirst }}</span>
+                                </div>
+                            {% elif advert.status == advert_statuses.ADVERT_STATUS_VIOLATION %}
+                                <div class="thumb__delete disabled-admin_btn wrong_1">
+                                    <span>{{ advert.get_status_display|capfirst }}</span>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </nav>
+                    {% comment %}
+                    <nav class="nav-advertise">
+                        <a href="{% url 'account:discussions' %}?query={{ advert.title }}" class="btn-massage">
+                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 483.3 483.3" style="enable-background:new 0 0 483.3 483.3;" xml:space="preserve">
+                                <g>
+                                    <g>
+                                        <path d="M424.3,57.75H59.1c-32.6,0-59.1,26.5-59.1,59.1v249.6c0,32.6,26.5,59.1,59.1,59.1h365.1c32.6,0,59.1-26.5,59.1-59.1
+                                        v-249.5C483.4,84.35,456.9,57.75,424.3,57.75z M456.4,366.45c0,17.7-14.4,32.1-32.1,32.1H59.1c-17.7,0-32.1-14.4-32.1-32.1v-249.5
+                                        c0-17.7,14.4-32.1,32.1-32.1h365.1c17.7,0,32.1,14.4,32.1,32.1v249.5H456.4z" />
+                                        <path d="M304.8,238.55l118.2-106c5.5-5,6-13.5,1-19.1c-5-5.5-13.5-6-19.1-1l-163,146.3l-31.8-28.4c-0.1-0.1-0.2-0.2-0.2-0.3
+                                        c-0.7-0.7-1.4-1.3-2.2-1.9L78.3,112.35c-5.6-5-14.1-4.5-19.1,1.1c-5,5.6-4.5,14.1,1.1,19.1l119.6,106.9L60.8,350.95
+                                        c-5.4,5.1-5.7,13.6-0.6,19.1c2.7,2.8,6.3,4.3,9.9,4.3c3.3,0,6.6-1.2,9.2-3.6l120.9-113.1l32.8,29.3c2.6,2.3,5.8,3.4,9,3.4
+                                        c3.2,0,6.5-1.2,9-3.5l33.7-30.2l120.2,114.2c2.6,2.5,6,3.7,9.3,3.7c3.6,0,7.1-1.4,9.8-4.2c5.1-5.4,4.9-14-0.5-19.1L304.8,238.55z" />
+                                    </g>
+                                </g>
+                            </svg>
+                            {% if advert.new_messages_count > 0 %}
+                                <i class="number">{{ advert.new_messages_count }}</i>
+                            {% endif %}
+                        </a>
+                        <a href="#" class="thumb__read-more advertise-btn">Рекламировать</a>
+                    </nav>
+                    {% endcomment %}
+                </div>
+            </div>
+            <div class="thumb__container hidden-lg">
+                 <div class="thumb__general_data">
                     <div class="column">
                         <div>{% trans 'Published' %}:</div>
                         <div>{{ advert.created|date:'d b Y' }}</div>

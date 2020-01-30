@@ -126,7 +126,10 @@
                             {% if forloop.first %}
                                 {{ advert_service_form.social_network_service.label }}*
                             {% else %}
-                                <a href="#" class="remove-service"></a>
+                                <a href="#" class="remove-service hidden-sm"></a>
+                                <span class="hidden-lg hidden-md">
+                                    {{ advert_service_formset.empty_form.social_network_service.label }}
+                                </span>
                             {% endif %}
                         </label>
                         <div class="item__field__wrapper">
@@ -139,7 +142,12 @@
                             </div>
                             <div class="item__label">{{ advert_service_form.price.label }}</div>
                             <div class="item__field">
-                                {{ advert_service_form.price }}
+                                <div class="field-wrapper">
+                                    {{ advert_service_form.price }}
+                                    {% if not forloop.first %}
+                                        <a href="#" class="remove-service hidden-lg hidden-md">{% trans 'Remove service' %}</a>
+                                    {% endif %}
+                                </div>
 
                                 <div class="item__inner__field negotiated-price">
                                     <label>{{ advert_service_form.negotiated_price }} {{ advert_service_form.negotiated_price.label }}</label>
@@ -164,13 +172,25 @@
                     </div>
                 {% endif %}
 
+                <div class="item">
+                    <label class="item__label"></label>
+                    <div class="item__field">
+                        <div class="button-wrapper">
+                            <a class="button add-service" href="#">{% trans 'Add another service' %}</a>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="empty-formset hidden">
                     <div class="item inline-item service-item new-item">
                         {% for hidden in advert_service_formset.empty_form.hidden_fields %}
                             {{ hidden }}
                         {% endfor %}
                         <label class="item__label">
-                            <a href="#" class="remove-service"></a>
+                            <a href="#" class="remove-service hidden-sm"></a>
+                            <span class="hidden-lg hidden-md">
+                                {{ advert_service_formset.empty_form.social_network_service.label }}
+                            </span>
                         </label>
                         <div class="item__field__wrapper">
                             <div class="item__field">
@@ -179,21 +199,15 @@
                             </div>
                             <div class="item__label">{{ advert_service_formset.empty_form.price.label }}</div>
                             <div class="item__field">
-                                {{ advert_service_formset.empty_form.price }}
+                                <div class="field-wrapper">
+                                    {{ advert_service_formset.empty_form.price }}
+                                    <a href="#" class="remove-service hidden-lg hidden-md">{% trans 'Remove service' %}</a>
+                                </div>
 
                                 <div class="item__inner__field negotiated-price">
                                     <label>{{ advert_service_formset.empty_form.negotiated_price }} {{ advert_service_formset.empty_form.negotiated_price.label }}</label>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="item">
-                    <label class="item__label"></label>
-                    <div class="item__field">
-                        <div class="button-wrapper">
-                            <a class="button add-service" href="#">{% trans 'Add another service' %}</a>
                         </div>
                     </div>
                 </div>
@@ -210,7 +224,7 @@
                 </div>
 
                 <div class="item verification-item">
-                    <label class="item__label">{% trans 'Verification' %}</label>
+                    <label class="item__label">{% trans 'Verification (not required)' %}</label>
                     <div class="item__field">
                         <div class="text-help">{% blocktrans %}For maximum confidence in the identity and relevance of information about your site,
                             we recommend that you confirm that you are an administrator. By temporarily putting the passphrase which is written below, the status if it is a

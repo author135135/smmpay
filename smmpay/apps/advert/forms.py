@@ -254,6 +254,9 @@ class AdvertSocialAccountForm(forms.ModelForm):
         if external_logo:
             social_account.logo.save(external_logo._origin_name, external_logo, False)
 
+        if 'link' in self.changed_data:
+            social_account.confirmed = False
+
         if commit:
             social_account.save()
         return social_account

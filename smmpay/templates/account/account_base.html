@@ -25,7 +25,8 @@
                     <a href="{{ favorites_url }}">{% trans 'Favorites' %}</a>
                 </li>
                 {% url 'account:settings' as settings_url %}
-                <li class="{% if request.path == settings_url %}active{% endif %}">
+                {% url 'account:account_delete' as delete_url %}
+                <li class="{% if request.path == settings_url or request.path == delete_url %}active{% endif %}">
                     <a href="{{ settings_url }}">{% trans 'Settings' %}</a>
                 </li>
             </ul>

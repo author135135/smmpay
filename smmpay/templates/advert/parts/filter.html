@@ -3,14 +3,8 @@
 {% load advert_tags %}
 
 <div class="filter">
-    <div class="filter__open">
-        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 13 16" style="enable-background:new 0 0 13 16;" xml:space="preserve">
-            <path class="st0" d="M0,2h13v2L8,9v7l-3-2V9L0,4V2z"></path>
-            <path class="st0" d="M0,0h13v1H0V0z"></path>
-        </svg>
-    </div>
     <div class="filter__container">
-        <form id="filter-form">
+        <form class="filter-form">
             {% if social_networks %}
                 <div class="filter__row">
                     <label class="filter__label">
@@ -30,25 +24,25 @@
                 </div>
             {% endif %}
 
-            <div class="filter__row">
+            <div class="filter__row filter-sm">
                 <label class="filter__label">
                     <span class="filter__title">{{ filter_form.category.label }}</span>
                     {{ filter_form.category }}
                 </label>
             </div>
-            <div class="filter__row">
+            <div class="filter__row filter-sm">
                 <label class="filter__label">
                     <span class="filter__title">{{ filter_form.service.label }}</span>
                     {{ filter_form.service }}
                 </label>
             </div>
-            <div class="filter__row">
+            <div class="filter__row filter-sm">
                 <label class="filter__label">
                     <span class="filter__title">{{ filter_form.search_query.label }}</span>
                     {{ filter_form.search_query }}
                 </label>
             </div>
-            <div class="filter__row">
+            <div class="filter__row filter-sm">
                 <div class="filter__row__col">
                     <label class="filter__label">
                         <span class="filter__title">{{ filter_form.subscribers_min.label }}</span>
@@ -62,7 +56,7 @@
                     </label>
                 </div>
             </div>
-            <div class="filter__row">
+            <div class="filter__row filter-sm">
                 <div class="filter__row__col">
                     <label class="filter__label">
                         <span class="filter__title">{{ filter_form.price_min.label }}</span>
@@ -76,6 +70,9 @@
                     </label>
                 </div>
             </div>
+            <div class="filter__row applied-filters hidden-lg hidden-md">
+                <div class="filters"></div>
+            </div>
             <div class="filter__row">
                 <div class="sort">
                     <label class="filter__label">
@@ -85,13 +82,29 @@
                         </div>
                     </label>
                 </div>
-                <button type="button" class="filter__reset button">{% trans 'Reset filter' %}</button>
+                <button type="button" class="filter__reset button hidden-sm">{% trans 'Reset filter' %}</button>
 
                 <div class="adverts-found">
                     <span>{% trans 'Found' %}</span>
                     <span id="items-count">{{ paginator.count }}</span>
                 </div>
 
+                <button type="submit" class="filter__submit button hidden-sm">{% trans 'Find adverts' %}</button>
+                <button type="button" class="filter__button button hidden-lg hidden-md">{% trans 'Filter' %}</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="side__filter__container">
+        <form class="filter-form">
+            <div class="filter__row init-row">
+                <div class="filter-label">
+                    {% trans 'Filter' %} (<span class="social-network"></span>)
+                </div>
+                <button type="button" class="button close-btn"></button>
+            </div>
+            <div class="filter__row init-row">
+                <button type="button" class="filter__reset button">{% trans 'Reset filter' %}</button>
                 <button type="submit" class="filter__submit button">{% trans 'Find adverts' %}</button>
             </div>
         </form>

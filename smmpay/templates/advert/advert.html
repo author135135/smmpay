@@ -33,8 +33,14 @@
                         <div class="thumb__head">
                             <div class="thumb__info">
                                 <h1 class="thumb__title">{{ advert.title }}</h1>
+                                <span class="thumb__subtitle hidden-lg hidden-md">
+                                    {{ advert.social_account.link }}
+                                    <a href="{{ advert.social_account.link }}" target="_blank">
+                                        <img src="{% static 'smmpay/images/subtitle-link.png' %}">
+                                    </a>
+                                </span>
                             </div>
-                            <div class="thumb__meta">
+                            <div class="thumb__meta hidden-sm">
                                 <div class="thumb__price">{{ advert.min_price }} $ - {{ advert.max_price }} $</div>
                                 <div class="thumb__about_price">{% trans 'advertising price range' %}</div>
                             </div>
@@ -69,103 +75,106 @@
                         </div>
                     </div>
                 </div>
-                <div class="thumb__row">
-                    <div class="first_column"></div>
+                <div class="thumb__row hidden-lg hidden-md visible-sm">
+                    <div class="first__column"></div>
                     <div class="second__column">
-                        <table class="thumb__info__table">
-                            <tbody>
-                                <tr>
-                                    <th>{% trans 'Relevance info' %}:</th>
-                                    <td>{{ advert.updated|date:'d.m.Y' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% trans 'Link' %}:</th>
-                                    <td><a href="{{ advert.social_account.link }}" target="_blank">{{ advert.social_account.link }}</a></td>
-                                </tr>
-                                <tr>
-                                    <th>{% trans 'Subscribers' %}:</th>
-                                    <td>
-                                        <div class="value_icon">
-                                            <div class="icon">
-                                                <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M0 9C0 7.34315 1.34315 6 3 6H6C7.65685 6 9 7.34315 9 9C9 10.6569 7.65685 12 6 12H3C1.34315 12 0 10.6569 0 9Z" fill="#808080"/>
-                                                    <rect x="2" width="5" height="5" rx="2.5" fill="#808080"/>
-                                                </svg>
-                                            </div>
-                                            <div class="value">{{ advert.social_account.subscribers }}</div>
+                        <div class="thumb__meta">
+                            <div class="thumb__price">{{ advert.min_price }} $ - {{ advert.max_price }} $</div>
+                            <div class="thumb__about_price">{% trans 'advertising price range' %}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumb__row">
+                    <div class="first_column hidden-sm"></div>
+                    <div class="second__column">
+                        <div class="thumb__info__table">
+                            <div class="table_row">
+                                <div>{% trans 'Relevance info' %}:</div>
+                                <div>{{ advert.updated|date:'d.m.Y' }}</div>
+                            </div>
+                            <div class="table_row">
+                                <div>{% trans 'Link' %}:</div>
+                                <div><a href="{{ advert.social_account.link }}" target="_blank">{{ advert.social_account.link }}</a></div>
+                            </div>
+                            <div class="table_row">
+                                <div>{% trans 'Subscribers' %}:</div>
+                                <div>
+                                    <div class="value_icon">
+                                        <div class="icon">
+                                            <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M0 9C0 7.34315 1.34315 6 3 6H6C7.65685 6 9 7.34315 9 9C9 10.6569 7.65685 12 6 12H3C1.34315 12 0 10.6569 0 9Z" fill="#808080"/>
+                                                <rect x="2" width="5" height="5" rx="2.5" fill="#808080"/>
+                                            </svg>
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>{% trans 'Category' %}:</th>
-                                    <td>
-                                        <div class="value_icon">
-                                            <div class="icon">
-                                                <div class="thumb__icon {{ advert.category.slug }}"></div>
-                                            </div>
-                                            <div class="value">{{ advert.category.title }}</div>
+                                        <div class="value">{{ advert.social_account.subscribers }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table_row">
+                                <div>{% trans 'Category' %}:</div>
+                                <div>
+                                    <div class="value_icon">
+                                        <div class="icon">
+                                            <div class="thumb__icon {{ advert.category.slug }}"></div>
                                         </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        <div class="value">{{ advert.category.title }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 {% if advert.social_account.social_account_services.count %}
                     <div class="thumb__row services__table">
-                        <div class="first__column"></div>
+                        <div class="first__column hidden-sm"></div>
                         <div class="second__column">
-                            <table class="thumb__info__table">
-                                <tbody>
-                                    {% for advert_service in advert.social_account.social_account_services.all %}
-                                        <tr>
-                                            <th>{{ advert_service.social_network_service.title }}:</th>
-                                            <td>
-                                                {% if advert_service.negotiated_price %}
-                                                    {% trans 'negotiated price' %}
-                                                {% elif advert_service.price %}
-                                                    {{ advert_service.price }} $
-                                                {% endif %}
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                            <div class="thumb__info__table">
+                                {% for advert_service in advert.social_account.social_account_services.all %}
+                                    <div class="table_row">
+                                        <div>{{ advert_service.social_network_service.title }}:</div>
+                                        <div>
+                                            {% if advert_service.negotiated_price %}
+                                                {% trans 'negotiated price' %}
+                                            {% elif advert_service.price %}
+                                                {{ advert_service.price }} $
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 {% endif %}
 
                 <div class="thumb__row">
-                    <div class="first__column"></div>
+                    <div class="first__column hidden-sm"></div>
                     <div class="second__column">
-                        <table class="thumb__info__table">
-                            <tbody>
-                                <tr>
-                                    <th>{% trans 'Date of publication' %}:</th>
-                                    <td>{{ advert.created|date:'d E Y' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% trans 'Verification' %}</th>
-                                    <td>
-                                        {% if advert.social_account.confirmed %}
-                                            {% trans 'The author confirmed' %}
-                                        {% else %}
-                                            {% trans 'The author did not confirm' %}
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>{% trans 'Description' %}</th>
-                                    <td class="description">{{ advert.description }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="thumb__info__table">
+                            <div class="table_row">
+                                <div>{% trans 'Date of publication' %}:</div>
+                                <div>{{ advert.created|date:'d E Y' }}</div>
+                            </div>
+                            <div class="table_row">
+                                <div>{% trans 'Verification' %}:</div>
+                                <div>
+                                    {% if advert.social_account.confirmed %}
+                                        {% trans 'The author confirmed' %}
+                                    {% else %}
+                                        {% trans 'The author did not confirm' %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="table_row description">
+                                <div>{% trans 'Description' %}:</div>
+                                <div>{{ advert.description }}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="thumb__row bordered">
-                   <div class="first__column"></div>
+                   <div class="first__column hidden-sm"></div>
                    <div class="second__column">
                         <nav class="thumb__buttons">
                             <a href="#" class="thumb__favorite {% if advert.in_favorite %}active{% endif %}"
