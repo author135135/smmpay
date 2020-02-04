@@ -24,7 +24,7 @@
             <header class="header">
                 <div class="header__container">
                     <a class="logo" href="{% url 'advert:index' %}">
-                        <img src="{% static 'smmpay/data/logo.png' %}">
+                        <img src="{% static 'smmpay/data/logo.svg' %}">
                     </a>
                     <div class="site-description hidden-sm">
                         {% trans 'Global base of platforms for advertising on social networks' %}
@@ -162,7 +162,7 @@
             <div class="footer__nav">
                 <div class="footer__section">
                     <a class="logo" href="{% url 'advert:index' %}">
-                        <img src="{% static 'smmpay/data/logo.png' %}" width="103" height="42">
+                        <img src="{% static 'smmpay/data/logo.svg' %}" width="103" height="42">
                     </a>
                     <div class="footer__info">{% trans 'QoopiQoopi is a convenient platform for buying and selling public groups and accounts in social networks' %}</div>
                 </div>
@@ -197,34 +197,5 @@
         <script src="{% url 'javascript-catalog' %}"></script>
         {% block script %}{% endblock %}
         <script src="{% static 'smmpay/js/app.js' %}"></script>
-        <!-- Yandex.Metrika counter -->
-        <script type="text/javascript" >
-            (function (d, w, c) {
-                (w[c] = w[c] || []).push(function() {
-                    try {
-                        w.yaCounter46650330 = new Ya.Metrika({
-                            id:46650330,
-                            clickmap:true,
-                            trackLinks:true,
-                            accurateTrackBounce:true,
-                            webvisor:true
-                        });
-                    } catch(e) { }
-                });
-
-                var n = d.getElementsByTagName("script")[0],
-                    s = d.createElement("script"),
-                    f = function () { n.parentNode.insertBefore(s, n); };
-                s.type = "text/javascript";
-                s.async = true;
-                s.src = "https://d31j93rd8oukbv.cloudfront.net/metrika/watch_ua.js";
-
-                if (w.opera == "[object Opera]") {
-                    d.addEventListener("DOMContentLoaded", f, false);
-                } else { f(); }
-            })(document, window, "yandex_metrika_callbacks");
-        </script>
-        <noscript><div><img src="https://mc.yandex.ru/watch/46650330" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-        <!-- /Yandex.Metrika counter -->
   </body>
 </html>
