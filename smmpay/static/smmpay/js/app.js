@@ -241,11 +241,12 @@
                     sideFilter.css('width', '0');
                 }
 
-                $('body').toggleClass('visible-sidebar');
+                $('body').addClass('visible-sidebar');
             });
 
             $('.side__filter__container .close-btn').click(function(e) {
                 $('.side__filter__container').css('width', '0');
+		$('body').removeClass('visible-sidebar');
             });
 
             $(window).on('resize', function(e) {
