@@ -31,6 +31,7 @@ pyasn1==0.4.7
 pyasn1-modules==0.2.7
 PySocks==1.7.1
 python-magic==0.4.15
+python-twitch-client==0.6.0
 pytz==2019.3
 redis==3.3.11
 requests==2.22.0
