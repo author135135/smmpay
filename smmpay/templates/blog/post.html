@@ -1,5 +1,6 @@
 {% extends 'base/base_html.html' %}
 {% load i18n %}
+{% load static %}
 {% load advert_tags %}
 
 {% block head %}
@@ -66,4 +67,5 @@
             h.appendChild(s);
         }})();
     </script>
+    <script src="{% static 'smmpay/components/jquery.sticky-sidebar.min.js' %}"></script>
 {% endblock %}

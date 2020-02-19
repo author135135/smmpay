@@ -1081,9 +1081,10 @@ body > .jcf-select-drop {
 }
 
 @media only screen and (max-width: 459px){
-    .sort {
-        width: 100%;
-        margin-bottom: 10px;
+    .sort .filter__label {
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
 
@@ -1119,6 +1120,12 @@ body > .jcf-select-drop {
     padding: 9px 15px;
     height: auto;
     margin-left: 30px;
+}
+
+@media only screen and (max-width: 349px){
+    .filter__button {
+        margin-left: 10px;
+    }
 }
 
 .filter__open {
@@ -1942,6 +1949,7 @@ body > .jcf-select-drop {
     border-radius: 4px;
     padding: 25px 0 12px 0;
     margin-top: 10px;
+    min-width: 250px;
 }
 
 .account-dropdown-menu::before {
@@ -2436,7 +2444,7 @@ body > .jcf-select-drop {
 }
 
 .sidebar__head {
-    height: 68px;
+    height: 64px;
     padding: 0 20px;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -2658,11 +2666,11 @@ body > .jcf-select-drop {
 }
 
 .social-networks-items .item.tiktok {
-    background: #20F7EF;
+    background: #0E0E0E;
 }
 
 .social-networks-items .item.tiktok:hover {
-    box-shadow: 0 4px 4px rgba(32, 247, 239, 0.5);
+    box-shadow: 0 4px 4px rgba(14, 14, 14, 0.5);
 }
 
 .social-networks-items .item.vk {
@@ -4034,10 +4042,6 @@ body > .jcf-select-drop {
     margin-right: 8px;
 }
 
-.add-advertisement:hover {
-    box-shadow: 0 6px 15px 0 rgba(67, 79, 106, 0.1);
-}
-
 .user-favorites_content .nav-user-search {
     margin: 0 0 30px;
     box-shadow: 0px 1px 3px 0px rgba(43, 54, 79, 0.08);
@@ -5157,10 +5161,6 @@ body > .jcf-select-drop {
     margin-right: 28px;
     display: inline-block;
     line-height: 25px;
-}
-
-.other-page_content .btn-search-ads:hover {
-    box-shadow: 0 6px 15px 0 rgba(67, 79, 106, 0.1);
 }
 
 .text-wrap {

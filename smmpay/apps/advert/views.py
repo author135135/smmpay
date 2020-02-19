@@ -175,7 +175,8 @@ class AdvertSubFormsMixin(object):
         advert_type_form_class = 'Advert{}Form'.format(advert_type)
 
         return getattr(advert_forms, advert_type_form_class)(self.request.POST or None, self.request.FILES or None,
-                                                             instance=self.get_social_account_object())
+                                                             instance=self.get_social_account_object(),
+                                                             request=self.request)
 
     def get_advert_service_formset(self):
         return advert_forms.AdvertServiceFormSetFactory(self.request.POST or None,
@@ -300,9 +301,8 @@ class AdvertAddView(LoginRequiredMixin, AdvertSubFormsMixin, CreateView):
         else:
             confirmation_code = get_random_string(length=32)
 
-        self.request.session['advert_confirmation_code'] = confirmation_code
-
-        context['advert_confirmation_code'] = confirmation_code
+        self.request.session['social_account_confirmation_code'] = confirmation_code
+        context['social_account_confirmation_code'] = confirmation_code
 
         return context
 
@@ -311,7 +311,6 @@ class AdvertAddView(LoginRequiredMixin, AdvertSubFormsMixin, CreateView):
         advert = form.save(False)
         advert.author = self.request.user
         advert.social_account = advert_type_form.save(False)
-        advert.social_account.confirmation_code = self.request.session['advert_confirmation_code']
         advert.save()
 
         advert.social_account.advert = advert
@@ -324,8 +323,6 @@ class AdvertAddView(LoginRequiredMixin, AdvertSubFormsMixin, CreateView):
                                                                'It will be published on the site after the moderation. '
                                                                'Usually it takes from 20 to 50 minutes.'))
 
-        del self.request.session['advert_confirmation_code']
-
         return super(AdvertAddView, self).form_valid(form, advert_type_form, advert_service_formset)
 
     def get_success_url(self):
@@ -336,51 +333,91 @@ class AdvertAddView(LoginRequiredMixin, AdvertSubFormsMixin, CreateView):
 
 
 class AdvertSocialAccountInfoView(View):
-    def get(self, *args, **kwargs):
-        account_link = self.request.GET.get('account_link', None)
+    def get(self, request, *args, **kwargs):
         response_data = {
             'success': False
         }
 
-        if account_link is None:
-            return JsonResponse(response_data)
+        if request.user.is_authenticated():
+            account_link = self.request.GET.get('account_link', None)
 
-        try:
-            client = AdvertSocialAccount.get_api_connector(account_link=account_link)
-            account_info = client.get_account_info()
+            if account_link is None:
+                return JsonResponse(response_data)
 
-            response_data['success'] = True
-            response_data['fields'] = {
-                'title': account_info.get('title', None),
-                'subscribers': account_info.get('subscribers', None),
-                'external_logo': account_info.get('logo', None)
-            }
-        except Exception as e:
-            logger = logging.getLogger('db')
-            logger.exception(e)
+            try:
+                client = AdvertSocialAccount.get_api_connector(account_link=account_link)
+                account_info = client.get_account_info()
 
-            return JsonResponse(response_data)
+                response_data['success'] = True
+                response_data['fields'] = {
+                    'title': account_info.get('title', None),
+                    'subscribers': account_info.get('subscribers', None),
+                    'external_logo': account_info.get('logo', None)
+                }
+            except Exception as e:
+                logger = logging.getLogger('db')
+                logger.exception(e)
+
+                return JsonResponse(response_data)
 
         return JsonResponse(response_data)
 
 
 class AdvertSocialAccountServicesView(View):
-    def get(self, *args, **kwargs):
-        account_link = self.request.GET.get('account_link', None)
+    def get(self, request, *args, **kwargs):
         response_data = {
             'success': False
         }
 
-        if account_link is None:
-            return JsonResponse(response_data)
+        if request.user.is_authenticated():
+            account_link = self.request.GET.get('account_link', None)
 
-        social_network = SocialNetwork.get_social_network(account_link)
+            if account_link is None:
+                return JsonResponse(response_data)
 
-        if social_network is None:
-            return JsonResponse(response_data)
+            social_network = SocialNetwork.get_social_network(account_link)
 
-        response_data['success'] = True
-        response_data['services'] = list(social_network.services.values_list('pk', 'title'))
+            if social_network is None:
+                return JsonResponse(response_data)
+
+            response_data['success'] = True
+            response_data['services'] = list(social_network.services.values_list('pk', 'title'))
+
+        return JsonResponse(response_data)
+
+
+class AdvertSocialAccountConfirmView(View):
+    def post(self, request, *args, **kwargs):
+        response_data = {
+            'success': False
+        }
+
+        if request.user.is_authenticated():
+            account_link = request.POST.get('account_link', None)
+            confirm_code = request.POST.get('confirm_code', None)
+
+            if account_link is None or confirm_code is None:
+                return JsonResponse(response_data)
+
+            social_network = SocialNetwork.get_social_network(account_link)
+
+            if social_network is None:
+                return JsonResponse(response_data)
+
+            try:
+                parser = AdvertSocialAccount.get_parser(social_network.code)
+                confirmed = parser.get_account_confirmation(url=account_link, code=confirm_code)
+            except Exception as e:
+                confirmed = False
+
+                logger = logging.getLogger('db')
+                logger.exception(e)
+
+            response_data['success'] = True
+            response_data['confirmed'] = bool(confirmed)
+
+            request.session['social_account_confirm_link'] = account_link
+            request.session['social_account_confirm_status'] = response_data['confirmed']
 
         return JsonResponse(response_data)
 

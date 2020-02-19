@@ -24,9 +24,9 @@ logger = logging.getLogger('db')
 class FilterForm(forms.Form):
     SORT_CHOICES = (
         ('-social_account__subscribers', {'label': _('subscribers'),
-                                         'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+                                          'data-imagesrc': static('smmpay/images/sort_higher.png')}),
         ('social_account__subscribers', {'label': _('subscribers'),
-                                          'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+                                         'data-imagesrc': static('smmpay/images/sort_lower.png')}),
         ('-min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
         ('min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
         ('-max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
@@ -74,10 +74,12 @@ class AdvertSocialAccountServiceForm(forms.ModelForm):
     def __init__(self, post_data, *args, **kwargs):
         super(AdvertSocialAccountServiceForm, self).__init__(*args, **kwargs)
 
-        if self.social_account_instance.advert_id is not None:
+        if 'link' in post_data:
+            social_account_link = post_data.get('link')
+        elif self.social_account_instance.advert_id is not None:
             social_account_link = self.social_account_instance.link
         else:
-            social_account_link = post_data.get('link')
+            social_account_link = None
 
         if social_account_link:
             social_network = SocialNetwork.get_social_network(social_account_link)
@@ -181,6 +183,8 @@ class AdvertSocialAccountForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+
         super(AdvertSocialAccountForm, self).__init__(*args, **kwargs)
 
         for field in self.fields:
@@ -189,11 +193,10 @@ class AdvertSocialAccountForm(forms.ModelForm):
             self.fields[field].widget.attrs['class'] = class_name
 
     def clean_external_logo(self):
-        logo = self.cleaned_data['logo']
         external_logo_url = self.cleaned_data['external_logo']
         external_logo = None
 
-        if not logo and external_logo_url:
+        if not self.files and external_logo_url:
             try:
                 validators.URLValidator(external_logo_url)
 
@@ -254,11 +257,27 @@ class AdvertSocialAccountForm(forms.ModelForm):
         if external_logo:
             social_account.logo.save(external_logo._origin_name, external_logo, False)
 
-        if 'link' in self.changed_data:
-            social_account.confirmed = False
+        if social_account.pk is None or 'link' in self.changed_data:
+            social_account_confirm_link = self.request.session.get('social_account_confirm_link', None)
+            social_account_confirm_status = self.request.session.get('social_account_confirm_status', None)
+
+            if (social_account_confirm_link is not None and social_account_confirm_status is not None and
+                    social_account.link == social_account_confirm_link):
+                social_account.confirmed = bool(social_account_confirm_status)
+            else:
+                social_account.confirmed = False
+
+        social_account.confirmation_code = self.request.session['advert_confirmation_code']
 
         if commit:
             social_account.save()
+
+            if 'social_account_confirm_link' in self.request.session:
+                del self.request.session['social_account_confirm_link']
+            if 'social_account_confirm_status' in self.request.session:
+                del self.request.session['social_account_confirm_status']
+            if 'social_account_confirmation_code' in self.request.session:
+                del self.request.session['social_account_confirmation_code']
         return social_account
 
 

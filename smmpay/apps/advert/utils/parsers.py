@@ -178,6 +178,21 @@ class TiktokSocialNetworkParser(object):
         return False
 
 
+class TwitchSocialNetworkParser(object):
+    ACCOUNT_CONFIRMATION_SELECTOR = '.panel-description'
+
+    def get_account_confirmation(self, url, code):
+        client = WebClient()
+
+        parser = BeautifulSoup(client.get_page_content(url), 'lxml')
+        element = parser.select_one(self.ACCOUNT_CONFIRMATION_SELECTOR)
+
+        if element is not None:
+            return code.strip() in element.text.strip()
+
+        return False
+
+
 def get_parser(social_network, *args, **kwargs):
     if social_network is None:
         raise Exception('Can not identify social network')

@@ -422,46 +422,6 @@ class AdvertViewsStatistic(models.Model):
         db_table = 'advert_advert_views_statistic'
 
 
-class SocialAccountConfirmationQueue(models.Model):
-    QUEUE_STATUS_NEW = 'new'
-    QUEUE_STATUS_SUCCESS = 'success'
-    QUEUE_STATUS_PROGRESS = 'progress'
-    QUEUE_STATUS_ERROR = 'error'
-
-    QUEUE_MAX_ATTEMPTS = 5
-
-    QUEUE_STATUSES = (
-        (QUEUE_STATUS_NEW, _('New')),
-        (QUEUE_STATUS_SUCCESS, _('Success')),
-        (QUEUE_STATUS_PROGRESS, _('In progress')),
-        (QUEUE_STATUS_ERROR, _('Error'))
-    )
-
-    social_account = models.OneToOneField(verbose_name=_('social account'), to=AdvertSocialAccount,
-                                          on_delete=models.CASCADE)
-    status = models.CharField(_('status'), max_length=10, choices=QUEUE_STATUSES, default='new')
-    attempts = models.SmallIntegerField(_('attempts count'), default=0)
-    last_start = models.DateTimeField(_('last start'), blank=True, null=True)
-
-    class Meta:
-        db_table = 'advert_advert_social_account_confirmation'
-        verbose_name = _('social account confirmation queue')
-        verbose_name_plural = _('social account confirmation queues')
-
-    def __str__(self):
-        return _('Social account({}) {}').format(self.social_account.pk, self.get_status_display())
-
-    def set_status(self, status):
-        self.status = status
-
-        self.save()
-
-    def new_attempt(self):
-        self.attempts += 1
-
-        self.save()
-
-
 class FavoriteAdvert(models.Model):
     advert = models.ForeignKey(verbose_name=_('advert'), to=Advert, related_name='favorite_adverts',
                                on_delete=models.CASCADE)

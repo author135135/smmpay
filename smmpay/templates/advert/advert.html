@@ -94,7 +94,7 @@
                             </div>
                             <div class="table_row">
                                 <div>{% trans 'Link' %}:</div>
-                                <div><a href="{{ advert.social_account.link }}" target="_blank">{{ advert.social_account.link }}</a></div>
+                                <div class="account-link"><a href="{{ advert.social_account.link }}" target="_blank">{{ advert.social_account.link }}</a></div>
                             </div>
                             <div class="table_row">
                                 <div>{% trans 'Subscribers' %}:</div>
@@ -152,17 +152,39 @@
                     <div class="second__column">
                         <div class="thumb__info__table">
                             <div class="table_row">
-                                <div>{% trans 'Date of publication' %}:</div>
-                                <div>{{ advert.created|date:'d E Y' }}</div>
-                            </div>
-                            <div class="table_row">
                                 <div>{% trans 'Verification' %}:</div>
                                 <div>
-                                    {% if advert.social_account.confirmed %}
-                                        {% trans 'The author confirmed' %}
-                                    {% else %}
-                                        {% trans 'The author did not confirm' %}
-                                    {% endif %}
+                                    <div class="confirmation-status">
+                                        {% if advert.social_account.confirmed %}
+                                            {% trans 'The author confirmed' %}
+                                        {% else %}
+                                            {% trans 'The author did not confirm' %}
+                                            <div class="tooltip-wrapper">
+                                                <a href="#" class="tooltip">
+                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <circle opacity="0.4" cx="9" cy="9" r="9" fill="#3B4952"/>
+                                                        <g clip-path="url(#clip0)">
+                                                            <path d="M8.8651 4C10.5949 4 12.2978 4.79663 12.2978 6.70211C12.2978 8.45929 10.2842 9.13506 9.8518 9.77C9.52715 10.2423 9.63558 10.906 8.74359 10.906C8.16254 10.906 7.87872 10.4333 7.87872 10.0009C7.87872 8.39168 10.2431 8.02749 10.2431 6.70243C10.2431 5.97308 9.75772 5.54065 8.94642 5.54065C7.21666 5.54065 7.89211 7.32398 6.58204 7.32398C6.10909 7.32398 5.70313 7.04015 5.70313 6.49992C5.70281 5.17454 7.21602 4 8.8651 4ZM8.79781 11.7833C9.40501 11.7833 9.90601 12.2827 9.90601 12.8918C9.90601 13.5009 9.40597 14.0003 8.79781 14.0003C8.18965 14.0003 7.68928 13.5015 7.68928 12.8918C7.68928 12.283 8.18965 11.7833 8.79781 11.7833Z" fill="white"/>
+                                                        </g>
+                                                        <defs>
+                                                            <clipPath id="clip0">
+                                                                <rect x="4" y="4" width="10" height="10" fill="white"/>
+                                                            </clipPath>
+                                                        </defs>
+                                                    </svg>
+                                                </a>
+                                                <div class="tooltip-modal">
+                                                    <div class="tooltip-head">
+                                                        <button type="button" class="button tooltip-close"></button>
+                                                    </div>
+                                                    <div class="tooltip-body">{% blocktrans %}The site administrator was not verified on our website,
+                                                        which means that the price data and conditions are indicative, taken from open or insider sources.
+                                                        For clarification, contact the site administrator.{% endblocktrans %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                             <div class="table_row description">

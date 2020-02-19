@@ -14,6 +14,7 @@ from vk.exceptions import VkAPIError
 from apiclient.discovery import build
 from apiclient.errors import HttpError
 from bs4 import BeautifulSoup
+from twitch import TwitchClient
 
 from urllib import parse
 
@@ -264,6 +265,34 @@ class TiktokSocialNetworkConnector(SocialNetworkConnector):
                 result['logo'] = json_data['props']['pageProps']['userData']['coversMedium'][0]
                 result['title'] = json_data['props']['pageProps']['userData']['nickName']
                 result['subscribers'] = json_data['props']['pageProps']['userData']['fans']
+        except Exception as e:
+            logger.exception(e)
+
+        return result
+
+
+class TwitchSocialNetworkConnector(SocialNetworkConnector):
+    def get_account_info(self):
+        result = {}
+
+        path_parts = self.account_link.path.strip('/').split('/')
+
+        account_login = path_parts[-1]
+
+        if account_login is None:
+            return result
+
+        try:
+            client = TwitchClient(client_id=settings.SOCIAL_NETWORK_TWITCH_CLIENT_ID,
+                                  oauth_token=settings.SOCIAL_NETWORK_TWITCH_TOKEN)
+
+            users = client.users.translate_usernames_to_ids(account_login)
+
+            if users:
+                user_info = users[-1]
+
+                result['logo'] = user_info['logo']
+                result['title'] = user_info['display_name']
         except Exception as e:
             logger.exception(e)
 

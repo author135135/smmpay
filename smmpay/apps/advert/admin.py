@@ -7,11 +7,11 @@ from django.utils.translation import ugettext_lazy as _
 
 """
 from .models import (Menu, MenuItem, Discussion, DiscussionUser, DiscussionMessage, Advert, AdvertSocialAccount,
-                     AdvertService, Category, Service, SocialNetwork, Phrase, SocialAccountConfirmationQueue,
+                     AdvertService, Category, Service, SocialNetwork, Phrase, 
                      ContentBlock, VipAdvert, TopAdvert)
 """
 from .models import (Menu, MenuItem, Advert, AdvertSocialAccount, AdvertSocialAccountService, Category, SocialNetwork,
-                     SocialNetworkService, Phrase, SocialAccountConfirmationQueue, ContentBlock)
+                     SocialNetworkService, Phrase, ContentBlock)
 from .forms import AdvertFlatpageForm, ContentBlockForm, AdminAdvertForm
 
 
@@ -114,20 +114,6 @@ class PhraseAdmin(admin.ModelAdmin):
     _get_phrase.short_description = _('phrase')
 
 
-class SocialAccountConfirmationQueueAdmin(admin.ModelAdmin):
-    list_display = ('_get_advert', 'status', 'attempts', 'last_start')
-    list_per_page = 20
-    search_fields = ('social_account__advert__title',)
-    list_filter = ('status',)
-
-    def _get_advert(self, obj):
-        return obj.social_account.advert
-    _get_advert.short_description = _('advert')
-
-    def get_queryset(self, request):
-        return SocialAccountConfirmationQueue.objects.select_related('social_account__advert')
-
-
 class ContentBlockAdmin(admin.ModelAdmin):
     list_display = ('title', '_get_pages', 'position', 'enabled')
     list_per_page = 20
@@ -193,7 +179,6 @@ admin.site.register(AdvertSocialAccountService, AdvertSocialAccountServiceAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(SocialNetwork, SocialNetworkAdmin)
 admin.site.register(Phrase, PhraseAdmin)
-admin.site.register(SocialAccountConfirmationQueue, SocialAccountConfirmationQueueAdmin)
 admin.site.register(ContentBlock, ContentBlockAdmin)
 
 admin.site.unregister(FlatPage)

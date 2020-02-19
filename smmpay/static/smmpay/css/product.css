@@ -197,6 +197,9 @@
     line-height: 18px;
     color: #1F1F1F;
     text-decoration: none;
+}
+
+.inner-product .thumb__info__table .table_row > div.account-link a {
     word-break: break-all;
 }
 
@@ -224,6 +227,114 @@
 
 .inner-product .thumb__info__table .value_icon .thumb__icon {
     margin: 0;
+}
+
+.confirmation-status {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.tooltip-wrapper {
+    position: relative;
+    flex: 0 0 auto;
+}
+
+.tooltip-wrapper .tooltip-modal {
+    display: none;
+    position: absolute;
+    background: #2092ED;
+    border-radius: 10px;
+    top: 31px;
+    left: -23px;
+    width: 381px;
+    right: 0;
+    z-index: 999;
+}
+
+.tooltip-wrapper .tooltip-modal.visible {
+    display: block;
+}
+
+.tooltip-wrapper .tooltip-modal::before {
+    content: "";
+    display: inline-block;
+    background: #2092ED;
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    top: -5px;
+    left: 30px;
+    transform: rotate(45deg)
+}
+
+.tooltip-wrapper .tooltip-modal .tooltip-head {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.tooltip-wrapper .tooltip-modal .tooltip-head .tooltip-close {
+    border-radius: 4px;
+    height: 15px;
+    width: 15px;
+    padding: 0;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: 18px 19px 10px auto;
+}
+
+.tooltip-wrapper .tooltip-modal .tooltip-head .tooltip-close::before,
+.tooltip-wrapper .tooltip-modal .tooltip-head .tooltip-close::after {
+    position: absolute;
+    content: "";
+    height: 100%;
+    width: 2px;
+    background-color: #fff;
+}
+
+.tooltip-wrapper .tooltip-modal .tooltip-head .tooltip-close::before {
+    transform: rotate(45deg);
+}
+
+.tooltip-wrapper .tooltip-modal .tooltip-head .tooltip-close::after {
+    transform: rotate(-45deg);
+}
+
+.tooltip-wrapper .tooltip-modal .tooltip-body {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 22px;
+    color: #FFFFFF;
+    padding: 0 23px 26px 23px;
+}
+
+@media only screen and (max-width: 705px) {
+    .tooltip-wrapper .tooltip-modal {
+        left: auto;
+        right: -31px;
+    }
+
+    .tooltip-wrapper .tooltip-modal::before {
+        left: auto;
+        right: 30px;
+    }
+}
+
+@media only screen and (max-width: 444px) {
+    .tooltip-wrapper .tooltip-modal {
+        width: 280px;
+    }
+}
+
+.inner-product .thumb__info__table .tooltip-wrapper .tooltip {
+    margin-left: 8px;
 }
 
 .inner-product .thumb__buttons {

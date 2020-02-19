@@ -246,7 +246,7 @@
 
             $('.side__filter__container .close-btn').click(function(e) {
                 $('.side__filter__container').css('width', '0');
-		$('body').removeClass('visible-sidebar');
+		        $('body').removeClass('visible-sidebar');
             });
 
             $(window).on('resize', function(e) {
@@ -346,6 +346,7 @@
                 $('input[type="number"][name^="social_account_services"]').val('');
 
                 $('.item.avatar .item__field .thumb__avatar').remove();
+                $('.verification-status', advert_add_form).remove();
 
                 $("select").select2({
                     minimumResultsForSearch: -1
@@ -428,6 +429,45 @@
 
             $(document).on('click', '.negotiated-price input', function(e) {
                 processNegotiatedPriceFields();
+            });
+
+            $('.confirm-button').click(function(e) {
+                var link = $.trim($('input[name="link"]').val()),
+                    button = $(this);
+
+                if (link_check_progress) {
+                    return false;
+                }
+
+                $('.error_input', advert_add_form).remove();
+                $('.verification-status', advert_add_form).remove();
+
+                if (!link) {
+                    $('.confirm-button-wrapper', advert_add_form).after('<div class="error_input">' + gettext('Field `link` is empty. Please fill it before send link to confirmation') + '</div>');
+
+                    return false;
+                }
+
+                link_check_progress = 1;
+                button.next().show();
+
+                var postData = {
+                    account_link: link,
+                    confirm_code: $.trim($('.code-button span', advert_add_form).text())
+                };
+
+                $.post(button.data('confirm-url'), postData, function(response) {
+                    if (response['success']) {
+                        if (response['confirmed'] === true) {
+                            $('.confirm-button-wrapper', advert_add_form).after('<div class="verification-status success">' + gettext('Site successfully verified') + '</div>');
+                        } else {
+                            $('.confirm-button-wrapper', advert_add_form).after('<div class="verification-status fail">' + gettext('Site is not verified') + '</div>');
+                        }
+                    }
+
+                    link_check_progress = 0;
+                    button.next().hide();
+                }, 'json');
             });
 
             advert_add_form.submit(function(e) {
@@ -578,6 +618,7 @@
                 $('input[type="number"][name^="social_account_services"]').val('');
 
                 $('.item.avatar .item__field .thumb__avatar').remove();
+                $('.verification-status', advert_edit_form).remove();
 
                 var result = check_link(link);
 
@@ -672,6 +713,45 @@
 
             $(document).on('click', '.negotiated-price input', function(e) {
                 processNegotiatedPriceFields();
+            });
+
+            $('.confirm-button').click(function(e) {
+                var link = $.trim($('input[name="link"]').val()),
+                    button = $(this);
+
+                if (link_check_progress) {
+                    return false;
+                }
+
+                $('.error_input', advert_edit_form).remove();
+                $('.verification-status', advert_edit_form).remove();
+
+                if (!link) {
+                    $('.confirm-button-wrapper', advert_edit_form).after('<div class="error_input">' + gettext('Field `link` is empty. Please fill it before send link to confirmation') + '</div>');
+
+                    return false;
+                }
+
+                link_check_progress = 1;
+                button.next().show();
+
+                var postData = {
+                    account_link: link,
+                    confirm_code: $.trim($('.code-button span', advert_edit_form).text())
+                };
+
+                $.post(button.data('confirm-url'), postData, function(response) {
+                    if (response['success']) {
+                        if (response['confirmed'] === true) {
+                            $('.confirm-button-wrapper', advert_edit_form).after('<div class="verification-status success">' + gettext('Site successfully verified') + '</div>');
+                        } else {
+                            $('.confirm-button-wrapper', advert_edit_form).after('<div class="verification-status fail">' + gettext('Site is not verified') + '</div>');
+                        }
+                    }
+
+                    link_check_progress = 0;
+                    button.next().hide();
+                }, 'json');
             });
 
             advert_edit_form.submit(function(e) {
@@ -895,6 +975,22 @@
                     }
                 }, 'json');
             }, 5000);
+
+            $('.tooltip').click(function(e) {
+                e.preventDefault();
+
+                $(this).parents('.tooltip-wrapper').find('.tooltip-modal').toggleClass('visible');
+            });
+
+            $('.tooltip-close').click(function(e) {
+                $(this).parents('.tooltip-modal').removeClass('visible');
+            });
+
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.tooltip-wrapper').length) {
+                    $('.tooltip-modal').removeClass('visible');
+                }
+            });
 
             $('#advert-message-form').submit(function(e) {
                 e.preventDefault();
@@ -1368,6 +1464,14 @@
                                 /^https:\/\/tiktok\.com\/@[a-zA-Z0-9_.]+\/?$/g
                             ],
                             'valid_pattern': 'https://www.tiktok.com/@xxxxxxx, https://tiktok.com/@xxxxxxx'
+                        },
+                        'twitch': {
+                            'hosts': ['www.twitch.tv', 'twitch.tv'],
+                            'patterns': [
+                                /^https:\/\/www\.twitch\.tv\/[a-zA-Z0-9_.]+\/?$/g,
+                                /^https:\/\/twitch\.tv\/[a-zA-Z0-9_.]+\/?$/g
+                            ],
+                            'valid_pattern': 'https://www.twitch.tv/xxxxxxx, https://twitch.tv/xxxxxxx'
                         }
                     };
 
