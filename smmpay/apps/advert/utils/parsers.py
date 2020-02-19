@@ -3,6 +3,9 @@ import time
 import os
 
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 
 from django.conf import settings
@@ -47,6 +50,11 @@ class WebClient(object):
         element_submit.submit()
 
         time.sleep(5)
+
+    def wait_until_element_located(self, by, selector, timeout=30):
+        WebDriverWait(self.browser, timeout).until(
+            EC.presence_of_element_located((by, selector))
+        )
 
     def __del__(self):
         if isinstance(self.browser, webdriver.Chrome):
@@ -183,8 +191,10 @@ class TwitchSocialNetworkParser(object):
 
     def get_account_confirmation(self, url, code):
         client = WebClient()
+        client.get_page(url)
+        client.wait_until_element_located(By.CLASS_NAME, self.ACCOUNT_CONFIRMATION_SELECTOR[1:])
 
-        parser = BeautifulSoup(client.get_page_content(url), 'lxml')
+        parser = BeautifulSoup(client.get_page_content(), 'lxml')
         element = parser.select_one(self.ACCOUNT_CONFIRMATION_SELECTOR)
 
         if element is not None:
