@@ -1986,6 +1986,7 @@
     width: 4em;
     height: 4em;
     position: initial;
+    margin-top: 0;
 }
 
 .form-create-abs .item.verification-item .confirm-button-wrapper button.confirm-button {

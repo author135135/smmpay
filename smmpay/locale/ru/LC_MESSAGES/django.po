@@ -1133,7 +1133,7 @@ msgstr ""
 "Временно поставив кодовую фразу которая написана ниже, встатус, если это "
 "сообщество Vkontakte, для Twitter, Youtube, Facebook, Telegram и TikTok в "
 "описании и для Instagram в поле \"Обо мне\". Для Twitch используйте простую текстовую панель "
-"и вставьте текст подтверждения в поле \"Описание\" "
+"и вставьте текст подтверждения в поле \"Описание\"."
 
 #: smmpay/templates/advert/advert_add.html:218
 #: smmpay/templates/advert/advert_edit.html:242
