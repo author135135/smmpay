@@ -1944,12 +1944,12 @@
     color: #1F1F1F;
     background: #F0F0F0;
     overflow: hidden;
-    height: 40px;
-    flex: 0 0 auto;
+    flex: 0 1 auto;
 }
 
 .form-create-abs .item.verification-item .code-button-wrapper .code-button span {
-    padding: 11px 20px 11px 12px;
+    padding: 0 20px 0 12px;
+    text-align: left;
 }
 
 .form-create-abs .item.verification-item .code-button-wrapper .code-button button {
@@ -1968,6 +1968,8 @@
     background: #FEFFD2;
     border-radius: 0;
     border-left: 1px solid #D5D5D5;
+    height: 100%;
+    min-height: 40px;
 }
 
 .form-create-abs .item.verification-item .confirm-button-wrapper {
@@ -2041,7 +2043,6 @@
     .form-create-abs .item.verification-item .code-button-wrapper .code-button span {
         padding: 10px;
         width: 100%;
-        word-break: break-all;
     }
 
     .form-create-abs .item.verification-item .code-button-wrapper .code-button button {
