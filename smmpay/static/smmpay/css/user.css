@@ -2073,8 +2073,9 @@
     letter-spacing: 0.16px;
     text-transform: uppercase;
     color: #FFFFFF;
-    padding: 9px 15px;
+    padding: 9px 0;
     height: auto;
+    width: 100%;
 }
 
 .form-create-abs .item textarea {
