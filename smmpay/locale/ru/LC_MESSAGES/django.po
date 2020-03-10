@@ -1027,11 +1027,11 @@ msgstr "Верификация"
 
 #: smmpay/templates/advert/advert.html:159
 msgid "The author confirmed"
-msgstr "Автор подтвердил"
+msgstr "Верифицирован"
 
 #: smmpay/templates/advert/advert.html:161
 msgid "The author did not confirm"
-msgstr "Автор не подтвердил"
+msgstr "Не верифицирован"
 
 #: smmpay/templates/advert/advert.html:180
 msgid ""
