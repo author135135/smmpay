@@ -205,7 +205,8 @@ class IndexView(ListView):
 
         context['social_networks'] = SocialNetwork.objects.annotate(adverts_count=Sum(
             Case(
-                When(social_accounts__advert__status=Advert.ADVERT_STATUS_PUBLISHED, then=1),
+                When(Q(social_accounts__advert__status=Advert.ADVERT_STATUS_PUBLISHED) &
+                     Q(social_accounts__advert__enabled_by_author=True), then=1),
                 default=0, output_field=IntegerField()
             )
         ))
