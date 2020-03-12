@@ -11,7 +11,7 @@ from django.utils.translation import get_language_from_request
 from django.utils.crypto import get_random_string
 from django.template.loader import render_to_string
 from django.db import transaction
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Case, When, Sum, IntegerField
 from django.utils.translation import ugettext_lazy as _
 
 from smmpay.apps.seo.models import PageSeoInformation
@@ -203,7 +203,12 @@ class IndexView(ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
 
-        context['social_networks'] = SocialNetwork.objects.annotate(adverts_count=Count('social_accounts'))
+        context['social_networks'] = SocialNetwork.objects.annotate(adverts_count=Sum(
+            Case(
+                When(social_accounts__advert__status=Advert.ADVERT_STATUS_PUBLISHED, then=1),
+                default=0, output_field=IntegerField()
+            )
+        ))
 
         return context
 
