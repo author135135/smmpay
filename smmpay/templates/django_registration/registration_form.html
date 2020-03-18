@@ -13,6 +13,7 @@
                 <div class="log__block">
                     <div class="enter-social">
                         <span>{% trans 'Registration through:' %}</span>
+                        {% comment %}
                         <a href="{% url 'social:begin' 'vk-oauth2' %}">
                             <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect width="36" height="36" rx="18" fill="#45668E"/>
@@ -25,6 +26,7 @@
                                 <path d="M19.8125 15.2188V12.5938C19.8125 11.8693 20.4005 11.2812 21.125 11.2812H22.4375V8H19.8125C17.6377 8 15.875 9.76269 15.875 11.9375V15.2188H13.25V18.5H15.875V29H19.8125V18.5H22.4375L23.75 15.2188H19.8125Z" fill="white"/>
                             </svg>
                         </a>
+                        {% endcomment %}
                         <a href="{% url 'social:begin' 'google-oauth2' %}">
                             <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect width="36" height="36" rx="18" fill="#4285F4"/>

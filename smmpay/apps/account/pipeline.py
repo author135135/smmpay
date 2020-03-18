@@ -5,9 +5,6 @@ logger = logging.getLogger('db')
 
 
 def save_profile(backend, user, response, *args, **kwargs):
-    print(backend.name)
-    print(response)
-
     logger.info("BACKEND: {}\n DATA: {}".format(backend.name, json.dumps(response)))
 
     if not user.profile.first_name:
