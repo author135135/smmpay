@@ -6,7 +6,7 @@ def save_profile(backend, user, response, *args, **kwargs):
             first_name = response.get('given_name')
         elif backend.name == 'facebook':
             first_name = response.get('name')
-        elif backend.name == 'vk':
+        elif backend.name == 'vk-oauth2':
             first_name = response.get('first_name')
 
         if first_name:
