@@ -221,6 +221,8 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id, name, email',
 }
 
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
+
 
 # Advert
 
