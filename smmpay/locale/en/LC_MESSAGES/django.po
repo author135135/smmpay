@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-19 15:58+0200\n"
+"POT-Creation-Date: 2020-03-18 14:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -570,17 +570,17 @@ msgstr ""
 msgid "Unsupported file type"
 msgstr ""
 
-#: smmpay/apps/advert/views.py:229
+#: smmpay/apps/advert/views.py:235
 msgid "Advert on moderation. It will be published on site after this."
 msgstr ""
 
-#: smmpay/apps/advert/views.py:322
+#: smmpay/apps/advert/views.py:328
 msgid ""
 "Advert has been successfully added. It will be published on the site after "
 "the moderation. Usually it takes from 20 to 50 minutes."
 msgstr ""
 
-#: smmpay/apps/advert/views.py:432
+#: smmpay/apps/advert/views.py:438
 msgid "Advert successfully edited"
 msgstr ""
 
@@ -1039,13 +1039,23 @@ msgstr ""
 msgid "Advert creation"
 msgstr ""
 
-#: smmpay/templates/advert/advert_add.html:80
-#: smmpay/templates/advert/advert_edit.html:89
+#: smmpay/templates/advert/advert_add.html:29
+#: smmpay/templates/advert/advert_edit.html:29
+msgid "Update data by link"
+msgstr ""
+
+#: smmpay/templates/advert/advert_add.html:46
+#: smmpay/templates/advert/advert_edit.html:55
+msgid "Change"
+msgstr ""
+
+#: smmpay/templates/advert/advert_add.html:89
+#: smmpay/templates/advert/advert_edit.html:98
 msgid "Service Prices"
 msgstr ""
 
-#: smmpay/templates/advert/advert_add.html:81
-#: smmpay/templates/advert/advert_edit.html:90
+#: smmpay/templates/advert/advert_add.html:90
+#: smmpay/templates/advert/advert_edit.html:99
 msgid ""
 "So that potential advertisers can easily find you,\n"
 "                                enter the range of advertising prices on "
@@ -1057,24 +1067,24 @@ msgid ""
 "                                US dollars."
 msgstr ""
 
-#: smmpay/templates/advert/advert_add.html:163
-#: smmpay/templates/advert/advert_edit.html:184
+#: smmpay/templates/advert/advert_add.html:172
+#: smmpay/templates/advert/advert_edit.html:193
 msgid "Add another service"
 msgstr ""
 
-#: smmpay/templates/advert/advert_add.html:185
-#: smmpay/templates/advert/advert_edit.html:153
-#: smmpay/templates/advert/advert_edit.html:209
+#: smmpay/templates/advert/advert_add.html:194
+#: smmpay/templates/advert/advert_edit.html:162
+#: smmpay/templates/advert/advert_edit.html:218
 msgid "Remove service"
 msgstr ""
 
-#: smmpay/templates/advert/advert_add.html:208
-#: smmpay/templates/advert/advert_edit.html:232
+#: smmpay/templates/advert/advert_add.html:217
+#: smmpay/templates/advert/advert_edit.html:241
 msgid "Verification (not required)"
 msgstr ""
 
-#: smmpay/templates/advert/advert_add.html:210
-#: smmpay/templates/advert/advert_edit.html:234
+#: smmpay/templates/advert/advert_add.html:219
+#: smmpay/templates/advert/advert_edit.html:243
 msgid ""
 "For maximum confidence in the identity and relevance of information about "
 "your site,\n"
@@ -1088,17 +1098,17 @@ msgid ""
 "confirmation text in field \"Description\"."
 msgstr ""
 
-#: smmpay/templates/advert/advert_add.html:218
-#: smmpay/templates/advert/advert_edit.html:242
+#: smmpay/templates/advert/advert_add.html:227
+#: smmpay/templates/advert/advert_edit.html:251
 msgid "Copy"
 msgstr ""
 
-#: smmpay/templates/advert/advert_add.html:222
-#: smmpay/templates/advert/advert_edit.html:246
+#: smmpay/templates/advert/advert_add.html:231
+#: smmpay/templates/advert/advert_edit.html:255
 msgid "Check verification"
 msgstr ""
 
-#: smmpay/templates/advert/advert_add.html:234
+#: smmpay/templates/advert/advert_add.html:243
 msgid "Publish advert"
 msgstr ""
 
@@ -1106,15 +1116,15 @@ msgstr ""
 msgid "Editing an advert"
 msgstr ""
 
-#: smmpay/templates/advert/advert_edit.html:252
+#: smmpay/templates/advert/advert_edit.html:261
 msgid "Site successfully verified"
 msgstr ""
 
-#: smmpay/templates/advert/advert_edit.html:254
+#: smmpay/templates/advert/advert_edit.html:263
 msgid "Site is not verified"
 msgstr ""
 
-#: smmpay/templates/advert/advert_edit.html:263
+#: smmpay/templates/advert/advert_edit.html:272
 msgid "Edit advert"
 msgstr ""
 
@@ -1272,7 +1282,7 @@ msgid "You have activated you account. Please log in by your credentials."
 msgstr ""
 
 #: smmpay/templates/django_registration/activation_complete.html:9
-#: smmpay/templates/registration/login.html:33
+#: smmpay/templates/registration/login.html:56
 #: smmpay/templates/registration/password_reset_complete.html:7
 msgid "Log in"
 msgstr ""
@@ -1336,11 +1346,19 @@ msgstr ""
 msgid "Registration"
 msgstr ""
 
-#: smmpay/templates/django_registration/registration_form.html:32
+#: smmpay/templates/django_registration/registration_form.html:15
+msgid "Registration through:"
+msgstr ""
+
+#: smmpay/templates/django_registration/registration_form.html:55
 msgid "Sign up"
 msgstr ""
 
-#: smmpay/templates/registration/login.html:32
+#: smmpay/templates/registration/login.html:15
+msgid "Sign in with:"
+msgstr ""
+
+#: smmpay/templates/registration/login.html:55
 msgid "Forgot a password?"
 msgstr ""
 

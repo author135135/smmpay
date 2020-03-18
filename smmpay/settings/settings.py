@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django_db_logger',
     'ckeditor',
     'ckeditor_uploader',
+    'social_django',
     'smmpay.apps.account',
     'smmpay.apps.advert',
     'smmpay.apps.blog',
@@ -177,17 +178,48 @@ CKEDITOR_CONFIGS = {
 
 # Account
 
-LOGIN_URL = '/account/login'
+LOGIN_URL = 'account:login'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'advert:index'
 
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = 'advert:index'
+
+LOGOUT_URL = 'account:logout'
 
 ACCOUNT_ACTIVATION_DAYS = 3
 
 AUTH_USER_MODEL = 'account.User'
 
 ACCOUNT_EMAIL_CHANGE_TIMEOUT_DAYS = 7
+
+
+# Authentication
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.vk.VKOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    'smmpay.apps.account.pipeline.save_profile',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
+
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id, name, email',
+}
 
 
 # Advert

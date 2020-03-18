@@ -69,6 +69,16 @@
                 tags: true
             });
 
+            $("#id_category, #id_service").on('select2:close', function(e) {
+                var wrapper = $(this).next();
+
+                if (e.target.options.length !== 0 && e.target.options.length !== e.target.selectedOptions.length) {
+                    $('.select2-search__field', wrapper).attr('placeholder', gettext('More...'));
+                }
+            });
+
+            $("#id_category, #id_service").trigger('select2:close');
+
             var ddSlickInitCall1 = true;
 
             $('#id_social_network').ddslick({
@@ -332,6 +342,8 @@
 
                 link = $.trim($(this).val());
 
+                $('.update-info').hide();
+
                 $('.error_input', wrapper).remove();
                 $('.hidden-field .error_input', advert_add_form).remove();
 
@@ -374,15 +386,26 @@
 
                                 if (field === 'external_logo') {
                                     $('.item.avatar .item__field').prepend('<a class="thumb__avatar"><img src="' + value + '"></a>');
+                                    $('.filename').text('').hide();
+                                    $('.file-upload span').text(gettext('Change'));
+                                }
+                            } else {
+                                if (field === 'external_logo') {
+                                    $('.filename').text(gettext('Logo not uploaded')).show();
+                                    $('.file-upload span').text(gettext('Download from device'));
                                 }
                             }
                         });
+                    } else {
+                        $('.filename').text(gettext('Logo not uploaded')).show();
+                        $('.file-upload span').text(gettext('Download from device'));
                     }
 
                     $('.item.hidden', advert_add_form).removeClass('hidden');
 
                     link_check_progress = 0;
 
+                    $('.update-info').show();
                     preloader_hide();
                 }, 'json');
 
@@ -397,6 +420,70 @@
                         $('select[name^="social_account_services"]').append(option_html);
                     }
                 }, 'json');
+            });
+
+            $('.update-button', advert_add_form).on('click', function(e) {
+                e.preventDefault();
+
+                var field = $('input[name="link"]', advert_add_form);
+
+                if (link_check_progress) {
+                    return false;
+                }
+
+                link = $.trim(field.val());
+
+                link_check_progress = 1;
+
+                preloader_show();
+
+                $.get(advert_add_form.data('validation-url'), {account_link: link}, function(response) {
+                    if (response['success']) {
+                        $.each(response['fields'], function(field, value) {
+                            var form_field = $('input[name="' + field + '"]', advert_add_form);
+
+                            if (value != null) {
+                                $(form_field).val(value);
+
+                                if (field === 'external_logo') {
+                                    $('.item.avatar .item__field .thumb__avatar').remove();
+                                    $('.item.avatar .item__field').prepend('<a class="thumb__avatar"><img src="' + value + '"></a>');
+                                    $('.filename').text('').hide();
+                                    $('.file-upload span').text(gettext('Change'));
+                                }
+                            } else {
+                                if (field === 'external_logo') {
+                                    $('.filename').text(gettext('Logo not uploaded')).show();
+                                    $('.file-upload span').text(gettext('Download from device'));
+                                }
+                            }
+                        });
+                    } else {
+                        $('.filename').text(gettext('Logo not uploaded')).show();
+                        $('.file-upload span').text(gettext('Download from device'));
+                    }
+
+                    link_check_progress = 0;
+
+                    preloader_hide();
+                }, 'json');
+            });
+
+            $('input[type="file"]', advert_add_form).on('change', function(e) {
+                if (e.target.value) {
+                    var fileName = e.target.value.split('\\').pop();
+                    $('.filename', advert_add_form).text(fileName).show();
+
+                    if ($('.thumb__avatar').length) {
+                        $('.thumb__avatar').hide();
+                    }
+                } else {
+                    $('.filename', advert_add_form).text('').hide();
+
+                    if ($('.thumb__avatar').length) {
+                        $('.thumb__avatar').show();
+                    }
+                }
             });
 
             $('.add-service').on('click', function(e) {
@@ -607,6 +694,7 @@
 
                 link = $.trim($(this).val());
 
+                $('.update-info').hide();
                 $('.hidden-field .error_input', advert_add_form).remove();
                 $('.error_input', wrapper).remove();
 
@@ -637,18 +725,29 @@
                         $.each(response['fields'], function(field, value) {
                             var form_field = $('input[name="' + field + '"]', advert_edit_form);
 
-                            if (value !== null) {
+                            if (value != null) {
                                 $(form_field).val(value);
+
+                                if (field === 'external_logo') {
+                                    $('.item.avatar .item__field').prepend('<a class="thumb__avatar"><img src="' + value + '"></a>');
+                                    $('.filename').text('').hide();
+                                    $('.file-upload span').text(gettext('Change'));
+                                }
+                            } else {
+                                if (field === 'external_logo') {
+                                    $('.filename').text(gettext('Logo not uploaded')).show();
+                                    $('.file-upload span').text(gettext('Download from device'));
+                                }
                             }
                         });
-
-                        if (response['fields']['external_logo']) {
-                            $('.item.avatar .item__field').prepend('<a class="thumb__avatar"><img src="' + response['fields']['external_logo'] + '"></a>');
-                        }
+                    } else {
+                        $('.filename').text(gettext('Logo not uploaded')).show();
+                        $('.file-upload span').text(gettext('Download from device'));
                     }
 
                     link_check_progress = 0;
 
+                    $('.update-info').show();
                     preloader_hide();
                 }, 'json');
 
@@ -667,6 +766,70 @@
                 $('select').select2({
                     minimumResultsForSearch: -1
                 });
+            });
+
+            $('.update-button', advert_edit_form).on('click', function(e) {
+                e.preventDefault();
+
+                var field = $('input[name="link"]', advert_edit_form);
+
+                if (link_check_progress) {
+                    return false;
+                }
+
+                link = $.trim(field.val());
+
+                link_check_progress = 1;
+
+                preloader_show();
+
+                $.get(advert_edit_form.data('validation-url'), {account_link: link}, function(response) {
+                    if (response['success']) {
+                        $.each(response['fields'], function(field, value) {
+                            var form_field = $('input[name="' + field + '"]', advert_edit_form);
+
+                            if (value != null) {
+                                $(form_field).val(value);
+
+                                if (field === 'external_logo') {
+                                    $('.item.avatar .item__field .thumb__avatar').remove();
+                                    $('.item.avatar .item__field').prepend('<a class="thumb__avatar"><img src="' + value + '"></a>');
+                                    $('.filename').text('').hide();
+                                    $('.file-upload span').text(gettext('Change'));
+                                }
+                            } else {
+                                if (field === 'external_logo') {
+                                    $('.filename').text(gettext('Logo not uploaded')).show();
+                                    $('.file-upload span').text(gettext('Download from device'));
+                                }
+                            }
+                        });
+                    } else {
+                        $('.filename').text(gettext('Logo not uploaded')).show();
+                        $('.file-upload span').text(gettext('Download from device'));
+                    }
+
+                    link_check_progress = 0;
+
+                    preloader_hide();
+                }, 'json');
+            });
+
+            $('input[type="file"]', advert_edit_form).on('change', function(e) {
+                if (e.target.value) {
+                    var fileName = e.target.value.split('\\').pop();
+                    $('.filename').text(fileName).show();
+
+                    if ($('.thumb__avatar').length) {
+                        $('.thumb__avatar').hide();
+                    }
+                } else {
+                    $('.filename').text('').hide();
+
+                    if ($('.thumb__avatar').length) {
+                        $('.thumb__avatar').show();
+                    }
+                }
             });
 
             $('.add-service').on('click', function(e) {

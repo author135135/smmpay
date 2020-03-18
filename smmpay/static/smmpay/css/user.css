@@ -1991,7 +1991,8 @@
     margin-top: 0;
 }
 
-.form-create-abs .item.verification-item .confirm-button-wrapper button.confirm-button {
+.form-create-abs .item.verification-item .confirm-button-wrapper button.confirm-button,
+.form-create-abs .item .file-upload {
     border: 1px solid #77BF5D;
     box-sizing: border-box;
     border-radius: 4px;
@@ -2002,6 +2003,29 @@
     text-transform: inherit;
     height: auto;
     padding: 12px 25px;
+}
+
+.form-create-abs .item .file-upload {
+    padding: 10px 15px;
+}
+
+.form-create-abs .item input[type="file"] {
+    width: 0;
+    height: 0;
+    opacity:0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.form-create-abs .item .filename {
+    margin-right: 10px;
+    display: none;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 24px;
+    color: #000000;
 }
 
 .form-create-abs .item.verification-item .verification-status {
@@ -2028,6 +2052,38 @@
     width: 20px;
     background: url(../images/success.svg) 0 0 no-repeat;
     margin-right: 10px;
+}
+
+.form-create-abs .item:first-of-type .item__field {
+    position: relative;
+}
+
+.form-create-abs .update-info {
+    margin: 0 0 5px 0;
+    position: absolute;
+    top: -30px;
+    left: 0;
+    display: none;
+}
+
+#advert-edit-form .update-info {
+    display: block;
+}
+
+.form-create-abs .update-info .update-button {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.form-create-abs .update-info .update-button .update-icon {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    background: url(../images/update-icon.svg) 0 0 no-repeat;
+    margin: 0 8px -1px 0;
 }
 
 @media only screen and (max-width: 499px) {

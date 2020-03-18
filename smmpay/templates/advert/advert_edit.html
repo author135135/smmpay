@@ -24,6 +24,11 @@
                 <div class="item">
                     <label class="item__label">{{ advert_type_form.link.label }}*</label>
                     <div class="item__field">
+                        <div class="update-info">
+                            <a href="#" class="update-button">
+                                <span class="update-icon"></span>{% trans 'Update data by link' %}
+                            </a>
+                        </div>
                         {{ advert_type_form.link }}
                         <div class="text-help">{{ advert_type_form.link.help_text }}</div>
                         {% for error in advert_type_form.link.errors %}
@@ -45,6 +50,10 @@
                             </a>
                         {% endif %}
                         {{ advert_type_form.logo }}
+                        <span class="filename"></span>
+                        <label for="id_logo" class="button file-upload">
+                            <span>{% trans 'Change' %}</span>
+                        </label>
                         {% for error in advert_type_form.logo.errors %}
                             <div class="error_input">{{ error }}</div>
                         {% endfor %}
