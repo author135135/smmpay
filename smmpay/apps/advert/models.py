@@ -326,7 +326,7 @@ class Advert(models.Model):
             self.views_statistic.create(ip=ip)
 
             self.views += 1
-            self.save()
+            self.save(update_fields=['views'])
 
             return True
 
