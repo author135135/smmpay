@@ -14,7 +14,7 @@ from django.utils.translation import ugettext_lazy as _
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 from .models import (Advert, AdvertSocialAccount, AdvertSocialAccountService, SocialNetwork, SocialNetworkService,
-                     Category, ContentBlock)
+                     Category, ContentBlock, Phrase)
 from .widgets import SelectWithOptionAttrs
 from .validators import validate_image_file_mime_type
 
@@ -258,6 +258,10 @@ class AdvertSocialAccountForm(forms.ModelForm):
             social_account.logo.save(external_logo._origin_name, external_logo, False)
 
         if social_account.pk is None or 'link' in self.changed_data:
+            if social_account.pk in None:
+                social_account.confirmation_code = self.request.session.get('advert_confirmation_code',
+                                                                            Phrase.get_rand_phrase())
+
             social_account_confirm_link = self.request.session.get('social_account_confirm_link', None)
             social_account_confirm_status = self.request.session.get('social_account_confirm_status', None)
 
@@ -266,8 +270,6 @@ class AdvertSocialAccountForm(forms.ModelForm):
                 social_account.confirmed = bool(social_account_confirm_status)
             else:
                 social_account.confirmed = False
-
-        social_account.confirmation_code = self.request.session['advert_confirmation_code']
 
         if commit:
             social_account.save()
