@@ -1415,7 +1415,7 @@ msgstr ""
 #: smmpay/templates/django_registration/registration_form.html:8
 #: smmpay/templates/registration/login.html:8
 msgid "Login"
-msgstr "Логин"
+msgstr "Вход"
 
 #: smmpay/templates/django_registration/registration_form.html:9
 #: smmpay/templates/registration/login.html:9
