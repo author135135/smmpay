@@ -293,6 +293,7 @@ class Advert(models.Model):
     special_status = models.SmallIntegerField(_('special status'), blank=True, default=ADVERT_SPECIAL_STATUS_NONE)
     special_status_start = models.DateTimeField(_('special status start'), blank=True, null=True)
     special_status_end = models.DateTimeField(_('special status end'), blank=True, null=True)
+    for_sale = models.BooleanField(_('for sale'), default=False)
     created = models.DateTimeField(_('created'), auto_now_add=True)
     updated = models.DateTimeField(_('updated'), auto_now=True)
 

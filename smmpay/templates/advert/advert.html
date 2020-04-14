@@ -195,6 +195,22 @@
                     </div>
                 </div>
 
+                {% if advert.for_sale %}
+                    <div class="thumb__row for__sale">
+                        <div class="first__column hidden-sm"></div>
+                        <div class="second__column">
+                            <div class="for-sale-wrapper">
+                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17 2.08689H4.4625L4.10371 0H0.926993C0.414221 0 0 0.414991 0 0.927378V1.85437H2.54153L4.17686 11.3664C4.21304 11.5759 4.41438 11.7456 4.62726 11.7456H15.6091C16.1219 11.7456 16.5369 11.331 16.5369 10.8175V9.89126H5.80448L5.57851 8.57699H14.0639C15.0879 8.57699 16.0549 7.75779 16.2239 6.74841L17 2.08689Z" fill="#79BE64"/>
+                                    <path d="M7.49528 16.0926C8.3808 16.0926 9.09865 15.3748 9.09865 14.4893C9.09865 13.6038 8.3808 12.8859 7.49528 12.8859C6.60976 12.8859 5.89191 13.6038 5.89191 14.4893C5.89191 15.3748 6.60976 16.0926 7.49528 16.0926Z" fill="#79BE64"/>
+                                    <path d="M11.4573 14.4889C11.4573 15.3739 12.1745 16.0919 13.0595 16.0919C13.9453 16.0919 14.664 15.3739 14.664 14.4889C14.664 13.6039 13.9453 12.8851 13.0595 12.8851C12.1745 12.8851 11.4573 13.6042 11.4573 14.4889Z" fill="#79BE64"/>
+                                </svg>
+                                {% trans 'The owner will consider the site purchase offers' %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
                 <div class="thumb__row bordered">
                    <div class="first__column hidden-sm"></div>
                    <div class="second__column">

@@ -111,7 +111,7 @@
 }
 
 .inner-product .thumb .thumb__row.bordered {
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .inner-product .thumb .thumb__row.bordered .second__column {
@@ -227,6 +227,26 @@
 
 .inner-product .thumb__info__table .value_icon .thumb__icon {
     margin: 0;
+}
+
+.inner-product .thumb .thumb__row.for__sale .for-sale-wrapper {
+    background: rgba(121, 190, 100, 0.2);
+    padding: 10px 12px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 18px;
+    color: #1F1F1F;
+    margin-top: 20px;
+}
+
+.inner-product .thumb .thumb__row.for__sale .for-sale-wrapper svg {
+    margin-right: 10px;
 }
 
 .confirmation-status {

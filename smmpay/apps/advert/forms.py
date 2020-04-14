@@ -143,7 +143,7 @@ AdvertServiceFormSetFactory = forms.inlineformset_factory(AdvertSocialAccount, A
 class AdvertForm(forms.ModelForm):
     class Meta:
         model = Advert
-        fields = ('title', 'description', 'min_price', 'max_price', 'advert_type', 'category')
+        fields = ('title', 'description', 'min_price', 'max_price', 'advert_type', 'category', 'for_sale')
         widgets = {
             'advert_type': forms.HiddenInput()
         }
@@ -151,14 +151,16 @@ class AdvertForm(forms.ModelForm):
             'min_price': _('Enter the price of the minimum service on your site'),
             'max_price': _('Enter the price of the maximum service on your site'),
             'category': _('Select category'),
-            'description': _('Add a description of your site, indicate the benefits')
+            'description': _('Add a description of your site, indicate the benefits'),
+            'for_sale': _('I will consider buying my site')
         }
 
     def __init__(self, *args, **kwargs):
         super(AdvertForm, self).__init__(*args, **kwargs)
 
         for field in self.fields:
-            self.fields[field].widget.attrs['class'] = 'log__input'
+            if field != 'for_sale':
+                self.fields[field].widget.attrs['class'] = 'log__input'
 
 
 class AdvertSocialAccountForm(forms.ModelForm):

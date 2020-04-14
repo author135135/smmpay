@@ -1991,6 +1991,30 @@
     margin-top: 0;
 }
 
+.form-create-abs .item.verification-item .for-sale-item {
+    margin-top: 20px;
+}
+
+.form-create-abs .item.verification-item .for-sale-item label {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: #1F1F1F;
+    opacity: 0.6;
+    margin-top: 5px;
+}
+
+.form-create-abs .item.verification-item .for-sale-item label input[type="checkbox"] {
+    -webkit-appearance: checkbox;
+    margin-right: 5px;
+}
+
 .form-create-abs .item.verification-item .confirm-button-wrapper button.confirm-button,
 .form-create-abs .item .file-upload {
     border: 1px solid #77BF5D;
