@@ -1475,9 +1475,56 @@
 
                 $.post(link.data('favorite-url'), {'favorite_id': link.data('item-id')}, function(response) {
                     if (response['success']) {
-                        var url = new URI(window.location.href);
+                        if ($('#id_social_network').length) {
+                            $('#id_social_network').ddslick('destroy');
 
-                        url.query('');
+                            var text = $('#id_social_network option:selected').text(),
+                                itemsCount = parseInt(text.match(/\((\d)\)/)[1]);
+
+                            $('#id_social_network option:selected').text(text.replace(/\(\d\)/, '(' + (itemsCount - 1) +')'))
+
+                            var ddSlickInitCall3 = true;
+
+                            $('#id_social_network').ddslick('destroy');
+
+                            $('#id_social_network').ddslick({
+                                imagePosition: 'left',
+                                onSelected: function(selectedData){
+                                    if ($('#id_social_network .dd-select').hasClass(selectedData['selectedData']['value']) || process_in_progress) {
+                                        return false;
+                                    }
+
+                                    $('#id_social_network .dd-select').attr('class', 'dd-select');
+                                    $('#id_social_network .dd-select').addClass(selectedData['selectedData']['value']);
+
+                                    if (ddSlickInitCall3 === true) {
+                                        ddSlickInitCall3 = false;
+                                        return false;
+                                    }
+
+                                    var url = new URI(window.location.href),
+                                        url_query = url.query(true);
+
+                                    if (url_query['page']) {
+                                        delete url_query['page'];
+                                    }
+
+                                    url_query['social_network'] = selectedData['selectedData']['value'];
+                                    url.query(url_query);
+
+                                    load_data(url, {}, $('.items'));
+                                }
+                            });
+                        }
+
+                        var url = new URI(window.location.href),
+                            url_query = url.query(true);
+
+                        if (url_query['page']) {
+                            delete(url_query['page']);
+                        }
+
+                        url.query(url_query);
 
                         load_data(url, {}, $('.items'));
                     }

@@ -134,7 +134,7 @@ class IndexView(LoginRequiredMixin, SearchMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
 
-        context['adverts_count'] = context['paginator'].count
+        context['adverts_count'] = Advert.objects.filter(author=self.request.user).count()
         context['advert_statuses'] = {
             'ADVERT_STATUS_MODERATION': Advert.ADVERT_STATUS_MODERATION,
             'ADVERT_STATUS_VIOLATION': Advert.ADVERT_STATUS_VIOLATION,
@@ -199,7 +199,7 @@ class FavoritesView(LoginRequiredMixin, SearchMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(FavoritesView, self).get_context_data(**kwargs)
 
-        context['adverts_count'] = context['paginator'].count
+        context['adverts_count'] = FavoriteAdvert.objects.filter(user=self.request.user).count()
 
         return context
 
