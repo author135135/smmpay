@@ -1475,11 +1475,16 @@
 
                 $.post(link.data('favorite-url'), {'favorite_id': link.data('item-id')}, function(response) {
                     if (response['success']) {
+                        var text = $('.global-title_box h1').text(),
+                            itemsCount = parseInt(text.match(/\((\d)\)/)[1]);
+
+                            $('.global-title_box h1').text(text.replace(/\(\d\)/, '(' + (itemsCount - 1) +')'))
+
                         if ($('#id_social_network').length) {
                             $('#id_social_network').ddslick('destroy');
 
-                            var text = $('#id_social_network option:selected').text(),
-                                itemsCount = parseInt(text.match(/\((\d)\)/)[1]);
+                            text = $('#id_social_network option:selected').text(),
+                            itemsCount = parseInt(text.match(/\((\d)\)/)[1]);
 
                             $('#id_social_network option:selected').text(text.replace(/\(\d\)/, '(' + (itemsCount - 1) +')'))
 
