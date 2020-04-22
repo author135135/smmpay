@@ -9,6 +9,8 @@ from django.core.files.base import ContentFile
 from django.core import validators
 from django.contrib.flatpages.forms import FlatpageForm
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.utils.translation import get_language_from_request
+from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext_lazy as _
 
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
@@ -260,9 +262,13 @@ class AdvertSocialAccountForm(forms.ModelForm):
             social_account.logo.save(external_logo._origin_name, external_logo, False)
 
         if social_account.pk is None or 'link' in self.changed_data:
-            if social_account.pk in None:
-                social_account.confirmation_code = self.request.session.get('advert_confirmation_code',
-                                                                            Phrase.get_rand_phrase())
+            if social_account.pk is None:
+                phrase_obj = Phrase.get_rand_phrase(get_language_from_request(self.request))
+
+                if phrase_obj is not None:
+                    social_account.confirmation_code = phrase_obj.phrase
+                else:
+                    social_account.confirmation_code = get_random_string(length=32)
 
             social_account_confirm_link = self.request.session.get('social_account_confirm_link', None)
             social_account_confirm_status = self.request.session.get('social_account_confirm_status', None)
@@ -280,8 +286,6 @@ class AdvertSocialAccountForm(forms.ModelForm):
                 del self.request.session['social_account_confirm_link']
             if 'social_account_confirm_status' in self.request.session:
                 del self.request.session['social_account_confirm_status']
-            if 'social_account_confirmation_code' in self.request.session:
-                del self.request.session['social_account_confirmation_code']
         return social_account
 
 

@@ -1991,11 +1991,11 @@
     margin-top: 0;
 }
 
-.form-create-abs .item.verification-item .for-sale-item {
+.form-create-abs .item .for-sale-item {
     margin-top: 20px;
 }
 
-.form-create-abs .item.verification-item .for-sale-item label {
+.form-create-abs .item .for-sale-item label {
     display: flex;
     justify-content: flex-start;
     flex-direction: row;
@@ -2010,7 +2010,7 @@
     margin-top: 5px;
 }
 
-.form-create-abs .item.verification-item .for-sale-item label input[type="checkbox"] {
+.form-create-abs .item .for-sale-item label input[type="checkbox"] {
     -webkit-appearance: checkbox;
     margin-right: 5px;
 }

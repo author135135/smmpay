@@ -42,7 +42,7 @@
                     <div class="item__field">
                         {{ advert_type_form.logo }}
                         <span class="filename"></span>
-                        <label for="id_logo" class="button file-upload">
+                        <label for="{{ advert_type_form.logo.auto_id }}" class="button file-upload">
                             <span>{% trans 'Change' %}</span>
                         </label>
                         {% for error in advert_type_form.logo.errors %}
@@ -210,29 +210,6 @@
                         {% for error in form.description.errors %}
                             <div class="error_input">{{ error }}</div>
                         {% endfor %}
-                    </div>
-                </div>
-
-                <div class="item verification-item">
-                    <label class="item__label">{% trans 'Verification (not required)' %}</label>
-                    <div class="item__field">
-                        <div class="text-help">{% blocktrans %}For maximum confidence in the identity and relevance of information about your site,
-                            we recommend that you confirm that you are an administrator. By temporarily putting the passphrase which is written below, the status if it is a
-                            Vkontakte community, for Twitter, Youtube, Facebook, Telegram and TikTok in the description and for Instagram in the "About me" field.
-                            For Twitch use simple text panel and put confirmation text in field "Description".{% endblocktrans %}
-                        </div>
-                        <div class="code-button-wrapper">
-                            <div class="code-button">
-                                <span>{{ social_account_confirmation_code }}</span>
-                                <button type="button" class="button copy" data-clipboard-text="{{ social_account_confirmation_code }}">{% trans 'Copy' %}</button>
-                            </div>
-                        </div>
-                        <div class="confirm-button-wrapper">
-                            <button type="button" class="button confirm-button" data-confirm-url="{% url 'advert:advert_social_account_confirm' %}">{% trans 'Check verification' %}</button>
-                            <div class="preloader-wrapper">
-                                <div class="ajax-loader"></div>
-                            </div>
-                        </div>
                         <div class="for-sale-item">
                             <label>{{ form.for_sale }}{{ form.for_sale.help_text }}</label>
                         </div>

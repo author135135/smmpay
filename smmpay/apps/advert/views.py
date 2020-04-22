@@ -7,11 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import get_user_model
 from django.contrib import messages
 from django.utils.decorators import method_decorator
-from django.utils.translation import get_language_from_request
-from django.utils.crypto import get_random_string
 from django.template.loader import render_to_string
 from django.db import transaction
-from django.db.models import Q, Count, Case, When, Sum, IntegerField
+from django.db.models import Q, Case, When, Sum, IntegerField
 from django.utils.translation import ugettext_lazy as _
 
 from smmpay.apps.seo.models import PageSeoInformation
@@ -296,21 +294,6 @@ class AdvertAddView(LoginRequiredMixin, AdvertSubFormsMixin, CreateView):
     template_name = 'advert/advert_add.html'
     form_class = advert_forms.AdvertForm
     model = Advert
-
-    def get_context_data(self, **kwargs):
-        context = super(AdvertAddView, self).get_context_data(**kwargs)
-
-        phrase_obj = Phrase.get_rand_phrase(get_language_from_request(self.request))
-
-        if phrase_obj is not None:
-            confirmation_code = phrase_obj.phrase
-        else:
-            confirmation_code = get_random_string(length=32)
-
-        self.request.session['social_account_confirmation_code'] = confirmation_code
-        context['social_account_confirmation_code'] = confirmation_code
-
-        return context
 
     @transaction.atomic
     def form_valid(self, form, advert_type_form, advert_service_formset):
