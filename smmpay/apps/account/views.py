@@ -1,7 +1,7 @@
 # import json
 
-from django.http import Http404, JsonResponse, HttpResponseNotAllowed
-from django.views.generic import TemplateView, RedirectView, ListView, DeleteView, FormView, DetailView, View
+from django.http import Http404, JsonResponse
+from django.views.generic import TemplateView, RedirectView, ListView, DeleteView, View
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -10,14 +10,14 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.urlresolvers import reverse, reverse_lazy
 # from django.core.paginator import Paginator
 from django.template.loader import render_to_string
-from django.db.models import Q
+from django.db.models import Q, Case, Sum, When, IntegerField
 from django.utils.translation import gettext_lazy as _
 
 # from registration.backends.hmac import views
 # from channels import Group
 from django_registration.backends.activation import views
 # from smmpay.apps.advert.models import Discussion, DiscussionUser, Advert, FavoriteAdvert
-from smmpay.apps.advert.models import Advert, FavoriteAdvert
+from smmpay.apps.advert.models import Advert, FavoriteAdvert, SocialNetwork
 
 # from .forms import RegistrationForm, ProfileForm, PasswordChangeForm, EmailChangeForm, DiscussionMessageForm,
 # SearchForm
@@ -37,29 +37,33 @@ class SearchMixin(object):
         qs = super(SearchMixin, self).get_queryset()
 
         filter_form = self._get_search_form()
-        sort_by = self.SORT_CHOICES[0][0]
+        form_data = filter_form.initial
 
-        if filter_form.is_bound:
-            for item in self.filters:
-                if not filter_form.has_error(item) and filter_form.cleaned_data.get(item, None):
-                    search_value = filter_form.cleaned_data[item]
-                    qs_query = None
+        if filter_form.is_valid():
+            form_data.update({k: v for k, v in filter_form.cleaned_data.items() if v})
 
-                    for expression in self.filters[item]:
-                        if qs_query is None:
-                            qs_query = Q(**{expression: search_value})
-                        else:
-                            qs_query |= Q(**{expression: search_value})
+        for item in self.filters:
+            if not filter_form.has_error(item) and item in form_data:
+                search_value = form_data[item]
+                qs_query = None
 
-                    if qs_query is not None:
-                        qs = qs.filter(qs_query)
+                for expression in self.filters[item]:
+                    if qs_query is None:
+                        qs_query = Q(**{expression: search_value})
+                    else:
+                        qs_query |= Q(**{expression: search_value})
 
-            sort_by_value = filter_form.cleaned_data.get('sort_by', None)
+                if qs_query is not None:
+                    qs = qs.filter(qs_query)
 
-            if sort_by_value:
-                sort_by = sort_by_value
+        sort_by_value = form_data.get('sort_by', None)
+
+        if sort_by_value:
+            sort_by = sort_by_value
 
         qs = qs.order_by(sort_by)
+
+        print(qs.query)
 
         return qs
 
@@ -71,8 +75,19 @@ class SearchMixin(object):
 
     def _get_search_form(self):
         if not hasattr(self, 'search_form'):
-            self.search_form = SearchForm(data=self.request.GET or None, sort_choices=self.SORT_CHOICES,
-                                          initial={'sort_by': self.SORT_CHOICES[0][0]})
+            social_network_choices = self.get_social_network_choices()
+            sort_choices = self.SORT_CHOICES
+
+            initial = {
+                'social_network': '',
+                'sort_by': sort_choices[0][0]
+            }
+
+            if social_network_choices:
+                initial['social_network'] = social_network_choices[0][0]
+
+            self.search_form = SearchForm(data=self.request.GET or None, social_network_choices=social_network_choices,
+                                          sort_choices=sort_choices, initial=initial)
 
         return self.search_form
 
@@ -85,7 +100,8 @@ class IndexView(LoginRequiredMixin, SearchMixin, ListView):
     paginate_by = 4
 
     filters = {
-        'search_query': ['title__icontains', 'description__icontains']
+        'search_query': ['title__icontains', 'description__icontains'],
+        'social_network': ['social_account__social_network__code']
     }
 
     SORT_CHOICES = (
@@ -126,6 +142,24 @@ class IndexView(LoginRequiredMixin, SearchMixin, ListView):
 
         return context
 
+    def get_social_network_choices(self):
+        social_network_choices = []
+
+        social_network_qs = SocialNetwork.objects.annotate(adverts_count=Sum(
+            Case(
+                When(Q(social_accounts__advert__author=self.request.user), then=1),
+                default=0, output_field=IntegerField()
+            )
+        ))
+
+        for social_network in social_network_qs:
+            social_network_choices.append((
+                social_network.code,
+                {'label': '{} ({})'.format(social_network.title, social_network.adverts_count),
+                 'data-imagesrc': static('smmpay/images/{}_icon.svg'.format(social_network.code))}
+            ))
+        return social_network_choices
+
 
 class FavoritesView(LoginRequiredMixin, SearchMixin, ListView):
     template_name = 'account/favorites.html'
@@ -135,7 +169,8 @@ class FavoritesView(LoginRequiredMixin, SearchMixin, ListView):
     paginate_by = 4
 
     filters = {
-        'search_query': ['advert__title__icontains', 'advert__description__icontains']
+        'search_query': ['advert__title__icontains', 'advert__description__icontains'],
+        'social_network': ['advert__social_account__social_network__code']
     }
 
     SORT_CHOICES = (
@@ -167,6 +202,25 @@ class FavoritesView(LoginRequiredMixin, SearchMixin, ListView):
         context['adverts_count'] = context['paginator'].count
 
         return context
+
+    def get_social_network_choices(self):
+        social_network_choices = []
+        favorite_adverts = FavoriteAdvert.objects.filter(user=self.request.user).values_list('advert', flat=True)
+
+        social_network_qs = SocialNetwork.objects.annotate(adverts_count=Sum(
+            Case(
+                When(Q(social_accounts__advert__in=favorite_adverts), then=1),
+                default=0, output_field=IntegerField()
+            )
+        ))
+
+        for social_network in social_network_qs:
+            social_network_choices.append((
+                social_network.code,
+                {'label': '{} ({})'.format(social_network.title, social_network.adverts_count),
+                 'data-imagesrc': static('smmpay/images/{}_icon.svg'.format(social_network.code))}
+            ))
+        return social_network_choices
 
 
 """

@@ -1196,6 +1196,37 @@
 
             var ddSlickInitCall3 = true;
 
+            $('#id_social_network').ddslick({
+                imagePosition: 'left',
+                onSelected: function(selectedData){
+                    if ($('#id_social_network .dd-select').hasClass(selectedData['selectedData']['value']) || process_in_progress) {
+                        return false;
+                    }
+
+                    $('#id_social_network .dd-select').attr('class', 'dd-select');
+                    $('#id_social_network .dd-select').addClass(selectedData['selectedData']['value']);
+
+                    if (ddSlickInitCall3 === true) {
+                        ddSlickInitCall3 = false;
+                        return false;
+                    }
+
+                    var url = new URI(window.location.href),
+                        url_query = url.query(true);
+
+                    if (url_query['page']) {
+                        delete url_query['page'];
+                    }
+
+                    url_query['social_network'] = selectedData['selectedData']['value'];
+                    url.query(url_query);
+
+                    load_data(url, {}, $('.items'));
+                }
+            });
+
+            var ddSlickInitCall4 = true;
+
             $('#sort_by').ddslick({
                 imagePosition: 'right',
                 onSelected: function(selectedData){
@@ -1208,8 +1239,8 @@
 
                     $('#sort_by').data('current-value', selected_value);
 
-                    if (ddSlickInitCall3 === true) {
-                        ddSlickInitCall3 = false;
+                    if (ddSlickInitCall4 === true) {
+                        ddSlickInitCall4 = false;
                         return false;
                     }
 
@@ -1230,20 +1261,13 @@
 
                 var form = $(this),
                     url = new URI(window.location.href),
-                    url_query = url.query(true),
-                    query = {};
+                    url_query = url.query(true);
 
                 $.each(form.serializeArray(), function(index, item) {
-                    if (item.value) {
-                        query[item.name] = item.value;
-                    }
+                    url_query[item.name] = item.value;
                 });
 
-                if (url_query['sort_by']) {
-                    query['sort_by'] = url_query['sort_by'];
-                }
-
-                url.query(query);
+                url.query(url_query);
 
                 load_data(url, {}, $('.items'));
             });

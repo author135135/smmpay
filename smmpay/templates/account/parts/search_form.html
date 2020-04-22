@@ -1,24 +1,35 @@
+{% load i18n %}
+{% load static %}
+
 <form id="account-search-form" class="filter__form-search">
     <div class="filter__row">
-        <label class="filter__label filter__label--search">
-            {{ search_form.search_query }}
-            <button type="submit">
-                <svg class="search-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
-                    <g>
-                        <path d="M495,466.2L377.2,348.4c29.2-35.6,46.8-81.2,46.8-130.9C424,103.5,331.5,11,217.5,11C103.4,11,11,103.5,11,217.5S103.4,424,217.5,424c49.7,0,95.2-17.5,130.8-46.7L466.1,495c8,8,20.9,8,28.9,0C503,487.1,503,474.1,495,466.2z M217.5,382.9C126.2,382.9,52,308.7,52,217.5S126.2,52,217.5,52C308.7,52,383,126.3,383,217.5S308.7,382.9,217.5,382.9z"></path>
-                    </g>
-                </svg>
-            </button>
+        <label class="filter__label">
+            <span class="filter__title">{{ search_form.social_network.label }}</span>
+            {{ search_form.social_network }}
         </label>
     </div>
-    <div class="sort-item">
-        <div class="sort">
-            <label class="filter__label">
-                <span class="filter__title">{{ search_form.sort_by.label }}:</span>
-                <div class="sort-wrapper" data-current-value="{{ search_form.sort_by.value }}">
-                    {{ search_form.sort_by }}
-                </div>
+    <div class="filter__row">
+        <div class="filter__item">
+            <label class="filter__label filter__label--search">
+                {{ search_form.search_query }}
+                <button type="submit">
+                    <svg class="search-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                        <g>
+                            <path d="M495,466.2L377.2,348.4c29.2-35.6,46.8-81.2,46.8-130.9C424,103.5,331.5,11,217.5,11C103.4,11,11,103.5,11,217.5S103.4,424,217.5,424c49.7,0,95.2-17.5,130.8-46.7L466.1,495c8,8,20.9,8,28.9,0C503,487.1,503,474.1,495,466.2z M217.5,382.9C126.2,382.9,52,308.7,52,217.5S126.2,52,217.5,52C308.7,52,383,126.3,383,217.5S308.7,382.9,217.5,382.9z"></path>
+                        </g>
+                    </svg>
+                </button>
             </label>
+        </div>
+        <div class="filter__item sort-item">
+            <div class="sort">
+                <label class="filter__label">
+                    <span class="filter__title">{{ search_form.sort_by.label }}:</span>
+                    <div class="sort-wrapper" data-current-value="{{ search_form.sort_by.value }}">
+                        {{ search_form.sort_by }}
+                    </div>
+                </label>
+            </div>
         </div>
     </div>
 </form>

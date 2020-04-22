@@ -192,14 +192,17 @@ class EmailChangeForm(forms.Form):
 
 
 class SearchForm(forms.Form):
+    social_network = forms.ChoiceField(label=_('Social'), required=False,
+                                       widget=SelectWithOptionAttrs(attrs={'id': 'id_social_network'}))
     search_query = forms.CharField(label=_('Search query'), required=False, widget=forms.TextInput(
         attrs={'class': 'filter__search', 'placeholder': _("For example 'sport'")}))
     sort_by = forms.ChoiceField(label=_('Sort by'), required=False,
                                 widget=SelectWithOptionAttrs(attrs={'class': 'filter__select', 'id': 'sort_by'}))
 
-    def __init__(self, sort_choices, *args, **kwargs):
+    def __init__(self, social_network_choices, sort_choices, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)
 
+        self.fields['social_network'].choices = social_network_choices
         self.fields['sort_by'].choices = sort_choices
 
 
