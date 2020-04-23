@@ -166,7 +166,7 @@ class FavoritesView(LoginRequiredMixin, SearchMixin, ListView):
     ajax_template_name = 'account/parts/favorite_list.html'
     model = FavoriteAdvert
     context_object_name = 'favorites'
-    paginate_by = 4
+    paginate_by = 10
 
     filters = {
         'search_query': ['advert__title__icontains', 'advert__description__icontains'],
@@ -194,7 +194,8 @@ class FavoritesView(LoginRequiredMixin, SearchMixin, ListView):
         return response
 
     def get_queryset(self):
-        return super(FavoritesView, self).get_queryset().filter(user=self.request.user)
+        return super(FavoritesView, self).get_queryset().filter(user=self.request.user).prefetch_related(
+            'advert__social_account__social_account_services')
 
     def get_context_data(self, **kwargs):
         context = super(FavoritesView, self).get_context_data(**kwargs)
