@@ -607,7 +607,7 @@ msgstr ""
 
 #: smmpay/apps/advert/views.py:438
 msgid "Advert successfully edited"
-msgstr "Объявление успешно отредактировано."
+msgstr "Информация успешно отредактирована."
 
 #: smmpay/apps/blog/apps.py:8 smmpay/templates/blog/index.html:12
 #: smmpay/templates/blog/post.html:21
