@@ -2807,7 +2807,7 @@ body > .jcf-select-drop {
     -webkit-align-items: flex-start;
     -ms-flex-align: start;
     align-items: flex-start;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .thumb__info {
@@ -2822,16 +2822,27 @@ body > .jcf-select-drop {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    margin-top: 5px;
 }
 
 .thumb__title {
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
     font-size: 18px;
     color: #151924;
     font-weight: normal;
     margin-bottom: 6px;
     position: relative;
     top: 4px;
+}
+
+.thumb__title span {
+    margin-left: 10px;
+}
+
+.thumb__title span + span {
+    margin-left: 5px;
 }
 
 .thumb__subtitle {
@@ -3012,7 +3023,7 @@ body > .jcf-select-drop {
     font-size: 12px;
     line-height: 16px;
     color: #1C1C1C;
-    background: #F2EEFF;
+    background: #E0F8D8;
     border-radius: 100px;
     padding: 2px 8px;
     margin: 0 5px 5px 0;
@@ -3027,10 +3038,6 @@ body > .jcf-select-drop {
 }
 
 @media only screen and (max-width: 767px) {
-    .thumb__title, .thumb__controls {
-        margin-bottom: 12px;
-    }
-
     .thumb__data {
         margin-bottom: 15px;
         margin-top: 0;
@@ -5312,11 +5319,17 @@ body > .jcf-select-drop {
     bottom: 52px;
     height: 41px;
     width: 41px;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.5);
     border-radius: 50px;
     cursor: pointer;
     z-index: 3000;
     display: none;
+}
+
+@media only screen and (max-width: 979px) {
+    .to-top {
+        background: rgba(0, 0, 0, 0.2);
+    }
 }
 
 .to-top.visible {

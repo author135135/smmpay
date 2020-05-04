@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-14 14:26+0300\n"
+"POT-Creation-Date: 2020-05-04 17:26+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,14 +60,19 @@ msgid "Your password entered incorrect"
 msgstr "Введен неверный пароль"
 
 #: smmpay/apps/account/forms.py:195
+#: smmpay/templates/advert/parts/filter.html:11
+msgid "Social"
+msgstr "Соцсеть"
+
+#: smmpay/apps/account/forms.py:197
 msgid "Search query"
 msgstr "Поисковый запрос"
 
-#: smmpay/apps/account/forms.py:196 smmpay/apps/advert/forms.py:38
+#: smmpay/apps/account/forms.py:198 smmpay/apps/advert/forms.py:40
 msgid "For example 'sport'"
 msgstr "К примеру 'спорт'"
 
-#: smmpay/apps/account/forms.py:197 smmpay/apps/advert/forms.py:51
+#: smmpay/apps/account/forms.py:199 smmpay/apps/advert/forms.py:53
 msgid "Sort by"
 msgstr "Сортировать по"
 
@@ -120,32 +125,32 @@ msgstr "профиль пользователя"
 msgid "user profiles"
 msgstr "профили пользователей"
 
-#: smmpay/apps/account/views.py:92 smmpay/apps/account/views.py:93
-#: smmpay/apps/account/views.py:142 smmpay/apps/account/views.py:143
+#: smmpay/apps/account/views.py:108 smmpay/apps/account/views.py:109
+#: smmpay/apps/account/views.py:177 smmpay/apps/account/views.py:178
 msgid "Latest"
 msgstr "Новые"
 
-#: smmpay/apps/account/views.py:94 smmpay/apps/account/views.py:95
-#: smmpay/apps/account/views.py:144 smmpay/apps/account/views.py:145
-#: smmpay/apps/advert/forms.py:30 smmpay/apps/advert/forms.py:31
+#: smmpay/apps/account/views.py:110 smmpay/apps/account/views.py:111
+#: smmpay/apps/account/views.py:179 smmpay/apps/account/views.py:180
+#: smmpay/apps/advert/forms.py:32 smmpay/apps/advert/forms.py:33
 msgid "price min"
 msgstr "мин. цена"
 
-#: smmpay/apps/account/views.py:96 smmpay/apps/account/views.py:97
-#: smmpay/apps/account/views.py:146 smmpay/apps/account/views.py:147
-#: smmpay/apps/advert/forms.py:32 smmpay/apps/advert/forms.py:33
+#: smmpay/apps/account/views.py:112 smmpay/apps/account/views.py:113
+#: smmpay/apps/account/views.py:181 smmpay/apps/account/views.py:182
+#: smmpay/apps/advert/forms.py:34 smmpay/apps/advert/forms.py:35
 msgid "price max"
 msgstr "макс цена"
 
-#: smmpay/apps/account/views.py:380
+#: smmpay/apps/account/views.py:435
 msgid "Profile data updated"
 msgstr "Данные профиля обновлены"
 
-#: smmpay/apps/account/views.py:381
+#: smmpay/apps/account/views.py:436
 msgid "Your password has been successfully changed"
 msgstr "Ваш пароль был успешно изменен"
 
-#: smmpay/apps/account/views.py:382
+#: smmpay/apps/account/views.py:437
 msgid "Mail with instructions was sent on your current email address"
 msgstr "Письмо с инструкциями было отправлено ​​на ваш текущий email"
 
@@ -192,91 +197,91 @@ msgstr "Страницы"
 msgid "Advert"
 msgstr "Объявление"
 
-#: smmpay/apps/advert/forms.py:26 smmpay/apps/advert/forms.py:28
+#: smmpay/apps/advert/forms.py:28 smmpay/apps/advert/forms.py:30
 #: smmpay/apps/advert/models.py:351
 #: smmpay/templates/advert/parts/sidebar.html:17
 #: smmpay/templates/advert/tags/content_block/sidebar_default.html:18
 msgid "subscribers"
 msgstr "подписчики"
 
-#: smmpay/apps/advert/forms.py:34
+#: smmpay/apps/advert/forms.py:36
 msgid "popularity"
 msgstr "популярные"
 
-#: smmpay/apps/advert/forms.py:37
+#: smmpay/apps/advert/forms.py:39
 msgid "Search"
 msgstr "Ключевое слово"
 
-#: smmpay/apps/advert/forms.py:39 smmpay/templates/advert/advert.html:114
+#: smmpay/apps/advert/forms.py:41 smmpay/templates/advert/advert.html:114
 msgid "Category"
 msgstr "Тематика"
 
-#: smmpay/apps/advert/forms.py:41
+#: smmpay/apps/advert/forms.py:43
 msgid "Advertising services"
 msgstr "Рекламные услуги"
 
-#: smmpay/apps/advert/forms.py:43
+#: smmpay/apps/advert/forms.py:45
 msgid "Price, from"
 msgstr "Цена, от"
 
-#: smmpay/apps/advert/forms.py:45
+#: smmpay/apps/advert/forms.py:47
 msgid "Price, to"
 msgstr "Цена, до"
 
-#: smmpay/apps/advert/forms.py:47
+#: smmpay/apps/advert/forms.py:49
 msgid "Subscribers, from"
 msgstr "Подписчиков, от"
 
-#: smmpay/apps/advert/forms.py:49
+#: smmpay/apps/advert/forms.py:51
 msgid "Subscribers, to"
 msgstr "Подписчиков, до"
 
-#: smmpay/apps/advert/forms.py:68
+#: smmpay/apps/advert/forms.py:70
 msgid "Now you can enter the price for a specific service"
 msgstr "Теперь вы можете вписать цену для конкретной услуги"
 
-#: smmpay/apps/advert/forms.py:71
+#: smmpay/apps/advert/forms.py:73
 msgid "Service"
 msgstr "Услуга"
 
-#: smmpay/apps/advert/forms.py:102 smmpay/apps/advert/forms.py:132
-#: smmpay/apps/advert/forms.py:134 smmpay/apps/advert/forms.py:249
+#: smmpay/apps/advert/forms.py:104 smmpay/apps/advert/forms.py:134
+#: smmpay/apps/advert/forms.py:136 smmpay/apps/advert/forms.py:251
 msgid "This field is required."
 msgstr "Обязательное поле"
 
-#: smmpay/apps/advert/forms.py:128
+#: smmpay/apps/advert/forms.py:130
 msgid "This value already selected"
 msgstr "Такое значение уже выбрано"
 
-#: smmpay/apps/advert/forms.py:151
+#: smmpay/apps/advert/forms.py:153
 msgid "Enter the price of the minimum service on your site"
 msgstr "Впишите цену минимальной услуги на вашей площадке"
 
-#: smmpay/apps/advert/forms.py:152
+#: smmpay/apps/advert/forms.py:154
 msgid "Enter the price of the maximum service on your site"
 msgstr "Впишите цену максимальной услуги на вашей площадке"
 
-#: smmpay/apps/advert/forms.py:153
+#: smmpay/apps/advert/forms.py:155
 msgid "Select category"
 msgstr "Выберите тематику"
 
-#: smmpay/apps/advert/forms.py:154
+#: smmpay/apps/advert/forms.py:156
 msgid "Add a description of your site, indicate the benefits"
 msgstr "Добавьте описание вашей площадки, укажите преимущества"
 
-#: smmpay/apps/advert/forms.py:155
+#: smmpay/apps/advert/forms.py:157
 msgid "I will consider buying my site"
 msgstr "Рассмотрю предложения покупки моей площадки"
 
-#: smmpay/apps/advert/forms.py:167
+#: smmpay/apps/advert/forms.py:169
 msgid "Logo"
 msgstr "Логотип"
 
-#: smmpay/apps/advert/forms.py:178
+#: smmpay/apps/advert/forms.py:180
 msgid "Paste a link to a page, group or channel"
 msgstr "Вставьте ссылку на страницу, группу или канал"
 
-#: smmpay/apps/advert/forms.py:182
+#: smmpay/apps/advert/forms.py:184
 msgid ""
 "You have inserted an incorrect value for the link to the page, group or "
 "account that you are selling *"
@@ -284,7 +289,7 @@ msgstr ""
 "Вы вставили неверное значение для ссылки на страницу, группу или учетную "
 "запись, которую вы продаете *"
 
-#: smmpay/apps/advert/forms.py:212 smmpay/apps/advert/forms.py:229
+#: smmpay/apps/advert/forms.py:214 smmpay/apps/advert/forms.py:231
 msgid "Can not download logo automatically,please select it manually"
 msgstr "Невозможно загрузить логотип автоматически, выберите его вручную"
 
@@ -592,12 +597,12 @@ msgstr "Блоки контента"
 msgid "Unsupported file type"
 msgstr "Неподдерживаемый тип файла"
 
-#: smmpay/apps/advert/views.py:235
+#: smmpay/apps/advert/views.py:233
 msgid "Advert on moderation. It will be published on site after this."
 msgstr ""
 "Объявление на модерации. Оно будет опубликовано на сайте после проверки."
 
-#: smmpay/apps/advert/views.py:328
+#: smmpay/apps/advert/views.py:311
 msgid ""
 "Advert has been successfully added. It will be published on the site after "
 "the moderation. Usually it takes from 20 to 50 minutes."
@@ -605,7 +610,7 @@ msgstr ""
 "Объявление успешно добавлено. Оно будет опубликовано на сайте после "
 "модерации. Обычно это занимает от 20 до 50 минут."
 
-#: smmpay/apps/advert/views.py:438
+#: smmpay/apps/advert/views.py:421
 msgid "Advert successfully edited"
 msgstr "Информация успешно отредактирована."
 
@@ -949,8 +954,8 @@ msgstr "Добавить свою"
 #: smmpay/templates/account/parts/favorite_list.html:92
 #: smmpay/templates/advert/advert.html:45
 #: smmpay/templates/advert/advert.html:83
-#: smmpay/templates/advert/parts/advert_list.html:28
-#: smmpay/templates/advert/parts/advert_list.html:92
+#: smmpay/templates/advert/parts/advert_list.html:55
+#: smmpay/templates/advert/parts/advert_list.html:93
 msgid "advertising price range"
 msgstr "диапазон цен на рекламу"
 
@@ -962,7 +967,7 @@ msgstr "Добавили в избранное"
 #: smmpay/templates/account/parts/advert_list.html:293
 #: smmpay/templates/account/parts/discussion_list.html:76
 #: smmpay/templates/account/parts/favorite_list.html:109
-#: smmpay/templates/advert/parts/advert_list.html:109
+#: smmpay/templates/advert/parts/advert_list.html:110
 #: smmpay/templates/blog/parts/post_list.html:25
 msgid "There is nothing to show"
 msgstr "Нечего показывать"
@@ -978,8 +983,8 @@ msgstr "Автор объявления"
 
 #: smmpay/templates/account/parts/favorite_list.html:86
 #: smmpay/templates/account/parts/favorite_list.html:99
-#: smmpay/templates/advert/parts/advert_list.html:86
-#: smmpay/templates/advert/parts/advert_list.html:99
+#: smmpay/templates/advert/parts/advert_list.html:87
+#: smmpay/templates/advert/parts/advert_list.html:100
 #: smmpay/templates/blog/parts/post_list.html:17
 msgid "Read more"
 msgstr "Подробнее"
@@ -1129,12 +1134,18 @@ msgstr "Добавить еще услугу"
 msgid "Remove service"
 msgstr "Удалить услугу"
 
-#: smmpay/templates/advert/advert_add.html:217
+#: smmpay/templates/advert/advert_add.html:223
+msgid "Publish advert"
+msgstr "Добавить площадку"
+
+#: smmpay/templates/advert/advert_edit.html:10
+msgid "Editing an advert"
+msgstr "Редактирование площадки"
+
 #: smmpay/templates/advert/advert_edit.html:241
 msgid "Verification (not required)"
 msgstr "Верификация (необязательно)"
 
-#: smmpay/templates/advert/advert_add.html:219
 #: smmpay/templates/advert/advert_edit.html:243
 msgid ""
 "For maximum confidence in the identity and relevance of information about "
@@ -1155,23 +1166,13 @@ msgstr ""
 "описании и для Instagram в поле \"Обо мне\". Для Twitch используйте простую "
 "текстовую панель и вставьте текст подтверждения в поле \"Описание\"."
 
-#: smmpay/templates/advert/advert_add.html:227
 #: smmpay/templates/advert/advert_edit.html:251
 msgid "Copy"
 msgstr "Копировать"
 
-#: smmpay/templates/advert/advert_add.html:231
 #: smmpay/templates/advert/advert_edit.html:255
 msgid "Check verification"
 msgstr "Проверить верификацию"
-
-#: smmpay/templates/advert/advert_add.html:246
-msgid "Publish advert"
-msgstr "Добавить площадку"
-
-#: smmpay/templates/advert/advert_edit.html:10
-msgid "Editing an advert"
-msgstr "Редактирование площадки"
 
 #: smmpay/templates/advert/advert_edit.html:261
 msgid "Site successfully verified"
@@ -1247,9 +1248,17 @@ msgstr "площадок"
 msgid "VIP Adverts"
 msgstr "VIP Площадки"
 
-#: smmpay/templates/advert/parts/filter.html:11
-msgid "Social"
-msgstr "Соцсеть"
+#: smmpay/templates/advert/parts/advert_list.html:20
+msgid "Verified"
+msgstr "Верифицировано"
+
+#: smmpay/templates/advert/parts/advert_list.html:28
+msgid "Special status"
+msgstr "Особый статус"
+
+#: smmpay/templates/advert/parts/advert_list.html:37
+msgid "Fixed status"
+msgstr "Закреплено"
 
 #: smmpay/templates/advert/parts/filter.html:85
 #: smmpay/templates/advert/parts/filter.html:107
