@@ -1,0 +1,112 @@
+{% load i18n %}
+{% load static %}
+
+{% if adverts %}
+    {% for advert in adverts %}
+        <div class="thumb">
+            {% if advert.social_account.logo %}
+                <div class="thumb__image">
+                    <a class="thumb__avatar" href="{{ advert.get_absolute_url }}">
+                        <img src="{{ advert.social_account.logo.url }}">
+                    </a>
+                </div>
+            {% endif %}
+            <div class="thumb__container">
+                <div class="thumb__head">
+                    <div class="thumb__info">
+                        <a class="thumb__title" href="{{ advert.get_absolute_url }}">
+                            <h4>{{ advert.title }}</h4>
+                            {% if advert.social_account.confirmed %}
+                                <span title="{% trans 'Verified' %}">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect opacity="0.2" width="20" height="20" rx="10" fill="#2196F3"/>
+                                        <path d="M9.5266 13.6807C9.07322 14.1064 8.33756 14.1064 7.8844 13.6807L5.34004 11.2918C4.88665 10.8663 4.88665 10.1756 5.34004 9.75012C5.7932 9.32443 6.52885 9.32443 6.98223 9.75012L8.49817 11.1733C8.61261 11.2805 8.79839 11.2805 8.91304 11.1733L13.0178 7.31927C13.4709 6.89358 14.2066 6.89358 14.66 7.31927C14.8777 7.52369 15 7.80104 15 8.0901C15 8.37917 14.8777 8.65652 14.66 8.86094L9.5266 13.6807Z" fill="#2196F3"/>
+                                    </svg>
+                                </span>
+                            {% endif %}
+                            {% if advert.in_vip %}
+                                <span title="{% trans 'Special status' %}">
+                                    <svg width="36" height="20" viewBox="0 0 36 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect opacity="0.3" x="1" y="1" width="34" height="18" rx="9" fill="#FA6C3B" stroke="#FA6C3B" stroke-width="2"/>
+                                        <path d="M14.9707 6.86133H16.499L14.0723 14H12.4219L10 6.86133H11.5283L12.8711 11.1094C12.946 11.36 13.0225 11.653 13.1006 11.9883C13.182 12.3203 13.2324 12.5514 13.252 12.6816C13.2878 12.3822 13.4098 11.8581 13.6182 11.1094L14.9707 6.86133Z" fill="#FF0F00"/>
+                                        <path d="M17.4023 14V6.86133H18.916V14H17.4023Z" fill="#FF0F00"/>
+                                        <path d="M22.2266 10.2207H22.7246C23.1901 10.2207 23.5384 10.1296 23.7695 9.94727C24.0007 9.76172 24.1162 9.49316 24.1162 9.1416C24.1162 8.78678 24.0186 8.52474 23.8232 8.35547C23.6312 8.1862 23.3285 8.10156 22.915 8.10156H22.2266V10.2207ZM25.6445 9.08789C25.6445 9.85612 25.4036 10.4437 24.9219 10.8506C24.4434 11.2575 23.7614 11.4609 22.876 11.4609H22.2266V14H20.7129V6.86133H22.9932C23.859 6.86133 24.5166 7.0485 24.9658 7.42285C25.4183 7.79395 25.6445 8.34896 25.6445 9.08789Z" fill="#FF0F00"/>
+                                    </svg>
+                                </span>
+                            {% elif advert.in_top %}
+                                <span title="{% trans 'Fixed status' %}">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect opacity="0.2" width="20" height="20" rx="10" fill="#2196F3"/>
+                                        <path d="M10.9826 14.9961C11.0446 14.9833 11.0963 14.94 11.1197 14.8811C11.3266 14.3614 11.4315 13.8104 11.4315 13.2433C11.4315 12.3594 11.1791 11.6773 11.0652 11.4139L13.4531 8.60424C14.3148 8.70243 14.9041 8.23714 14.9298 8.21637C14.9715 8.18257 14.9969 8.13291 15 8.07947C15.0011 8.02622 14.9828 7.97353 14.9449 7.93577L12.0674 5.05529C12.0295 5.01714 11.9771 4.99712 11.9231 5.00033C11.8695 5.00336 11.8196 5.02923 11.7862 5.07134C11.4598 5.48318 11.3912 5.98586 11.3912 6.33483C11.3912 6.41263 11.3947 6.4791 11.3987 6.52989L8.57785 8.93224C8.15719 8.76834 6.64056 8.26755 5.11884 8.87427C5.0598 8.89769 5.01679 8.94924 5.00396 9.01155C5.00132 9.02421 5 9.03705 5 9.0497C5 9.09936 5.01962 9.14752 5.05527 9.1832L7.35491 11.4853L5.24391 14.497C5.20712 14.5338 5.18864 14.5822 5.18864 14.6305C5.18864 14.6789 5.20712 14.7272 5.24391 14.764C5.31766 14.8379 5.43688 14.8379 5.51064 14.764L8.6807 12.8125L10.8109 14.9447C10.8558 14.9897 10.9203 15.0089 10.9826 14.9961Z" fill="#2196F3"/>
+                                    </svg>
+                                </span>
+                            {% endif %}
+                        </a>
+                        <div class="thumb__price hidden-sm">{{ advert.min_price }} $ - {{ advert.max_price }} $</div>
+                    </div>
+                    <div class="thumb__meta">
+                        <span class="thumb__subtitle">
+                            {{ advert.social_account.link }}
+                            <a href="{{ advert.social_account.link }}" target="_blank">
+                                <img src="{% static 'smmpay/images/subtitle-link.png' %}">
+                            </a>
+                        </span>
+                        <span class="thumb__about_price hidden-sm">
+                            {% trans 'advertising price range' %}
+                        </span>
+                    </div>
+                </div>
+                <div class="thumb__data">
+                    <div class="thumb__features">
+                        <div class="thumb__block">
+                            <div class="thumb__name">
+                                <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 9C0 7.34315 1.34315 6 3 6H6C7.65685 6 9 7.34315 9 9C9 10.6569 7.65685 12 6 12H3C1.34315 12 0 10.6569 0 9Z" fill="#808080"/>
+                                    <rect x="2" width="5" height="5" rx="2.5" fill="#808080"/>
+                                </svg>
+                            </div>
+                            <div class="thumb__value">{{ advert.social_account.subscribers }}</div>
+                        </div>
+                        <div class="thumb__block">
+                            <div class="thumb__icon {{ advert.category.slug }}"></div>
+                            <div class="thumb__value" title="{{ advert.category.title }}">{{ advert.category.title }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumb__data">
+                    <div class="thumb__services">
+                        {% for service in advert.social_account.social_account_services.all %}
+                            <div class="thumb__service">{{ service.social_network_service }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="thumb__buttons hidden-sm">
+                        <a href="#" class="thumb__favorite {% if advert.in_favorite %}active{% endif %}"
+                           data-item-id="{{ advert.pk }}"
+                           data-favorite-url="{% url 'advert:favorite_advert' %}">
+                        </a>
+                        <a class="thumb__read-more" href="{{ advert.get_absolute_url }}">{% trans 'Read more' %}</a>
+                    </div>
+                </div>
+                <div class="thumb__data hidden-lg hidden-md visible-sm">
+                    <div class="thumb__price_info">
+                        <div class="thumb__price">{{ advert.min_price }} $ - {{ advert.max_price }} $</div>
+                        <div class="thumb__about_price">{% trans 'advertising price range' %}</div>
+                    </div>
+                    <div class="thumb__buttons">
+                        <a href="#" class="thumb__favorite {% if advert.in_favorite %}active{% endif %}"
+                           data-item-id="{{ advert.pk }}"
+                           data-favorite-url="{% url 'advert:favorite_advert' %}">
+                        </a>
+                        <a class="thumb__read-more" href="{{ advert.get_absolute_url }}">{% trans 'Read more' %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% include 'base/pagination.html' %}
+{% else %}
+    <div class="content-other_text">
+        {% trans 'There is nothing to show' %}
+    </div>
+{% endif %}

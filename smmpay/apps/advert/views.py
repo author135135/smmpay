@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import get_user_model
 from django.contrib import messages
+from django.contrib.sites.shortcuts import get_current_site
 from django.utils.decorators import method_decorator
 from django.template.loader import render_to_string
 from django.db import transaction
@@ -193,7 +194,7 @@ class AdvertSubFormsMixin(object):
 
 class IndexView(ListView):
     template_name = 'advert/index.html'
-    ajax_items_template_name = 'advert/parts/advert_list.html'
+    ajax_items_template_name = 'advert/parts/advert_list_home.html'
     context_object_name = 'adverts'
     model = Advert
     paginate_by = 30
@@ -208,6 +209,7 @@ class IndexView(ListView):
                 default=0, output_field=IntegerField()
             )
         ))
+        context['site'] = get_current_site(self.request)
 
         return context
 

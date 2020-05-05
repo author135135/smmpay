@@ -6,7 +6,9 @@
 {% block content %}
     <div class="inner__content">
         <div class="social-networks-wrapper">
-            <div class="social-networks-title">{% trans 'Select social network' %}:</div>
+            <div class="social-networks-title">
+                <h3>{% trans 'Select social network' %}:</h3>
+            </div>
             <div class="social-networks-items">
                 {% for social_network in social_networks %}
                 <a href="{{ social_network.get_absolute_url }}" class="item {{ social_network.code }}">
@@ -29,14 +31,43 @@
             <div class="preloader-content">
                 <span class="ajax-loader"></span>
             </div>
-            <div class="items-title">{% trans 'VIP Adverts' %}</div>
+            <div class="items-title">
+                <h3>{% trans 'VIP Adverts' %}</h3>
+            </div>
             <div class="items">
-                {% include 'advert/parts/advert_list.html' %}
+                {% include 'advert/parts/advert_list_home.html' %}
             </div>
         </div>
     </div>
 
     {% content_block 'sidebar' order_by='-views' %}
+{% endblock %}
+
+{% block post_content %}
+    <div class="post-content">
+        <div class="inner">
+            <div class="home-site-info">
+                <div class="site-name">{{ site.domain }}</div>
+                <h2>{% trans 'Search service sites for advertising on social networks' %}</h2>
+                <p>
+                    {% url 'advert:advert_add' as advert_add_url %}
+                    {% blocktrans trimmed %}
+                    All sites for buying ads from bloggers on qoopiqoopi - here you will find what you were looking for!
+                    By clicking on the button <a href="{{ advert_add_url }}" target="_blank">"Add your own"</a>,
+                    you can place your site in the directory, by specifying a price range for advertising services for potential advertisers.
+                    {% endblocktrans %}
+                </p>
+            </div>
+            <div class="site-sections">
+                <h2>{% trans 'Sections on the qoopiqoopi service:' %}</h2>
+                <div class="sections">
+                    {% for social_network in social_networks %}
+                    <a href="{{ social_network.get_absolute_url }}">{{ social_network.title }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block script %}

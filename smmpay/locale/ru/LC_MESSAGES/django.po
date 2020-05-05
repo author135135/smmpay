@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-04 17:26+0300\n"
+"POT-Creation-Date: 2020-05-05 10:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -403,8 +403,8 @@ msgid "Social account"
 msgstr "аккаунт социальной сети"
 
 #: smmpay/apps/advert/models.py:266
-#: smmpay/templates/account/parts/advert_list.html:90
-#: smmpay/templates/account/parts/advert_list.html:190
+#: smmpay/templates/account/parts/advert_list.html:91
+#: smmpay/templates/account/parts/advert_list.html:191
 msgid "Published"
 msgstr "Опубликовано"
 
@@ -597,12 +597,12 @@ msgstr "Блоки контента"
 msgid "Unsupported file type"
 msgstr "Неподдерживаемый тип файла"
 
-#: smmpay/apps/advert/views.py:233
+#: smmpay/apps/advert/views.py:235
 msgid "Advert on moderation. It will be published on site after this."
 msgstr ""
 "Объявление на модерации. Оно будет опубликовано на сайте после проверки."
 
-#: smmpay/apps/advert/views.py:311
+#: smmpay/apps/advert/views.py:313
 msgid ""
 "Advert has been successfully added. It will be published on the site after "
 "the moderation. Usually it takes from 20 to 50 minutes."
@@ -610,7 +610,7 @@ msgstr ""
 "Объявление успешно добавлено. Оно будет опубликовано на сайте после "
 "модерации. Обычно это занимает от 20 до 50 минут."
 
-#: smmpay/apps/advert/views.py:421
+#: smmpay/apps/advert/views.py:423
 msgid "Advert successfully edited"
 msgstr "Информация успешно отредактирована."
 
@@ -789,7 +789,7 @@ msgstr ""
 "продать рекламу в Tiktok"
 
 #: smmpay/templates/account/account_base.html:8
-#: smmpay/templates/base/base_html.html:56
+#: smmpay/templates/base/base_html.html:65
 msgid "You are logged in as"
 msgstr "Вы вошли как"
 
@@ -858,46 +858,46 @@ msgid "Publication"
 msgstr "Опубликовано"
 
 #: smmpay/templates/account/discussion.html:56
-#: smmpay/templates/account/parts/advert_list.html:95
-#: smmpay/templates/account/parts/advert_list.html:195
+#: smmpay/templates/account/parts/advert_list.html:96
+#: smmpay/templates/account/parts/advert_list.html:196
 #: smmpay/templates/advert/advert.html:254
 msgid "Views"
 msgstr "Просмотров"
 
 #: smmpay/templates/account/discussion.html:74
-#: smmpay/templates/account/parts/advert_list.html:117
-#: smmpay/templates/account/parts/advert_list.html:217
+#: smmpay/templates/account/parts/advert_list.html:118
+#: smmpay/templates/account/parts/advert_list.html:218
 msgid "View advert"
 msgstr "Посмотреть"
 
 #: smmpay/templates/account/discussion.html:85
-#: smmpay/templates/account/parts/advert_list.html:127
-#: smmpay/templates/account/parts/advert_list.html:227
+#: smmpay/templates/account/parts/advert_list.html:128
+#: smmpay/templates/account/parts/advert_list.html:228
 #: smmpay/templates/advert/advert.html:239
 msgid "Edit"
 msgstr "Редактировать"
 
 #: smmpay/templates/account/discussion.html:90
-#: smmpay/templates/account/parts/advert_list.html:132
-#: smmpay/templates/account/parts/advert_list.html:232
+#: smmpay/templates/account/parts/advert_list.html:133
+#: smmpay/templates/account/parts/advert_list.html:233
 msgid "Active"
 msgstr "Активно"
 
 #: smmpay/templates/account/discussion.html:94
-#: smmpay/templates/account/parts/advert_list.html:136
-#: smmpay/templates/account/parts/advert_list.html:236
+#: smmpay/templates/account/parts/advert_list.html:137
+#: smmpay/templates/account/parts/advert_list.html:237
 msgid "Deactivate"
 msgstr "Деактивировать"
 
 #: smmpay/templates/account/discussion.html:99
-#: smmpay/templates/account/parts/advert_list.html:141
-#: smmpay/templates/account/parts/advert_list.html:241
+#: smmpay/templates/account/parts/advert_list.html:142
+#: smmpay/templates/account/parts/advert_list.html:242
 msgid "Disabled"
 msgstr "Отключено"
 
 #: smmpay/templates/account/discussion.html:103
-#: smmpay/templates/account/parts/advert_list.html:145
-#: smmpay/templates/account/parts/advert_list.html:245
+#: smmpay/templates/account/parts/advert_list.html:146
+#: smmpay/templates/account/parts/advert_list.html:246
 msgid "Activate"
 msgstr "Активировать"
 
@@ -943,31 +943,55 @@ msgid "Account email change on site"
 msgstr "Изменение адреса электронной почты на сайте"
 
 #: smmpay/templates/account/index.html:40
-#: smmpay/templates/base/base_html.html:110
+#: smmpay/templates/base/base_html.html:119
 #: smmpay/templates/flatpages/default.html:39
 msgid "Add advert"
 msgstr "Добавить свою"
 
+#: smmpay/templates/account/parts/advert_list.html:20
+#: smmpay/templates/account/parts/favorite_list.html:20
+#: smmpay/templates/advert/parts/advert_list.html:20
+#: smmpay/templates/advert/parts/advert_list_home.html:20
+msgid "Verified"
+msgstr "Верифицировано"
+
 #: smmpay/templates/account/parts/advert_list.html:28
-#: smmpay/templates/account/parts/advert_list.html:85
 #: smmpay/templates/account/parts/favorite_list.html:28
-#: smmpay/templates/account/parts/favorite_list.html:92
+#: smmpay/templates/advert/parts/advert_list.html:28
+#: smmpay/templates/advert/parts/advert_list_home.html:28
+msgid "Special status"
+msgstr "Особый статус"
+
+#: smmpay/templates/account/parts/advert_list.html:37
+#: smmpay/templates/account/parts/favorite_list.html:37
+#: smmpay/templates/advert/parts/advert_list.html:37
+#: smmpay/templates/advert/parts/advert_list_home.html:37
+msgid "Fixed status"
+msgstr "Закреплено"
+
+#: smmpay/templates/account/parts/advert_list.html:55
+#: smmpay/templates/account/parts/advert_list.html:86
+#: smmpay/templates/account/parts/favorite_list.html:55
+#: smmpay/templates/account/parts/favorite_list.html:93
 #: smmpay/templates/advert/advert.html:45
 #: smmpay/templates/advert/advert.html:83
 #: smmpay/templates/advert/parts/advert_list.html:55
 #: smmpay/templates/advert/parts/advert_list.html:93
+#: smmpay/templates/advert/parts/advert_list_home.html:55
+#: smmpay/templates/advert/parts/advert_list_home.html:93
 msgid "advertising price range"
 msgstr "диапазон цен на рекламу"
 
-#: smmpay/templates/account/parts/advert_list.html:100
-#: smmpay/templates/account/parts/advert_list.html:200
+#: smmpay/templates/account/parts/advert_list.html:101
+#: smmpay/templates/account/parts/advert_list.html:201
 msgid "Added to favorites"
 msgstr "Добавили в избранное"
 
-#: smmpay/templates/account/parts/advert_list.html:293
+#: smmpay/templates/account/parts/advert_list.html:294
 #: smmpay/templates/account/parts/discussion_list.html:76
-#: smmpay/templates/account/parts/favorite_list.html:109
+#: smmpay/templates/account/parts/favorite_list.html:110
 #: smmpay/templates/advert/parts/advert_list.html:110
+#: smmpay/templates/advert/parts/advert_list_home.html:110
 #: smmpay/templates/blog/parts/post_list.html:25
 msgid "There is nothing to show"
 msgstr "Нечего показывать"
@@ -981,10 +1005,12 @@ msgstr "Нет сообщений"
 msgid "Advert creator"
 msgstr "Автор объявления"
 
-#: smmpay/templates/account/parts/favorite_list.html:86
-#: smmpay/templates/account/parts/favorite_list.html:99
+#: smmpay/templates/account/parts/favorite_list.html:87
+#: smmpay/templates/account/parts/favorite_list.html:100
 #: smmpay/templates/advert/parts/advert_list.html:87
 #: smmpay/templates/advert/parts/advert_list.html:100
+#: smmpay/templates/advert/parts/advert_list_home.html:87
+#: smmpay/templates/advert/parts/advert_list_home.html:100
 #: smmpay/templates/blog/parts/post_list.html:17
 msgid "Read more"
 msgstr "Подробнее"
@@ -1236,29 +1262,39 @@ msgstr ""
 msgid "Your advert was blocked"
 msgstr "Ваше объявление заблокировано за нарушение"
 
-#: smmpay/templates/advert/index.html:9
+#: smmpay/templates/advert/index.html:10
 msgid "Select social network"
 msgstr "Выбор соцсети"
 
-#: smmpay/templates/advert/index.html:21
+#: smmpay/templates/advert/index.html:23
 msgid "platform"
 msgstr "площадок"
 
-#: smmpay/templates/advert/index.html:32
+#: smmpay/templates/advert/index.html:35
 msgid "VIP Adverts"
 msgstr "VIP Площадки"
 
-#: smmpay/templates/advert/parts/advert_list.html:20
-msgid "Verified"
-msgstr "Верифицировано"
+#: smmpay/templates/advert/index.html:51
+msgid "Search service sites for advertising on social networks"
+msgstr "Сервис поиска площадок для рекламы в соцсетях"
 
-#: smmpay/templates/advert/parts/advert_list.html:28
-msgid "Special status"
-msgstr "Особый статус"
+#: smmpay/templates/advert/index.html:54
+#, python-format
+msgid ""
+"All sites for buying ads from bloggers on qoopiqoopi - here you will find "
+"what you were looking for! By clicking on the button <a href="
+"\"%(advert_add_url)s\" target=\"_blank\">\"Add your own\"</a>, you can place "
+"your site in the directory, by specifying a price range for advertising "
+"services for potential advertisers."
+msgstr ""
+"Все площадки для покупки рекламы у блогеров на qoopiqoopi - здесь вы найдете то, что искали! "
+"Нажав на кнопку <a href=\"%(advert_add_url)s\" target=\"_blank\">\"Добавить свою\"</a>, "
+"вы сможете разместить свою площадку в каталоге, указав диапазон цен на рекламные услуги "
+"для потенциальных рекламодателей."
 
-#: smmpay/templates/advert/parts/advert_list.html:37
-msgid "Fixed status"
-msgstr "Закреплено"
+#: smmpay/templates/advert/index.html:62
+msgid "Sections on the qoopiqoopi service:"
+msgstr "Разделы на сервисе qoopiqoopi:"
 
 #: smmpay/templates/advert/parts/filter.html:85
 #: smmpay/templates/advert/parts/filter.html:107
@@ -1320,37 +1356,30 @@ msgstr ""
 "Неправильно набран адрес или такой страницы на сайте больше не существует. "
 "Перейдите на главную страницу и попробуйте снова."
 
-#: smmpay/templates/base/base_html.html:30
+#: smmpay/templates/base/base_html.html:28
+#: smmpay/templates/base/base_html.html:29
+msgid "Home qoopiqoopi - advertising exchange"
+msgstr "На главную qoopiqoopi - биржа рекламы"
+
+#: smmpay/templates/base/base_html.html:39
 msgid "Global base of platforms for advertising on social networks"
 msgstr "Глобальная база площадок для рекламы в соцсетях"
 
-#: smmpay/templates/base/base_html.html:74
+#: smmpay/templates/base/base_html.html:83
 msgid "Personal Area"
 msgstr "Личный кабинет"
 
-#: smmpay/templates/base/base_html.html:92
+#: smmpay/templates/base/base_html.html:101
 msgid "Log out"
 msgstr "Выход"
 
-#: smmpay/templates/base/base_html.html:111
+#: smmpay/templates/base/base_html.html:120
 msgid "Add"
 msgstr "Добавить"
 
-#: smmpay/templates/base/base_html.html:142
+#: smmpay/templates/base/base_html.html:151
 msgid "Understand"
 msgstr "Понятно"
-
-#: smmpay/templates/base/base_html.html:167
-msgid ""
-"QoopiQoopi is a convenient platform for buying and selling public groups and "
-"accounts in social networks"
-msgstr ""
-"QoopiQoopi - это глобальная база по поиску площадок в соцсетях для "
-"размещения рекламы"
-
-#: smmpay/templates/base/base_html.html:192
-msgid "The site works in beta mode qoopiqoopi.com"
-msgstr "Сайт работает в бета режиме qoopiqoopi.com"
 
 #: smmpay/templates/blog/post.html:40
 msgid "Share in social networks"
@@ -1519,6 +1548,16 @@ msgstr "Ваше имя пользователя, если вы забыли:"
 #: smmpay/templates/registration/password_reset_form.html:27
 msgid "Reset"
 msgstr "Сброс"
+
+#~ msgid ""
+#~ "QoopiQoopi is a convenient platform for buying and selling public groups "
+#~ "and accounts in social networks"
+#~ msgstr ""
+#~ "QoopiQoopi - это глобальная база по поиску площадок в соцсетях для "
+#~ "размещения рекламы"
+
+#~ msgid "The site works in beta mode qoopiqoopi.com"
+#~ msgstr "Сайт работает в бета режиме qoopiqoopi.com"
 
 #~ msgid "New"
 #~ msgstr "Новый"
