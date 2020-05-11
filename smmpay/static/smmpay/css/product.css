@@ -123,6 +123,10 @@
     width: 100%;
 }
 
+.inner-product .thumb .thumb__row .thumb__controls > span:not(:first-child) {
+    margin-left: 10px;
+}
+
 .inner-product .thumb .thumb__head {
     width: 100%;
 }
