@@ -94,6 +94,10 @@ class AdvertSocialAccountServiceForm(forms.ModelForm):
             if field != 'negotiated_price':
                 self.fields[field].widget.attrs['class'] = 'log__input'
 
+    def validate_unique(self):
+        """Removed unique validation because in formset `AdvertSocialAccountServiceFormSet` we made it"""
+        pass
+
     def clean(self):
         cleaned_data = super(AdvertSocialAccountServiceForm, self).clean()
 
@@ -110,36 +114,34 @@ class AdvertSocialAccountServiceFormSet(forms.BaseInlineFormSet):
 
         self.form.social_account_instance = self.instance
 
-    def clean(self):
-        super(AdvertSocialAccountServiceFormSet, self).clean()
-
+    def validate_unique(self):
         services = []
-        selected = False
 
         for form in self.forms:
             for field_name in form.fields:
                 field_value = form.cleaned_data.get(field_name, None)
 
-                if field_value and selected is False:
-                    selected = True
-
-                if field_name == 'social_network_service' and field_value is not None:
+                if field_name == 'social_network_service' and field_value is not None \
+                   and form.cleaned_data['DELETE'] is False:
                     if field_value not in services:
                         services.append(field_value)
                     else:
                         form.add_error(field_name, forms.ValidationError(_('This value already selected'),
                                                                          code='required'))
 
-        if selected is False:
-            self.forms[0].add_error('social_network_service', forms.ValidationError(_('This field is required.'),
-                                                                                    code='required'))
-            self.forms[0].add_error('price', forms.ValidationError(_('This field is required.'), code='required'))
+    def save(self, commit=True):
+        for item in self.cleaned_data:
+            if item and item['id'] is not None and ((item['DELETE'] is False
+               and item['id'].social_network_service != item['social_network_service']) or (item['DELETE'] is True)):
+                item['id'].delete()
+
+        super(AdvertSocialAccountServiceFormSet, self).save(commit)
 
 
 AdvertServiceFormSetFactory = forms.inlineformset_factory(AdvertSocialAccount, AdvertSocialAccountService,
                                                           AdvertSocialAccountServiceForm,
                                                           formset=AdvertSocialAccountServiceFormSet, extra=1,
-                                                          can_delete=True)
+                                                          can_delete=True, min_num=1, validate_min=True)
 
 
 class AdvertForm(forms.ModelForm):

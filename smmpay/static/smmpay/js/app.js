@@ -590,7 +590,6 @@
                 }
 
                 var services = [];
-                var selected = false;
 
                 $('#advert-add-form > .service-item').each(function(e) {
                     var service_wrapper = $(this),
@@ -600,8 +599,6 @@
 
                     if (service_val) {
                         var elem_idx = services.indexOf(service_val);
-
-                        selected = true;
 
                         if (elem_idx !== -1) {
                             error = 1;
@@ -625,8 +622,10 @@
                     }
                 });
 
-                if (selected === false) {
+                if (services.length === 0) {
                     var service_wrapper = $('#advert-add-form > .service-item:first');
+
+                    error = 1;
 
                     $('.error_input', service_wrapper).remove();
 
@@ -864,10 +863,9 @@
                     new_form_idx = initial_forms;
                 }
 
-                $('#id_social_account_services-TOTAL_FORMS').val(new_form_idx);
-
                 if (wrapper.hasClass('new_item')) {
                    wrapper.remove();
+                   $('#id_social_account_services-TOTAL_FORMS').val(new_form_idx);
                 } else {
                     wrapper.addClass('hidden');
                     $('input[type="checkbox"]', wrapper).click();
@@ -950,7 +948,6 @@
                 }
 
                 var services = [];
-                var selected = false;
 
                 $('#advert-edit-form > .service-item:not(.hidden)').each(function(e) {
                     var service_wrapper = $(this),
@@ -960,8 +957,6 @@
 
                     if (service_val) {
                         var elem_idx = services.indexOf(service_val);
-
-                        selected = true;
 
                         if (elem_idx !== -1) {
                             error = 1;
@@ -985,8 +980,10 @@
                     }
                 });
 
-                if (selected === false) {
+                if (services.length === 0) {
                     var service_wrapper = $('#advert-edit-form > .service-item:first');
+
+                    error = 1;
 
                     $('.error_input', service_wrapper).remove();
 
