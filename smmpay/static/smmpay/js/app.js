@@ -1689,9 +1689,10 @@
                             'hosts': ['www.t.me', 't.me'],
                             'patterns': [
                                 /^https:\/\/t\.me\/[a-zA-Z0-9_]+\/?$/g,
-                                /^https:\/\/www\.t\.me\/[a-zA-Z0-9_]+\/?$/g
+                                /^https:\/\/www\.t\.me\/[a-zA-Z0-9_]+\/?$/g,
+                                /^https:\/\/t\.me\/joinchat\/[a-zA-Z0-9_]+\/?$/g
                             ],
-                            'valid_pattern': 'https://www.t.me/xxxxxxx, https://t.me/xxxxxxx'
+                            'valid_pattern': 'https://www.t.me/xxxxxxx, https://t.me/xxxxxxx, https://t.me/joinchat/xxxxxxx'
                         },
                         'tiktok': {
                             'hosts': ['www.tiktok.com', 'tiktok.com'],
