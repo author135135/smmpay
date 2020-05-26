@@ -12,7 +12,7 @@
                         <select name="social_network" id="id_social_network">
                             {% for social_network in social_networks %}
                                 {% with 'smmpay/images/'|add:social_network.code|add:'_icon.svg' as icon_path %}
-                                    {% if social_network.code == selected_social_network %}
+                                    {% if social_network.code == selected_social_network.code %}
                                         <option value="{{ social_network.code }}" data-imagesrc="{% static icon_path %}" selected>{{ social_network.title }}</option>
                                     {% else %}
                                         <option value="{{ social_network.code }}" data-imagesrc="{% static icon_path %}">{{ social_network.title }}</option>
@@ -23,54 +23,15 @@
                     </label>
                 </div>
             {% endif %}
-
-            <div class="filter__row filter-sm">
-                <label class="filter__label">
-                    <span class="filter__title">{{ filter_form.category.label }}</span>
-                    {{ filter_form.category }}
-                </label>
-            </div>
-            <div class="filter__row filter-sm">
-                <label class="filter__label">
-                    <span class="filter__title">{{ filter_form.service.label }}</span>
-                    {{ filter_form.service }}
-                </label>
-            </div>
-            <div class="filter__row filter-sm">
-                <label class="filter__label">
-                    <span class="filter__title">{{ filter_form.search_query.label }}</span>
-                    {{ filter_form.search_query }}
-                </label>
-            </div>
-            <div class="filter__row filter-sm">
-                <div class="filter__row__col">
-                    <label class="filter__label">
-                        <span class="filter__title">{{ filter_form.subscribers_min.label }}</span>
-                        {{ filter_form.subscribers_min }}
-                    </label>
-                </div>
-                <div class="filter__row__col">
-                    <label class="filter__label">
-                        <span class="filter__title">{{ filter_form.subscribers_max.label }}</span>
-                        {{ filter_form.subscribers_max }}
-                    </label>
-                </div>
-            </div>
-            <div class="filter__row filter-sm">
-                <div class="filter__row__col">
-                    <label class="filter__label">
-                        <span class="filter__title">{{ filter_form.price_min.label }}</span>
-                        {{ filter_form.price_min }}
-                    </label>
-                </div>
-                <div class="filter__row__col">
-                    <label class="filter__label">
-                        <span class="filter__title">{{ filter_form.price_max.label }}</span>
-                        {{ filter_form.price_max }}
-                    </label>
-                </div>
-            </div>
-            <div class="filter__row applied-filters hidden-lg hidden-md">
+            <div class="filter__row applied-filters">
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
+                    </li>
+                    <li>
+                        <h1>{% trans 'Adverts in' %} {{ selected_social_network.title|lower }}</h1>
+                    </li>
+                </ul>
                 <div class="filters"></div>
             </div>
             <div class="filter__row">
@@ -82,31 +43,79 @@
                         </div>
                     </label>
                 </div>
-                <button type="button" class="filter__reset button hidden-sm">{% trans 'Reset filter' %}</button>
 
                 <div class="adverts-found">
-                    <span>{% trans 'Found' %}</span>
-                    <span id="items-count">{{ paginator.count }}</span>
+                    <h2>
+                        <span>{% trans 'Found' %}</span>
+                        <span id="items-count">{{ paginator.count }}</span>
+                    </h2>
                 </div>
 
-                <button type="submit" class="filter__submit button hidden-sm">{% trans 'Find adverts' %}</button>
-                <button type="button" class="filter__button button hidden-lg hidden-md">{% trans 'Filter' %}</button>
+                <button type="button" class="filter__button button">{% trans 'Filter' %}</button>
             </div>
         </form>
     </div>
 
-    <div class="side__filter__container">
-        <form class="filter-form">
-            <div class="filter__row init-row">
-                <div class="filter-label">
-                    {% trans 'Filter' %} (<span class="social-network"></span>)
+    <div class="side__filter__wrapper">
+        <div class="side__filter__container">
+            <form class="filter-form">
+                <div class="filter__row">
+                    <div class="filter-label">
+                        {% trans 'Filter' %} (<span class="social-network"></span>)
+                    </div>
+                    <button type="button" class="button close-btn"></button>
                 </div>
-                <button type="button" class="button close-btn"></button>
-            </div>
-            <div class="filter__row init-row">
-                <button type="button" class="filter__reset button">{% trans 'Reset filter' %}</button>
-                <button type="submit" class="filter__submit button">{% trans 'Find adverts' %}</button>
-            </div>
-        </form>
+                <div class="filter__row">
+                    <label class="filter__label">
+                        <span class="filter__title">{{ filter_form.category.label }}</span>
+                        {{ filter_form.category }}
+                    </label>
+                </div>
+                <div class="filter__row">
+                    <label class="filter__label">
+                        <span class="filter__title">{{ filter_form.service.label }}</span>
+                        {{ filter_form.service }}
+                    </label>
+                </div>
+                <div class="filter__row">
+                    <label class="filter__label">
+                        <span class="filter__title">{{ filter_form.search_query.label }}</span>
+                        {{ filter_form.search_query }}
+                    </label>
+                </div>
+                <div class="filter__row">
+                    <div class="filter__row__col">
+                        <label class="filter__label">
+                            <span class="filter__title">{{ filter_form.subscribers_min.label }}</span>
+                            {{ filter_form.subscribers_min }}
+                        </label>
+                    </div>
+                    <div class="filter__row__col">
+                        <label class="filter__label">
+                            <span class="filter__title">{{ filter_form.subscribers_max.label }}</span>
+                            {{ filter_form.subscribers_max }}
+                        </label>
+                    </div>
+                </div>
+                <div class="filter__row">
+                    <div class="filter__row__col">
+                        <label class="filter__label">
+                            <span class="filter__title">{{ filter_form.price_min.label }}</span>
+                            {{ filter_form.price_min }}
+                        </label>
+                    </div>
+                    <div class="filter__row__col">
+                        <label class="filter__label">
+                            <span class="filter__title">{{ filter_form.price_max.label }}</span>
+                            {{ filter_form.price_max }}
+                        </label>
+                    </div>
+                </div>
+                <div class="filter__row">
+                    <button type="button" class="filter__reset button">{% trans 'Reset filter' %}</button>
+                    <button type="submit" class="filter__submit button">{% trans 'Find adverts' %}</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

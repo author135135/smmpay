@@ -15,7 +15,7 @@
                 <div class="thumb__head">
                     <div class="thumb__info">
                         <a class="thumb__title" href="{{ advert.get_absolute_url }}">
-                            {{ advert.title }}
+                            <h3>{{ advert.title }}</h3>
                             {% if advert.social_account.confirmed %}
                                 <span title="{% trans 'Verified' %}">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

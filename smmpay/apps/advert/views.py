@@ -112,7 +112,7 @@ class AdvertFilterMixin(object):
 
         try:
             context['social_networks'] = SocialNetwork.objects.all()
-            context['selected_social_network'] = self._social_network.code
+            context['selected_social_network'] = self._social_network
         except (SocialNetwork.DoesNotExist, AttributeError):
             pass
 

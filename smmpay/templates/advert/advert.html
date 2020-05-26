@@ -88,6 +88,29 @@
                         </div>
                     </div>
                 </div>
+
+                {% if advert.social_account.social_account_services.count %}
+                    <div class="thumb__row services__table">
+                        <div class="first__column hidden-sm"></div>
+                        <div class="second__column">
+                            <div class="thumb__info__table">
+                                {% for advert_service in advert.social_account.social_account_services.all %}
+                                    <div class="table_row">
+                                        <div>{{ advert_service.social_network_service.title }}:</div>
+                                        <div>
+                                            {% if advert_service.negotiated_price %}
+                                                {% trans 'negotiated price' %}
+                                            {% elif advert_service.price %}
+                                                {{ advert_service.price }} $
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
                 <div class="thumb__row">
                     <div class="first_column hidden-sm"></div>
                     <div class="second__column">
@@ -125,36 +148,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                {% if advert.social_account.social_account_services.count %}
-                    <div class="thumb__row services__table">
-                        <div class="first__column hidden-sm"></div>
-                        <div class="second__column">
-                            <div class="thumb__info__table">
-                                {% for advert_service in advert.social_account.social_account_services.all %}
-                                    <div class="table_row">
-                                        <div>{{ advert_service.social_network_service.title }}:</div>
-                                        <div>
-                                            {% if advert_service.negotiated_price %}
-                                                {% trans 'negotiated price' %}
-                                            {% elif advert_service.price %}
-                                                {{ advert_service.price }} $
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-
-                <div class="thumb__row">
-                    <div class="first__column hidden-sm"></div>
-                    <div class="second__column">
-                        <div class="thumb__info__table">
                             <div class="table_row">
                                 <div>{% trans 'Verification' %}:</div>
                                 <div>

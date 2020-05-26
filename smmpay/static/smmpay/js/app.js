@@ -243,35 +243,12 @@
             });
 
             $('.filter__button').click(function(e) {
-                var sideFilter = $('.side__filter__container');
-
-                if (sideFilter.width() === 0) {
-                    sideFilter.css('width', '100%');
-                } else {
-                    sideFilter.css('width', '0');
-                }
-
                 $('body').addClass('visible-sidebar');
             });
 
             $('.side__filter__container .close-btn').click(function(e) {
-                $('.side__filter__container').css('width', '0');
 		        $('body').removeClass('visible-sidebar');
             });
-
-            $(window).on('resize', function(e) {
-                if (window.innerWidth <= 767) {
-                    if ($('.filter__container .filter-form .filter-sm').length) {
-                        $('.side__filter__container .filter-form .filter__row:first').after($('.filter__container .filter-form .filter-sm'));
-                        $('.filter__container .filter-form .filter-sm').remove();
-                    }
-                } else {
-                    if ($('.side__filter__container .filter-form .filter-sm').length) {
-                        $('.filter__container .filter-form .filter__row:first').after($('.side__filter__container .filter-form .filter-sm'));
-                        $('.side__filter__container .filter-form .filter-sm').remove();
-                    }
-                }
-            }).resize();
         }
 
         // Add/delete favorites handlers
@@ -1766,78 +1743,78 @@
         }
 
         function processAppliedFilters() {
-                var appliedFilters = [];
+            var appliedFilters = [];
 
-                if ($('select[name="category"]').val()) {
-                    var select_value = [];
+            if ($('select[name="category"]').val()) {
+                var select_value = [];
 
-                    $('select[name="category"] option:selected').each(function(idx, val) {
-                        select_value.push($(this).text());
-                    });
+                $('select[name="category"] option:selected').each(function(idx, val) {
+                    select_value.push($(this).text());
+                });
 
-                    if (select_value.length) {
-                        appliedFilters.push(select_value.join(', '));
-                    }
-                }
-
-                if ($('select[name="service"]').val()) {
-                    var select_value = [];
-
-                    $('select[name="service"] option:selected').each(function(idx, val) {
-                        select_value.push($(this).text());
-                    });
-
-                    if (select_value.length) {
-                        appliedFilters.push(select_value.join(', '));
-                    }
-                }
-
-                if ($('input[name="search_query"]').val()) {
-                    appliedFilters.push('"' + $('input[name="search_query"]').val() + '"');
-                }
-
-                if ($('input[name="subscribers_min"]').val() || $('input[name="subscribers_max"]').val()) {
-                    var args = [];
-
-                    if ($('input[name="subscribers_min"]').val()) {
-                        args.push($('input[name="subscribers_min"]').val())
-                    } else {
-                        args.push('...');
-                    }
-
-                    if ($('input[name="subscribers_max"]').val()) {
-                        args.push($('input[name="subscribers_max"]').val())
-                    } else {
-                        args.push('...');
-                    }
-
-                    appliedFilters.push(interpolate(gettext('subscribers %s-%s'), args));
-                }
-
-                if ($('input[name="price_min"]').val() || $('input[name="price_max"]').val()) {
-                    var args = [];
-
-                    if ($('input[name="price_min"]').val()) {
-                        args.push($('input[name="price_min"]').val())
-                    } else {
-                        args.push('...');
-                    }
-
-                    if ($('input[name="price_max"]').val()) {
-                        args.push($('input[name="price_max"]').val())
-                    } else {
-                        args.push('...');
-                    }
-
-                    appliedFilters.push(interpolate(gettext('price %s-%s'), args));
-                }
-
-                if (appliedFilters.length) {
-                    $('.applied-filters .filters').text(appliedFilters.join(', '));
-                } else {
-                    $('.applied-filters .filters').text('');
+                if (select_value.length) {
+                    appliedFilters.push(select_value.join(', '));
                 }
             }
+
+            if ($('select[name="service"]').val()) {
+                var select_value = [];
+
+                $('select[name="service"] option:selected').each(function(idx, val) {
+                    select_value.push($(this).text());
+                });
+
+                if (select_value.length) {
+                    appliedFilters.push(select_value.join(', '));
+                }
+            }
+
+            if ($('input[name="search_query"]').val()) {
+                appliedFilters.push('"' + $('input[name="search_query"]').val() + '"');
+            }
+
+            if ($('input[name="subscribers_min"]').val() || $('input[name="subscribers_max"]').val()) {
+                var args = [];
+
+                if ($('input[name="subscribers_min"]').val()) {
+                    args.push($('input[name="subscribers_min"]').val())
+                } else {
+                    args.push('...');
+                }
+
+                if ($('input[name="subscribers_max"]').val()) {
+                    args.push($('input[name="subscribers_max"]').val())
+                } else {
+                    args.push('...');
+                }
+
+                appliedFilters.push(interpolate(gettext('subscribers %s-%s'), args));
+            }
+
+            if ($('input[name="price_min"]').val() || $('input[name="price_max"]').val()) {
+                var args = [];
+
+                if ($('input[name="price_min"]').val()) {
+                    args.push($('input[name="price_min"]').val())
+                } else {
+                    args.push('...');
+                }
+
+                if ($('input[name="price_max"]').val()) {
+                    args.push($('input[name="price_max"]').val())
+                } else {
+                    args.push('...');
+                }
+
+                appliedFilters.push(interpolate(gettext('price %s-%s'), args));
+            }
+
+            if (appliedFilters.length) {
+                $('.applied-filters .filters').html('<span>' + gettext('Filter by') + ':</span> ' + appliedFilters.join(', '));
+            } else {
+                $('.applied-filters .filters').html('');
+            }
+        }
 
         function getCookie(name) {
             var cookieValue = null;

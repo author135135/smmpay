@@ -784,7 +784,29 @@ body > .jcf-select-drop {
 }
 
 .filter__row.applied-filters {
-    margin-bottom: -10px;
+    margin-bottom: -5px;
+    justify-content: flex-start;
+    align-items: flex-end;
+    margin-top: 15px;
+}
+
+.filter__row.applied-filters .breadcrumb {
+    width: auto;
+    margin: 5px 15px 0 0;
+}
+
+.filter__row.applied-filters .breadcrumb li:first-of-type a {
+    opacity: 1;
+}
+
+.filter__row.applied-filters .breadcrumb li h1 {
+    transition: all .2s ease-in-out;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 15px;
+    color: #1F1F1F;
+    opacity: 0.5;
 }
 
 .filter__label {
@@ -888,9 +910,14 @@ body > .jcf-select-drop {
 .applied-filters .filters {
     font-style: normal;
     font-weight: normal;
-    font-size: 11px;
+    font-size: 13px;
     line-height: 15px;
     color: #8F8F8F;
+    margin-top: 5px;
+}
+
+.applied-filters .filters > span {
+    color: #1F1F1F;
 }
 
 .sort .filter__title {
@@ -1122,6 +1149,9 @@ body > .jcf-select-drop {
     color: #FFFFFF;
     padding: 9px 15px;
     height: auto;
+}
+
+.filter__button {
     margin-left: 30px;
 }
 
@@ -1168,22 +1198,39 @@ body > .jcf-select-drop {
     height: 14px;
 }
 
-.side__filter__container {
+.side__filter__wrapper {
     display: none;
     height: 100%;
-    width: 0;
+    width: 100%;
     position: fixed;
-    z-index: 1;
+    z-index: 1000;
     top: 0;
     left: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    overflow-x: hidden;
+}
+
+.side__filter__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-start;
+    height: 100%;
+    width: 50%;
     background-color: #FFFFFF;
     overflow-x: hidden;
     padding-top: 20px;
     transition: 0.5s;
 }
 
+body.visible-sidebar .side__filter__wrapper {
+    display: block;
+}
+
 .side__filter__container .filter-form {
     padding: 0 20px;
+    width: 50%;
+    min-width: 500px;
 }
 
 .side__filter__container .filter__row .filter-label {
@@ -1239,6 +1286,19 @@ body > .jcf-select-drop {
 
 .side__filter__container .filter__row__col .filter__value {
     width: 100%;
+}
+
+@media only screen and (max-width: 1023px) {
+    .side__filter__container .filter-form {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+@media only screen and (max-width: 979px) {
+    .side__filter__container {
+        width: 100%;
+    }
 }
 
 @media only screen and (max-width: 767px) {
@@ -2648,7 +2708,7 @@ body > .jcf-select-drop {
 .social-networks-title h3 {
     font-style: normal;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 21px;
     color: #2F2F2F;
 }
@@ -2792,13 +2852,13 @@ body > .jcf-select-drop {
 }
 
 .items-title {
-    margin-bottom: 24px;
+    margin-bottom: 17px;
 }
 
 .items-title h3 {
     font-style: normal;
     font-weight: 500;
-    font-size: 24px;
+    font-size: 20px;
     line-height: 28px;
     color: #2F2F2F;
 }
@@ -2903,6 +2963,11 @@ body > .jcf-select-drop {
     margin-bottom: 6px;
     position: relative;
     top: 4px;
+}
+
+.thumb__title h3, .thumb__title h4 {
+    font-size: 18px;
+    font-weight: normal;
 }
 
 .thumb__title span {
