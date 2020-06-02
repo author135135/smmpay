@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-26 14:56+0300\n"
+"POT-Creation-Date: 2020-06-01 17:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -125,11 +125,11 @@ msgstr ""
 msgid "subscribers %s-%s"
 msgstr ""
 
-#: smmpay/static/smmpay/js/app.js:1809
+#: smmpay/static/smmpay/js/app.js:1795
 #, javascript-format
-msgid "price %s-%s"
+msgid "price, from %s"
 msgstr ""
 
-#: smmpay/static/smmpay/js/app.js:1813
+#: smmpay/static/smmpay/js/app.js:1799
 msgid "Filter by"
 msgstr ""

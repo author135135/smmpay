@@ -1,6 +1,7 @@
 {% extends 'base/base_html.html' %}
 {% load static %}
 {% load i18n %}
+{% load humanize %}
 {% load advert_tags %}
 
 {% block content %}
@@ -41,8 +42,15 @@
                                 </span>
                             </div>
                             <div class="thumb__meta hidden-sm">
-                                <div class="thumb__price">{{ advert.min_price }} $ - {{ advert.max_price }} $</div>
-                                <div class="thumb__about_price">{% trans 'advertising price range' %}</div>
+                                <div class="thumb__price">
+                                    {% trans 'from' %}
+                                    <span>
+                                        {% currency_convert advert.price CURRENCY_CODE as price %}
+                                        {{ price|intcomma }}
+                                    </span>
+                                    {{ CURRENCY.symbol }}
+                                </div>
+                                <div class="thumb__about_price">{% trans 'advertising price' %}</div>
                             </div>
                         </div>
                     </div>
@@ -83,8 +91,15 @@
                     <div class="first__column"></div>
                     <div class="second__column">
                         <div class="thumb__meta">
-                            <div class="thumb__price">{{ advert.min_price }} $ - {{ advert.max_price }} $</div>
-                            <div class="thumb__about_price">{% trans 'advertising price range' %}</div>
+                            <div class="thumb__price">
+                                {% trans 'from' %}
+                                <span>
+                                    {% currency_convert advert.price CURRENCY_CODE as price %}
+                                    {{ price|intcomma }}
+                                </span>
+                                {{ CURRENCY.symbol }}
+                            </div>
+                            <div class="thumb__about_price">{% trans 'advertising price' %}</div>
                         </div>
                     </div>
                 </div>
@@ -101,7 +116,8 @@
                                             {% if advert_service.negotiated_price %}
                                                 {% trans 'negotiated price' %}
                                             {% elif advert_service.price %}
-                                                {{ advert_service.price }} $
+                                                {% currency_convert advert_service.price CURRENCY_CODE as price %}
+                                                {{ price|intcomma }} {{ CURRENCY.symbol }}
                                             {% endif %}
                                         </div>
                                     </div>

@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^forstaffonly/', include(admin.site.urls)),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^social-auth/', include('social_django.urls', namespace='social')),
+    url(r'^currencies/', include('currencies.urls'), name='currencies'),
     url(r'^', include('smmpay.apps.advert.urls', namespace='advert')),
 ]
 

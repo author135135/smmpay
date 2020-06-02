@@ -688,12 +688,8 @@ body > .jcf-select-drop {
     max-height: 100%;
 }
 
-.home .filter {
-    display: block;
-}
-
 .filter {
-    display: none;
+    display: block;
     background: #fff;
     position: relative;
     margin-bottom: 25px;
@@ -807,6 +803,16 @@ body > .jcf-select-drop {
     line-height: 15px;
     color: #1F1F1F;
     opacity: 0.5;
+}
+
+@media only screen and (max-width: 767px) {
+    .filter__row.applied-filters {
+        margin-bottom: 15px;
+    }
+
+    .filter__row:last-child {
+        margin-top: 0;
+    }
 }
 
 .filter__label {
@@ -1040,6 +1046,28 @@ body > .jcf-select-drop {
     cursor: pointer;
 }
 
+.filter__items_wrapper {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.sort {
+    margin-right: 20px;
+}
+
 #sort_by {
     width: auto !important
 }
@@ -1062,6 +1090,7 @@ body > .jcf-select-drop {
 #sort_by .dd-option-image, #sort_by  .dd-selected-image {
     max-height: 10px;
     max-width: 12px;
+    margin-right: 0 !important;
 }
 
 #sort_by a.dd-selected .dd-selected-text:hover {
@@ -1116,6 +1145,80 @@ body > .jcf-select-drop {
         flex-direction: column;
         align-items: flex-start;
     }
+}
+
+.currency {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.currency .currency__title {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: rgba(0, 0, 0, 0.36);
+    margin-right: 5px;
+}
+
+.currency .currency__list__wrapper .currency__current {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+    color: rgba(0, 0, 0, 0.87);
+    text-decoration: none;
+}
+
+.currency .currency__list__wrapper > .currency__current::after {
+    content: "";
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border: 2px solid #000000;
+    transform: rotate(45deg);
+    border-top: transparent;
+    border-left: transparent;
+    margin-left: 5px;
+}
+
+.currency .currency__list__wrapper .currency__list {
+    display: none;
+    min-width: 190px;
+    position: absolute;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.19), 0px 6px 6px rgba(0, 0, 0, 0.26);
+    background: #FFFFFF;
+    border-radius: 4px;
+    margin: 0;
+    padding: 0;
+    top: -5px;
+    border: none;
+    list-style: none;
+    z-index: 2000;
+    overflow: auto;
+}
+
+.currency .currency__list__wrapper .currency__list > li > a {
+    display: block;
+    padding: 17px 30px 17px 15px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    color: rgba(0, 0, 0, 0.87);
+    -webkit-transition: all 0.25s ease-in-out;
+}
+
+.currency .currency__list__wrapper .currency__list > li > a.currency__current,
+.currency .currency__list__wrapper .currency__list > li > a:hover {
+    background: #EDEDED ;
 }
 
 .adverts-found {
@@ -3010,10 +3113,15 @@ body.visible-sidebar .side__filter__wrapper {
 }
 
 .thumb__price {
-    font-size: 16px;
+    font-size: 14px;
     color: #151924;
-    font-weight: 500;
+    font-weight: normal;
     font-style: normal;
+}
+
+.thumb__price span {
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .thumb__controls {
@@ -3929,18 +4037,6 @@ body.visible-sidebar .side__filter__wrapper {
     overflow: hidden;
     width: 100%;
     white-space: nowrap;
-}
-
-.ads-items .thumb__price {
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1 1 0%;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-justify-content: flex-end;
-    -ms-flex-pack: end;
-    justify-content: flex-end;
 }
 
 .ads-items .thumb_publication {

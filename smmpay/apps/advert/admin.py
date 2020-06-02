@@ -39,8 +39,8 @@ class ServiceInline(admin.StackedInline):
 
 
 class AdvertAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', '_get_social_network', 'author', '_get_services', 'min_price', 'max_price',
-                    'enabled_by_author', '_get_in_vip', '_get_in_top', 'status')
+    list_display = ('title', 'category', '_get_social_network', 'author', '_get_services', 'price', 'enabled_by_author',
+                    '_get_in_vip', '_get_in_top', 'status')
     list_per_page = 20
     search_fields = ('title', 'description', 'author__email')
     list_filter = ('advert_type', 'category', 'social_account__social_network', 'enabled_by_author', 'status')

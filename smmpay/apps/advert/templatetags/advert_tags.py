@@ -2,10 +2,14 @@ import re
 import sys
 import random
 
+from decimal import Decimal
+
 from django import template
 from django.utils.html import mark_safe
 from django.http import QueryDict
 from django.template.loader import get_template
+
+from currencies.utils import price_rounding
 
 from smmpay.apps.advert.models import Menu, Advert, ContentBlock
 
@@ -120,3 +124,33 @@ def recommended_adverts(context, order_by='-pk', count=4, *args, **kwargs):
     }
 
     return block_context
+
+
+@register.simple_tag(takes_context=True)
+def currency_convert(context, price, to_code):
+    """
+    Use this function instead functions from the module `currency` for prevent duplicate DB queries
+    """
+    if 'CURRENCIES' not in context or context['CURRENCIES'].count() == 0 or context['CURRENCY_DEFAULT'] is None:
+        return price
+
+    from_code = context['CURRENCY_DEFAULT'].code
+
+    if from_code == to_code:
+        return price
+
+    currency_from = None
+    currency_to = None
+
+    for currency in context['CURRENCIES']:
+        if currency.code == from_code:
+            currency_from = currency
+        elif currency.code == to_code:
+            currency_to = currency
+
+    if not currency_from or not currency_to:
+        return ''
+
+    price = Decimal(price) * (currency_to.factor / currency_from.factor)
+
+    return price_rounding(price, decimals=0)

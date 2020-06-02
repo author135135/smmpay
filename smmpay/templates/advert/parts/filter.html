@@ -24,7 +24,7 @@
                 </div>
             {% endif %}
             <div class="filter__row applied-filters">
-                <ul class="breadcrumb">
+                <ul class="breadcrumb hidden-sm">
                     <li>
                         <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
                     </li>
@@ -33,6 +33,27 @@
                     </li>
                 </ul>
                 <div class="filters"></div>
+            </div>
+            <div class="filter__row hidden-lg hidden-md visible-sm">
+                {% if CURRENCIES|length > 1 %}
+                <div class="currency">
+                    <div class="currency__title">{% trans 'Currency' %}:</div>
+                    <div class="currency__list__wrapper">
+                        <a href="#" class="currency__current">{{ CURRENCY.name }} ({{ CURRENCY.symbol }})</a>
+                        <ul class="currency__list">
+                            {% for currency in CURRENCIES %}
+                                <li>
+                                    {% if currency.code == CURRENCY_CODE %}
+                                        <a href="{% url 'currencies_set_currency' %}?currency_code={{ currency.code }}" class="currency__current">{{ currency.name }} ({{ currency.symbol }})</a>
+                                    {% else %}
+                                        <a href="{% url 'currencies_set_currency' %}?currency_code={{ currency.code }}">{{ currency.name }} ({{ currency.symbol }})</a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% endif %}
             </div>
             <div class="filter__row">
                 <div class="sort">
@@ -43,6 +64,26 @@
                         </div>
                     </label>
                 </div>
+
+                {% if CURRENCIES|length > 1 %}
+                <div class="currency hidden-sm">
+                    <div class="currency__title">{% trans 'Currency' %}:</div>
+                    <div class="currency__list__wrapper">
+                        <a href="#" class="currency__current">{{ CURRENCY.name }} ({{ CURRENCY.symbol }})</a>
+                        <ul class="currency__list">
+                            {% for currency in CURRENCIES %}
+                                <li>
+                                    {% if currency.code == CURRENCY_CODE %}
+                                        <a href="{% url 'currencies_set_currency' %}?currency_code={{ currency.code }}" class="currency__current">{{ currency.name }} ({{ currency.symbol }})</a>
+                                    {% else %}
+                                        <a href="{% url 'currencies_set_currency' %}?currency_code={{ currency.code }}">{{ currency.name }} ({{ currency.symbol }})</a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% endif %}
 
                 <div class="adverts-found">
                     <h2>
@@ -100,14 +141,8 @@
                 <div class="filter__row">
                     <div class="filter__row__col">
                         <label class="filter__label">
-                            <span class="filter__title">{{ filter_form.price_min.label }}</span>
-                            {{ filter_form.price_min }}
-                        </label>
-                    </div>
-                    <div class="filter__row__col">
-                        <label class="filter__label">
-                            <span class="filter__title">{{ filter_form.price_max.label }}</span>
-                            {{ filter_form.price_max }}
+                            <span class="filter__title">{{ filter_form.price.label }}</span>
+                            {{ filter_form.price }}
                         </label>
                     </div>
                 </div>

@@ -99,30 +99,18 @@
                             <div class="text-help">{% blocktrans %}So that potential advertisers can easily find you,
                                 enter the range of advertising prices on your site. Also, if you do not want to disclose
                                 price details for specific services, then select "all services" from the list and check the
-                                "Contract price" field. For international convenience, enter the equivalent amount in
-                                US dollars.{% endblocktrans %}
+                                "Contract price" field. All prices are in rubles.{% endblocktrans %}
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="item">
-                    <label class="item__label">{{ form.min_price.label }}*</label>
+                    <label class="item__label">{{ form.price.label }}*</label>
                     <div class="item__field short-field">
-                        {{ form.min_price }}
-                        <div class="text-help">{{ form.min_price.help_text }}</div>
-                        {% for error in form.min_price.errors %}
-                            <div class="error_input">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="item">
-                    <label class="item__label">{{ form.max_price.label }}*</label>
-                    <div class="item__field short-field">
-                        {{ form.max_price }}
-                        <div class="text-help">{{ form.max_price.help_text }}</div>
-                        {% for error in form.max_price.errors %}
+                        {{ form.price }}
+                        <div class="text-help">{{ form.price.help_text }}</div>
+                        {% for error in form.price.errors %}
                             <div class="error_input">{{ error }}</div>
                         {% endfor %}
                     </div>

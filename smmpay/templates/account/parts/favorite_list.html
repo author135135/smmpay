@@ -1,5 +1,7 @@
 {% load i18n %}
 {% load static %}
+{% load humanize %}
+{% load advert_tags %}
 
 {% if favorites %}
     {% for favorite in favorites %}
@@ -42,7 +44,14 @@
                                 </span>
                             {% endif %}
                         </a>
-                        <div class="thumb__price hidden-sm">{{ favorite.advert.min_price }} $ - {{ favorite.advert.max_price }} $</div>
+                        <div class="thumb__price hidden-sm">
+                            {% trans 'from' %}
+                            <span>
+                                {% currency_convert favorite.advert.price CURRENCY_CODE as price %}
+                                {{ price|intcomma }}
+                            </span>
+                            {{ CURRENCY.symbol }}
+                        </div>
                     </div>
                     <div class="thumb__meta">
                         <span class="thumb__subtitle">
@@ -52,7 +61,7 @@
                             </a>
                         </span>
                         <span class="thumb__about_price hidden-sm">
-                            {% trans 'advertising price range' %}
+                            {% trans 'advertising price' %}
                         </span>
                     </div>
                 </div>
@@ -89,8 +98,15 @@
                 </div>
                 <div class="thumb__data hidden-lg hidden-md visible-sm">
                     <div class="thumb__price_info">
-                        <div class="thumb__price">{{ favorite.advert.min_price }} $ - {{ favorite.advert.max_price }} $</div>
-                        <div class="thumb__about_price">{% trans 'advertising price range' %}</div>
+                        <div class="thumb__price">
+                            {% trans 'from' %}
+                            <span>
+                                {% currency_convert favorite.advert.price CURRENCY_CODE as price %}
+                                {{ price|intcomma }}
+                            </span>
+                            {{ CURRENCY.symbol }}
+                        </div>
+                        <div class="thumb__about_price">{% trans 'advertising price' %}</div>
                     </div>
                     <div class="thumb__buttons">
                         <a href="#" class="thumb__favorite active"

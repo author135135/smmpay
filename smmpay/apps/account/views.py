@@ -56,14 +56,7 @@ class SearchMixin(object):
                 if qs_query is not None:
                     qs = qs.filter(qs_query)
 
-        sort_by_value = form_data.get('sort_by', None)
-
-        if sort_by_value:
-            sort_by = sort_by_value
-
-        qs = qs.order_by(sort_by)
-
-        print(qs.query)
+        qs = qs.order_by(form_data['sort_by'])
 
         return qs
 
@@ -105,12 +98,10 @@ class IndexView(LoginRequiredMixin, SearchMixin, ListView):
     }
 
     SORT_CHOICES = (
-        ('created', {'label': _('Latest'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
         ('-created', {'label': _('Latest'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
-        ('min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
-        ('-min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
-        ('max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
-        ('-max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_higher.png')})
+        ('created', {'label': _('Latest'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('-price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+        ('price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
     )
 
     def get(self, request, *args, **kwargs):
@@ -174,12 +165,10 @@ class FavoritesView(LoginRequiredMixin, SearchMixin, ListView):
     }
 
     SORT_CHOICES = (
-        ('advert__created', {'label': _('Latest'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
         ('-advert__created', {'label': _('Latest'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
-        ('advert__min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
-        ('-advert__min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
-        ('advert__max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
-        ('-advert__max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_higher.png')})
+        ('advert__created', {'label': _('Latest'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('-advert__price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+        ('advert__price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
     )
 
     def get(self, request, *args, **kwargs):

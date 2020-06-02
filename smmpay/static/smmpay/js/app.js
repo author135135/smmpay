@@ -52,19 +52,6 @@
 
         // Filter form handlers
         if ($('.filter-form').length) {
-            $('.header__filter').on('click', function (e) {
-                e.stopPropagation();
-                $('.filter').addClass('visible');
-            });
-
-            $('.filter').on('click', function (e) {
-                e.stopPropagation();
-            });
-
-            $('.wrapper').on('click', function () {
-                $('.filter').removeClass('visible');
-            });
-
             $("#id_category, #id_service").select2({
                 tags: true
             });
@@ -248,6 +235,20 @@
 
             $('.side__filter__container .close-btn').click(function(e) {
 		        $('body').removeClass('visible-sidebar');
+            });
+
+            $('.currency .currency__current').click(function(e) {
+                e.preventDefault();
+
+                var menu = $(this).parents('.currency').find('.currency__list');
+
+                menu.stop().slideDown(200);
+            });
+
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.currency').length) {
+                    $('.currency .currency__list').stop().slideUp(100);
+                }
             });
         }
 
@@ -554,16 +555,10 @@
                     $('select[name="category"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
-                if (!$('input[name="min_price"]', advert_add_form).val()) {
+                if (!$('input[name="price"]', advert_add_form).val()) {
                     error = 1;
 
-                    $('input[name="min_price"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
-                }
-
-                if (!$('input[name="max_price"]', advert_add_form).val()) {
-                    error = 1;
-
-                    $('input[name="max_price"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    $('input[name="price"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
                 var services = [];
@@ -912,16 +907,10 @@
                     $('select[name="category"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
-                if (!$('input[name="min_price"]', advert_add_form).val()) {
+                if (!$('input[name="price"]', advert_add_form).val()) {
                     error = 1;
 
-                    $('input[name="min_price"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
-                }
-
-                if (!$('input[name="max_price"]', advert_add_form).val()) {
-                    error = 1;
-
-                    $('input[name="max_price"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
+                    $('input[name="price"]', advert_add_form).parent().append('<div class="error_input">' + gettext('This field is required') + '</div>');
                 }
 
                 var services = [];
@@ -1791,26 +1780,12 @@
                 appliedFilters.push(interpolate(gettext('subscribers %s-%s'), args));
             }
 
-            if ($('input[name="price_min"]').val() || $('input[name="price_max"]').val()) {
-                var args = [];
-
-                if ($('input[name="price_min"]').val()) {
-                    args.push($('input[name="price_min"]').val())
-                } else {
-                    args.push('...');
-                }
-
-                if ($('input[name="price_max"]').val()) {
-                    args.push($('input[name="price_max"]').val())
-                } else {
-                    args.push('...');
-                }
-
-                appliedFilters.push(interpolate(gettext('price %s-%s'), args));
+            if ($('input[name="price"]').val()) {
+                appliedFilters.push(interpolate(gettext('price, from %s'), [$('input[name="price"]').val()]));
             }
 
             if (appliedFilters.length) {
-                $('.applied-filters .filters').html('<span>' + gettext('Filter by') + ':</span> ' + appliedFilters.join(', '));
+                $('.applied-filters .filters').html('<span class="hidden-sm">' + gettext('Filter by') + ':</span> ' + appliedFilters.join('; '));
             } else {
                 $('.applied-filters .filters').html('');
             }

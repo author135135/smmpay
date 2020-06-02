@@ -29,10 +29,8 @@ class FilterForm(forms.Form):
                                           'data-imagesrc': static('smmpay/images/sort_higher.png')}),
         ('social_account__subscribers', {'label': _('subscribers'),
                                          'data-imagesrc': static('smmpay/images/sort_lower.png')}),
-        ('-min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
-        ('min_price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
-        ('-max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
-        ('max_price', {'label': _('price max'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
+        ('-price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_higher.png')}),
+        ('price', {'label': _('price min'), 'data-imagesrc': static('smmpay/images/sort_lower.png')}),
         ('-views', _('popularity')),
     )
 
@@ -42,10 +40,8 @@ class FilterForm(forms.Form):
         attrs={'multiple': 'multiple'}))
     service = forms.MultipleChoiceField(label=_('Advertising services'), required=False, widget=forms.SelectMultiple(
         attrs={'multiple': 'multiple'}))
-    price_min = forms.IntegerField(label=_('Price, from'), required=False,
-                                   widget=forms.TextInput(attrs={'class': 'filter__value'}))
-    price_max = forms.IntegerField(label=_('Price, to'), required=False,
-                                   widget=forms.TextInput(attrs={'class': 'filter__value'}))
+    price = forms.IntegerField(label=_('Price, from'), required=False,
+                               widget=forms.TextInput(attrs={'class': 'filter__value'}))
     subscribers_min = forms.IntegerField(label=_('Subscribers, from'), required=False,
                                          widget=forms.TextInput(attrs={'class': 'filter__value'}))
     subscribers_max = forms.IntegerField(label=_('Subscribers, to'), required=False,
@@ -147,13 +143,12 @@ AdvertServiceFormSetFactory = forms.inlineformset_factory(AdvertSocialAccount, A
 class AdvertForm(forms.ModelForm):
     class Meta:
         model = Advert
-        fields = ('title', 'description', 'min_price', 'max_price', 'advert_type', 'category', 'for_sale')
+        fields = ('title', 'description', 'price', 'advert_type', 'category', 'for_sale')
         widgets = {
             'advert_type': forms.HiddenInput()
         }
         help_texts = {
-            'min_price': _('Enter the price of the minimum service on your site'),
-            'max_price': _('Enter the price of the maximum service on your site'),
+            'price': _('Enter the price of the minimum service on your site'),
             'category': _('Select category'),
             'description': _('Add a description of your site, indicate the benefits'),
             'for_sale': _('I will consider buying my site')

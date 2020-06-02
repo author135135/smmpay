@@ -35,8 +35,7 @@ class AdvertFilterMixin(object):
         'search_query': ['title__icontains', 'description__icontains'],
         'category': ['category__slug__in'],
         'service': ['social_account__social_account_services__social_network_service__in'],
-        'price_min': ['min_price__gte'],
-        'price_max': ['max_price__lte'],
+        'price': ['price__gte'],
         'subscribers_min': ['social_account__subscribers__gte'],
         'subscribers_max': ['social_account__subscribers__lte'],
     }

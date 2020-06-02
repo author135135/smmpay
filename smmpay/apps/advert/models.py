@@ -285,8 +285,7 @@ class Advert(models.Model):
     category = models.ForeignKey(verbose_name=_('category'), to=Category, null=True, related_name='adverts',
                                  on_delete=models.SET_NULL)
     author = models.ForeignKey(verbose_name=_('author'), to=User, related_name='adverts', on_delete=models.CASCADE)
-    min_price = models.PositiveIntegerField(_('Minimum price'))
-    max_price = models.PositiveIntegerField(_('Maximum price'))
+    price = models.PositiveIntegerField(_('price'))
     views = models.PositiveIntegerField(_('count of views'), default=0, editable=False)
     enabled_by_author = models.BooleanField(_('enabled by author'), default=True)
     status = models.CharField(_('status'), max_length=25, choices=ADVERT_STATUSES, default=ADVERT_STATUS_MODERATION)
