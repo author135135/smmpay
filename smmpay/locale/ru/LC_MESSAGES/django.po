@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-02 09:13+0300\n"
+"POT-Creation-Date: 2020-06-25 10:03+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1381,6 +1381,10 @@ msgstr "Добавить"
 #: smmpay/templates/base/base_html.html:151
 msgid "Understand"
 msgstr "Понятно"
+
+#: smmpay/templates/blog/index.html:17
+msgid "News"
+msgstr "Новости"
 
 #: smmpay/templates/blog/post.html:40
 msgid "Share in social networks"

@@ -13,6 +13,9 @@
             <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
         </li>
         <li>
+            <a href="{{ advert.social_account.social_network.get_absolute_url }}">{% trans 'Adverts in' %} {{ advert.social_account.social_network.title|lower }}</a>
+        </li>
+        <li>
             <a href="#">{{ advert.title }}</a>
         </li>
     </ul>

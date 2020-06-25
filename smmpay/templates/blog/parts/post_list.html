@@ -9,7 +9,7 @@
                 </a>
             {% endif %}
             <a href="{{ post.get_absolute_url }}" class="global-title_box">
-                <strong>{{ post.title }}</strong>
+                <h2>{{ post.title }}</h2>
             </a>
             <div class="text-wrap">{{ post.content|safe|striptags|truncatewords:'21' }}</div>
             <div class="nav-blog">

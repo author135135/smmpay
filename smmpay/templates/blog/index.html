@@ -13,7 +13,12 @@
         </li>
     </ul>
     <div class="inner__content content-blog">
-        {% include 'blog/parts/post_list.html' %}
+        <div class="global-title_box">
+            <h1>{% trans 'News' %}</h1>
+        </div>
+        <div class="blog-items">
+            {% include 'blog/parts/post_list.html' %}
+        </div>
     </div>
 
     {% content_block 'sidebar' order_by='-social_account__subscribers' %}

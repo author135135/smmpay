@@ -1507,7 +1507,7 @@
 
                 var url = new URI($(this).attr('href'));
 
-                load_data(url, {});
+                load_data(url, {}, $('.blog-items'));
             });
         }
 
