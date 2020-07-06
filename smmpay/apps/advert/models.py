@@ -250,6 +250,10 @@ class SocialNetworkService(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('advert:social_network_service',
+                       kwargs={'social_network': self.social_network.code, 'service_id': self.pk})
+
 
 class Advert(models.Model):
     ADVERT_TYPE_SOCIAL_ACCOUNT = 'social_account'

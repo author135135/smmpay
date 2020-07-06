@@ -28,9 +28,20 @@
                     <li>
                         <a href="{% url 'advert:index' %}">{% trans 'Homepage' %}</a>
                     </li>
-                    <li>
-                        <h1>{% trans 'Adverts in' %} {{ selected_social_network.title|lower }}</h1>
-                    </li>
+                    {% if request.resolver_match.url_name == 'social_network_service' %}
+                        <li>
+                            <a href="{{ selected_social_network.get_absolute_url }}">{% trans 'Adverts in' %} {{ selected_social_network.title|lower }}</a>
+                        </li>
+                        <li>
+                            {% with service_title=social_network_service.title|lower service_network_title=selected_social_network.title|lower %}
+                                <h1>{% blocktrans %}Buy {{ service_title }} in {{ service_network_title }}{% endblocktrans %}</h1>
+                            {% endwith %}
+                        </li>
+                    {% else %}
+                        <li>
+                            <h1>{% trans 'Adverts in' %} {{ selected_social_network.title|lower }}</h1>
+                        </li>
+                    {% endif %}
                 </ul>
                 <div class="filters"></div>
             </div>
@@ -95,6 +106,22 @@
                 <button type="button" class="filter__button button">{% trans 'Filter' %}</button>
             </div>
         </form>
+        <div class="filter__row">
+            {% if selected_social_network.services.count %}
+                <div class="services__list">
+                    <span class="filter__title">{% trans 'Advertising services' %}:</span>
+                    {% for service in selected_social_network.services.all %}
+                        {% with service_url=service.get_absolute_url %}
+                            {% if request.path == service_url %}
+                                <a href="{{ service_url }}" title="{{ service.title }}" class="active">{{ service.title }}</a>
+                            {% else %}
+                                <a href="{{ service_url }}" title="{{ service.title }}">{{ service.title }}</a>
+                            {% endif %}
+                        {% endwith %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
     </div>
 
     <div class="side__filter__wrapper">
@@ -112,12 +139,14 @@
                         {{ filter_form.category }}
                     </label>
                 </div>
+                {% if request.resolver_match.url_name != 'social_network_service' %}
                 <div class="filter__row">
                     <label class="filter__label">
                         <span class="filter__title">{{ filter_form.service.label }}</span>
                         {{ filter_form.service }}
                     </label>
                 </div>
+                {% endif %}
                 <div class="filter__row">
                     <label class="filter__label">
                         <span class="filter__title">{{ filter_form.search_query.label }}</span>

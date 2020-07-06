@@ -18,7 +18,7 @@ from smmpay.apps.advert.templatetags.advert_tags import recommended_adverts
 
 from . import forms as advert_forms
 # from .models import Advert, AdvertSocialAccount, Phrase, SocialNetwork, FavoriteAdvert, Discussion
-from .models import Advert, AdvertSocialAccount, Phrase, SocialNetwork, FavoriteAdvert
+from .models import Advert, AdvertSocialAccount, Phrase, SocialNetwork, FavoriteAdvert, SocialNetworkService
 
 
 class LoginRequiredMixin(object):
@@ -483,6 +483,25 @@ class SocialNetworkView(AdvertFilterMixin, ListView):
     def get_queryset(self):
         return super(SocialNetworkView, self).get_queryset().filter(
             social_account__social_network=self._social_network)
+
+
+class SocialNetworkServiceView(AdvertFilterMixin, ListView):
+    template_name = 'advert/social_network.html'
+    ajax_items_template_name = 'advert/parts/advert_list.html'
+    context_object_name = 'adverts'
+    model = Advert
+    paginate_by = 30
+
+    def get_context_data(self, **kwargs):
+        context = super(SocialNetworkServiceView, self).get_context_data(**kwargs)
+
+        context['social_network_service'] = SocialNetworkService.objects.get(pk=self.kwargs['service_id'])
+
+        return context
+
+    def get_queryset(self):
+        return super(SocialNetworkServiceView, self).get_queryset().filter(
+            social_account__social_account_services__social_network_service=self.kwargs['service_id'])
 
 
 class NotFound(TemplateView):

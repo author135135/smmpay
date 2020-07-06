@@ -1554,14 +1554,19 @@
                     }
 
                     if (response.hasOwnProperty('service') && servicesReload === true) {
-                        var option_html = '';
+                        var option_html = '',
+                            services_html = '';
 
                         $.each(response['service'], function(idx, item) {
                             option_html += '<option value="' + item[0] + '">' + item[1] + '</option>';
+                            services_html += '<a href="' + url + item[0] + '" title="' + item[1] +'">' + item[1] +'</a>';
                         });
 
                         $('#id_service option').remove();
                         $('#id_service').append(option_html);
+
+                        $('.services__list a').remove();
+                        $('.services__list').append(services_html);
 
                         $("#id_service").select2({
                             tags: true

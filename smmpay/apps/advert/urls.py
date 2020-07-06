@@ -18,5 +18,7 @@ urlpatterns = [
         name='advert_social_account_confirm'),
     url(r'^favorite/offer/$', views.FavoriteAdvertView.as_view(), name='favorite_advert'),
     # url(r'^user/(?P<pk>[0-9]+)/offer/$', views.UserAdvertsView.as_view(), name='user_adverts'),
-    url(r'^(?P<social_network>[\w]+)/$', views.SocialNetworkView.as_view(), name='social_network')
+    url(r'^(?P<social_network>[\w]+)/$', views.SocialNetworkView.as_view(), name='social_network'),
+    url(r'^(?P<social_network>[\w]+)/(?P<service_id>[0-9]+)/$', views.SocialNetworkServiceView.as_view(),
+        name='social_network_service'),
 ]

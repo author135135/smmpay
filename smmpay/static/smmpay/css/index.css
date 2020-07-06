@@ -931,6 +931,24 @@ body > .jcf-select-drop {
     margin-right: 5px;
 }
 
+.services__list .filter__title {
+    color: rgba(0, 0, 0, 0.36);
+    margin-right: 5px;
+}
+
+.services__list a {
+    transition: all .2s ease-in-out;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 15px;
+    color: #1F1F1F;
+    margin-right: 5px;
+}
+
+.services__list a:hover, .services__list a.active, .services__list a:focus {
+    color: #2196F3;
+}
+
 #id_social_network {
     width: 100% !important;
 }
